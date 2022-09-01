@@ -1,4 +1,4 @@
-package epitome;
+package telas;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -21,8 +21,10 @@ import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
+import java.awt.Toolkit;
 
 public class TelaLogin extends JFrame {
 
@@ -50,13 +52,26 @@ public class TelaLogin extends JFrame {
 	 * Create the frame.
 	 */
 	public TelaLogin() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Aluno\\projeto_integrador\\Epitome\\img\\app_icon_small.png"));
 		Color clRed = new Color(226, 0, 54);
 		Color clBlue = new Color(113, 206, 236);
+		
+		Font poppins, pop10 = null, pop12 = null;
+		
+		try {
+			  
+		    poppins = Font.createFont(Font.TRUETYPE_FONT, new File("./font/Poppins-SemiBold.ttf"));
+		    pop10 = poppins.deriveFont(Font.TRUETYPE_FONT, 10);
+			pop12 = poppins.deriveFont(Font.TRUETYPE_FONT, 12);
+		  
+		} catch (Exception e) {
+		  e.printStackTrace();
+		}
 		
 		setResizable(false);
 		setTitle("Sistema de Vendas Ep\u00EDtome");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 515, 460);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(45, 45, 45));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -65,20 +80,20 @@ public class TelaLogin extends JFrame {
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(22, 22, 22));
-		panel.setBounds(131, 34, 176, 213);
+		panel.setBounds(151, 85, 176, 190);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
 		JLabel lblEstamosQuaseL = new JLabel("Estamos quase l\u00E1!");
 		lblEstamosQuaseL.setForeground(new Color(255, 255, 255));
-		lblEstamosQuaseL.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblEstamosQuaseL.setFont(pop12);
 		lblEstamosQuaseL.setHorizontalAlignment(SwingConstants.CENTER);
 		lblEstamosQuaseL.setBounds(10, 11, 156, 14);
 		panel.add(lblEstamosQuaseL);
 		
 		JLabel lblEmail = new JLabel("E-MAIL");
 		lblEmail.setForeground(new Color(197, 197, 197));
-		lblEmail.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		lblEmail.setFont(pop10);
 		lblEmail.setBounds(10, 36, 156, 14);
 		panel.add(lblEmail);
 		
@@ -86,6 +101,7 @@ public class TelaLogin extends JFrame {
 		txtEmail.setForeground(new Color(255, 255, 255));
 		txtEmail.setBackground(new Color(45, 45, 45));
 		txtEmail.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		txtEmail.setFont(pop12);
 		txtEmail.setBounds(10, 50, 156, 20);
 		panel.add(txtEmail);
 		txtEmail.setColumns(10);
@@ -95,23 +111,24 @@ public class TelaLogin extends JFrame {
 		txtSenha.setBackground(new Color(45, 45, 45));
 		txtSenha.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtSenha.setBounds(10, 95, 156, 20);
-		txtSenha.setEchoChar('*');
+		txtSenha.setFont(pop12);
+		txtSenha.setEchoChar('•');
 		panel.add(txtSenha);
 		
 		JLabel lblSenha = new JLabel("SENHA");
 		lblSenha.setForeground(new Color(197, 197, 197));
-		lblSenha.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		lblSenha.setFont(pop10);
 		lblSenha.setBounds(10, 81, 156, 14);
 		panel.add(lblSenha);
 		
 		JButton btnEsqueci = new JButton("Esqueceu sua senha?");
 		btnEsqueci.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug > esqueci minha senha");
+				System.out.println("debug: tela de login > esqueci minha senha");
 			}
 		});
 		btnEsqueci.setBackground(null);
-		btnEsqueci.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		btnEsqueci.setFont(pop10);
 		btnEsqueci.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		btnEsqueci.setForeground(clRed);
 		btnEsqueci.setHorizontalAlignment(SwingConstants.LEFT);
@@ -121,55 +138,32 @@ public class TelaLogin extends JFrame {
 		JButton btnEntrar = new JButton("ENTRAR");
 		btnEntrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug > verificar dados");
+				System.out.println("debug: tela de login > verificar dados");
 			}
 		});
 		btnEntrar.setOpaque(false);
         btnEntrar.setBackground(null);
 		Chisel(btnEntrar, clRed, 5);
-		btnEntrar.setBounds(10, 147, 156, 23);
+		btnEntrar.setFont(pop12);
+		btnEntrar.setBounds(10, 156, 156, 23);
 		panel.add(btnEntrar);
-		
-		JButton btnCriar = new JButton("Criar uma conta");
-		btnCriar.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		btnCriar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug > tela de cadastro");
-			}
-		});
-		btnCriar.setBackground(null);
-		btnCriar.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		btnCriar.setForeground(clBlue);
-		btnCriar.setBounds(10, 179, 156, 23);
-		panel.add(btnCriar);
 		
 		JButton btnTelaLogin = new JButton("");
 		btnTelaLogin.setIcon(new ImageIcon("C:\\Users\\Aluno\\projeto_integrador\\Epitome\\img\\login.png"));
 		btnTelaLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug > tela de login");
+				System.out.println("debug: tela de login > tela de login");
+				TelaLogin telalogin = new TelaLogin();
+				telalogin.setVisible(true);
+				setVisible(false);
 			}
 		});
 		
         btnTelaLogin.setBorder(BorderFactory.createEmptyBorder(btnTelaLogin.getBorder().getBorderInsets(btnTelaLogin).top, btnTelaLogin.getBorder().getBorderInsets(btnTelaLogin).left, btnTelaLogin.getBorder().getBorderInsets(btnTelaLogin).bottom, btnTelaLogin.getBorder().getBorderInsets(btnTelaLogin).right));
 		btnTelaLogin.setBackground(clRed);
 		btnTelaLogin.setForeground(Color.WHITE);
-		btnTelaLogin.setBounds(317, 34, 30, 30);
+		btnTelaLogin.setBounds(337, 85, 30, 30);
 		contentPane.add(btnTelaLogin);
-		
-		JButton btnTelaCadastro = new JButton("");
-		btnTelaCadastro.setIcon(new ImageIcon("C:\\Users\\Aluno\\projeto_integrador\\Epitome\\img\\cadastro.png"));
-		btnTelaCadastro.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug > tela de cadastro");
-			}
-		});
-		
-        btnTelaCadastro.setBorder(BorderFactory.createEmptyBorder(btnTelaCadastro.getBorder().getBorderInsets(btnTelaCadastro).top, btnTelaCadastro.getBorder().getBorderInsets(btnTelaCadastro).left, btnTelaCadastro.getBorder().getBorderInsets(btnTelaCadastro).bottom, btnTelaCadastro.getBorder().getBorderInsets(btnTelaCadastro).right));
-		btnTelaCadastro.setBackground(clBlue);
-		btnTelaCadastro.setForeground(Color.WHITE);
-		btnTelaCadastro.setBounds(317, 75, 30, 30);
-		contentPane.add(btnTelaCadastro);
 	}
 	
 	private static void Chisel(JButton button, Color color, int radius) {
