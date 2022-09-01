@@ -25,8 +25,27 @@ import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.MaskFormatter;
+import controle.CadastroControle;
 
 public class TelaCadastro extends JFrame {
+
+	
+	
+	public JTextField getTxtEmail() {
+		return txtEmail;
+	}
+
+	public void setTxtEmail(JTextField txtEmail) {
+		this.txtEmail = txtEmail;
+	}
+
+	public JPasswordField getTxtSenha() {
+		return txtSenha;
+	}
+
+	public void setTxtSenha(JPasswordField txtSenha) {
+		this.txtSenha = txtSenha;
+	}
 
 	private JPanel contentPane;
 	private JTextField txtEmail;
@@ -55,7 +74,7 @@ public class TelaCadastro extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Aluno\\projeto_integrador\\Epitome\\img\\app_icon_small.png"));
 		Color clRed = new Color(226, 0, 54);
 		Color clBlue = new Color(113, 206, 236);
-		
+		CadastroControle controller = new controle.CadastroControle(this);
 		
 		Font poppins, pop10 = null, pop12 = null;
 		
@@ -295,5 +314,11 @@ public class TelaCadastro extends JFrame {
             g.drawRoundRect(x, y, width - 1, height - 1, radius, radius);
         }
     }
+	public JTextField getTxtCPF() {
+		return getTxtCPF();
+	}
+	public JTextField getTxtNome() {
+		return getTxtNome();
+	}
 }
 
