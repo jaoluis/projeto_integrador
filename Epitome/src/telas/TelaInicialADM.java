@@ -82,6 +82,7 @@ public class TelaInicialADM extends JFrame {
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(22, 22, 22));
 		panel.setBounds(592, 388, 417, 124);
+		panelChisel(panel, new Color(255, 255, 255), 5);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
@@ -186,7 +187,7 @@ public class TelaInicialADM extends JFrame {
         //panel.setFocusPainted(false);
         panel.setForeground(color);
         RoundedBorder LineBorder = new RoundedBorder(color, radius);
-        Border emptyBorder = BorderFactory.createEmptyBorder(panel.getBorder().getBorderInsets(panel).top, panel.getBorder().getBorderInsets(panel).left, panel.getBorder().getBorderInsets(panel).bottom, panel.getBorder().getBorderInsets(panel).right);
+        Border emptyBorder = BorderFactory.createEmptyBorder(417, 124, 417, 124);
         panel.setBorder(BorderFactory.createCompoundBorder(LineBorder, emptyBorder));
 	}
 	

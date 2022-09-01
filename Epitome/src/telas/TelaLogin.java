@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+
 import java.awt.FlowLayout;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -80,7 +81,8 @@ public class TelaLogin extends JFrame {
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(22, 22, 22));
-		panel.setBounds(151, 85, 176, 190);
+		panel.setBounds(149, 111, 176, 190);
+		panelbuttonChisel(panel, new Color(255, 255, 255), 5);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
@@ -143,7 +145,7 @@ public class TelaLogin extends JFrame {
 		});
 		btnEntrar.setOpaque(false);
         btnEntrar.setBackground(null);
-		Chisel(btnEntrar, clRed, 5);
+		buttonChisel(btnEntrar, clRed, 5);
 		btnEntrar.setFont(pop12);
 		btnEntrar.setBounds(10, 156, 156, 23);
 		panel.add(btnEntrar);
@@ -162,17 +164,26 @@ public class TelaLogin extends JFrame {
         btnTelaLogin.setBorder(BorderFactory.createEmptyBorder(btnTelaLogin.getBorder().getBorderInsets(btnTelaLogin).top, btnTelaLogin.getBorder().getBorderInsets(btnTelaLogin).left, btnTelaLogin.getBorder().getBorderInsets(btnTelaLogin).bottom, btnTelaLogin.getBorder().getBorderInsets(btnTelaLogin).right));
 		btnTelaLogin.setBackground(clRed);
 		btnTelaLogin.setForeground(Color.WHITE);
-		btnTelaLogin.setBounds(337, 85, 30, 30);
+		btnTelaLogin.setBounds(335, 111, 30, 30);
 		contentPane.add(btnTelaLogin);
 	}
 	
-	private static void Chisel(JButton button, Color color, int radius) {
+	private static void buttonChisel(JButton button, Color color, int radius) {
 		
         button.setFocusPainted(false);
         button.setForeground(color);
         RoundedBorder LineBorder = new RoundedBorder(color, radius);
         Border emptyBorder = BorderFactory.createEmptyBorder(button.getBorder().getBorderInsets(button).top, button.getBorder().getBorderInsets(button).left, button.getBorder().getBorderInsets(button).bottom, button.getBorder().getBorderInsets(button).right);
         button.setBorder(BorderFactory.createCompoundBorder(LineBorder, emptyBorder));
+	}
+	
+private static void panelbuttonChisel(JPanel panel, Color color, int radius) {
+		
+        //panel.setFocusPainted(false);
+        panel.setForeground(color);
+        RoundedBorder LineBorder = new RoundedBorder(color, radius);
+        Border emptyBorder = BorderFactory.createEmptyBorder(417, 124, 417, 124);
+        panel.setBorder(BorderFactory.createCompoundBorder(LineBorder, emptyBorder));
 	}
 	
 	private static class RoundedBorder implements Border {
