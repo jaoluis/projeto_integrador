@@ -1,4 +1,4 @@
-package epitome;
+package telas;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -8,6 +8,9 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.DateFormatter;
+import javax.swing.text.MaskFormatter;
+
 import java.awt.FlowLayout;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -22,11 +25,16 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import java.awt.Toolkit;
+import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 
-public class TelaLogin extends JFrame {
+public class TelaCadastro extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtEmail;
@@ -39,7 +47,7 @@ public class TelaLogin extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TelaLogin frame = new TelaLogin();
+					TelaCadastro frame = new TelaCadastro();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -51,10 +59,11 @@ public class TelaLogin extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public TelaLogin() {
+	public TelaCadastro() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Aluno\\projeto_integrador\\Epitome\\img\\app_icon_small.png"));
 		Color clRed = new Color(226, 0, 54);
 		Color clBlue = new Color(113, 206, 236);
+		
 		
 		Font poppins, pop10 = null, pop12 = null;
 		
@@ -71,7 +80,7 @@ public class TelaLogin extends JFrame {
 		setResizable(false);
 		setTitle("Sistema de Vendas Ep\u00EDtome");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 515, 460);
+		setBounds(100, 100, 703, 564);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(45, 45, 45));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -80,16 +89,71 @@ public class TelaLogin extends JFrame {
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(22, 22, 22));
-		panel.setBounds(151, 85, 176, 213);
+		panel.setBounds(243, 72, 176, 375);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblEstamosQuaseL = new JLabel("Estamos quase l\u00E1!");
+		JLabel lblEstamosQuaseL = new JLabel("Criar conta");
 		lblEstamosQuaseL.setForeground(new Color(255, 255, 255));
 		lblEstamosQuaseL.setFont(pop12);
 		lblEstamosQuaseL.setHorizontalAlignment(SwingConstants.CENTER);
 		lblEstamosQuaseL.setBounds(10, 11, 156, 14);
 		panel.add(lblEstamosQuaseL);
+		
+		JLabel lblCPF = new JLabel("CPF");
+		lblCPF.setForeground(new Color(197, 197, 197));
+		lblCPF.setFont(pop10);
+		lblCPF.setBounds(10, 216, 156, 14);
+		panel.add(lblCPF);
+		
+		JFormattedTextField txtCPF = new JFormattedTextField(def_mask("###.###.###-##",'•'));
+		txtCPF.setForeground(new Color(255, 255, 255));
+		txtCPF.setBackground(new Color(45, 45, 45));
+		txtCPF.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		txtCPF.setBounds(10, 230, 156, 20);
+		txtCPF.setFont(pop12);
+		panel.add(txtCPF);
+		txtCPF.setColumns(10);
+		
+		
+		JFormattedTextField txtData = new JFormattedTextField(def_mask("##/##/####",'•'));
+		txtData.setForeground(new Color(255, 255, 255));
+		txtData.setBackground(new Color(45, 45, 45));
+		txtData.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		txtData.setBounds(10, 275, 156, 20);
+		txtData.setFont(pop12);
+		panel.add(txtData);
+		txtData.setColumns(10);
+		
+		JLabel lblUsername = new JLabel("NOME DE USUÁRIO");
+		lblUsername.setForeground(new Color(197, 197, 197));
+		lblUsername.setFont(pop10);
+		lblUsername.setBounds(10, 126, 156, 14);
+		panel.add(lblUsername);
+		
+		JTextField txtUsername = new JTextField();
+		txtUsername.setForeground(new Color(255, 255, 255));
+		txtUsername.setBackground(new Color(45, 45, 45));
+		txtUsername.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		txtUsername.setBounds(10, 140, 156, 20);
+		txtUsername.setFont(pop12);
+		panel.add(txtUsername);
+		txtUsername.setColumns(10);
+		
+		JLabel lblNome = new JLabel("NOME");
+		lblNome.setForeground(new Color(197, 197, 197));
+		lblNome.setFont(pop10);
+		lblNome.setBounds(10, 171, 156, 14);
+		panel.add(lblNome);
+		
+		JTextField txtNome = new JTextField();
+		txtNome.setForeground(new Color(255, 255, 255));
+		txtNome.setBackground(new Color(45, 45, 45));
+		txtNome.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		txtNome.setBounds(10, 185, 156, 20);
+		txtNome.setFont(pop12);
+		panel.add(txtNome);
+		txtNome.setColumns(10);
 		
 		JLabel lblEmail = new JLabel("E-MAIL");
 		lblEmail.setForeground(new Color(197, 197, 197));
@@ -102,16 +166,9 @@ public class TelaLogin extends JFrame {
 		txtEmail.setBackground(new Color(45, 45, 45));
 		txtEmail.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtEmail.setBounds(10, 50, 156, 20);
+		txtEmail.setFont(pop12);
 		panel.add(txtEmail);
 		txtEmail.setColumns(10);
-		
-		txtSenha = new JPasswordField();
-		txtSenha.setForeground(new Color(255, 255, 255));
-		txtSenha.setBackground(new Color(45, 45, 45));
-		txtSenha.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		txtSenha.setBounds(10, 95, 156, 20);
-		txtSenha.setEchoChar('*');
-		panel.add(txtSenha);
 		
 		JLabel lblSenha = new JLabel("SENHA");
 		lblSenha.setForeground(new Color(197, 197, 197));
@@ -119,74 +176,97 @@ public class TelaLogin extends JFrame {
 		lblSenha.setBounds(10, 81, 156, 14);
 		panel.add(lblSenha);
 		
-		JButton btnEsqueci = new JButton("Esqueceu sua senha?");
-		btnEsqueci.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug: tela de login > esqueci minha senha");
-			}
-		});
-		btnEsqueci.setBackground(null);
-		btnEsqueci.setFont(pop10);
-		btnEsqueci.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		btnEsqueci.setForeground(clRed);
-		btnEsqueci.setHorizontalAlignment(SwingConstants.LEFT);
-		btnEsqueci.setBounds(10, 115, 156, 23);
-		panel.add(btnEsqueci);
+		txtSenha = new JPasswordField();
+		txtSenha.setForeground(new Color(255, 255, 255));
+		txtSenha.setBackground(new Color(45, 45, 45));
+		txtSenha.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		txtSenha.setBounds(10, 95, 156, 20);
+		txtSenha.setFont(pop12);
+		txtSenha.setEchoChar('•');
+		panel.add(txtSenha);		
 		
-		JButton btnEntrar = new JButton("ENTRAR");
-		btnEntrar.addActionListener(new ActionListener() {
+		JButton btnContinuar = new JButton("CONTINUAR");
+		btnContinuar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug: tela de login > verificar dados");
+				System.out.println("debug: tela de cadastro > cadastrar");
+				System.out.println(txtCPF.getText() + txtData.getText());
 			}
 		});
-		btnEntrar.setOpaque(false);
-        btnEntrar.setBackground(null);
-		Chisel(btnEntrar, clRed, 5);
-		btnEntrar.setFont(pop12);
-		btnEntrar.setBounds(10, 147, 156, 23);
-		panel.add(btnEntrar);
+		btnContinuar.setOpaque(false);
+		btnContinuar.setBackground(null);
+		Chisel(btnContinuar, clBlue, 5);
+		btnContinuar.setFont(pop12);
+		btnContinuar.setBounds(10, 309, 156, 23);
+		panel.add(btnContinuar);
 		
-		JButton btnCriar = new JButton("Criar uma conta");
-		btnCriar.setFont(pop10);
-		btnCriar.addActionListener(new ActionListener() {
+		JButton btnLogin = new JButton("Fazer login");
+		btnLogin.setFont(pop10);
+		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug: tela de login > tela de cadastro");
+				System.out.println("debug: tela de cadastro > tela de login");
+				TelaLogin telalogin = new TelaLogin();
+				telalogin.setVisible(true);
+				setVisible(false);
 			}
 		});
-		btnCriar.setBackground(null);
-		btnCriar.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		btnCriar.setForeground(clBlue);
-		btnCriar.setBounds(10, 179, 156, 23);
-		panel.add(btnCriar);
+		btnLogin.setBackground(null);
+		btnLogin.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		btnLogin.setForeground(clRed);
+		btnLogin.setBounds(10, 341, 156, 23);
+		panel.add(btnLogin);
+		
+		JLabel lblDataDeNascimento = new JLabel("DATA DE NASCIMENTO");
+		lblDataDeNascimento.setForeground(new Color(197, 197, 197));
+		lblDataDeNascimento.setFont(pop10);
+		lblDataDeNascimento.setBounds(10, 261, 156, 14);
+		panel.add(lblDataDeNascimento);
 		
 		JButton btnTelaLogin = new JButton("");
 		btnTelaLogin.setIcon(new ImageIcon("C:\\Users\\Aluno\\projeto_integrador\\Epitome\\img\\login.png"));
 		btnTelaLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug: tela de login > tela de login");
+				System.out.println("debug: tela de cadastro > tela de login");
+				TelaLogin telalogin = new TelaLogin();
+				telalogin.setVisible(true);
+				setVisible(false);
 			}
 		});
 		
         btnTelaLogin.setBorder(BorderFactory.createEmptyBorder(btnTelaLogin.getBorder().getBorderInsets(btnTelaLogin).top, btnTelaLogin.getBorder().getBorderInsets(btnTelaLogin).left, btnTelaLogin.getBorder().getBorderInsets(btnTelaLogin).bottom, btnTelaLogin.getBorder().getBorderInsets(btnTelaLogin).right));
 		btnTelaLogin.setBackground(clRed);
 		btnTelaLogin.setForeground(Color.WHITE);
-		btnTelaLogin.setBounds(337, 85, 30, 30);
+		btnTelaLogin.setBounds(429, 72, 30, 30);
 		contentPane.add(btnTelaLogin);
 		
 		JButton btnTelaCadastro = new JButton("");
 		btnTelaCadastro.setIcon(new ImageIcon("C:\\Users\\Aluno\\projeto_integrador\\Epitome\\img\\cadastro.png"));
 		btnTelaCadastro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug: tela de login > tela de cadastro");
+				System.out.println("debug: tela de cadastro > tela de cadastro");
+				TelaCadastro telaCadastro = new TelaCadastro ();
+				telaCadastro.setVisible(true);
+				setVisible(false);
 			}
 		});
 		
         btnTelaCadastro.setBorder(BorderFactory.createEmptyBorder(btnTelaCadastro.getBorder().getBorderInsets(btnTelaCadastro).top, btnTelaCadastro.getBorder().getBorderInsets(btnTelaCadastro).left, btnTelaCadastro.getBorder().getBorderInsets(btnTelaCadastro).bottom, btnTelaCadastro.getBorder().getBorderInsets(btnTelaCadastro).right));
 		btnTelaCadastro.setBackground(clBlue);
 		btnTelaCadastro.setForeground(Color.WHITE);
-		btnTelaCadastro.setBounds(337, 126, 30, 30);
+		btnTelaCadastro.setBounds(429, 113, 30, 30);
 		contentPane.add(btnTelaCadastro);
 	}
+	
+	protected MaskFormatter def_mask(String envolucro, char substituto) {
+		MaskFormatter mask = null;
+        try {
+            mask = new MaskFormatter(envolucro);
+            mask.setPlaceholderCharacter(substituto);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return mask;
+    }
+
 	
 	private static void Chisel(JButton button, Color color, int radius) {
 		
@@ -224,3 +304,4 @@ public class TelaLogin extends JFrame {
         }
     }
 }
+
