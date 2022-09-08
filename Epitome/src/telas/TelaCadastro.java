@@ -10,6 +10,8 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.text.ParseException;
 
 import javax.swing.BorderFactory;
@@ -28,30 +30,12 @@ import javax.swing.text.MaskFormatter;
 
 import DAO.Conexao;
 import DAO.UsuarioDAO;
-import controle.CadastroControle;
+import modelo.Usuario;
+
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
 
 public class TelaCadastro extends JFrame {
-
-	
-	
-	
-	public JTextField getTxtEmail() {
-		return txtEmail;
-	}
-
-	public void setTxtEmail(JTextField txtEmail) {
-		this.txtEmail = txtEmail;
-	}
-
-	public JPasswordField getTxtSenha() {
-		return txtSenha;
-	}
-
-	public void setTxtSenha(JPasswordField txtSenha) {
-		this.txtSenha = txtSenha;
-	}
 
 	private JPanel contentPane;
 	private JTextField txtEmail;
@@ -78,23 +62,23 @@ public class TelaCadastro extends JFrame {
 	 * Create the frame.
 	 */
 	public TelaCadastro() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Aluno\\projeto_integrador\\Epitome\\img\\app_icon_small.png"));
+		setIconImage(Toolkit.getDefaultToolkit()
+				.getImage("C:\\Users\\Aluno\\projeto_integrador\\Epitome\\img\\app_icon_small.png"));
 		Color clRed = new Color(226, 0, 54);
 		Color clBlue = new Color(113, 206, 236);
-		CadastroControle controller = new controle.CadastroControle(this);
-		
+
 		Font poppins, pop10 = null, pop12 = null;
-		
+
 		try {
-			  
-		    poppins = Font.createFont(Font.TRUETYPE_FONT, new File("./font/Poppins-SemiBold.ttf"));
-		    pop10 = poppins.deriveFont(Font.TRUETYPE_FONT, 10);
+
+			poppins = Font.createFont(Font.TRUETYPE_FONT, new File("./font/Poppins-SemiBold.ttf"));
+			pop10 = poppins.deriveFont(Font.TRUETYPE_FONT, 10);
 			pop12 = poppins.deriveFont(Font.TRUETYPE_FONT, 12);
-		  
+
 		} catch (Exception e) {
-		  e.printStackTrace();
+			e.printStackTrace();
 		}
-		
+
 		setResizable(false);
 		setTitle("Sistema de Vendas Ep\u00EDtome");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -104,27 +88,27 @@ public class TelaCadastro extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(22, 22, 22));
 		panel.setBounds(243, 48, 176, 466);
 		contentPane.add(panel);
 		panel.setLayout(null);
-		
+
 		JLabel lblEstamosQuaseL = new JLabel("Criar conta");
 		lblEstamosQuaseL.setForeground(new Color(255, 255, 255));
 		lblEstamosQuaseL.setFont(pop12);
 		lblEstamosQuaseL.setHorizontalAlignment(SwingConstants.CENTER);
 		lblEstamosQuaseL.setBounds(10, 11, 156, 14);
 		panel.add(lblEstamosQuaseL);
-		
+
 		JLabel lblCPF = new JLabel("CPF");
 		lblCPF.setForeground(new Color(197, 197, 197));
 		lblCPF.setFont(pop10);
 		lblCPF.setBounds(10, 216, 156, 14);
 		panel.add(lblCPF);
-		
-		JFormattedTextField txtCPF = new JFormattedTextField(def_mask("###.###.###-##",'•'));
+
+		JFormattedTextField txtCPF = new JFormattedTextField(def_mask("###.###.###-##", '•'));
 		txtCPF.setForeground(new Color(255, 255, 255));
 		txtCPF.setBackground(new Color(45, 45, 45));
 		txtCPF.setBorder(javax.swing.BorderFactory.createEmptyBorder());
@@ -132,9 +116,8 @@ public class TelaCadastro extends JFrame {
 		txtCPF.setFont(pop12);
 		panel.add(txtCPF);
 		txtCPF.setColumns(10);
-		
-		
-		JFormattedTextField txtData = new JFormattedTextField(def_mask("##/##/####",'•'));
+
+		JFormattedTextField txtData = new JFormattedTextField(def_mask("##/##/####", '•'));
 		txtData.setForeground(new Color(255, 255, 255));
 		txtData.setBackground(new Color(45, 45, 45));
 		txtData.setBorder(javax.swing.BorderFactory.createEmptyBorder());
@@ -142,13 +125,13 @@ public class TelaCadastro extends JFrame {
 		txtData.setFont(pop12);
 		panel.add(txtData);
 		txtData.setColumns(10);
-		
+
 		JLabel lblUsername = new JLabel("NOME DE USUÁRIO");
 		lblUsername.setForeground(new Color(197, 197, 197));
 		lblUsername.setFont(pop10);
 		lblUsername.setBounds(10, 126, 156, 14);
 		panel.add(lblUsername);
-		
+
 		JTextField txtUsername = new JTextField();
 		txtUsername.setForeground(new Color(255, 255, 255));
 		txtUsername.setBackground(new Color(45, 45, 45));
@@ -157,13 +140,13 @@ public class TelaCadastro extends JFrame {
 		txtUsername.setFont(pop12);
 		panel.add(txtUsername);
 		txtUsername.setColumns(10);
-		
+
 		JLabel lblNome = new JLabel("NOME");
 		lblNome.setForeground(new Color(197, 197, 197));
 		lblNome.setFont(pop10);
 		lblNome.setBounds(10, 171, 156, 14);
 		panel.add(lblNome);
-		
+
 		JTextField txtNome = new JTextField();
 		txtNome.setForeground(new Color(255, 255, 255));
 		txtNome.setBackground(new Color(45, 45, 45));
@@ -172,13 +155,13 @@ public class TelaCadastro extends JFrame {
 		txtNome.setFont(pop12);
 		panel.add(txtNome);
 		txtNome.setColumns(10);
-		
+
 		JLabel lblEmail = new JLabel("E-MAIL");
 		lblEmail.setForeground(new Color(197, 197, 197));
 		lblEmail.setFont(pop10);
 		lblEmail.setBounds(10, 36, 156, 14);
 		panel.add(lblEmail);
-		
+
 		txtEmail = new JTextField();
 		txtEmail.setForeground(new Color(255, 255, 255));
 		txtEmail.setBackground(new Color(45, 45, 45));
@@ -187,13 +170,13 @@ public class TelaCadastro extends JFrame {
 		txtEmail.setFont(pop12);
 		panel.add(txtEmail);
 		txtEmail.setColumns(10);
-		
+
 		JLabel lblSenha = new JLabel("SENHA");
 		lblSenha.setForeground(new Color(197, 197, 197));
 		lblSenha.setFont(pop10);
 		lblSenha.setBounds(10, 81, 156, 14);
 		panel.add(lblSenha);
-		
+
 		txtSenha = new JPasswordField();
 		txtSenha.setForeground(new Color(255, 255, 255));
 		txtSenha.setBackground(new Color(45, 45, 45));
@@ -201,10 +184,8 @@ public class TelaCadastro extends JFrame {
 		txtSenha.setBounds(10, 95, 156, 20);
 		txtSenha.setFont(pop12);
 		txtSenha.setEchoChar('•');
-		panel.add(txtSenha);		
-		
-		
-		
+		panel.add(txtSenha);
+
 		JButton btnLogin = new JButton("Fazer login");
 		btnLogin.setFont(pop10);
 		btnLogin.addActionListener(new ActionListener() {
@@ -220,29 +201,30 @@ public class TelaCadastro extends JFrame {
 		btnLogin.setForeground(clRed);
 		btnLogin.setBounds(10, 432, 156, 23);
 		panel.add(btnLogin);
-		
+
 		JLabel lblDataDeNascimento = new JLabel("DATA DE NASCIMENTO");
 		lblDataDeNascimento.setForeground(new Color(197, 197, 197));
 		lblDataDeNascimento.setFont(pop10);
 		lblDataDeNascimento.setBounds(10, 261, 156, 14);
 		panel.add(lblDataDeNascimento);
-		
+
 		JLabel lblCargo = new JLabel("CARGO");
 		lblCargo.setForeground(new Color(197, 197, 197));
 		lblCargo.setBounds(10, 306, 156, 14);
 		lblCargo.setFont(pop10);
 		panel.add(lblCargo);
-		
+
 		JRadioButton rdVendedor = new JRadioButton("VENDEDOR");
 		cargoGroup.add(rdVendedor);
 		rdVendedor.setForeground(Color.WHITE);
 		rdVendedor.setBackground(null);
 		rdVendedor.setFont(pop10);
 		rdVendedor.setIcon(new ImageIcon("C:\\Users\\Aluno\\projeto_integrador\\Epitome\\img\\radio_button.png"));
-		rdVendedor.setSelectedIcon(new ImageIcon("C:\\Users\\Aluno\\projeto_integrador\\Epitome\\img\\radio_button_checked.png"));
+		rdVendedor.setSelectedIcon(
+				new ImageIcon("C:\\Users\\Aluno\\projeto_integrador\\Epitome\\img\\radio_button_checked.png"));
 		rdVendedor.setBounds(10, 327, 156, 23);
 		panel.add(rdVendedor);
-		
+
 		JRadioButton rdAdministrador = new JRadioButton("ADMINISTRADOR");
 		cargoGroup.add(rdAdministrador);
 		rdAdministrador.setForeground(Color.WHITE);
@@ -250,10 +232,11 @@ public class TelaCadastro extends JFrame {
 		rdAdministrador.setBackground((Color) null);
 		rdAdministrador.setFont(pop10);
 		rdAdministrador.setIcon(new ImageIcon("C:\\Users\\Aluno\\projeto_integrador\\Epitome\\img\\radio_button.png"));
-		rdAdministrador.setSelectedIcon(new ImageIcon("C:\\Users\\Aluno\\projeto_integrador\\Epitome\\img\\radio_button_checked.png"));
+		rdAdministrador.setSelectedIcon(
+				new ImageIcon("C:\\Users\\Aluno\\projeto_integrador\\Epitome\\img\\radio_button_checked.png"));
 		rdAdministrador.setBounds(10, 353, 156, 23);
 		panel.add(rdAdministrador);
-		
+
 		JButton btnTelaLogin = new JButton("");
 		btnTelaLogin.setIcon(new ImageIcon("C:\\Users\\Aluno\\projeto_integrador\\Epitome\\img\\login.png"));
 		btnTelaLogin.addActionListener(new ActionListener() {
@@ -264,35 +247,44 @@ public class TelaCadastro extends JFrame {
 				setVisible(false);
 			}
 		});
-		
-        btnTelaLogin.setBorder(BorderFactory.createEmptyBorder(btnTelaLogin.getBorder().getBorderInsets(btnTelaLogin).top, btnTelaLogin.getBorder().getBorderInsets(btnTelaLogin).left, btnTelaLogin.getBorder().getBorderInsets(btnTelaLogin).bottom, btnTelaLogin.getBorder().getBorderInsets(btnTelaLogin).right));
+
+		btnTelaLogin
+				.setBorder(BorderFactory.createEmptyBorder(btnTelaLogin.getBorder().getBorderInsets(btnTelaLogin).top,
+						btnTelaLogin.getBorder().getBorderInsets(btnTelaLogin).left,
+						btnTelaLogin.getBorder().getBorderInsets(btnTelaLogin).bottom,
+						btnTelaLogin.getBorder().getBorderInsets(btnTelaLogin).right));
 		btnTelaLogin.setBackground(clRed);
 		btnTelaLogin.setForeground(Color.WHITE);
 		btnTelaLogin.setBounds(429, 48, 30, 30);
 		contentPane.add(btnTelaLogin);
-		
+
 		JButton btnTelaCadastro = new JButton("");
 		btnTelaCadastro.setIcon(new ImageIcon("C:\\Users\\Aluno\\projeto_integrador\\Epitome\\img\\cadastro.png"));
 		btnTelaCadastro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: tela de cadastro > tela de cadastro");
-				TelaCadastro telaCadastro = new TelaCadastro ();
+				TelaCadastro telaCadastro = new TelaCadastro();
 				telaCadastro.setVisible(true);
 				setVisible(false);
 			}
 		});
-		
-        btnTelaCadastro.setBorder(BorderFactory.createEmptyBorder(btnTelaCadastro.getBorder().getBorderInsets(btnTelaCadastro).top, btnTelaCadastro.getBorder().getBorderInsets(btnTelaCadastro).left, btnTelaCadastro.getBorder().getBorderInsets(btnTelaCadastro).bottom, btnTelaCadastro.getBorder().getBorderInsets(btnTelaCadastro).right));
+
+		btnTelaCadastro.setBorder(
+				BorderFactory.createEmptyBorder(btnTelaCadastro.getBorder().getBorderInsets(btnTelaCadastro).top,
+						btnTelaCadastro.getBorder().getBorderInsets(btnTelaCadastro).left,
+						btnTelaCadastro.getBorder().getBorderInsets(btnTelaCadastro).bottom,
+						btnTelaCadastro.getBorder().getBorderInsets(btnTelaCadastro).right));
 		btnTelaCadastro.setBackground(clBlue);
 		btnTelaCadastro.setForeground(Color.WHITE);
 		btnTelaCadastro.setBounds(429, 89, 30, 30);
 		contentPane.add(btnTelaCadastro);
-		
+
 		JButton btnContinuar = new JButton("CONTINUAR");
 		btnContinuar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: tela de cadastro > cadastrar");
 				String email = txtEmail.getText();
+//				String senha = String.valueOf(txtSenha.getPassword());
 				char[] senha = txtSenha.getPassword();
 				String nomeUsuario = txtUsername.getText();
 				String nome = txtNome.getText();
@@ -302,12 +294,30 @@ public class TelaCadastro extends JFrame {
 				if (rdVendedor.isSelected()) {
 					cargo = "vendedor";
 				}
+
 				if (rdAdministrador.isSelected()) {
 					cargo = "administrador";
 				}
-				UsuarioDAO usuarioDao =  new UsuarioDAO(conexao);
-				//tratamento de exceções: campos vazios e formatos errados
-				//funcao cadastro (email, senha, nomeUsuario, nome, cpf, data, cargo);				
+
+				Usuario usuario = new Usuario();
+				usuario.setNome_usuario(nome);
+				usuario.setCargo(cargo);
+				usuario.setCpf_usuario(cpf);
+				usuario.setEmail(email);
+				usuario.setSenha_usuario(senha);
+				usuario.setLogin_usuario(nomeUsuario);
+				usuario.setNascimento_data(data);
+
+				UsuarioDAO dao;
+				try {
+					dao = new UsuarioDAO(Conexao.getConnection());
+					dao.insert(usuario);
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+
+				// tratamento de exceções: campos vazios e formatos errados
+				// funcao cadastro (email, senha, nomeUsuario, nome, cpf, data, cargo);
 			}
 		});
 		btnContinuar.setOpaque(false);
@@ -317,61 +327,54 @@ public class TelaCadastro extends JFrame {
 		btnContinuar.setBounds(10, 400, 156, 23);
 		panel.add(btnContinuar);
 	}
-	
-	
-	
+
 	protected MaskFormatter def_mask(String envolucro, char substituto) {
 		MaskFormatter mask = null;
-        try {
-            mask = new MaskFormatter(envolucro);
-            mask.setPlaceholderCharacter(substituto);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return mask;
-    }
-
-	
-	private static void Chisel(JButton button, Color color, int radius) {
-		
-        button.setFocusPainted(false);
-        button.setForeground(color);
-        RoundedBorder LineBorder = new RoundedBorder(color, radius);
-        Border emptyBorder = BorderFactory.createEmptyBorder(button.getBorder().getBorderInsets(button).top, button.getBorder().getBorderInsets(button).left, button.getBorder().getBorderInsets(button).bottom, button.getBorder().getBorderInsets(button).right);
-        button.setBorder(BorderFactory.createCompoundBorder(LineBorder, emptyBorder));
+		try {
+			mask = new MaskFormatter(envolucro);
+			mask.setPlaceholderCharacter(substituto);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return mask;
 	}
-	
+
+	private static void Chisel(JButton button, Color color, int radius) {
+
+		button.setFocusPainted(false);
+		button.setForeground(color);
+		RoundedBorder LineBorder = new RoundedBorder(color, radius);
+		Border emptyBorder = BorderFactory.createEmptyBorder(button.getBorder().getBorderInsets(button).top,
+				button.getBorder().getBorderInsets(button).left, button.getBorder().getBorderInsets(button).bottom,
+				button.getBorder().getBorderInsets(button).right);
+		button.setBorder(BorderFactory.createCompoundBorder(LineBorder, emptyBorder));
+	}
+
 	private static class RoundedBorder implements Border {
 
-        private int radius = 10;
-        private Color color;
+		private int radius = 10;
+		private Color color;
 
-        private RoundedBorder(Color color, int radius) {
-            this.color = color;
-            this.radius = radius;
-        }
+		private RoundedBorder(Color color, int radius) {
+			this.color = color;
+			this.radius = radius;
+		}
 
-        @Override
-        public Insets getBorderInsets(Component c) {
-            return new Insets(this.radius + 1, this.radius + 1, this.radius + 1, this.radius + 1);
-        }
+		@Override
+		public Insets getBorderInsets(Component c) {
+			return new Insets(this.radius + 1, this.radius + 1, this.radius + 1, this.radius + 1);
+		}
 
-        @Override
-        public boolean isBorderOpaque() {
-            return true;
-        }
+		@Override
+		public boolean isBorderOpaque() {
+			return true;
+		}
 
-        @Override
-        public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-            g.setColor(color);
-            g.drawRoundRect(x, y, width - 1, height - 1, radius, radius);
-        }
-    }
-	public JTextField getTxtCPF() {
-		return getTxtCPF();
+		@Override
+		public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+			g.setColor(color);
+			g.drawRoundRect(x, y, width - 1, height - 1, radius, radius);
+		}
 	}
-	public JTextField getTxtNome() {
-		return getTxtNome();
-	}
+
 }
-
