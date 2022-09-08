@@ -26,6 +26,8 @@ import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.MaskFormatter;
 import controle.CadastroControle;
+import javax.swing.JRadioButton;
+import javax.swing.ButtonGroup;
 
 public class TelaCadastro extends JFrame {
 
@@ -50,6 +52,7 @@ public class TelaCadastro extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtEmail;
 	private JPasswordField txtSenha;
+	private final ButtonGroup cargoGroup = new ButtonGroup();
 
 	/**
 	 * Launch the application.
@@ -100,7 +103,7 @@ public class TelaCadastro extends JFrame {
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(22, 22, 22));
-		panel.setBounds(243, 72, 176, 375);
+		panel.setBounds(243, 48, 176, 466);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
@@ -196,19 +199,7 @@ public class TelaCadastro extends JFrame {
 		txtSenha.setEchoChar('•');
 		panel.add(txtSenha);		
 		
-		JButton btnContinuar = new JButton("CONTINUAR");
-		btnContinuar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug: tela de cadastro > cadastrar");
-				System.out.println(txtCPF.getText() + txtData.getText());
-			}
-		});
-		btnContinuar.setOpaque(false);
-		btnContinuar.setBackground(null);
-		Chisel(btnContinuar, clBlue, 5);
-		btnContinuar.setFont(pop12);
-		btnContinuar.setBounds(10, 309, 156, 23);
-		panel.add(btnContinuar);
+		
 		
 		JButton btnLogin = new JButton("Fazer login");
 		btnLogin.setFont(pop10);
@@ -223,7 +214,7 @@ public class TelaCadastro extends JFrame {
 		btnLogin.setBackground(null);
 		btnLogin.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		btnLogin.setForeground(clRed);
-		btnLogin.setBounds(10, 341, 156, 23);
+		btnLogin.setBounds(10, 432, 156, 23);
 		panel.add(btnLogin);
 		
 		JLabel lblDataDeNascimento = new JLabel("DATA DE NASCIMENTO");
@@ -231,6 +222,33 @@ public class TelaCadastro extends JFrame {
 		lblDataDeNascimento.setFont(pop10);
 		lblDataDeNascimento.setBounds(10, 261, 156, 14);
 		panel.add(lblDataDeNascimento);
+		
+		JLabel lblCargo = new JLabel("CARGO");
+		lblCargo.setForeground(new Color(197, 197, 197));
+		lblCargo.setBounds(10, 306, 156, 14);
+		lblCargo.setFont(pop10);
+		panel.add(lblCargo);
+		
+		JRadioButton rdVendedor = new JRadioButton("VENDEDOR");
+		cargoGroup.add(rdVendedor);
+		rdVendedor.setForeground(Color.WHITE);
+		rdVendedor.setBackground(null);
+		rdVendedor.setFont(pop10);
+		rdVendedor.setIcon(new ImageIcon("C:\\Users\\Aluno\\projeto_integrador\\Epitome\\img\\radio_button.png"));
+		rdVendedor.setSelectedIcon(new ImageIcon("C:\\Users\\Aluno\\projeto_integrador\\Epitome\\img\\radio_button_checked.png"));
+		rdVendedor.setBounds(10, 327, 156, 23);
+		panel.add(rdVendedor);
+		
+		JRadioButton rdAdministrador = new JRadioButton("ADMINISTRADOR");
+		cargoGroup.add(rdAdministrador);
+		rdAdministrador.setForeground(Color.WHITE);
+		rdAdministrador.setFont(null);
+		rdAdministrador.setBackground((Color) null);
+		rdAdministrador.setFont(pop10);
+		rdAdministrador.setIcon(new ImageIcon("C:\\Users\\Aluno\\projeto_integrador\\Epitome\\img\\radio_button.png"));
+		rdAdministrador.setSelectedIcon(new ImageIcon("C:\\Users\\Aluno\\projeto_integrador\\Epitome\\img\\radio_button_checked.png"));
+		rdAdministrador.setBounds(10, 353, 156, 23);
+		panel.add(rdAdministrador);
 		
 		JButton btnTelaLogin = new JButton("");
 		btnTelaLogin.setIcon(new ImageIcon("C:\\Users\\Aluno\\projeto_integrador\\Epitome\\img\\login.png"));
@@ -246,7 +264,7 @@ public class TelaCadastro extends JFrame {
         btnTelaLogin.setBorder(BorderFactory.createEmptyBorder(btnTelaLogin.getBorder().getBorderInsets(btnTelaLogin).top, btnTelaLogin.getBorder().getBorderInsets(btnTelaLogin).left, btnTelaLogin.getBorder().getBorderInsets(btnTelaLogin).bottom, btnTelaLogin.getBorder().getBorderInsets(btnTelaLogin).right));
 		btnTelaLogin.setBackground(clRed);
 		btnTelaLogin.setForeground(Color.WHITE);
-		btnTelaLogin.setBounds(429, 72, 30, 30);
+		btnTelaLogin.setBounds(429, 48, 30, 30);
 		contentPane.add(btnTelaLogin);
 		
 		JButton btnTelaCadastro = new JButton("");
@@ -263,9 +281,40 @@ public class TelaCadastro extends JFrame {
         btnTelaCadastro.setBorder(BorderFactory.createEmptyBorder(btnTelaCadastro.getBorder().getBorderInsets(btnTelaCadastro).top, btnTelaCadastro.getBorder().getBorderInsets(btnTelaCadastro).left, btnTelaCadastro.getBorder().getBorderInsets(btnTelaCadastro).bottom, btnTelaCadastro.getBorder().getBorderInsets(btnTelaCadastro).right));
 		btnTelaCadastro.setBackground(clBlue);
 		btnTelaCadastro.setForeground(Color.WHITE);
-		btnTelaCadastro.setBounds(429, 113, 30, 30);
+		btnTelaCadastro.setBounds(429, 89, 30, 30);
 		contentPane.add(btnTelaCadastro);
+		
+		JButton btnContinuar = new JButton("CONTINUAR");
+		btnContinuar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("debug: tela de cadastro > cadastrar");
+				String email = txtEmail.getText();
+				char[] senha = txtSenha.getPassword();
+				String nomeUsuario = txtUsername.getText();
+				String nome = txtNome.getText();
+				String cpf = txtCPF.getText();
+				String data = txtData.getText();
+				String cargo = null;
+				if (rdVendedor.isSelected()) {
+					cargo = "vendedor";
+				}
+				if (rdAdministrador.isSelected()) {
+					cargo = "administrador";
+				}
+				
+				//tratamento de exceções: campos vazios e formatos errados
+				//funcao cadastro (email, senha, nomeUsuario, nome, cpf, data, cargo);				
+			}
+		});
+		btnContinuar.setOpaque(false);
+		btnContinuar.setBackground(null);
+		Chisel(btnContinuar, clBlue, 5);
+		btnContinuar.setFont(pop12);
+		btnContinuar.setBounds(10, 400, 156, 23);
+		panel.add(btnContinuar);
 	}
+	
+	
 	
 	protected MaskFormatter def_mask(String envolucro, char substituto) {
 		MaskFormatter mask = null;

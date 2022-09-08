@@ -4,7 +4,7 @@ import modelo.Usuario;
 
 public class LoginBD {
 
-	public Usuario efetuarLogin(String email, String senha) {
+	public Usuario efetuarLogin(String email, char[] senha) {
 
 		return null;
 	}

@@ -142,9 +142,9 @@ public class TelaLogin extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 
 				String email = txtEmail.getText();
-				String senha = txtSenha.getText();
+				char[] senha = txtSenha.getPassword();
 
-				if (!email.isEmpty() && !senha.isEmpty()) {
+				if (!email.isEmpty() && senha.length!=0) {
 					LoginBD login = new LoginBD();
 					Usuario u = login.efetuarLogin(email, senha);
 					new TelaInicialADM(u);
