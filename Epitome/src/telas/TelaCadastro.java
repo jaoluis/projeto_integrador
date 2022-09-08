@@ -25,12 +25,16 @@ import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.MaskFormatter;
+
+import DAO.Conexao;
+import DAO.UsuarioDAO;
 import controle.CadastroControle;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
 
 public class TelaCadastro extends JFrame {
 
+	
 	
 	
 	public JTextField getTxtEmail() {
@@ -301,7 +305,7 @@ public class TelaCadastro extends JFrame {
 				if (rdAdministrador.isSelected()) {
 					cargo = "administrador";
 				}
-				
+				UsuarioDAO usuarioDao =  new UsuarioDAO(conexao);
 				//tratamento de exceções: campos vazios e formatos errados
 				//funcao cadastro (email, senha, nomeUsuario, nome, cpf, data, cargo);				
 			}

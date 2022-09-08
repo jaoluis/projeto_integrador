@@ -10,14 +10,16 @@ public class Usuario {
 	private String senha_usuario;
 	private String cpf_usuario;
 	private String nome_usuario;
+	private String nascimento_data;
 	private String cargo;
 	
-	public Usuario(int id_usuario, String login_usuario, String senha_usuario, String cpf_usuario, String nome_usuario, String cargo) {
+	public Usuario(int id_usuario, String login_usuario, String senha_usuario, String cpf_usuario, String nome_usuario, String cargo, String nascimento_data) {
 		this.id_usuario = id_usuario;
 		this.login_usuario = login_usuario;
 		this.senha_usuario = senha_usuario;
 		this.cpf_usuario = cpf_usuario;
 		this.nome_usuario = nome_usuario;
+		this.setNascimento_data(nascimento_data);
 		this.cargo = cargo;
 	}
 	
@@ -58,6 +60,14 @@ public class Usuario {
 	}
 	public void setCargo(String cargo) {
 		this.cargo = cargo;
+	}
+
+	public String getNascimento_data() {
+		return nascimento_data;
+	}
+
+	public void setNascimento_data(String nascimento_data) {
+		this.nascimento_data = nascimento_data;
 	}
 
 }
