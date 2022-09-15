@@ -96,7 +96,7 @@ public class TelaPerfil extends JFrame {
 		lblID.setHorizontalAlignment(SwingConstants.CENTER);
 		//lblID.setText(id do usuario);
 		lblID.setForeground(new Color(255, 255, 255));
-		lblID.setFont(pop10);
+		lblID.setFont(pop12);
 		lblID.setBounds(10, 36, 156, 14);
 		panel.add(lblID);
 		
