@@ -1,12 +1,14 @@
 package modelo;
 
+import java.sql.Date;
+
 public class Usuario {
 	private int id_usuario;
 	private String login_usuario;
-	private char[] senha_usuario;
+	private String senha_usuario;
 	private String cpf_usuario;
 	private String nome_usuario;
-	private String nascimento_data;
+	private java.util.Date nascimento_data;
 	private String cargo;
 	private String email;
 
@@ -14,7 +16,7 @@ public class Usuario {
 
 	}
 
-	public Usuario(String email, char[] senha, String nomeUsuario, String nome, String cpf, String nascimento_data,
+	public Usuario(String email, String senha, String nomeUsuario, String nome, String cpf, Date nascimento_data,
 			String cargo) {
 		this.login_usuario = nomeUsuario;
 		this.senha_usuario = senha;
@@ -25,11 +27,11 @@ public class Usuario {
 		this.email = email;
 	}
 
-	public char[] getSenha_usuario() {
+	public String getSenha_usuario() {
 		return senha_usuario;
 	}
 
-	public void setSenha_usuario(char[] senha_usuario) {
+	public void setSenha_usuario(String senha_usuario) {
 		this.senha_usuario = senha_usuario;
 	}
 
@@ -73,12 +75,12 @@ public class Usuario {
 		this.cargo = cargo;
 	}
 
-	public String getNascimento_data() {
-		return nascimento_data;
+	public Date getNascimento_data() {
+		return (Date) nascimento_data;
 	}
 
-	public void setNascimento_data(String nascimento_data) {
-		this.nascimento_data = nascimento_data;
+	public void setNascimento_data(java.util.Date dataN) {
+		this.nascimento_data = dataN;
 	}
 
 	public String getEmail() {
@@ -88,5 +90,6 @@ public class Usuario {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
 
 }

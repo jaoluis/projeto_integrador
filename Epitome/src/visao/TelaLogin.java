@@ -1,4 +1,4 @@
-package telas;
+package visao;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -10,6 +10,8 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.sql.Date;
+import java.sql.SQLException;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -24,7 +26,9 @@ import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
+import controle.Conexao;
 import controle.LoginBD;
+import controle.UsuarioDAO;
 import modelo.Usuario;
 
 public class TelaLogin extends JFrame {
@@ -143,15 +147,25 @@ public class TelaLogin extends JFrame {
 
 				String email = txtEmail.getText();
 				char[] senha = txtSenha.getPassword();
-
-				if (!email.isEmpty() && senha.length!=0) {
-					LoginBD login = new LoginBD();
-					Usuario u = login.efetuarLogin(email, senha);
-					new TelaInicialADM(u);
-				} else {
-					JOptionPane.showMessageDialog(null, "Nenhum email e/ou senha digitado!");
-				}
-
+	 
+	        // create object of StringBuilder class
+	        StringBuilder sb = new StringBuilder();
+	 
+	        // Appends characters one by one
+	        for (Character ch : senha) {
+	            sb.append(ch);
+	        }
+	 
+	        // convert in string
+	        String senhaP = sb.toString();
+	 
+	        Usuario usuario = new Usuario();
+			usuario.setEmail(email);
+			usuario.setSenha_usuario(senhaP);
+			
+			UsuarioDAO dao;
+			dao = new UsuarioDAO();
+			dao.verificacao(usuario);
 			}
 		});
 		btnEntrar.setOpaque(false);

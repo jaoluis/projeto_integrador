@@ -1,4 +1,4 @@
-package telas;
+package visao;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -10,30 +10,32 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.sql.Connection;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.MaskFormatter;
 
-import DAO.Conexao;
-import DAO.UsuarioDAO;
+import controle.Conexao;
+import controle.UsuarioDAO;
 import modelo.Usuario;
-
-import javax.swing.JRadioButton;
-import javax.swing.ButtonGroup;
 
 public class TelaCadastro extends JFrame {
 
@@ -284,13 +286,22 @@ public class TelaCadastro extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: tela de cadastro > cadastrar");
 				String email = txtEmail.getText();
-//				String senha = String.valueOf(txtSenha.getPassword());
-				char[] senha = txtSenha.getPassword();
+				String senha = String.valueOf(txtSenha.getPassword());
 				String nomeUsuario = txtUsername.getText();
 				String nome = txtNome.getText();
 				String cpf = txtCPF.getText();
 				String data = txtData.getText();
 				String cargo = null;
+				LocalDate date = null;
+				try {
+				date = LocalDate.parse(data, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+				}catch (Exception erroConversaoStringData) {
+					//Joption quando dá erro na data
+					
+					JOptionPane.showMessageDialog(null, "Data invalida");
+					System.out.println("Deu erro na hora de converter para Data" + erroConversaoStringData);
+				}
+
 				if (rdVendedor.isSelected()) {
 					cargo = "vendedor";
 				}
@@ -298,7 +309,7 @@ public class TelaCadastro extends JFrame {
 				if (rdAdministrador.isSelected()) {
 					cargo = "administrador";
 				}
-
+				
 				Usuario usuario = new Usuario();
 				usuario.setNome_usuario(nome);
 				usuario.setCargo(cargo);
@@ -306,15 +317,11 @@ public class TelaCadastro extends JFrame {
 				usuario.setEmail(email);
 				usuario.setSenha_usuario(senha);
 				usuario.setLogin_usuario(nomeUsuario);
-				usuario.setNascimento_data(data);
+				usuario.setNascimento_data(Date.valueOf(date));
 
 				UsuarioDAO dao;
-				try {
-					dao = new UsuarioDAO(Conexao.getConnection());
-					dao.insert(usuario);
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
+				dao = new UsuarioDAO();
+				dao.insert(usuario);
 
 				// tratamento de exceções: campos vazios e formatos errados
 				// funcao cadastro (email, senha, nomeUsuario, nome, cpf, data, cargo);

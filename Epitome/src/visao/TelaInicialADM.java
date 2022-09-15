@@ -1,4 +1,4 @@
-package telas;
+package visao;
 
 import java.awt.Color;
 import java.awt.Component;
