@@ -1,4 +1,4 @@
-package telas;
+package visao;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -59,7 +59,7 @@ public class TelaCadastro extends JFrame {
 	 */
 	public TelaCadastro() {
 		setIconImage(Toolkit.getDefaultToolkit()
-				.getImage("C:\\Users\\Aluno\\projeto_integrador\\Epitome\\img\\app_icon_small.png"));
+				.getImage("./img/app_icon_small.png"));
 		Color clRed = new Color(226, 0, 54);
 		Color clBlue = new Color(113, 206, 236);
 
@@ -216,9 +216,9 @@ public class TelaCadastro extends JFrame {
 		rdVendedor.setForeground(Color.WHITE);
 		rdVendedor.setBackground(null);
 		rdVendedor.setFont(pop10);
-		rdVendedor.setIcon(new ImageIcon("C:\\Users\\Aluno\\projeto_integrador\\Epitome\\img\\radio_button.png"));
+		rdVendedor.setIcon(new ImageIcon("./img/radio_button.png"));
 		rdVendedor.setSelectedIcon(
-				new ImageIcon("C:\\Users\\Aluno\\projeto_integrador\\Epitome\\img\\radio_button_checked.png"));
+				new ImageIcon("./img/radio_button_checked.png"));
 		rdVendedor.setBounds(10, 327, 156, 23);
 		panel.add(rdVendedor);
 
@@ -228,14 +228,14 @@ public class TelaCadastro extends JFrame {
 		rdAdministrador.setFont(null);
 		rdAdministrador.setBackground((Color) null);
 		rdAdministrador.setFont(pop10);
-		rdAdministrador.setIcon(new ImageIcon("C:\\Users\\Aluno\\projeto_integrador\\Epitome\\img\\radio_button.png"));
+		rdAdministrador.setIcon(new ImageIcon("./img/radio_button.png"));
 		rdAdministrador.setSelectedIcon(
-				new ImageIcon("C:\\Users\\Aluno\\projeto_integrador\\Epitome\\img\\radio_button_checked.png"));
+				new ImageIcon("./img/radio_button_checked.png"));
 		rdAdministrador.setBounds(10, 353, 156, 23);
 		panel.add(rdAdministrador);
 
 		JButton btnTelaLogin = new JButton("");
-		btnTelaLogin.setIcon(new ImageIcon("C:\\Users\\Aluno\\projeto_integrador\\Epitome\\img\\login.png"));
+		btnTelaLogin.setIcon(new ImageIcon("./img/login.png"));
 		btnTelaLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: tela de cadastro > tela de login");
@@ -256,7 +256,7 @@ public class TelaCadastro extends JFrame {
 		contentPane.add(btnTelaLogin);
 
 		JButton btnTelaCadastro = new JButton("");
-		btnTelaCadastro.setIcon(new ImageIcon("C:\\Users\\Aluno\\projeto_integrador\\Epitome\\img\\cadastro.png"));
+		btnTelaCadastro.setIcon(new ImageIcon("./img/cadastro.png"));
 		btnTelaCadastro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: tela de cadastro > tela de cadastro");
@@ -327,7 +327,7 @@ public class TelaCadastro extends JFrame {
 		panel.add(btnContinuar);
 		
 		JLabel fakeBG = new JLabel("");
-		fakeBG.setIcon(new ImageIcon("C:\\Users\\Aluno\\projeto_integrador\\Epitome\\img\\bg.png"));
+		fakeBG.setIcon(new ImageIcon("./img/bg.png"));
 		fakeBG.setBounds(-477, -224, 1600, 861);
 		contentPane.add(fakeBG);
 	}
