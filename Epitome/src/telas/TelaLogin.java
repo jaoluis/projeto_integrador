@@ -162,10 +162,15 @@ public class TelaLogin extends JFrame {
 		});
 		
         btnTelaLogin.setBorder(BorderFactory.createEmptyBorder(btnTelaLogin.getBorder().getBorderInsets(btnTelaLogin).top, btnTelaLogin.getBorder().getBorderInsets(btnTelaLogin).left, btnTelaLogin.getBorder().getBorderInsets(btnTelaLogin).bottom, btnTelaLogin.getBorder().getBorderInsets(btnTelaLogin).right));
-		btnTelaLogin.setBackground(clRed);
+		btnTelaLogin.setBackground(null);
 		btnTelaLogin.setForeground(Color.WHITE);
 		btnTelaLogin.setBounds(335, 111, 30, 30);
 		contentPane.add(btnTelaLogin);
+		
+		JLabel fakeBG = new JLabel("");
+		fakeBG.setIcon(new ImageIcon("C:\\Users\\Aluno\\projeto_integrador\\Epitome\\img\\bg.png"));
+		fakeBG.setBounds(-495, -286, 1600, 861);
+		contentPane.add(fakeBG);
 	}
 	
 	private static void buttonChisel(JButton button, Color color, int radius) {
