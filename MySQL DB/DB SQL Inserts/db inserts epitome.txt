@@ -1,4 +1,4 @@
-//FORNECEDOR
+﻿//FORNECEDOR
 insert into Fornecedor values (1, 'Rodrigo de Assunção', '49.475.142/0001-02');
 insert into Fornecedor values (2, 'Irineu da Silva', '80.422.773/0001-03');
 insert into Fornecedor values (3, 'Giovanna Mendes', '10.923.150/0001-20');
@@ -75,9 +75,9 @@ insert into Controle_Entrada values (10,'02-06-2022', 20);
 //VENDA
 
 //TABELA USUARIO
-insert into Usuario values (1, 'vendedor', 'vendedor1@email.com', 'senha1234', '451.073.880-35', 'Rodrigo Pereira', '26-09-1996',1);
-insert into Usuario values (2, 'vendedor', 'vendedor2@email.com', 'senha1234', '229.100.990-75', 'Marcela Vieira', '31-08-1991', 2);
-insert into Usuario values (3, 'administrador', admin1@email.com', 'senha1234', '700.022.730-39', 'Roberta Morais', '05-03-1992',3);
+insert into Usuario values ('vendedor', 'vendedor1@email.com', 'senha1234', '451.073.880-35', 'Rodrigo Pereira', '26-09-1996');
+insert into Usuario values ('vendedor', 'vendedor2@email.com', 'senha1234', '229.100.990-75', 'Marcela Vieira', '31-08-1991');
+insert into Usuario values ('administrador', admin1@email.com', 'senha1234', '700.022.730-39', 'Roberta Morais', '05-03-1992');
 
 //USUARIO CONTATO
 insert into Usuario_Contato values (1, 'vendedor1@email', '(47) 93325-8945', 1);
@@ -85,9 +85,9 @@ insert into Usuario_Contato values (2, 'vendedor2@email', '(47) 94231-0073', 2);
 insert into Usuario_Contato values (3, 'admin1@email', '(47) 95684-1036', 3);
 
 //USUARIO ENDERECO
-insert into Usuario_Endereco values (1, 'SC', 'Brusque', 'Braço Elza', 'Teixo Babtista', 890);
-insert into Usuario_Endereco values (2, 'SC', 'Brusque', 'Laranjeiras', 'Rua dos Loucos', 969);
-insert into Usuario_Endereco values (3, 'SC', 'Brusque', 'Braço Elza', 'Teixo Babtista', 890);
+insert into Usuario_Endereco values (1, 'SC', 'Brusque', 'Braço Elza', 'Teixo Babtista', 890, 1);
+insert into Usuario_Endereco values (2, 'SC', 'Brusque', 'Laranjeiras', 'Rua dos Loucos', 969, 2);
+insert into Usuario_Endereco values (3, 'SC', 'Brusque', 'Braço Elza', 'Teixo Babtista', 890, 3);
 
 
 
