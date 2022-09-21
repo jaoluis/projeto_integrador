@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+
 import java.awt.FlowLayout;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -25,11 +26,12 @@ import java.io.File;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import java.awt.Toolkit;
-import javax.swing.JComboBox;
 
-public class TelaInicialADM extends JFrame {
+public class TelaLogin extends JFrame {
 
 	private JPanel contentPane;
+	private JTextField txtEmail;
+	private JPasswordField txtSenha;
 
 	/**
 	 * Launch the application.
@@ -38,7 +40,7 @@ public class TelaInicialADM extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TelaInicialADM frame = new TelaInicialADM();
+					TelaLogin frame = new TelaLogin();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -50,12 +52,10 @@ public class TelaInicialADM extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public TelaInicialADM() {
+	public TelaLogin() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage("./img/app_icon_small.png"));
 		Color clRed = new Color(226, 0, 54);
 		Color clBlue = new Color(113, 206, 236);
-		Color clGreen = new Color(105, 122, 39);
-		
 		
 		Font poppins, pop10 = null, pop12 = null;
 		
@@ -72,7 +72,7 @@ public class TelaInicialADM extends JFrame {
 		setResizable(false);
 		setTitle("Sistema de Vendas Ep\u00EDtome");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(160, 90, 1600, 900);
+		setBounds(100, 100, 515, 460);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(45, 45, 45));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -81,102 +81,96 @@ public class TelaInicialADM extends JFrame {
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(22, 22, 22));
-		panel.setBounds(592, 388, 417, 124);
-		panelChisel(panel, new Color(255, 255, 255), 5);
+		panel.setBounds(149, 111, 176, 190);
+		panelbuttonChisel(panel, new Color(255, 255, 255), 5);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JButton btnVenda = new JButton("VENDA");
-		btnVenda.addActionListener(new ActionListener() {
+		JLabel lblEstamosQuaseL = new JLabel("Estamos quase l\u00E1!");
+		lblEstamosQuaseL.setForeground(new Color(255, 255, 255));
+		lblEstamosQuaseL.setFont(pop12);
+		lblEstamosQuaseL.setHorizontalAlignment(SwingConstants.CENTER);
+		lblEstamosQuaseL.setBounds(10, 11, 156, 14);
+		panel.add(lblEstamosQuaseL);
+		
+		JLabel lblEmail = new JLabel("E-MAIL");
+		lblEmail.setForeground(new Color(197, 197, 197));
+		lblEmail.setFont(pop10);
+		lblEmail.setBounds(10, 36, 156, 14);
+		panel.add(lblEmail);
+		
+		txtEmail = new JTextField();
+		txtEmail.setForeground(new Color(255, 255, 255));
+		txtEmail.setBackground(new Color(45, 45, 45));
+		txtEmail.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		txtEmail.setFont(pop12);
+		txtEmail.setBounds(10, 50, 156, 20);
+		panel.add(txtEmail);
+		txtEmail.setColumns(10);
+		
+		txtSenha = new JPasswordField();
+		txtSenha.setForeground(new Color(255, 255, 255));
+		txtSenha.setBackground(new Color(45, 45, 45));
+		txtSenha.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		txtSenha.setBounds(10, 95, 156, 20);
+		txtSenha.setFont(pop12);
+		txtSenha.setEchoChar('•');
+		panel.add(txtSenha);
+		
+		JLabel lblSenha = new JLabel("SENHA");
+		lblSenha.setForeground(new Color(197, 197, 197));
+		lblSenha.setFont(pop10);
+		lblSenha.setBounds(10, 81, 156, 14);
+		panel.add(lblSenha);
+		
+		JButton btnEsqueci = new JButton("Esqueceu sua senha?");
+		btnEsqueci.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug: tela inicial adm > tela de venda");
+				System.out.println("debug: tela de login > esqueci minha senha");
 			}
 		});
-		btnVenda.setOpaque(false);
-		btnVenda.setBackground(null);
-		buttonChisel(btnVenda, new Color(255, 255, 255), 5);
-		btnVenda.setFont(pop12);
-		btnVenda.setBounds(10, 36, 156, 34);
-		panel.add(btnVenda);
+		btnEsqueci.setBackground(null);
+		btnEsqueci.setFont(pop10);
+		btnEsqueci.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		btnEsqueci.setForeground(clRed);
+		btnEsqueci.setHorizontalAlignment(SwingConstants.LEFT);
+		btnEsqueci.setBounds(10, 115, 156, 23);
+		panel.add(btnEsqueci);
 		
-		JButton btnEstoque = new JButton("ESTOQUE");
-		btnEstoque.addActionListener(new ActionListener() {
+		JButton btnEntrar = new JButton("ENTRAR");
+		btnEntrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug: tela inicial adm > tela de estoque");
-				TelaEstoque telaEstoque = new TelaEstoque();
-				telaEstoque.setVisible(true);
+				System.out.println("debug: tela de login > verificar dados");
+			}
+		});
+		btnEntrar.setOpaque(false);
+        btnEntrar.setBackground(null);
+		buttonChisel(btnEntrar, clRed, 5);
+		btnEntrar.setFont(pop12);
+		btnEntrar.setBounds(10, 156, 156, 23);
+		panel.add(btnEntrar);
+		
+		JButton btnTelaLogin = new JButton("");
+		btnTelaLogin.setIcon(new ImageIcon("./img/login.png"));
+		btnTelaLogin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("debug: tela de login > tela de login");
+				TelaLogin telalogin = new TelaLogin();
+				telalogin.setVisible(true);
 				setVisible(false);
 			}
 		});
-		btnEstoque.setOpaque(false);
-		btnEstoque.setBackground(null);
-		buttonChisel(btnEstoque, new Color(255, 255, 255), 5);
-		btnEstoque.setFont(pop12);
-		btnEstoque.setBounds(10, 71, 156, 34);
-		panel.add(btnEstoque);
 		
-		JButton btnRelatorio = new JButton("Relatório de Vendas");
-		btnRelatorio.setFont(pop10);
-		btnRelatorio.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug: tela inicial adm > relatório de vendas");
-			}
-		});
-		btnRelatorio.setBackground(null);
-		btnRelatorio.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		btnRelatorio.setForeground(clBlue);
-		btnRelatorio.setBounds(176, 59, 231, 23);
-		panel.add(btnRelatorio);
-		
-		JButton btnSair = new JButton("Sair");
-		btnSair.setFont(pop10);
-		btnSair.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug: tela inicial adm > sair");
-			}
-		});
-		btnSair.setBackground(null);
-		btnSair.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		btnSair.setForeground(clGreen);
-		btnSair.setBounds(176, 82, 231, 23);
-		panel.add(btnSair);
-		
-		JButton btnLogin = new JButton("Perfil");
-		btnLogin.setFont(pop10);
-		btnLogin.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug: tela inicial adm > perfil");
-				TelaPerfil telaPerfil = new TelaPerfil();
-				telaPerfil.setVisible(true);
-			}
-		});
-		btnLogin.setBackground(null);
-		btnLogin.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		btnLogin.setForeground(clRed);
-		btnLogin.setBounds(176, 36, 231, 23);
-		panel.add(btnLogin);
-		
-		JLabel lblAdministrador = new JLabel("Administrador");
-		lblAdministrador.setHorizontalAlignment(SwingConstants.CENTER);
-		lblAdministrador.setForeground(Color.WHITE);
-		lblAdministrador.setFont(null);
-		lblAdministrador.setBounds(10, 11, 156, 14);
-		lblAdministrador.setFont(pop12);
-		panel.add(lblAdministrador);
-		
-		JLabel lblNome = new JLabel("Fulano da Silva");
-		//lblNome.setText(nome do usuario)
-		lblNome.setBounds(176, 11, 231, 14);
-		panel.add(lblNome);
-		lblNome.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNome.setForeground(new Color(255, 255, 255));
-		lblNome.setFont(pop12);
+        btnTelaLogin.setBorder(BorderFactory.createEmptyBorder(btnTelaLogin.getBorder().getBorderInsets(btnTelaLogin).top, btnTelaLogin.getBorder().getBorderInsets(btnTelaLogin).left, btnTelaLogin.getBorder().getBorderInsets(btnTelaLogin).bottom, btnTelaLogin.getBorder().getBorderInsets(btnTelaLogin).right));
+		btnTelaLogin.setBackground(null);
+		btnTelaLogin.setForeground(Color.WHITE);
+		btnTelaLogin.setBounds(335, 111, 30, 30);
+		contentPane.add(btnTelaLogin);
 		
 		JLabel fakeBG = new JLabel("");
 		fakeBG.setIcon(new ImageIcon("./img/bg.png"));
-		fakeBG.setBounds(0, 0, 1600, 861);
+		fakeBG.setBounds(-495, -286, 1600, 861);
 		contentPane.add(fakeBG);
-		
 	}
 	
 	private static void buttonChisel(JButton button, Color color, int radius) {
@@ -188,7 +182,7 @@ public class TelaInicialADM extends JFrame {
         button.setBorder(BorderFactory.createCompoundBorder(LineBorder, emptyBorder));
 	}
 	
-	private static void panelChisel(JPanel panel, Color color, int radius) {
+private static void panelbuttonChisel(JPanel panel, Color color, int radius) {
 		
         //panel.setFocusPainted(false);
         panel.setForeground(color);

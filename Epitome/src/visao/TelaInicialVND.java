@@ -10,6 +10,7 @@ import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import java.awt.FlowLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -27,7 +28,7 @@ import javax.swing.ImageIcon;
 import java.awt.Toolkit;
 import javax.swing.JComboBox;
 
-public class TelaInicialADM extends JFrame {
+public class TelaInicialVND extends JFrame {
 
 	private JPanel contentPane;
 
@@ -38,7 +39,7 @@ public class TelaInicialADM extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TelaInicialADM frame = new TelaInicialADM();
+					TelaInicialVND frame = new TelaInicialVND();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -50,7 +51,7 @@ public class TelaInicialADM extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public TelaInicialADM() {
+	public TelaInicialVND() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage("./img/app_icon_small.png"));
 		Color clRed = new Color(226, 0, 54);
 		Color clBlue = new Color(113, 206, 236);
@@ -96,24 +97,8 @@ public class TelaInicialADM extends JFrame {
 		btnVenda.setBackground(null);
 		buttonChisel(btnVenda, new Color(255, 255, 255), 5);
 		btnVenda.setFont(pop12);
-		btnVenda.setBounds(10, 36, 156, 34);
+		btnVenda.setBounds(10, 53, 156, 34);
 		panel.add(btnVenda);
-		
-		JButton btnEstoque = new JButton("ESTOQUE");
-		btnEstoque.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug: tela inicial adm > tela de estoque");
-				TelaEstoque telaEstoque = new TelaEstoque();
-				telaEstoque.setVisible(true);
-				setVisible(false);
-			}
-		});
-		btnEstoque.setOpaque(false);
-		btnEstoque.setBackground(null);
-		buttonChisel(btnEstoque, new Color(255, 255, 255), 5);
-		btnEstoque.setFont(pop12);
-		btnEstoque.setBounds(10, 71, 156, 34);
-		panel.add(btnEstoque);
 		
 		JButton btnRelatorio = new JButton("Relatório de Vendas");
 		btnRelatorio.setFont(pop10);
@@ -156,13 +141,13 @@ public class TelaInicialADM extends JFrame {
 		btnLogin.setBounds(176, 36, 231, 23);
 		panel.add(btnLogin);
 		
-		JLabel lblAdministrador = new JLabel("Administrador");
-		lblAdministrador.setHorizontalAlignment(SwingConstants.CENTER);
-		lblAdministrador.setForeground(Color.WHITE);
-		lblAdministrador.setFont(null);
-		lblAdministrador.setBounds(10, 11, 156, 14);
-		lblAdministrador.setFont(pop12);
-		panel.add(lblAdministrador);
+		JLabel lblVendedor = new JLabel("Vendedor");
+		lblVendedor.setHorizontalAlignment(SwingConstants.CENTER);
+		lblVendedor.setForeground(Color.WHITE);
+		lblVendedor.setFont(null);
+		lblVendedor.setBounds(10, 11, 156, 14);
+		lblVendedor.setFont(pop12);
+		panel.add(lblVendedor);
 		
 		JLabel lblNome = new JLabel("Fulano da Silva");
 		//lblNome.setText(nome do usuario)
