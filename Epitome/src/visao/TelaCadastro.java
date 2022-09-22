@@ -94,6 +94,7 @@ public class TelaCadastro extends JFrame {
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(22, 22, 22));
 		panel.setBounds(243, 48, 176, 466);
+		panelbuttonChisel(panel, new Color(255, 255, 255), 5);
 		contentPane.add(panel);
 		panel.setLayout(null);
 
@@ -221,9 +222,9 @@ public class TelaCadastro extends JFrame {
 		rdVendedor.setForeground(Color.WHITE);
 		rdVendedor.setBackground(null);
 		rdVendedor.setFont(pop10);
-		rdVendedor.setIcon(new ImageIcon("C:\\Users\\Aluno\\projeto_integrador\\Epitome\\img\\radio_button.png"));
+		rdVendedor.setIcon(new ImageIcon("./img/radio_button.png"));
 		rdVendedor.setSelectedIcon(
-				new ImageIcon("C:\\Users\\Aluno\\projeto_integrador\\Epitome\\img\\radio_button_checked.png"));
+				new ImageIcon("./img/radio_button_checked.png"));
 		rdVendedor.setBounds(10, 327, 156, 23);
 		panel.add(rdVendedor);
 
@@ -233,14 +234,14 @@ public class TelaCadastro extends JFrame {
 		rdAdministrador.setFont(null);
 		rdAdministrador.setBackground((Color) null);
 		rdAdministrador.setFont(pop10);
-		rdAdministrador.setIcon(new ImageIcon("C:\\Users\\Aluno\\projeto_integrador\\Epitome\\img\\radio_button.png"));
+		rdAdministrador.setIcon(new ImageIcon("./img/radio_button.png"));
 		rdAdministrador.setSelectedIcon(
-				new ImageIcon("C:\\Users\\Aluno\\projeto_integrador\\Epitome\\img\\radio_button_checked.png"));
+				new ImageIcon("./img/radio_button_checked.png"));
 		rdAdministrador.setBounds(10, 353, 156, 23);
 		panel.add(rdAdministrador);
 
 		JButton btnTelaLogin = new JButton("");
-		btnTelaLogin.setIcon(new ImageIcon("C:\\Users\\Aluno\\projeto_integrador\\Epitome\\img\\login.png"));
+		btnTelaLogin.setIcon(new ImageIcon("./img/login.png"));
 		btnTelaLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: tela de cadastro > tela de login");
@@ -250,18 +251,15 @@ public class TelaCadastro extends JFrame {
 			}
 		});
 
-		btnTelaLogin
-				.setBorder(BorderFactory.createEmptyBorder(btnTelaLogin.getBorder().getBorderInsets(btnTelaLogin).top,
-						btnTelaLogin.getBorder().getBorderInsets(btnTelaLogin).left,
-						btnTelaLogin.getBorder().getBorderInsets(btnTelaLogin).bottom,
-						btnTelaLogin.getBorder().getBorderInsets(btnTelaLogin).right));
-		btnTelaLogin.setBackground(clRed);
+		btnTelaLogin.setBorder(BorderFactory.createEmptyBorder());
+		btnTelaLogin.setBackground(null);
 		btnTelaLogin.setForeground(Color.WHITE);
 		btnTelaLogin.setBounds(429, 48, 30, 30);
 		contentPane.add(btnTelaLogin);
 
 		JButton btnTelaCadastro = new JButton("");
-		btnTelaCadastro.setIcon(new ImageIcon("C:\\Users\\Aluno\\projeto_integrador\\Epitome\\img\\cadastro.png"));
+		btnTelaCadastro.setBackground(null);
+		btnTelaCadastro.setIcon(new ImageIcon("./img/cadastro.png"));
 		btnTelaCadastro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: tela de cadastro > tela de cadastro");
@@ -272,11 +270,8 @@ public class TelaCadastro extends JFrame {
 		});
 
 		btnTelaCadastro.setBorder(
-				BorderFactory.createEmptyBorder(btnTelaCadastro.getBorder().getBorderInsets(btnTelaCadastro).top,
-						btnTelaCadastro.getBorder().getBorderInsets(btnTelaCadastro).left,
-						btnTelaCadastro.getBorder().getBorderInsets(btnTelaCadastro).bottom,
-						btnTelaCadastro.getBorder().getBorderInsets(btnTelaCadastro).right));
-		btnTelaCadastro.setBackground(clBlue);
+				BorderFactory.createEmptyBorder());
+		btnTelaCadastro.setBackground(null);
 		btnTelaCadastro.setForeground(Color.WHITE);
 		btnTelaCadastro.setBounds(429, 89, 30, 30);
 		contentPane.add(btnTelaCadastro);
@@ -333,6 +328,20 @@ public class TelaCadastro extends JFrame {
 		btnContinuar.setFont(pop12);
 		btnContinuar.setBounds(10, 400, 156, 23);
 		panel.add(btnContinuar);
+		
+		JLabel fakeBG = new JLabel("");
+		fakeBG.setIcon(new ImageIcon("./img/bg.png"));
+		fakeBG.setBounds(-477, -224, 1600, 861);
+		contentPane.add(fakeBG);
+	}
+
+	private static void panelbuttonChisel(JPanel panel, Color color, int radius) {
+		
+        //panel.setFocusPainted(false);
+        panel.setForeground(color);
+        RoundedBorder LineBorder = new RoundedBorder(color, radius);
+        Border emptyBorder = BorderFactory.createEmptyBorder(417, 124, 417, 124);
+        panel.setBorder(BorderFactory.createCompoundBorder(LineBorder, emptyBorder));
 	}
 
 	protected MaskFormatter def_mask(String envolucro, char substituto) {

@@ -58,7 +58,7 @@ public class TelaLogin extends JFrame {
 	 */
 	public TelaLogin() {
 		setIconImage(Toolkit.getDefaultToolkit()
-				.getImage("C:\\Users\\Aluno\\projeto_integrador\\Epitome\\img\\app_icon_small.png"));
+				.getImage("./img/app_icon_small.png"));
 		Color clRed = new Color(226, 0, 54);
 		Color clBlue = new Color(113, 206, 236);
 
@@ -86,7 +86,8 @@ public class TelaLogin extends JFrame {
 
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(22, 22, 22));
-		panel.setBounds(151, 85, 176, 190);
+		panel.setBounds(149, 111, 176, 190);
+		panelbuttonChisel(panel, new Color(255, 255, 255), 5);
 		contentPane.add(panel);
 		panel.setLayout(null);
 
@@ -176,7 +177,7 @@ public class TelaLogin extends JFrame {
 		panel.add(btnEntrar);
 
 		JButton btnTelaLogin = new JButton("");
-		btnTelaLogin.setIcon(new ImageIcon("C:\\Users\\Aluno\\projeto_integrador\\Epitome\\img\\login.png"));
+		btnTelaLogin.setIcon(new ImageIcon("./img/login.png"));
 		btnTelaLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: tela de login > tela de login");
@@ -185,16 +186,26 @@ public class TelaLogin extends JFrame {
 				setVisible(false);
 			}
 		});
-
-		btnTelaLogin
-				.setBorder(BorderFactory.createEmptyBorder(btnTelaLogin.getBorder().getBorderInsets(btnTelaLogin).top,
-						btnTelaLogin.getBorder().getBorderInsets(btnTelaLogin).left,
-						btnTelaLogin.getBorder().getBorderInsets(btnTelaLogin).bottom,
-						btnTelaLogin.getBorder().getBorderInsets(btnTelaLogin).right));
-		btnTelaLogin.setBackground(clRed);
+		
+        btnTelaLogin.setBorder(BorderFactory.createEmptyBorder(btnTelaLogin.getBorder().getBorderInsets(btnTelaLogin).top, btnTelaLogin.getBorder().getBorderInsets(btnTelaLogin).left, btnTelaLogin.getBorder().getBorderInsets(btnTelaLogin).bottom, btnTelaLogin.getBorder().getBorderInsets(btnTelaLogin).right));
+		btnTelaLogin.setBackground(null);
 		btnTelaLogin.setForeground(Color.WHITE);
-		btnTelaLogin.setBounds(337, 85, 30, 30);
+		btnTelaLogin.setBounds(335, 111, 30, 30);
 		contentPane.add(btnTelaLogin);
+		
+		JLabel fakeBG = new JLabel("");
+		fakeBG.setIcon(new ImageIcon("./img/bg.png"));
+		fakeBG.setBounds(-495, -286, 1600, 861);
+		contentPane.add(fakeBG);
+	}
+
+	private static void panelbuttonChisel(JPanel panel, Color color, int radius) {
+		
+        //panel.setFocusPainted(false);
+        panel.setForeground(color);
+        RoundedBorder LineBorder = new RoundedBorder(color, radius);
+        Border emptyBorder = BorderFactory.createEmptyBorder(417, 124, 417, 124);
+        panel.setBorder(BorderFactory.createCompoundBorder(LineBorder, emptyBorder));
 	}
 
 	private static void Chisel(JButton button, Color color, int radius) {
