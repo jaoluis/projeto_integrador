@@ -31,17 +31,19 @@ import javax.swing.ImageIcon;
 import java.awt.Toolkit;
 
 public class TelaPerfil extends JFrame {
-
+	private int id;
 	private JPanel contentPane;
 
 	/**
 	 * Launch the application.
 	 */
+	
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TelaPerfil frame = new TelaPerfil();
+					TelaPerfil frame = new TelaPerfil(0);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -50,12 +52,24 @@ public class TelaPerfil extends JFrame {
 		});
 	}
 
+	public int getId() {
+		return id;
+	}
+
+
+
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	/**
 	 * Create the frame.
 	 */
 	UsuarioDAO usuarioDao = new UsuarioDAO();
 	
-	public TelaPerfil() {
+	public TelaPerfil(int id) {
+		this.id = id;
 		setIconImage(Toolkit.getDefaultToolkit().getImage("./img/app_icon_small.png"));
 		Color clRed = new Color(226, 0, 54);
 		Color clBlue = new Color(113, 206, 236);
@@ -93,10 +107,9 @@ public class TelaPerfil extends JFrame {
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				System.out.println("debug: tela inicial adm > tela de venda");
+				System.out.println("debug: tela Perfil > Deletar Usuari");
 				//chama metodo
-				TelaListarUsuarios lista = new TelaListarUsuarios();
-				usuarioDao.DeleteByID(lista.getId1());
+				usuarioDao.DeleteByID(id);
 			}
 		});
 		btnDelete.setOpaque(false);
@@ -108,9 +121,12 @@ public class TelaPerfil extends JFrame {
 		panel.add(btnDelete);
 		
 		JButton btnModificar = new JButton("Modificar");
-		btnDelete.addActionListener(new ActionListener() {
+		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug: tela inicial adm > tela de venda");
+				TelaModificar telaModificar = new TelaModificar(id);
+				telaModificar.setVisible(true);
+				setVisible(false);
+				System.out.println("debug: tela Perfil > tela de Modificar");
 			}
 		});
 		btnModificar.setOpaque(false);
@@ -192,8 +208,9 @@ public class TelaPerfil extends JFrame {
 		contentPane.add(fakeBG);
 	}
 	
-	
-	
+
+
+
 private void Chisel(JButton btnDelete, Color color, int i) {
 		// TODO Auto-generated method stub
 		

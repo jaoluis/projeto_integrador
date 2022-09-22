@@ -123,7 +123,7 @@ public class TelaEstoque extends JFrame {
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: tela de estoque > perfil");
-				TelaPerfil telaPerfil = new TelaPerfil();
+				TelaPerfil telaPerfil = new TelaPerfil(0);
 				telaPerfil.setVisible(true);
 			}
 		});

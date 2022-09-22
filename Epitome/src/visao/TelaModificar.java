@@ -20,7 +20,6 @@ import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -38,8 +37,8 @@ import controle.Conexao;
 import controle.UsuarioDAO;
 import modelo.Usuario;
 
-public class TelaCadastro extends JFrame {
-
+public class TelaModificar extends JFrame {
+	private int idM;
 	private JPanel contentPane;
 	private JTextField txtEmail;
 	private JPasswordField txtSenha;
@@ -52,7 +51,7 @@ public class TelaCadastro extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TelaCadastro frame = new TelaCadastro();
+					TelaModificar frame = new TelaModificar(0);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -64,7 +63,7 @@ public class TelaCadastro extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public TelaCadastro() {
+	public TelaModificar(int idM) {
 		setIconImage(Toolkit.getDefaultToolkit()
 				.getImage("./img/app_icon_small.png"));
 		Color clRed = new Color(226, 0, 54);
@@ -190,22 +189,6 @@ public class TelaCadastro extends JFrame {
 		txtSenha.setEchoChar('•');
 		panel.add(txtSenha);
 
-		JButton btnLogin = new JButton("Fazer login");
-		btnLogin.setFont(pop10);
-		btnLogin.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug: tela de cadastro > tela de login");
-				TelaLogin telalogin = new TelaLogin();
-				telalogin.setVisible(true);
-				setVisible(false);
-			}
-		});
-		btnLogin.setBackground(null);
-		btnLogin.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		btnLogin.setForeground(clRed);
-		btnLogin.setBounds(10, 432, 156, 23);
-		panel.add(btnLogin);
-
 		JLabel lblDataDeNascimento = new JLabel("DATA DE NASCIMENTO");
 		lblDataDeNascimento.setForeground(new Color(197, 197, 197));
 		lblDataDeNascimento.setFont(pop10);
@@ -264,9 +247,9 @@ public class TelaCadastro extends JFrame {
 		btnTelaCadastro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: tela de cadastro > tela de cadastro");
-				TelaCadastro telaCadastro = new TelaCadastro();
-				telaCadastro.setVisible(true);
-				setVisible(false);
+				TelaModificar telaModificar = new TelaModificar(0);
+				telaModificar.setVisible(true);
+				setVisible(false); 
 			}
 		});
 
@@ -277,22 +260,15 @@ public class TelaCadastro extends JFrame {
 		btnTelaCadastro.setBounds(429, 89, 30, 30);
 		contentPane.add(btnTelaCadastro);
 
-		JButton btnContinuar = new JButton("CONTINUAR");
+		JButton btnContinuar = new JButton("ALTERAR");
 		btnContinuar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: tela de cadastro > cadastrar");
-				UsuarioDAO dao;
-				dao = new UsuarioDAO();
-				String cpf = null;
-				String email = null;
-				boolean E = dao.validarEmail(txtEmail.getText());
-				boolean C = dao.validarCPF(txtCPF.getText());
-				if (E==true) {
-				if (C==true) {
-				cpf = txtCPF.getText();
+				String email = txtEmail.getText();
 				String senha = String.valueOf(txtSenha.getPassword());
 				String nomeUsuario = txtUsername.getText();
 				String nome = txtNome.getText();
+				String cpf = txtCPF.getText();
 				String data = txtData.getText();
 				String cargo = null;
 				LocalDate date = null;
@@ -321,38 +297,11 @@ public class TelaCadastro extends JFrame {
 				usuario.setSenha_usuario(senha);
 				usuario.setLogin_usuario(nomeUsuario);
 				usuario.setNascimento_data(Date.valueOf(date));
+				usuario.setId_usuario(idM);
 
-				dao.insert(usuario);
-				}
-				else {
-					System.out.println("CPF Invalido");
-					//
-					//
-					// Coloca Alguma coisa dizendo que ta errado na tela
-					//
-					//
-					//
-					//
-					//
-					//
-					//
-					//
-					///
-					//
-					///
-					//
-					///
-					//
-					//
-					//
-				}
-				}
-				else {
-					System.out.println("Email Invalido");
-					//
-					// Coloca Alguma coisa dizendo que ta errado na tela
-					//
-				}
+				UsuarioDAO dao;
+				dao = new UsuarioDAO();
+				dao.update(usuario);
 
 				// tratamento de exceções: campos vazios e formatos errados
 				// funcao cadastro (email, senha, nomeUsuario, nome, cpf, data, cargo);

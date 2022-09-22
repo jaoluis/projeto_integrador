@@ -102,12 +102,11 @@ private int i;
 		int i = 10;
 		UsuarioDAO usuarioDao = new UsuarioDAO();
 		for (Usuario c : usuarioDao.getListarUsuarios()) {
-			id2 = c.getId_usuario();
 		JButton btnUsuario = new JButton("Usuario: " +c.getNome_usuario());
 		btnUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug: tela inicial adm > relatório de vendas");
-				TelaPerfil telaPerfil = new TelaPerfil();
+				System.out.println("debug: tela listarUsuarios > tela de Perfil");
+				TelaPerfil telaPerfil = new TelaPerfil(c.getId_usuario());
 				telaPerfil.setVisible(true);
 				setVisible(false);
 			}
@@ -132,9 +131,6 @@ private int i;
 		}
 		return mask;
 	}
-	 public int getId1() {
-		 return id2;
-	 }
 	private static void Chisel(JButton button, Color color, int radius) {
 
 		button.setFocusPainted(false);
