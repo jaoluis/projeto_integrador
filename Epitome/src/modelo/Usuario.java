@@ -26,7 +26,7 @@ public class Usuario {
 		this.cargo = cargo;
 		this.email = email;
 	}
-
+	
 	public String getSenha_usuario() {
 		return senha_usuario;
 	}

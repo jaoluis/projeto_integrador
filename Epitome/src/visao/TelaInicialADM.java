@@ -8,6 +8,10 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+
+import controle.UsuarioDAO;
+import modelo.Usuario;
+
 import java.awt.FlowLayout;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -81,7 +85,7 @@ public class TelaInicialADM extends JFrame {
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(22, 22, 22));
-		panel.setBounds(592, 388, 417, 124);
+		panel.setBounds(592, 388, 417, 224);
 		panelChisel(panel, new Color(255, 255, 255), 5);
 		contentPane.add(panel);
 		panel.setLayout(null);
@@ -114,6 +118,38 @@ public class TelaInicialADM extends JFrame {
 		btnEstoque.setFont(pop12);
 		btnEstoque.setBounds(10, 71, 156, 34);
 		panel.add(btnEstoque);
+		
+		JButton btnCadastrarUsuarios = new JButton("Cadastrar Usuario");
+		btnCadastrarUsuarios.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("debug: tela gerenciar usuario > tela de Cadastro");
+				TelaCadastro telaCadastro = new TelaCadastro();
+				telaCadastro.setVisible(true);
+				setVisible(false);
+			}
+		});
+		btnCadastrarUsuarios.setOpaque(false);
+		btnCadastrarUsuarios.setBackground(null);
+		buttonChisel(btnCadastrarUsuarios, new Color(255, 255, 255), 5);
+		btnCadastrarUsuarios.setFont(pop12);
+		btnCadastrarUsuarios.setBounds(10, 106, 156, 68);
+		panel.add(btnCadastrarUsuarios);
+		
+		JButton btnListarUsuario = new JButton("Listar Usuarios");
+		btnListarUsuario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("debug: tela Listar usuarios > tela de Listar Usuarios");
+				TelaListarUsuarios telaListarUsuarios = new TelaListarUsuarios();
+				telaListarUsuarios.setVisible(true);
+				setVisible(false);
+			}
+		});
+		btnListarUsuario.setOpaque(false);
+		btnListarUsuario.setBackground(null);
+		buttonChisel(btnListarUsuario, new Color(255, 255, 255), 5);
+		btnListarUsuario.setFont(pop12);
+		btnListarUsuario.setBounds(10, 176, 156, 34);
+		panel.add(btnListarUsuario);
 		
 		JButton btnRelatorio = new JButton("Relatório de Vendas");
 		btnRelatorio.setFont(pop10);

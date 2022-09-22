@@ -9,6 +9,9 @@ import javax.swing.JPasswordField;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
+import controle.UsuarioDAO;
+import modelo.Usuario;
+
 import java.awt.FlowLayout;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -50,6 +53,8 @@ public class TelaPerfil extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	UsuarioDAO usuarioDao = new UsuarioDAO();
+	
 	public TelaPerfil() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage("./img/app_icon_small.png"));
 		Color clRed = new Color(226, 0, 54);
@@ -83,6 +88,38 @@ public class TelaPerfil extends JFrame {
 		panelbuttonChisel(panel, new Color(255, 255, 255), 5);
 		contentPane.add(panel);
 		panel.setLayout(null);
+		
+		JButton btnDelete = new JButton("Delete");
+		btnDelete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				System.out.println("debug: tela inicial adm > tela de venda");
+				//chama metodo
+				TelaListarUsuarios lista = new TelaListarUsuarios();
+				usuarioDao.DeleteByID(lista.getId1());
+			}
+		});
+		btnDelete.setOpaque(false);
+		btnDelete.setBackground(null);
+		Chisel(btnDelete, new Color(255, 255, 255), 5);
+		btnDelete.setFont(pop12);
+		btnDelete.setForeground(clRed);
+		btnDelete.setBounds(270, 65, 156, 34);
+		panel.add(btnDelete);
+		
+		JButton btnModificar = new JButton("Modificar");
+		btnDelete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("debug: tela inicial adm > tela de venda");
+			}
+		});
+		btnModificar.setOpaque(false);
+		btnModificar.setBackground(null);
+		Chisel(btnModificar, new Color(255, 255, 255), 5);
+		btnModificar.setFont(pop12);
+		btnModificar.setForeground(clBlue);
+		btnModificar.setBounds(270, 100, 156, 34);
+		panel.add(btnModificar);
 		
 		JLabel lblCargo = new JLabel("Cargo");
 		//lblCargo.setText(cargo do usuario);
@@ -155,6 +192,13 @@ public class TelaPerfil extends JFrame {
 		contentPane.add(fakeBG);
 	}
 	
+	
+	
+private void Chisel(JButton btnDelete, Color color, int i) {
+		// TODO Auto-generated method stub
+		
+	}
+
 private static void panelbuttonChisel(JPanel panel, Color color, int radius) {
 		
         //panel.setFocusPainted(false);
@@ -163,7 +207,7 @@ private static void panelbuttonChisel(JPanel panel, Color color, int radius) {
         Border emptyBorder = BorderFactory.createEmptyBorder(417, 124, 417, 124);
         panel.setBorder(BorderFactory.createCompoundBorder(LineBorder, emptyBorder));
 	}
-	
+
 	private static class RoundedBorder implements Border {
 
         private int radius = 10;
@@ -190,4 +234,5 @@ private static void panelbuttonChisel(JPanel panel, Color color, int radius) {
             g.drawRoundRect(x, y, width - 1, height - 1, radius, radius);
         }
     }
+	
 }
