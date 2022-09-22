@@ -65,7 +65,7 @@ public class TelaCadastro extends JFrame {
 	 */
 	public TelaCadastro() {
 		setIconImage(Toolkit.getDefaultToolkit()
-				.getImage("C:\\Users\\Aluno\\projeto_integrador\\Epitome\\img\\app_icon_small.png"));
+				.getImage("./img/app_icon_small.png"));
 		Color clRed = new Color(226, 0, 54);
 		Color clBlue = new Color(113, 206, 236);
 
