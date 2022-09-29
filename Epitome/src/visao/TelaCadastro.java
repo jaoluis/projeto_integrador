@@ -283,13 +283,8 @@ public class TelaCadastro extends JFrame {
 				System.out.println("debug: tela de cadastro > cadastrar");
 				UsuarioDAO dao;
 				dao = new UsuarioDAO();
-				String cpf = null;
-				String email = null;
-				boolean E = dao.validarEmail(txtEmail.getText());
-				boolean C = dao.validarCPF(txtCPF.getText());
-				if (E==true) {
-				if (C==true) {
-				cpf = txtCPF.getText();
+				String cpf = txtCPF.getText();
+				String email = txtEmail.getText();
 				String senha = String.valueOf(txtSenha.getPassword());
 				String nomeUsuario = txtUsername.getText();
 				String nome = txtNome.getText();
@@ -301,7 +296,7 @@ public class TelaCadastro extends JFrame {
 				}catch (Exception erroConversaoStringData) {
 					//Joption quando dá erro na data
 					
-					JOptionPane.showMessageDialog(null, "Data inválida", "Erro", JOptionPane.ERROR_MESSAGE, null);
+					JOptionPane.showMessageDialog(null, "Data invalida");
 					System.out.println("Deu erro na hora de converter para Data" + erroConversaoStringData);
 				}
 
@@ -324,16 +319,39 @@ public class TelaCadastro extends JFrame {
 
 				dao.insert(usuario);
 				}
-				else {
-					System.out.println("CPF Invalido");
-					JOptionPane.showMessageDialog(null, "CPF inválido", "Erro", JOptionPane.ERROR_MESSAGE, null);
-				}
-				}
-				else {
-					System.out.println("Email Invalido");
-					JOptionPane.showMessageDialog(null, "E-mail inválido", "Erro", JOptionPane.ERROR_MESSAGE, null);
-				}
-			}
+				//else {
+					//System.out.println("CPF Invalido");
+					//
+					//
+					// Coloca Alguma coisa dizendo que ta errado na tela
+					//
+					//
+					//
+					//
+					//
+					//
+					//
+					//
+					///
+					//
+					///
+					//
+					///
+					//
+					//
+					//
+				//}
+				//}
+				//else {
+					//System.out.println("Email Invalido");
+					//
+					// Coloca Alguma coisa dizendo que ta errado na tela
+					//
+				//}
+
+				// tratamento de exceções: campos vazios e formatos errados
+				// funcao cadastro (email, senha, nomeUsuario, nome, cpf, data, cargo);
+			//}
 		});
 		btnContinuar.setOpaque(false);
 		btnContinuar.setBackground(null);
