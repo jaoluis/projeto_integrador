@@ -1,1 +1,0 @@
-Banco de Dados do Sistema de Vendas Epítome feito em MySQL Workbench 8.0

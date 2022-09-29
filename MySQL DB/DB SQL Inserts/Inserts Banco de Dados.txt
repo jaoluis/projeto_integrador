@@ -31,18 +31,29 @@ insert into Relacao_Fornecedor_Produto values (8,3);
 insert into Relacao_Fornecedor_Produto values (9,4);
 insert into Relacao_Fornecedor_Produto values (10,1);
 
+//TABELA HISTÓRICO PRODUTO
+insert into Historico_Produto values (1, 'Garfo Inox', 50, 'Inox', '15x4x2');
+insert into Historico_Produto values (2, 'Cinzeiro de Vidro', 13, 'Vidro', '10x10x6');
+insert into Historico_Produto values (3, 'Kit 10 Xícaras Comemorativas Natal', 10, 'Porcelana', '7x7x6');
+insert into Historico_Produto values (4, 'Jogo de Pratos', 18, 'Vidro', '22x22x3');
+insert into Historico_Produto values (5, 'Escorredor', 15, 'Inox', '45x25x20');
+insert into Historico_Produto values (6, 'Concha', 50, 'Inox', '25x8x8');
+insert into Historico_Produto values (7, 'Petisqueira', 25, 'Madeira', '25x30x4');
+insert into Historico_Produto values (8, 'Bule', 25, 'Porcelana', '30x20x26');
+insert into Historico_Produto values (9, 'Jogo Talheres', 50, 'Inox', '15x4x2');
+insert into Historico_Produto values (10, 'Saleiro', 2, 'Vidro', '5x5x10');
 
 //TABELA PRODUTO
-insert into Produto values (1, 'Garfo Inox', 50, 'Inox', '15x4x2');
-insert into Produto values (2, 'Cinzeiro de Vidro', 13, 'Vidro', '10x10x6');
-insert into Produto values (3, 'Kit 10 Xícaras Comemorativas Natal', 10, 'Porcelana', '7x7x6');
-insert into Produto values (4, 'Jogo de Pratos', 18, 'Vidro', '22x22x3');
-insert into Produto values (5, 'Escorredor', 15, 'Inox', '45x25x20');
-insert into Produto values (6, 'Concha', 50, 'Inox', '25x8x8');
-insert into Produto values (7, 'Petisqueira', 25, 'Madeira', '25x30x4');
-insert into Produto values (8, 'Bule', 25, 'Porcelana', '30x20x26');
-insert into Produto values (9, 'Jogo Talheres', 50, 'Inox', '15x4x2');
-insert into Produto values (10, 'Saleiro', 2, 'Vidro', '5x5x10');
+insert into Produto values (1, 'Garfo Inox', 50, 'Inox', '15x4x2', 1);
+insert into Produto values (2, 'Cinzeiro de Vidro', 13, 'Vidro', '10x10x6', 2);
+insert into Produto values (3, 'Kit 10 Xícaras Comemorativas Natal', 10, 'Porcelana', '7x7x6', 3);
+insert into Produto values (4, 'Jogo de Pratos', 18, 'Vidro', '22x22x3', 4);
+insert into Produto values (5, 'Escorredor', 15, 'Inox', '45x25x20', 5);
+insert into Produto values (6, 'Concha', 50, 'Inox', '25x8x8', 6);
+insert into Produto values (7, 'Petisqueira', 25, 'Madeira', '25x30x4', 7);
+insert into Produto values (8, 'Bule', 25, 'Porcelana', '30x20x26', 8);
+insert into Produto values (9, 'Jogo Talheres', 50, 'Inox', '15x4x2', 9);
+insert into Produto values (10, 'Saleiro', 2, 'Vidro', '5x5x10', 10);
 
 //PRECO PRODUTO
 insert into Preco values (1, 12.00, 5.00, '16-06-2022',1);
