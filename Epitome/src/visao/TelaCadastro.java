@@ -301,7 +301,7 @@ public class TelaCadastro extends JFrame {
 				}catch (Exception erroConversaoStringData) {
 					//Joption quando dá erro na data
 					
-					JOptionPane.showMessageDialog(null, "Data invalida");
+					JOptionPane.showMessageDialog(null, "Data inválida", "Erro", JOptionPane.ERROR_MESSAGE, null);
 					System.out.println("Deu erro na hora de converter para Data" + erroConversaoStringData);
 				}
 
@@ -326,36 +326,13 @@ public class TelaCadastro extends JFrame {
 				}
 				else {
 					System.out.println("CPF Invalido");
-					//
-					//
-					// Coloca Alguma coisa dizendo que ta errado na tela
-					//
-					//
-					//
-					//
-					//
-					//
-					//
-					//
-					///
-					//
-					///
-					//
-					///
-					//
-					//
-					//
+					JOptionPane.showMessageDialog(null, "CPF inválido", "Erro", JOptionPane.ERROR_MESSAGE, null);
 				}
 				}
 				else {
 					System.out.println("Email Invalido");
-					//
-					// Coloca Alguma coisa dizendo que ta errado na tela
-					//
+					JOptionPane.showMessageDialog(null, "E-mail inválido", "Erro", JOptionPane.ERROR_MESSAGE, null);
 				}
-
-				// tratamento de exceções: campos vazios e formatos errados
-				// funcao cadastro (email, senha, nomeUsuario, nome, cpf, data, cargo);
 			}
 		});
 		btnContinuar.setOpaque(false);

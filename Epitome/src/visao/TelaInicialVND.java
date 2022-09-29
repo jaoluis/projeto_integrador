@@ -55,7 +55,8 @@ public class TelaInicialVND extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage("./img/app_icon_small.png"));
 		Color clRed = new Color(226, 0, 54);
 		Color clBlue = new Color(113, 206, 236);
-		Color clGreen = new Color(105, 122, 39);
+		//Color clGreen = new Color(105, 122, 39);
+		Color clGreen = new Color(168, 198, 51);
 		
 		
 		Font poppins, pop10 = null, pop12 = null;
