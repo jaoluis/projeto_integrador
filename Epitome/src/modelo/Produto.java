@@ -1,21 +1,30 @@
 package modelo;
 
 public class Produto {
+	
 		private int idProduto;
 		private String nomeProduto;
 		private String materialProduto;
 		private int quantidadeEstoque;
-		private int dimencoesProduto;
-		private float precoProduto;
+		private String dimensoesProduto;
+		private float precoCustoProduto;
+		private float precoVendaProduto;
 		
-		public Produto(int id, String nome, String material, int quantidade, int dimencoes, float preco) {
-			this.idProduto = id;
-			this.nomeProduto = nome;
-			this.materialProduto = material;
-			this.quantidadeEstoque = quantidade;
-			this.dimencoesProduto = dimencoes;
-			this.precoProduto = preco;
+		public Produto() {
+			// TODO Auto-generated constructor stub
 		}
+		public Produto(int idProduto, String nomeProduto, String materialProduto, int quantidadeEstoque,
+				String dimensoesProduto, float precoCustoProduto, float precoVendaProduto) {
+			super();
+			this.idProduto = idProduto;
+			this.nomeProduto = nomeProduto;
+			this.materialProduto = materialProduto;
+			this.quantidadeEstoque = quantidadeEstoque;
+			this.dimensoesProduto = dimensoesProduto;
+			this.setPrecoCustoProduto(precoCustoProduto);
+			this.setPrecoVendaProduto(precoVendaProduto);
+		}
+
 		public int getIdProduto() {
 			return idProduto;
 		}
@@ -40,17 +49,24 @@ public class Produto {
 		public void setQuantidadeEstoque(int quantidadeEstoque) {
 			this.quantidadeEstoque = quantidadeEstoque;
 		}
-		public int getDimencoesProduto() {
-			return dimencoesProduto;
+		public String getDimencoesProduto() {
+			return dimensoesProduto;
 		}
-		public void setDimencoesProduto(int dimencoesProduto) {
-			this.dimencoesProduto = dimencoesProduto;
+		public void setDimencoesProduto(String dimencoesProduto) {
+			this.dimensoesProduto = dimencoesProduto;
 		}
-		public float getPrecoProduto() {
-			return precoProduto;
+		public float getPrecoCustoProduto() {
+			return precoCustoProduto;
 		}
-		public void setPrecoProduto(float precoProduto) {
-			this.precoProduto = precoProduto;
+		public void setPrecoCustoProduto(float precoCustoProduto) {
+			this.precoCustoProduto = precoCustoProduto;
 		}
+		public float getPrecoVendaProduto() {
+			return precoVendaProduto;
+		}
+		public void setPrecoVendaProduto(float precoVendaProduto) {
+			this.precoVendaProduto = precoVendaProduto;
+		}
+
 		
 }

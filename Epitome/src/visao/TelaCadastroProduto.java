@@ -35,7 +35,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.text.MaskFormatter;
 
 import controle.Conexao;
+import controle.ProdutoBD;
 import controle.UsuarioDAO;
+import modelo.Produto;
 import modelo.Usuario;
 
 public class TelaCadastroProduto extends JFrame {
@@ -220,12 +222,17 @@ public class TelaCadastroProduto extends JFrame {
 				String material = txtMaterial.getText();
 				String dimensoes = txtDimensoes.getText();
 				
-				System.out.println(nome);
-				System.out.println(precoVenda);
-				System.out.println(precoCusto);
-				System.out.println(qtd);
-				System.out.println(material);
-				System.out.println(dimensoes);
+					Produto produto = new Produto();
+					produto.setNomeProduto(nome);
+					produto.setPrecoCustoProduto(precoCusto);
+					produto.setPrecoVendaProduto(precoVenda);
+					produto.setDimencoesProduto(dimensoes);
+					produto.setMaterialProduto(material);
+					produto.setQuantidadeEstoque(qtd);
+				
+				ProdutoBD produtoBD = new ProdutoBD();
+				produtoBD.insert(produto);
+				produtoBD.insert2(produto);
 				
 			}
 		});
