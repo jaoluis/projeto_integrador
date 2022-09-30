@@ -101,14 +101,13 @@ public class ProdutoBD {
 	
 	
 	
-	public boolean insert2(Produto produto) {
+	public boolean insert2(Produto produto, long id) {
 		Date now = new Date(System.currentTimeMillis());
 		connection = Conexao.getConnection();
+
+		    Integer n1= (int) id;
+		    System.out.println(n1);
 		try {
-			
-			//pega id do Historico do Produto
-			ProdutoBD produtodb = new ProdutoBD();
-			 int id = produtodb.getID();
 
 			//insert no preco
 			 PreparedStatement ps = connection.prepareStatement("insert into preco (preco_custo, preco_venda, data_alteracao, fk_id_historico_produto)"
@@ -116,7 +115,7 @@ public class ProdutoBD {
 				ps.setFloat(1, produto.getPrecoCustoProduto());
 				ps.setFloat(2, produto.getPrecoVendaProduto());
 				ps.setDate(3, now);
-				ps.setInt(4, id);
+				ps.setLong(4, n1);
 		//insert no produto
 			ps = connection.prepareStatement("insert into produto (nome_produto, estoque_produto, material_produto, dimensoes_produto, fk_id_historico_produto)"
 						+ "values (? , ? , ?, ?, ?)");
@@ -124,7 +123,7 @@ public class ProdutoBD {
 					ps.setInt(2, produto.getQuantidadeEstoque());
 					ps.setString(3, produto.getMaterialProduto());
 					ps.setString(4, produto.getDimencoesProduto());
-					ps.setInt(5, id);
+					ps.setInt(5, n1);
 						
 						ps.execute();
 					

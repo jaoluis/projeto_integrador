@@ -231,8 +231,8 @@ public class TelaCadastroProduto extends JFrame {
 					produto.setQuantidadeEstoque(qtd);
 				
 				ProdutoBD produtoBD = new ProdutoBD();
-				produtoBD.insert(produto);
-				produtoBD.insert2(produto);
+				long id = produtoBD.insert(produto);
+				produtoBD.insert2(produto, id);
 				
 			}
 		});
