@@ -20,50 +20,6 @@ import visao.TelaInicialADM;
 public class ProdutoBD {
 	
 	private static Connection connection;
-
-	public int getID(){
-	     
-		String sql = "SELECT * FROM produto";
-		Connection conn = null;
-		PreparedStatement ps = null;
-		ResultSet rset = null;
-		int id = 0;
-		
-		try {
-			conn = Conexao.getConnection();
-			ps = (PreparedStatement) conn.prepareStatement(sql);
-			
-			rset = ps.executeQuery();
-			
-			while (rset.next()) {
-				id = rset.getInt("id_historico_produto");
-
-
-				
-				Conexao.getClose();
-				
-			}
-			
-		} catch (Exception e) {
-			System.out.println("Debug: Deu erro no listarUsuarios" + e);
-		}finally {
-			try {
-			if(rset!=null) {
-				Conexao.getClose();
-			}
-			if(ps!=null) {
-				Conexao.getClose();
-			}
-			if(conn!=null) {
-				Conexao.getClose();;
-			}
-			}catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		 return id;
-	}
-	
 	
 	public long insert(Produto produto) {
 		Date now = new Date(System.currentTimeMillis());
@@ -106,7 +62,6 @@ public class ProdutoBD {
 		connection = Conexao.getConnection();
 
 		    Integer n1= (int) id;
-		    System.out.println(n1);
 		try {
 
 			//insert no preco
@@ -116,6 +71,9 @@ public class ProdutoBD {
 				ps.setFloat(2, produto.getPrecoVendaProduto());
 				ps.setDate(3, now);
 				ps.setLong(4, n1);
+				ps.execute();
+				
+				
 		//insert no produto
 			ps = connection.prepareStatement("insert into produto (nome_produto, estoque_produto, material_produto, dimensoes_produto, fk_id_historico_produto)"
 						+ "values (? , ? , ?, ?, ?)");
@@ -205,9 +163,9 @@ public class ProdutoBD {
 			}
 	}
 	
-	public int getListarProdutos(){
+	public List<Produto> getListarProdutos(){
 		     
-		String sql = "SELECT * FROM produto";
+		String sql1 = "select * from produto inner join preco on produto.fk_id_historico_produto  = preco.fk_id_historico_produto;";
 		
 		List<Produto> produtos = new ArrayList<Produto>();
 		Connection conn = null;
@@ -217,21 +175,26 @@ public class ProdutoBD {
 		
 		try {
 			conn = Conexao.getConnection();
-			ps = (PreparedStatement) conn.prepareStatement(sql);
+			ps = (PreparedStatement) conn.prepareStatement(sql1);
 			
 			rset = ps.executeQuery();
 			
 			while (rset.next()) {
-				id = rset.getInt("id_historico_produto");
-
-
+				Produto produto = new Produto();
+				produto.setIdProduto(rset.getInt("id_historico_produto"));
+				produto.setNomeProduto(rset.getString("nome_produto"));
+				produto.setMaterialProduto(rset.getString("material_produto"));
+				produto.setQuantidadeEstoque(rset.getInt("estoque_produto"));
+				produto.setDimencoesProduto(rset.getString("dimensoes_produto"));
+				produto.setPrecoVendaProduto(rset.getInt("preco_venda"));
+				produto.setPrecoCustoProduto(rset.getInt("preco_custo"));
 				
-				Conexao.getClose();
+				produtos.add(produto);
 				
 			}
 			
 		} catch (Exception e) {
-			System.out.println("Debug: Deu erro no listarUsuarios" + e);
+			System.out.println("Debug: Deu erro no listarProdutos1" + e);
 		}finally {
 			try {
 			if(rset!=null) {
@@ -247,6 +210,10 @@ public class ProdutoBD {
 				e.printStackTrace();
 			}
 		}
-		 return id;
+		
+		
+		return produtos;
 	}
 }
+		
+

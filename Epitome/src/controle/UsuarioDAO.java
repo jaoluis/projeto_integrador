@@ -116,7 +116,6 @@ public class UsuarioDAO {
 					usuario.setNascimento_data(rset.getDate("nascimento_usuario"));
 					
 					usuarios.add(usuario);
-					Conexao.getClose();
 					
 				}
 				

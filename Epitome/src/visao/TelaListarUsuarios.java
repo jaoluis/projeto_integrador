@@ -83,7 +83,6 @@ private int i;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		setResizable(false);
 		setTitle("Sistema de Vendas Ep\u00EDtome");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -102,7 +101,7 @@ private int i;
 		int i = 10;
 		UsuarioDAO usuarioDao = new UsuarioDAO();
 		for (Usuario c : usuarioDao.getListarUsuarios()) {
-		JButton btnUsuario = new JButton("Usuario: " +c.getNome_usuario());
+		JButton btnUsuario = new JButton("Usuario: " +c.getNome_usuario() );
 		btnUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: tela listarUsuarios > tela de Perfil");

@@ -24,6 +24,16 @@ public class Produto {
 			this.setPrecoCustoProduto(precoCustoProduto);
 			this.setPrecoVendaProduto(precoVendaProduto);
 		}
+		
+		public void mostrar() {
+			System.out.println(idProduto);
+			System.out.println(nomeProduto);
+			System.out.println(materialProduto);
+			System.out.println(quantidadeEstoque);
+			System.out.println(dimensoesProduto);
+			System.out.println(precoCustoProduto);
+			System.out.println(precoVendaProduto);
+		}
 
 		public int getIdProduto() {
 			return idProduto;
