@@ -174,6 +174,8 @@ public class TelaEstoque extends JFrame {
 		btnEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: editar produto (tela de cadastro de produto)");
+				//TelaCadastroProduto tcp = new TelaCadastroProduto();
+				//tcp.setVisible(true);
 			}
 		});
 		btnEdit.setBorder(javax.swing.BorderFactory.createEmptyBorder());
@@ -186,7 +188,8 @@ public class TelaEstoque extends JFrame {
 		JButton btnAdd = new JButton("");
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug: adicionar produto (tela de cadastro de produto)");
+				TelaCadastroProduto tcp = new TelaCadastroProduto();
+				tcp.setVisible(true);
 			}
 		});
 		btnAdd.setBorder(javax.swing.BorderFactory.createEmptyBorder());

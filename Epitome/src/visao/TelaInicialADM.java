@@ -86,7 +86,7 @@ public class TelaInicialADM extends JFrame {
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(22, 22, 22));
-		panel.setBounds(592, 388, 417, 224);
+		panel.setBounds(592, 388, 471, 187);
 		panelChisel(panel, new Color(255, 255, 255), 5);
 		contentPane.add(panel);
 		panel.setLayout(null);
@@ -101,7 +101,7 @@ public class TelaInicialADM extends JFrame {
 		btnVenda.setBackground(null);
 		buttonChisel(btnVenda, new Color(255, 255, 255), 5);
 		btnVenda.setFont(pop12);
-		btnVenda.setBounds(10, 36, 156, 34);
+		btnVenda.setBounds(10, 36, 199, 34);
 		panel.add(btnVenda);
 		
 		JButton btnEstoque = new JButton("ESTOQUE");
@@ -117,39 +117,39 @@ public class TelaInicialADM extends JFrame {
 		btnEstoque.setBackground(null);
 		buttonChisel(btnEstoque, new Color(255, 255, 255), 5);
 		btnEstoque.setFont(pop12);
-		btnEstoque.setBounds(10, 71, 156, 34);
+		btnEstoque.setBounds(10, 71, 199, 34);
 		panel.add(btnEstoque);
 		
-		JButton btnCadastrarUsuarios = new JButton("Cadastrar Usuario");
+		JButton btnCadastrarUsuarios = new JButton("CADASTRAR USUÁRIO");
 		btnCadastrarUsuarios.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: tela gerenciar usuario > tela de Cadastro");
 				TelaCadastro telaCadastro = new TelaCadastro();
 				telaCadastro.setVisible(true);
-				setVisible(false);
+				//setVisible(false);
 			}
 		});
 		btnCadastrarUsuarios.setOpaque(false);
 		btnCadastrarUsuarios.setBackground(null);
 		buttonChisel(btnCadastrarUsuarios, new Color(255, 255, 255), 5);
 		btnCadastrarUsuarios.setFont(pop12);
-		btnCadastrarUsuarios.setBounds(10, 106, 156, 68);
+		btnCadastrarUsuarios.setBounds(10, 106, 199, 34);
 		panel.add(btnCadastrarUsuarios);
 		
-		JButton btnListarUsuario = new JButton("Listar Usuarios");
+		JButton btnListarUsuario = new JButton("LISTAR USUÁRIOS");
 		btnListarUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: tela Listar usuarios > tela de Listar Usuarios");
 				TelaListarUsuarios telaListarUsuarios = new TelaListarUsuarios();
 				telaListarUsuarios.setVisible(true);
-				setVisible(false);
+				//setVisible(false);
 			}
 		});
 		btnListarUsuario.setOpaque(false);
 		btnListarUsuario.setBackground(null);
 		buttonChisel(btnListarUsuario, new Color(255, 255, 255), 5);
 		btnListarUsuario.setFont(pop12);
-		btnListarUsuario.setBounds(10, 176, 156, 34);
+		btnListarUsuario.setBounds(10, 141, 199, 34);
 		panel.add(btnListarUsuario);
 		
 		JButton btnRelatorio = new JButton("Relatório de Vendas");
@@ -162,7 +162,7 @@ public class TelaInicialADM extends JFrame {
 		btnRelatorio.setBackground(null);
 		btnRelatorio.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		btnRelatorio.setForeground(clBlue);
-		btnRelatorio.setBounds(176, 59, 231, 23);
+		btnRelatorio.setBounds(219, 59, 242, 23);
 		panel.add(btnRelatorio);
 		
 		JButton btnSair = new JButton("Sair");
@@ -175,7 +175,7 @@ public class TelaInicialADM extends JFrame {
 		btnSair.setBackground(null);
 		btnSair.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		btnSair.setForeground(clGreen);
-		btnSair.setBounds(176, 82, 231, 23);
+		btnSair.setBounds(219, 82, 242, 23);
 		panel.add(btnSair);
 		
 		JButton btnLogin = new JButton("Perfil");
@@ -190,20 +190,20 @@ public class TelaInicialADM extends JFrame {
 		btnLogin.setBackground(null);
 		btnLogin.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		btnLogin.setForeground(clRed);
-		btnLogin.setBounds(176, 36, 231, 23);
+		btnLogin.setBounds(219, 36, 242, 23);
 		panel.add(btnLogin);
 		
 		JLabel lblAdministrador = new JLabel("Administrador");
 		lblAdministrador.setHorizontalAlignment(SwingConstants.CENTER);
 		lblAdministrador.setForeground(Color.WHITE);
 		lblAdministrador.setFont(null);
-		lblAdministrador.setBounds(10, 11, 156, 14);
+		lblAdministrador.setBounds(10, 11, 199, 14);
 		lblAdministrador.setFont(pop12);
 		panel.add(lblAdministrador);
 		
 		JLabel lblNome = new JLabel("Fulano da Silva");
 		//lblNome.setText(nome do usuario)
-		lblNome.setBounds(176, 11, 231, 14);
+		lblNome.setBounds(230, 11, 231, 14);
 		panel.add(lblNome);
 		lblNome.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNome.setForeground(new Color(255, 255, 255));

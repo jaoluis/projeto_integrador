@@ -40,7 +40,7 @@ import controle.UsuarioDAO;
 import modelo.Produto;
 import modelo.Usuario;
 
-public class TelaCadastroProduto extends JFrame {
+public class TelaModificarProduto extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtNome;
@@ -53,7 +53,7 @@ public class TelaCadastroProduto extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TelaCadastroProduto frame = new TelaCadastroProduto();
+					TelaModificarProduto frame = new TelaModificarProduto();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -65,7 +65,7 @@ public class TelaCadastroProduto extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public TelaCadastroProduto() {
+	public TelaModificarProduto() {
 		setIconImage(Toolkit.getDefaultToolkit()
 				.getImage("./img/app_icon_small.png"));
 		Color clRed = new Color(226, 0, 54);
@@ -102,7 +102,7 @@ public class TelaCadastroProduto extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 
-		JLabel lblEstamosQuaseL = new JLabel("Criar produto");
+		JLabel lblEstamosQuaseL = new JLabel("Alterar produto");
 		lblEstamosQuaseL.setForeground(new Color(255, 255, 255));
 		lblEstamosQuaseL.setFont(pop12);
 		lblEstamosQuaseL.setHorizontalAlignment(SwingConstants.CENTER);
@@ -204,10 +204,10 @@ public class TelaCadastroProduto extends JFrame {
 		lblCargo.setFont(pop10);
 		panel.add(lblCargo);
 
-		JButton btnContinuar = new JButton("CADASTRAR");
+		JButton btnContinuar = new JButton("ALTERAR");
 		btnContinuar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug: tela de cadastro de produto > cadastrar produto");
+				System.out.println("debug: tela de alteração de produto > alterar produto");
 				
 				String nome = txtNome.getText();
 				float precoVenda = 0f;

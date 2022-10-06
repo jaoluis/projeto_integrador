@@ -211,8 +211,14 @@ public class TelaPerfil extends JFrame {
 
 
 
-private void Chisel(JButton btnDelete, Color color, int i) {
-		// TODO Auto-generated method stub
+private void Chisel(JButton button, Color color, int radius) {
+		// button.setFocusPainted(false);
+	button.setForeground(color);
+	RoundedBorder LineBorder = new RoundedBorder(color, radius);
+	Border emptyBorder = BorderFactory.createEmptyBorder(button.getBorder().getBorderInsets(button).top,
+			button.getBorder().getBorderInsets(button).left, button.getBorder().getBorderInsets(button).bottom,
+			button.getBorder().getBorderInsets(button).right);
+	button.setBorder(BorderFactory.createCompoundBorder(LineBorder, emptyBorder));
 		
 	}
 

@@ -93,12 +93,12 @@ public class TelaModificar extends JFrame {
 
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(22, 22, 22));
-		panel.setBounds(243, 48, 176, 466);
+		panel.setBounds(243, 35, 176, 466);
 		panelbuttonChisel(panel, new Color(255, 255, 255), 5);
 		contentPane.add(panel);
 		panel.setLayout(null);
 
-		JLabel lblEstamosQuaseL = new JLabel("Criar conta");
+		JLabel lblEstamosQuaseL = new JLabel("Alterar conta");
 		lblEstamosQuaseL.setForeground(new Color(255, 255, 255));
 		lblEstamosQuaseL.setFont(pop12);
 		lblEstamosQuaseL.setHorizontalAlignment(SwingConstants.CENTER);
@@ -223,42 +223,6 @@ public class TelaModificar extends JFrame {
 				new ImageIcon("./img/radio_button_checked.png"));
 		rdAdministrador.setBounds(10, 353, 156, 23);
 		panel.add(rdAdministrador);
-
-		JButton btnTelaLogin = new JButton("");
-		btnTelaLogin.setIcon(new ImageIcon("./img/login.png"));
-		btnTelaLogin.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug: tela de cadastro > tela de login");
-				TelaLogin telalogin = new TelaLogin();
-				telalogin.setVisible(true);
-				setVisible(false);
-			}
-		});
-
-		btnTelaLogin.setBorder(BorderFactory.createEmptyBorder());
-		btnTelaLogin.setBackground(null);
-		btnTelaLogin.setForeground(Color.WHITE);
-		btnTelaLogin.setBounds(429, 48, 30, 30);
-		contentPane.add(btnTelaLogin);
-
-		JButton btnTelaCadastro = new JButton("");
-		btnTelaCadastro.setBackground(null);
-		btnTelaCadastro.setIcon(new ImageIcon("./img/cadastro.png"));
-		btnTelaCadastro.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug: tela de cadastro > tela de cadastro");
-				TelaModificar telaModificar = new TelaModificar(0);
-				telaModificar.setVisible(true);
-				setVisible(false); 
-			}
-		});
-
-		btnTelaCadastro.setBorder(
-				BorderFactory.createEmptyBorder());
-		btnTelaCadastro.setBackground(null);
-		btnTelaCadastro.setForeground(Color.WHITE);
-		btnTelaCadastro.setBounds(429, 89, 30, 30);
-		contentPane.add(btnTelaCadastro);
 
 		JButton btnContinuar = new JButton("ALTERAR");
 		btnContinuar.addActionListener(new ActionListener() {
