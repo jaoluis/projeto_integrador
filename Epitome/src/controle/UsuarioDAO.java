@@ -36,6 +36,9 @@ public class UsuarioDAO {
 			ps.execute();
 			Conexao.getClose();
 			System.out.println("conexao Fechada");
+			
+			
+			
 		return true;
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Erro com o BD insert");
