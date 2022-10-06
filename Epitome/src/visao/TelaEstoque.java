@@ -8,6 +8,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.basic.BasicScrollBarUI;
+
 import java.awt.FlowLayout;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -60,7 +62,34 @@ public class TelaEstoque extends JFrame {
 		Color clRed = new Color(226, 0, 54);
 		Color clBlue = new Color(113, 206, 236);
 		Color clGreen = new Color(105, 122, 39);
+		Color clLight = new Color(197, 197, 197);
 		
+		BasicScrollBarUI minScrollBar = new BasicScrollBarUI() {
+		    @Override
+		    protected void configureScrollBarColors() {
+		        this.thumbColor = clLight;
+		    }
+		    
+		    @Override
+		    protected JButton createDecreaseButton(int orientation) {
+		        JButton button = super.createDecreaseButton(orientation);
+		        button.setBackground(new Color(22, 22, 22));
+		        button.setForeground(null);
+		        button.setSelectedIcon(null);
+		        button.setBorder(BorderFactory.createLineBorder(new Color(22,22,22), 2));
+		        return button;
+		    }
+
+		    @Override
+		    protected JButton createIncreaseButton(int orientation) {
+		        JButton button = super.createIncreaseButton(orientation);
+		        button.setBackground(new Color(22, 22, 22));
+		        button.setForeground(null);
+		        button.setSelectedIcon(null);
+		        button.setBorder(BorderFactory.createLineBorder(new Color(22,22,22), 2));
+		        return button;
+		    }
+		};
 		
 		Font poppins, pop10 = null, pop12 = null, pop24 = null;
 		
@@ -223,7 +252,7 @@ public class TelaEstoque extends JFrame {
 		scrollPane.setBackground(new Color(22, 22, 22));
 		//scrollPane.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		scrollChisel(scrollPane, new Color(255, 255, 255), 5);
-		
+		scrollPane.getVerticalScrollBar().setUI(minScrollBar);
 		contentPane.add(scrollPane);
 		
 		tblProdutos = new JTable();
