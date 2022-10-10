@@ -22,6 +22,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.sql.Date;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import java.awt.Toolkit;
@@ -47,7 +48,7 @@ public class TelaEstoque extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TelaEstoque frame = new TelaEstoque();
+					TelaEstoque frame = new TelaEstoque(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -59,7 +60,7 @@ public class TelaEstoque extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public TelaEstoque() {
+	public TelaEstoque(Usuario usuarioLogado) {
 		setIconImage(Toolkit.getDefaultToolkit().getImage("./img/app_icon_small.png"));
 		Color clRed = new Color(226, 0, 54);
 		Color clBlue = new Color(113, 206, 236);
@@ -126,7 +127,7 @@ public class TelaEstoque extends JFrame {
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: tela de estoque > perfil");
-				TelaPerfil telaPerfil = new TelaPerfil(0);
+				TelaPerfilADM telaPerfil = new TelaPerfilADM(usuarioLogado);
 				telaPerfil.setVisible(true);
 			}
 		});
@@ -148,7 +149,7 @@ public class TelaEstoque extends JFrame {
 		btnReturn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: tela de estoque > tela inicial");
-				TelaInicialADM telainicial = new TelaInicialADM();
+				TelaInicialADM telainicial = new TelaInicialADM(usuarioLogado);
 				telainicial.setVisible(true);
 				setVisible(false);
 			}
@@ -235,7 +236,7 @@ public class TelaEstoque extends JFrame {
 		for (Produto produto : produtoBD.getListarProdutos()) {
 
 			model.addRow(new Object[] { produto.getIdProduto(), produto.getNomeProduto(), produto.getPrecoVendaProduto(), produto.getQuantidadeEstoque(), produto.getMaterialProduto(), produto.getMaterialProduto(), produto.getDimencoesProduto(), "Sem fornecedor" });
-			TelaPerfil telaPerfil = new TelaPerfil(produto.getIdProduto());
+			TelaPerfilADM telaPerfil = new TelaPerfilADM(usuarioLogado);
 		}
 		
 		tblProdutos.setModel(model);

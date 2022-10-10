@@ -105,7 +105,7 @@ private int i;
 		btnUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: tela listarUsuarios > tela de Perfil");
-				TelaPerfil telaPerfil = new TelaPerfil(c.getId_usuario());
+				TelaPerfilADM telaPerfil = new TelaPerfilADM(c);
 				telaPerfil.setVisible(true);
 				setVisible(false);
 			}

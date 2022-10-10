@@ -8,6 +8,9 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+
+import modelo.Usuario;
+
 import java.awt.FlowLayout;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -23,6 +26,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.sql.Date;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import java.awt.Toolkit;
@@ -39,7 +43,7 @@ public class TelaInicialVND extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TelaInicialVND frame = new TelaInicialVND();
+					TelaInicialVND frame = new TelaInicialVND(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -51,7 +55,7 @@ public class TelaInicialVND extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public TelaInicialVND() {
+	public TelaInicialVND(Usuario usuarioLogado) {
 		setIconImage(Toolkit.getDefaultToolkit().getImage("./img/app_icon_small.png"));
 		Color clRed = new Color(226, 0, 54);
 		Color clBlue = new Color(113, 206, 236);
@@ -132,8 +136,9 @@ public class TelaInicialVND extends JFrame {
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: tela inicial adm > perfil");
-				TelaPerfil telaPerfil = new TelaPerfil(0);
+				TelaPerfilVND telaPerfil = new TelaPerfilVND(usuarioLogado);
 				telaPerfil.setVisible(true);
+				setVisible(false);
 			}
 		});
 		btnLogin.setBackground(null);

@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 
 import modelo.Usuario;
 import visao.TelaInicialADM;
+import visao.TelaInicialVND;
 import visao.TelaListarUsuarios;
 
 public class UsuarioDAO {
@@ -69,10 +70,10 @@ public class UsuarioDAO {
 					usuarioLogado.setSenha_usuario(senha);
 					usuarioLogado.setCargo(cargo);
 					usuarioLogado.setCpf_usuario(cpf);
-					TelaInicialADM iniciologin = new TelaInicialADM();
+					usuarioLogado.setId_usuario(id);
+					usuarioLogado.setNascimento_data(rs.getDate("nascimento_usuario"));
 					Conexao.getClose();
 					System.out.println("conexao Fechada");
-					iniciologin.setVisible(true);
 					return usuarioLogado;
 					
 				}
@@ -205,7 +206,7 @@ public class UsuarioDAO {
 				}
 		}
 		
-		public static boolean isCPF(String CPF) {
+		public static boolean validarCPF(String CPF) {
 	        // considera-se erro CPF's formados por uma sequencia de numeros iguais
 	        if (CPF.equals("00000000000") ||
 	            CPF.equals("11111111111") ||
@@ -261,12 +262,6 @@ public class UsuarioDAO {
 	            }
 	        }
 
-		public boolean validarCPF (String CPF) {
-			Pattern p = Pattern.compile("./^\\d{3}\\.\\d{3}\\.\\d{3}\\-\\d{2}$/");//. represents single character
-			Matcher m = p.matcher(CPF);
-			boolean b = m.matches();
-			return b;
-		}
 		public boolean validarEmail (String Email) {
 			Pattern p = Pattern.compile("^([\\w-\\.]+){1,64}@([\\w&&[^_]]+){2,255}.[a-z]{2,}$");//. represents single character
 			Matcher m = p.matcher(Email);

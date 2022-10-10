@@ -101,21 +101,29 @@ public class ProdutoBD {
 	
 	
 	public void update (Produto produto) {
-		String sql  = "UPDATE usuario SET (nome_usuario = ?, estoque_produto  = ?, material_produto  = ?, dimensoes_produto  = ?" + "WHERE id_produto = ?";
-		
+		String sql  = "UPDATE historico_produto SET nome_produto = ?, estoque_produto  = ?, material_produto  = ?, dimensoes_produto  = ?" + "WHERE id_historico_produto = ?";
+		String sql1 = "UPDATE produto SET nome_produto = ?, estoque_produto  = ?, material_produto  = ?, dimensoes_produto  = ?" + "WHERE fk_id_historico_produto = ?";
 		Connection conn = null;
 		PreparedStatement ps = null;
 		
 		try {
 			conn = Conexao.getConnection();
 			ps = conn.prepareStatement(sql);
-			
 			ps.setString(1, produto.getNomeProduto());
 			ps.setInt(2, produto.getQuantidadeEstoque());
 			ps.setString(3, produto.getMaterialProduto());
 			ps.setString(4, produto.getDimencoesProduto());
 			ps.setInt(5, produto.getIdProduto());
 			ps.execute();
+			ps = conn.prepareStatement(sql1);
+			ps.setString(1, produto.getNomeProduto());
+			ps.setInt(2, produto.getQuantidadeEstoque());
+			ps.setString(3, produto.getMaterialProduto());
+			ps.setString(4, produto.getDimencoesProduto());
+			ps.setInt(5, produto.getIdProduto());
+			ps.execute();
+			
+			
 			System.out.println("Debug: usuario alterado");
 			Conexao.getClose();
 		} catch (Exception e) {

@@ -291,6 +291,18 @@ public class TelaCadastro extends JFrame {
 				String data = txtData.getText();
 				String cargo = null;
 				LocalDate date = null;
+				
+			    StringBuffer cpfSN = new StringBuffer();
+
+			    char [] caracteres = cpf.toCharArray();
+
+			    for (Character caracter : caracteres) {
+			        if (Character.isDigit(caracter)) {
+			            cpfSN.append(caracter);
+			        }
+			    }
+				if(dao.validarEmail(email) == true && dao.validarCPF(cpfSN.toString()) == true) {
+				
 				try {
 				date = LocalDate.parse(data, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 				}catch (Exception erroConversaoStringData) {
@@ -318,40 +330,10 @@ public class TelaCadastro extends JFrame {
 				usuario.setNascimento_data(Date.valueOf(date));
 
 				dao.insert(usuario);
+				}else {
+					System.out.println("Email ou CPF invalido ");
 				}
-				//else {
-					//System.out.println("CPF Invalido");
-					//
-					//
-					// Coloca Alguma coisa dizendo que ta errado na tela
-					//
-					//
-					//
-					//
-					//
-					//
-					//
-					//
-					///
-					//
-					///
-					//
-					///
-					//
-					//
-					//
-				//}
-				//}
-				//else {
-					//System.out.println("Email Invalido");
-					//
-					// Coloca Alguma coisa dizendo que ta errado na tela
-					//
-				//}
-
-				// tratamento de exceções: campos vazios e formatos errados
-				// funcao cadastro (email, senha, nomeUsuario, nome, cpf, data, cargo);
-			//}
+				}
 		});
 		btnContinuar.setOpaque(false);
 		btnContinuar.setBackground(null);

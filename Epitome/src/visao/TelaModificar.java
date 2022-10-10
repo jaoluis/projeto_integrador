@@ -12,7 +12,9 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -35,10 +37,10 @@ import javax.swing.text.MaskFormatter;
 
 import controle.Conexao;
 import controle.UsuarioDAO;
+import modelo.Produto;
 import modelo.Usuario;
 
 public class TelaModificar extends JFrame {
-	private int idM;
 	private JPanel contentPane;
 	private JTextField txtEmail;
 	private JPasswordField txtSenha;
@@ -51,7 +53,7 @@ public class TelaModificar extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TelaModificar frame = new TelaModificar(0);
+					TelaModificar frame = new TelaModificar(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -63,7 +65,7 @@ public class TelaModificar extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public TelaModificar(int idM) {
+	public TelaModificar(Usuario usuarioLogado) {
 		setIconImage(Toolkit.getDefaultToolkit()
 				.getImage("./img/app_icon_small.png"));
 		Color clRed = new Color(226, 0, 54);
@@ -98,7 +100,7 @@ public class TelaModificar extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 
-		JLabel lblEstamosQuaseL = new JLabel("Criar conta");
+		JLabel lblEstamosQuaseL = new JLabel("Modificar conta");
 		lblEstamosQuaseL.setForeground(new Color(255, 255, 255));
 		lblEstamosQuaseL.setFont(pop12);
 		lblEstamosQuaseL.setHorizontalAlignment(SwingConstants.CENTER);
@@ -119,6 +121,7 @@ public class TelaModificar extends JFrame {
 		txtCPF.setFont(pop12);
 		panel.add(txtCPF);
 		txtCPF.setColumns(10);
+		txtCPF.setText(usuarioLogado.getCpf_usuario());
 
 		JFormattedTextField txtData = new JFormattedTextField(def_mask("##/##/####", '•'));
 		txtData.setForeground(new Color(255, 255, 255));
@@ -128,6 +131,10 @@ public class TelaModificar extends JFrame {
 		txtData.setFont(pop12);
 		panel.add(txtData);
 		txtData.setColumns(10);
+        Date dataAtual = usuarioLogado.getNascimento_data();
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        String dataFormatada = dateFormat.format(dataAtual);
+		txtData.setText(dataFormatada);
 
 		JLabel lblUsername = new JLabel("NOME DE USUÁRIO");
 		lblUsername.setForeground(new Color(197, 197, 197));
@@ -143,6 +150,7 @@ public class TelaModificar extends JFrame {
 		txtUsername.setFont(pop12);
 		panel.add(txtUsername);
 		txtUsername.setColumns(10);
+		txtUsername.setText(usuarioLogado.getNome_usuario());
 
 		JLabel lblNome = new JLabel("NOME");
 		lblNome.setForeground(new Color(197, 197, 197));
@@ -158,6 +166,7 @@ public class TelaModificar extends JFrame {
 		txtNome.setFont(pop12);
 		panel.add(txtNome);
 		txtNome.setColumns(10);
+		txtNome.setText(usuarioLogado.getNome_usuario());
 
 		JLabel lblEmail = new JLabel("E-MAIL");
 		lblEmail.setForeground(new Color(197, 197, 197));
@@ -173,6 +182,7 @@ public class TelaModificar extends JFrame {
 		txtEmail.setFont(pop12);
 		panel.add(txtEmail);
 		txtEmail.setColumns(10);
+		txtEmail.setText(usuarioLogado.getEmail());
 
 		JLabel lblSenha = new JLabel("SENHA");
 		lblSenha.setForeground(new Color(197, 197, 197));
@@ -188,6 +198,7 @@ public class TelaModificar extends JFrame {
 		txtSenha.setFont(pop12);
 		txtSenha.setEchoChar('•');
 		panel.add(txtSenha);
+		txtSenha.setText(usuarioLogado.getSenha_usuario());
 
 		JLabel lblDataDeNascimento = new JLabel("DATA DE NASCIMENTO");
 		lblDataDeNascimento.setForeground(new Color(197, 197, 197));
@@ -247,7 +258,7 @@ public class TelaModificar extends JFrame {
 		btnTelaCadastro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: tela de cadastro > tela de cadastro");
-				TelaModificar telaModificar = new TelaModificar(0);
+				TelaModificar telaModificar = new TelaModificar(usuarioLogado);
 				telaModificar.setVisible(true);
 				setVisible(false); 
 			}
@@ -297,7 +308,7 @@ public class TelaModificar extends JFrame {
 				usuario.setSenha_usuario(senha);
 				usuario.setLogin_usuario(nomeUsuario);
 				usuario.setNascimento_data(Date.valueOf(date));
-				usuario.setId_usuario(idM);
+				usuario.setId_usuario(usuarioLogado.getId_usuario());
 
 				UsuarioDAO dao;
 				dao = new UsuarioDAO();

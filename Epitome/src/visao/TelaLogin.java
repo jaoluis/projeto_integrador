@@ -166,7 +166,21 @@ public class TelaLogin extends JFrame {
 			
 			UsuarioDAO dao;
 			dao = new UsuarioDAO();
-			dao.verificacao(usuario);
+			Usuario usuarioLogado = dao.verificacao(usuario);
+			
+			if (usuarioLogado.getCargo() == "administrador") {
+				TelaInicialADM iniciologinADM = new TelaInicialADM(usuarioLogado);
+				iniciologinADM.setVisible(true);
+			}else if(usuarioLogado.getCargo() == "vendedor"){
+				TelaInicialVND iniciologinVND = new TelaInicialVND(usuarioLogado);
+				iniciologinVND.setVisible(true);
+				setVisible(false);
+			}
+			else {
+				TelaInicialVND iniciologinVND = new TelaInicialVND(usuarioLogado);
+				iniciologinVND.setVisible(true);
+				setVisible(false);
+			}
 			}
 		});
 		btnEntrar.setOpaque(false);

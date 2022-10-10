@@ -26,6 +26,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.sql.Date;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import java.awt.Toolkit;
@@ -42,7 +43,7 @@ public class TelaInicialADM extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TelaInicialADM frame = new TelaInicialADM();
+					TelaInicialADM frame = new TelaInicialADM(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -54,7 +55,7 @@ public class TelaInicialADM extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public TelaInicialADM() {
+	public TelaInicialADM(Usuario usuarioLogado) {
 		setIconImage(Toolkit.getDefaultToolkit().getImage("./img/app_icon_small.png"));
 		Color clRed = new Color(226, 0, 54);
 		Color clBlue = new Color(113, 206, 236);
@@ -108,7 +109,7 @@ public class TelaInicialADM extends JFrame {
 		btnEstoque.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: tela inicial adm > tela de estoque");
-				TelaEstoque telaEstoque = new TelaEstoque();
+				TelaEstoque telaEstoque = new TelaEstoque(usuarioLogado);
 				telaEstoque.setVisible(true);
 				setVisible(false);
 			}
@@ -183,7 +184,7 @@ public class TelaInicialADM extends JFrame {
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: tela inicial adm > perfil");
-				TelaPerfil telaPerfil = new TelaPerfil(0);
+				TelaPerfilADM telaPerfil = new TelaPerfilADM(usuarioLogado);
 				telaPerfil.setVisible(true);
 			}
 		});
