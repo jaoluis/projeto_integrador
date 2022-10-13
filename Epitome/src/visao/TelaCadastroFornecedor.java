@@ -78,33 +78,6 @@ public class TelaCadastroFornecedor extends JFrame {
 		Color clYellow = new Color(239, 161, 35);
 		Color clLight = new Color(197, 197, 197);
 		
-		BasicScrollBarUI minScrollBar = new BasicScrollBarUI() {
-		    @Override
-		    protected void configureScrollBarColors() {
-		        this.thumbColor = clLight;
-		    }
-		    
-		    @Override
-		    protected JButton createDecreaseButton(int orientation) {
-		        JButton button = super.createDecreaseButton(orientation);
-		        button.setBackground(new Color(22, 22, 22));
-		        button.setForeground(null);
-		        button.setSelectedIcon(null);
-		        button.setBorder(BorderFactory.createLineBorder(new Color(22,22,22), 2));
-		        return button;
-		    }
-
-		    @Override
-		    protected JButton createIncreaseButton(int orientation) {
-		        JButton button = super.createIncreaseButton(orientation);
-		        button.setBackground(new Color(22, 22, 22));
-		        button.setForeground(null);
-		        button.setSelectedIcon(null);
-		        button.setBorder(BorderFactory.createLineBorder(new Color(22,22,22), 2));
-		        return button;
-		    }
-		};
-		
 		Font poppins, pop10 = null, pop12 = null;
 
 		try {
@@ -220,7 +193,32 @@ public class TelaCadastroFornecedor extends JFrame {
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 141, 156, 113);
 		scrollPane.getVerticalScrollBar().setBackground(new Color(22, 22, 22));
-		scrollPane.getVerticalScrollBar().setUI(minScrollBar);
+		scrollPane.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
+		    @Override
+		    protected void configureScrollBarColors() {
+		        this.thumbColor = clLight;
+		    }
+		    
+		    @Override
+		    protected JButton createDecreaseButton(int orientation) {
+		        JButton button = super.createDecreaseButton(orientation);
+		        button.setBackground(new Color(22, 22, 22));
+		        button.setForeground(null);
+		        button.setSelectedIcon(null);
+		        button.setBorder(BorderFactory.createLineBorder(new Color(22,22,22), 2));
+		        return button;
+		    }
+
+		    @Override
+		    protected JButton createIncreaseButton(int orientation) {
+		        JButton button = super.createIncreaseButton(orientation);
+		        button.setBackground(new Color(22, 22, 22));
+		        button.setForeground(null);
+		        button.setSelectedIcon(null);
+		        button.setBorder(BorderFactory.createLineBorder(new Color(22,22,22), 2));
+		        return button;
+		    }
+		});
 
 		scrollChisel(scrollPane, new Color(255, 255, 255), 5);
 		scrollPane.setBackground(null);
@@ -233,7 +231,7 @@ public class TelaCadastroFornecedor extends JFrame {
 		listaEndereco.setSelectionForeground(new Color(22,22,22));
 		listaEndereco.setModel(new AbstractListModel() {
 			// sempre que tem um item selecionado, alterar campos do painel endPanel
-			String[] values = new String[] {};
+			String[] values = new String[] {"1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "4"};
 			public int getSize() {
 				return values.length;
 			}
@@ -257,7 +255,32 @@ public class TelaCadastroFornecedor extends JFrame {
 		JScrollPane cntScrollPane = new JScrollPane();
 		cntScrollPane.setBounds(10, 279, 156, 113);
 		cntScrollPane.getVerticalScrollBar().setBackground(new Color(22, 22, 22));
-		cntScrollPane.getVerticalScrollBar().setUI(minScrollBar);
+		cntScrollPane.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
+		    @Override
+		    protected void configureScrollBarColors() {
+		        this.thumbColor = clLight;
+		    }
+		    
+		    @Override
+		    protected JButton createDecreaseButton(int orientation) {
+		        JButton button = super.createDecreaseButton(orientation);
+		        button.setBackground(new Color(22, 22, 22));
+		        button.setForeground(null);
+		        button.setSelectedIcon(null);
+		        button.setBorder(BorderFactory.createLineBorder(new Color(22,22,22), 2));
+		        return button;
+		    }
+
+		    @Override
+		    protected JButton createIncreaseButton(int orientation) {
+		        JButton button = super.createIncreaseButton(orientation);
+		        button.setBackground(new Color(22, 22, 22));
+		        button.setForeground(null);
+		        button.setSelectedIcon(null);
+		        button.setBorder(BorderFactory.createLineBorder(new Color(22,22,22), 2));
+		        return button;
+		    }
+		});
 
 		scrollChisel(cntScrollPane, new Color(255, 255, 255), 5);
 		cntScrollPane.setBackground(null);
@@ -270,7 +293,7 @@ public class TelaCadastroFornecedor extends JFrame {
 		listaContato.setSelectionForeground(new Color(22,22,22));
 		listaContato.setModel(new AbstractListModel() {
 			// sempre que tem um item selecionado, alterar campos do painel endPanel
-			String[] values = new String[] {};
+			String[] values = new String[] {"1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "4"};
 			public int getSize() {
 				return values.length;
 			}
