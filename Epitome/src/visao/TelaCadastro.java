@@ -283,21 +283,57 @@ public class TelaCadastro extends JFrame {
 				System.out.println("debug: tela de cadastro > cadastrar");
 				UsuarioDAO dao;
 				dao = new UsuarioDAO();
+				
 				String cpf = txtCPF.getText();
+				for (char c: cpf.toCharArray()) {
+					if (c != '0' && c != '1' && c != '2' && c != '3' && c != '4' && c != '5' && c != '6' && c != '7' && c != '8' && c != '9' && c != '.' && c != '-') {
+						JOptionPane.showMessageDialog(null, "CPF inválido", "Erro", JOptionPane.ERROR_MESSAGE);
+						System.out.println("CPF inválido: " + cpf);
+						return;
+					}
+				}
+				
 				String email = txtEmail.getText();
+				if (email.isBlank()) {
+					JOptionPane.showMessageDialog(null, "E-mail inválido", "Erro", JOptionPane.ERROR_MESSAGE);
+					System.out.println("E-mail vazio");
+					return;
+				}
+				
 				String senha = String.valueOf(txtSenha.getPassword());
+				
+				if (senha.isBlank()) {
+					JOptionPane.showMessageDialog(null, "Favor inserir uma senha", "Erro", JOptionPane.ERROR_MESSAGE);
+					System.out.println("Senha vazia");
+					return;
+				}
+				
 				String nomeUsuario = txtUsername.getText();
+				if (nomeUsuario.isBlank()) {
+					JOptionPane.showMessageDialog(null, "Favor inserir um nome de usuário", "Erro", JOptionPane.ERROR_MESSAGE);
+					System.out.println("username vazio");
+					return;
+				}
+				
 				String nome = txtNome.getText();
+				if (nome.isBlank()) {
+					JOptionPane.showMessageDialog(null, "Favor inserir um nome", "Erro", JOptionPane.ERROR_MESSAGE);
+					System.out.println("nome vazio");
+					return;
+				}
+				
 				String data = txtData.getText();
-				String cargo = null;
+				
+				String cargo = null;				
 				LocalDate date = null;
 				try {
 				date = LocalDate.parse(data, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 				}catch (Exception erroConversaoStringData) {
 					//Joption quando dá erro na data
 					
-					JOptionPane.showMessageDialog(null, "Data invalida");
+					JOptionPane.showMessageDialog(null, "Data inválida", "Erro", JOptionPane.ERROR_MESSAGE);
 					System.out.println("Deu erro na hora de converter para Data" + erroConversaoStringData);
+					return;
 				}
 
 				if (rdVendedor.isSelected()) {
@@ -306,6 +342,12 @@ public class TelaCadastro extends JFrame {
 
 				if (rdAdministrador.isSelected()) {
 					cargo = "administrador";
+				}
+				
+				if (cargo == null) {
+					JOptionPane.showMessageDialog(null, "Favor selecionar cargo", "Erro", JOptionPane.ERROR_MESSAGE);
+					System.out.println("cargo vazio");
+					return;
 				}
 				
 				Usuario usuario = new Usuario();
