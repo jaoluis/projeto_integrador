@@ -210,25 +210,57 @@ public class TelaCadastroProduto extends JFrame {
 				System.out.println("debug: tela de cadastro de produto > cadastrar produto");
 				
 				String nome = txtNome.getText();
+				if (nome.isBlank()) {
+					JOptionPane.showMessageDialog(null, "Nome inválido", "Erro", JOptionPane.ERROR_MESSAGE);
+					System.out.println("Nome vazio");
+					return;
+				}
 				float precoVenda = 0f;
 				float precoCusto = 0f;
 				try {
 					precoVenda = Float.parseFloat(txtPrecoVenda.getText());
 					precoCusto = Float.parseFloat(txtPrecoCusto.getText());
 				} catch (NumberFormatException x) {
-					JOptionPane.showMessageDialog(null, "Preço(s) inválido(s)", "Erro", JOptionPane.ERROR_MESSAGE, null);
+					JOptionPane.showMessageDialog(null, "Preço(s) inválido(s).", "Erro", JOptionPane.ERROR_MESSAGE, null);
+					return;
 				}
-				int qtd = Integer.parseInt(txtQuantidade.getText());
-				String material = txtMaterial.getText();
-				String dimensoes = txtDimensoes.getText();
 				
-					Produto produto = new Produto();
-					produto.setNomeProduto(nome);
-					produto.setPrecoCustoProduto(precoCusto);
-					produto.setPrecoVendaProduto(precoVenda);
-					produto.setDimencoesProduto(dimensoes);
-					produto.setMaterialProduto(material);
-					produto.setQuantidadeEstoque(qtd);
+				int qtd = 0;
+				
+				try {
+					qtd = Integer.parseInt(txtQuantidade.getText());
+				} catch (NumberFormatException x) {
+					JOptionPane.showMessageDialog(null, "Quantidade em Estoque definida como 0.", "Aviso", JOptionPane.WARNING_MESSAGE);
+					System.out.println("qtd 0");
+					return;
+				}
+				if (qtd == 0) {
+					JOptionPane.showMessageDialog(null, "Quantidade em Estoque definida como 0.", "Aviso", JOptionPane.WARNING_MESSAGE);
+					System.out.println("qtd 0");
+					return;
+				}
+				
+				String material = txtMaterial.getText();
+				if (material.isBlank()) {
+					JOptionPane.showMessageDialog(null, "Favor inserir um material.", "Erro", JOptionPane.ERROR_MESSAGE);
+					System.out.println("material vazio");
+					return;
+				}
+				
+				String dimensoes = txtDimensoes.getText();
+				if (dimensoes.isBlank()) {
+					JOptionPane.showMessageDialog(null, "Favor inserir dimensões.", "Erro", JOptionPane.ERROR_MESSAGE);
+					System.out.println("dimensões vazias");
+					return;
+				}
+				
+				Produto produto = new Produto();
+				produto.setNomeProduto(nome);
+				produto.setPrecoCustoProduto(precoCusto);
+				produto.setPrecoVendaProduto(precoVenda);
+				produto.setDimencoesProduto(dimensoes);
+				produto.setMaterialProduto(material);
+				produto.setQuantidadeEstoque(qtd);
 				
 				ProdutoBD produtoBD = new ProdutoBD();
 				long id = produtoBD.insert(produto);
