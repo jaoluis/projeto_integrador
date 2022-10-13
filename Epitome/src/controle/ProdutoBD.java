@@ -176,11 +176,10 @@ public class ProdutoBD {
 		String sql1 = "select * from produto inner join preco on produto.fk_id_historico_produto  = preco.fk_id_historico_produto;";
 		
 		List<Produto> produtos = new ArrayList<Produto>();
+		List<Produto> produtosV = new ArrayList<Produto>();
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rset = null;
-		int id = 0;
-		
 		try {
 			conn = Conexao.getConnection();
 			ps = (PreparedStatement) conn.prepareStatement(sql1);
