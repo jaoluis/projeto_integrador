@@ -111,7 +111,7 @@ public class TelaInicialADM extends JFrame {
 				System.out.println("debug: tela inicial adm > tela de estoque");
 				TelaEstoque telaEstoque = new TelaEstoque(usuarioLogado);
 				telaEstoque.setVisible(true);
-				setVisible(false);
+				//setVisible(false);
 			}
 		});
 		btnEstoque.setOpaque(false);
@@ -127,7 +127,7 @@ public class TelaInicialADM extends JFrame {
 				System.out.println("debug: tela gerenciar usuario > tela de Cadastro");
 				TelaCadastro telaCadastro = new TelaCadastro();
 				telaCadastro.setVisible(true);
-				setVisible(false);
+				//setVisible(false);
 			}
 		});
 		btnCadastrarUsuarios.setOpaque(false);
@@ -143,7 +143,7 @@ public class TelaInicialADM extends JFrame {
 				System.out.println("debug: tela Listar usuarios > tela de Listar Usuarios");
 				TelaListarUsuarios telaListarUsuarios = new TelaListarUsuarios();
 				telaListarUsuarios.setVisible(true);
-				setVisible(false);
+				//setVisible(false);
 			}
 		});
 		btnListarUsuario.setOpaque(false);

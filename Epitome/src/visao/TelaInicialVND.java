@@ -138,7 +138,7 @@ public class TelaInicialVND extends JFrame {
 				System.out.println("debug: tela inicial adm > perfil");
 				TelaPerfilVND telaPerfil = new TelaPerfilVND(usuarioLogado);
 				telaPerfil.setVisible(true);
-				setVisible(false);
+				//setVisible(false);
 			}
 		});
 		btnLogin.setBackground(null);
