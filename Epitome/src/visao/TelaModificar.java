@@ -95,12 +95,12 @@ public class TelaModificar extends JFrame {
 
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(22, 22, 22));
-		panel.setBounds(243, 48, 176, 466);
+		panel.setBounds(243, 35, 176, 466);
 		panelbuttonChisel(panel, new Color(255, 255, 255), 5);
 		contentPane.add(panel);
 		panel.setLayout(null);
 
-		JLabel lblEstamosQuaseL = new JLabel("Modificar conta");
+		JLabel lblEstamosQuaseL = new JLabel("Alterar conta");
 		lblEstamosQuaseL.setForeground(new Color(255, 255, 255));
 		lblEstamosQuaseL.setFont(pop12);
 		lblEstamosQuaseL.setHorizontalAlignment(SwingConstants.CENTER);
@@ -235,61 +235,58 @@ public class TelaModificar extends JFrame {
 		rdAdministrador.setBounds(10, 353, 156, 23);
 		panel.add(rdAdministrador);
 
-		JButton btnTelaLogin = new JButton("");
-		btnTelaLogin.setIcon(new ImageIcon("./img/login.png"));
-		btnTelaLogin.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug: tela de cadastro > tela de login");
-				TelaLogin telalogin = new TelaLogin();
-				telalogin.setVisible(true);
-				setVisible(false);
-			}
-		});
-
-		btnTelaLogin.setBorder(BorderFactory.createEmptyBorder());
-		btnTelaLogin.setBackground(null);
-		btnTelaLogin.setForeground(Color.WHITE);
-		btnTelaLogin.setBounds(429, 48, 30, 30);
-		contentPane.add(btnTelaLogin);
-
-		JButton btnTelaCadastro = new JButton("");
-		btnTelaCadastro.setBackground(null);
-		btnTelaCadastro.setIcon(new ImageIcon("./img/cadastro.png"));
-		btnTelaCadastro.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug: tela de cadastro > tela de cadastro");
-				TelaModificar telaModificar = new TelaModificar(usuarioLogado);
-				telaModificar.setVisible(true);
-				setVisible(false); 
-			}
-		});
-
-		btnTelaCadastro.setBorder(
-				BorderFactory.createEmptyBorder());
-		btnTelaCadastro.setBackground(null);
-		btnTelaCadastro.setForeground(Color.WHITE);
-		btnTelaCadastro.setBounds(429, 89, 30, 30);
-		contentPane.add(btnTelaCadastro);
-
 		JButton btnContinuar = new JButton("ALTERAR");
 		btnContinuar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: tela de cadastro > cadastrar");
 				String email = txtEmail.getText();
+				if (email.isBlank()) {
+					JOptionPane.showMessageDialog(null, "E-mail invÃ¡lido", "Erro", JOptionPane.ERROR_MESSAGE);
+					System.out.println("E-mail vazio");
+					return;
+				}
+				
 				String senha = String.valueOf(txtSenha.getPassword());
+				if (senha.isBlank()) {
+					JOptionPane.showMessageDialog(null, "Favor inserir uma senha", "Erro", JOptionPane.ERROR_MESSAGE);
+					System.out.println("Senha vazia");
+					return;
+				}
+				
 				String nomeUsuario = txtUsername.getText();
+				if (nomeUsuario.isBlank()) {
+					JOptionPane.showMessageDialog(null, "Favor inserir um nome de usuÃ¡rio", "Erro", JOptionPane.ERROR_MESSAGE);
+					System.out.println("username vazio");
+					return;
+				}
+				
 				String nome = txtNome.getText();
+				if (nome.isBlank()) {
+					JOptionPane.showMessageDialog(null, "Favor inserir um nome", "Erro", JOptionPane.ERROR_MESSAGE);
+					System.out.println("nome vazio");
+					return;
+				}
+				
 				String cpf = txtCPF.getText();
+				for (char c: cpf.toCharArray()) {
+					if (c != '0' && c != '1' && c != '2' && c != '3' && c != '4' && c != '5' && c != '6' && c != '7' && c != '8' && c != '9' && c != '.' && c != '-') {
+						JOptionPane.showMessageDialog(null, "CPF invÃ¡lido", "Erro", JOptionPane.ERROR_MESSAGE);
+						System.out.println("CPF invÃ¡lido: " + cpf);
+						return;
+					}
+				}
+				
 				String data = txtData.getText();
 				String cargo = null;
 				LocalDate date = null;
 				try {
 				date = LocalDate.parse(data, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 				}catch (Exception erroConversaoStringData) {
-					//Joption quando dá erro na data
+					//Joption quando dÃ¡ erro na data
 					
-					JOptionPane.showMessageDialog(null, "Data invalida");
+					JOptionPane.showMessageDialog(null, "Data invÃ¡lida", "Erro", JOptionPane.ERROR_MESSAGE);
 					System.out.println("Deu erro na hora de converter para Data" + erroConversaoStringData);
+					return;
 				}
 
 				if (rdVendedor.isSelected()) {
@@ -298,6 +295,12 @@ public class TelaModificar extends JFrame {
 
 				if (rdAdministrador.isSelected()) {
 					cargo = "administrador";
+				}
+				
+				if (cargo == null) {
+					JOptionPane.showMessageDialog(null, "Favor selecionar cargo", "Erro", JOptionPane.ERROR_MESSAGE);
+					System.out.println("cargo vazio");
+					return;
 				}
 				
 				Usuario usuario = new Usuario();
@@ -314,7 +317,7 @@ public class TelaModificar extends JFrame {
 				dao = new UsuarioDAO();
 				dao.update(usuario);
 
-				// tratamento de exceções: campos vazios e formatos errados
+				// tratamento de exceÃ§Ãµes: campos vazios e formatos errados
 				// funcao cadastro (email, senha, nomeUsuario, nome, cpf, data, cargo);
 			}
 		});

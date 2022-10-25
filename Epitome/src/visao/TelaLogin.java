@@ -119,7 +119,7 @@ public class TelaLogin extends JFrame {
 		txtSenha.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtSenha.setBounds(10, 95, 156, 20);
 		txtSenha.setFont(pop12);
-		txtSenha.setEchoChar('â€¢');
+		txtSenha.setEchoChar('•');
 		panel.add(txtSenha);
 
 		JLabel lblSenha = new JLabel("SENHA");
@@ -201,7 +201,7 @@ public class TelaLogin extends JFrame {
 			}
 		});
 		
-        btnTelaLogin.setBorder(BorderFactory.createEmptyBorder(btnTelaLogin.getBorder().getBorderInsets(btnTelaLogin).top, btnTelaLogin.getBorder().getBorderInsets(btnTelaLogin).left, btnTelaLogin.getBorder().getBorderInsets(btnTelaLogin).bottom, btnTelaLogin.getBorder().getBorderInsets(btnTelaLogin).right));
+        btnTelaLogin.setBorder(BorderFactory.createEmptyBorder());
 		btnTelaLogin.setBackground(null);
 		btnTelaLogin.setForeground(Color.WHITE);
 		btnTelaLogin.setBounds(335, 111, 30, 30);

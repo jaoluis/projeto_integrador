@@ -45,6 +45,7 @@ public class TelaModificarProduto extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtNome;
 	private final ButtonGroup cargoGroup = new ButtonGroup();
+
 	/**
 	 * Launch the application.
 	 */
@@ -52,7 +53,7 @@ public class TelaModificarProduto extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TelaModificarProduto frame = new TelaModificarProduto(0);
+					TelaModificarProduto frame = new TelaModificarProduto();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -64,7 +65,7 @@ public class TelaModificarProduto extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public TelaModificarProduto(int id) {
+	public TelaModificarProduto() {
 		setIconImage(Toolkit.getDefaultToolkit()
 				.getImage("./img/app_icon_small.png"));
 		Color clRed = new Color(226, 0, 54);
@@ -86,7 +87,7 @@ public class TelaModificarProduto extends JFrame {
 
 		setResizable(false);
 		setTitle("Sistema de Vendas Ep\u00EDtome");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 703, 564);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(45, 45, 45));
@@ -101,7 +102,7 @@ public class TelaModificarProduto extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 
-		JLabel lblEstamosQuaseL = new JLabel("Criar produto");
+		JLabel lblEstamosQuaseL = new JLabel("Alterar produto");
 		lblEstamosQuaseL.setForeground(new Color(255, 255, 255));
 		lblEstamosQuaseL.setFont(pop12);
 		lblEstamosQuaseL.setHorizontalAlignment(SwingConstants.CENTER);
@@ -203,10 +204,10 @@ public class TelaModificarProduto extends JFrame {
 		lblCargo.setFont(pop10);
 		panel.add(lblCargo);
 
-		JButton btnContinuar = new JButton("CADASTRAR");
+		JButton btnContinuar = new JButton("ALTERAR");
 		btnContinuar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug: tela de cadastro de produto > cadastrar produto");
+				System.out.println("debug: tela de alteração de produto > alterar produto");
 				
 				String nome = txtNome.getText();
 				float precoVenda = 0f;
@@ -228,10 +229,10 @@ public class TelaModificarProduto extends JFrame {
 					produto.setDimencoesProduto(dimensoes);
 					produto.setMaterialProduto(material);
 					produto.setQuantidadeEstoque(qtd);
-					produto.setIdProduto(id);
 				
 				ProdutoBD produtoBD = new ProdutoBD();
-				produtoBD.update(produto);
+				long id = produtoBD.insert(produto);
+				produtoBD.insert2(produto, id);
 				
 			}
 		});

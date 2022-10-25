@@ -105,7 +105,7 @@ public class TelaPerfilADM extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JButton btnDelete = new JButton("Delete");
+		JButton btnDelete = new JButton("DELETAR");
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -122,7 +122,7 @@ public class TelaPerfilADM extends JFrame {
 		btnDelete.setBounds(270, 65, 156, 34);
 		panel.add(btnDelete);
 		
-		JButton btnModificar = new JButton("Modificar");
+		JButton btnModificar = new JButton("MODIFICAR");
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				TelaModificar telaModificar = new TelaModificar(usuarioLogado);
@@ -215,8 +215,12 @@ public class TelaPerfilADM extends JFrame {
 
 
 
-private void Chisel(JButton btnDelete, Color color, int i) {
-		// TODO Auto-generated method stub
+private void Chisel(JButton button, Color color, int radius) {
+	button.setFocusPainted(false);
+	button.setForeground(color);
+	RoundedBorder LineBorder = new RoundedBorder(color, radius);
+	Border emptyBorder = BorderFactory.createEmptyBorder();
+	button.setBorder(BorderFactory.createCompoundBorder(LineBorder, emptyBorder));
 		
 	}
 

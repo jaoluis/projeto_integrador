@@ -8,6 +8,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.basic.BasicScrollBarUI;
+
 import java.awt.FlowLayout;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -65,7 +67,35 @@ public class TelaEstoque extends JFrame {
 		Color clRed = new Color(226, 0, 54);
 		Color clBlue = new Color(113, 206, 236);
 		Color clGreen = new Color(105, 122, 39);
+		Color clLight = new Color(197, 197, 197);
+		
+		BasicScrollBarUI minScrollBar = new BasicScrollBarUI() {
+		    @Override
+		    protected void configureScrollBarColors() {
+		        this.thumbColor = clLight;
+		    }
+		    
+		    @Override
+		    protected JButton createDecreaseButton(int orientation) {
+		        JButton button = super.createDecreaseButton(orientation);
+		        button.setBackground(new Color(22, 22, 22));
+		        button.setForeground(null);
+		        button.setSelectedIcon(null);
+		        button.setBorder(BorderFactory.createLineBorder(new Color(22,22,22), 2));
+		        return button;
+		    }
 
+		    @Override
+		    protected JButton createIncreaseButton(int orientation) {
+		        JButton button = super.createIncreaseButton(orientation);
+		        button.setBackground(new Color(22, 22, 22));
+		        button.setForeground(null);
+		        button.setSelectedIcon(null);
+		        button.setBorder(BorderFactory.createLineBorder(new Color(22,22,22), 2));
+		        return button;
+		    }
+		};
+		
 		Font poppins, pop10 = null, pop12 = null, pop24 = null;
 
 		try {
@@ -107,6 +137,7 @@ public class TelaEstoque extends JFrame {
 		btnRelatorio.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		btnRelatorio.setForeground(clBlue);
 		btnRelatorio.setBounds(10, 59, 232, 23);
+		btnRelatorio.setFocusPainted(false);
 		panel.add(btnRelatorio);
 
 		JButton btnSair = new JButton("Sair");
@@ -120,6 +151,7 @@ public class TelaEstoque extends JFrame {
 		btnSair.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		btnSair.setForeground(clGreen);
 		btnSair.setBounds(10, 82, 232, 23);
+		btnSair.setFocusPainted(false);
 		panel.add(btnSair);
 
 		JButton btnLogin = new JButton("Perfil");
@@ -135,6 +167,7 @@ public class TelaEstoque extends JFrame {
 		btnLogin.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		btnLogin.setForeground(clRed);
 		btnLogin.setBounds(10, 36, 232, 23);
+		btnLogin.setFocusPainted(false);
 		panel.add(btnLogin);
 
 		JLabel lblNome = new JLabel("Fulano da Silva");
@@ -178,6 +211,8 @@ public class TelaEstoque extends JFrame {
 		btnEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: editar produto (tela de cadastro de produto)");
+				//TelaCadastroProduto tcp = new TelaCadastroProduto();
+				//tcp.setVisible(true);
 			}
 		});
 		btnEdit.setBorder(javax.swing.BorderFactory.createEmptyBorder());
@@ -190,7 +225,8 @@ public class TelaEstoque extends JFrame {
 		JButton btnAdd = new JButton("");
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug: adicionar produto (tela de cadastro de produto)");
+				TelaCadastroProduto tcp = new TelaCadastroProduto();
+				tcp.setVisible(true);
 			}
 		});
 		btnAdd.setBorder(javax.swing.BorderFactory.createEmptyBorder());
@@ -224,7 +260,7 @@ public class TelaEstoque extends JFrame {
 		scrollPane.setBackground(new Color(22, 22, 22));
 		// scrollPane.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		scrollChisel(scrollPane, new Color(255, 255, 255), 5);
-
+		scrollPane.getVerticalScrollBar().setUI(minScrollBar);
 		contentPane.add(scrollPane);
 
 		DefaultTableModel model = new DefaultTableModel(null, new String[] { "ID", "NOME", "PRE\u00C7O", "QUANTIDADE", "MATERIAL", "DIMENS\u00D5ES", "FORNECEDOR" });
@@ -239,8 +275,20 @@ public class TelaEstoque extends JFrame {
 			TelaPerfilADM telaPerfil = new TelaPerfilADM(usuarioLogado);
 		}
 		
-		tblProdutos.setModel(model);
-
+		tblProdutos = new JTable();
+		tblProdutos.setShowHorizontalLines(false);
+		tblProdutos.setShowVerticalLines(false);
+		tblProdutos.setShowGrid(false);
+		tblProdutos.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null, null, null, null, null},
+			},
+			new String[] {
+				"ID", "NOME", "PRE\u00C7O", "QUANTIDADE", "MATERIAL", "DIMENS\u00D5ES", "FORNECEDOR"
+			}
+		));
+		
+		
 		JTableHeader Theader = tblProdutos.getTableHeader();
 
 		Theader.setFont(pop12);
