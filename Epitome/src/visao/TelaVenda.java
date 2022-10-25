@@ -37,13 +37,18 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
+import controle.ProdutoBD;
 import controle.UsuarioDAO;
+import modelo.Produto;
 import modelo.Usuario;
 
 public class TelaVenda extends JFrame {
 
 	private JPanel contentPane;
 	private JTable tblProdutos;
+	private JTextField txtCodigo;
+	float precoT = 0;
+	float troco = (float) 0.00;
 
 	/**
 	 * Launch the application.
@@ -52,7 +57,7 @@ public class TelaVenda extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TelaVenda frame = new TelaVenda();
+					TelaVenda frame = new TelaVenda(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -64,7 +69,7 @@ public class TelaVenda extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public TelaVenda() {
+	public TelaVenda(Usuario usuarioLogado) {
 		setIconImage(Toolkit.getDefaultToolkit().getImage("./img/app_icon_small.png"));
 		Color clRed = new Color(226, 0, 54);
 		Color clBlue = new Color(113, 206, 236);
@@ -72,7 +77,7 @@ public class TelaVenda extends JFrame {
 		Color clLight = new Color(197, 197, 197);
 		Color clYellow = new Color(239, 161, 35);
 		
-		BasicScrollBarUI minScrollBar = new BasicScrollBarUI() {
+		/*BasicScrollBarUI minScrollBar = new BasicScrollBarUI() {
 		    @Override
 		    protected void configureScrollBarColors() {
 		        this.thumbColor = clLight;
@@ -98,7 +103,7 @@ public class TelaVenda extends JFrame {
 		        return button;
 		    }
 		};
-		
+		*/
 		Font poppins, pop10 = null, pop12 = null, pop16 = null, pop24 = null;
 		
 		try {
@@ -125,7 +130,7 @@ public class TelaVenda extends JFrame {
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(22, 22, 22));
-		panel.setBounds(1322, 11, 252, 124);
+		panel.setBounds(1050, 11, 252, 124);
 		panelChisel(panel, Color.WHITE, 5);
 		contentPane.add(panel);
 		panel.setLayout(null);
@@ -161,8 +166,8 @@ public class TelaVenda extends JFrame {
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: tela de estoque > perfil");
-				//TelaPerfil telaPerfil = new TelaPerfil(0);
-				//telaPerfil.setVisible(true);
+				TelaPerfilVND telaPerfil = new TelaPerfilVND(usuarioLogado);
+				telaPerfil.setVisible(true);
 			}
 		});
 		btnLogin.setBackground(null);
@@ -177,7 +182,7 @@ public class TelaVenda extends JFrame {
 		panel.add(lblNome);
 		lblNome.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNome.setForeground(Color.WHITE);
-		lblNome.setFont(pop12);
+		lblNome.setFont(pop12); 
 		
 		JButton btnReturn = new JButton("");
 		btnReturn.addActionListener(new ActionListener() {
@@ -189,6 +194,22 @@ public class TelaVenda extends JFrame {
 				//setVisible(false);
 			}
 		});
+		
+		JLabel lblEmail = new JLabel("Codigo");
+		lblEmail.setForeground(new Color(197, 197, 197));
+		lblEmail.setFont(pop10);
+		lblEmail.setBounds(10, 36, 156, 14);
+		panel.add(lblEmail);
+
+		txtCodigo = new JTextField();
+		txtCodigo.setForeground(new Color(255, 255, 255));
+		txtCodigo.setBackground(new Color(0, 0, 0));
+		txtCodigo.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		txtCodigo.setFont(pop12);
+		txtCodigo.setBounds(800, 455, 244, 36);
+		contentPane.add(txtCodigo);
+		txtCodigo.setColumns(10);
+		
 		btnReturn.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		btnReturn.setIcon(new ImageIcon("./img/return.png"));
 		btnReturn.setForeground(null);
@@ -202,35 +223,13 @@ public class TelaVenda extends JFrame {
 				System.out.println("debug: pesquisar");
 			}
 		});
+		
 		btnSearch.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		btnSearch.setIcon(new ImageIcon("./img/search.png"));
 		btnSearch.setForeground(null);
 		btnSearch.setBackground(null);
 		btnSearch.setBounds(47, 126, 25, 25);
 		contentPane.add(btnSearch);
-		
-		JButton btnAdd = new JButton("");
-		btnAdd.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug: adicionar item por c�digo (txtItem)");
-			}
-		});
-		btnAdd.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		btnAdd.setIcon(new ImageIcon("./img/add.png"));
-		btnAdd.setForeground(null);
-		btnAdd.setBackground(null);
-		btnAdd.setBounds(47, 775, 36, 36);
-		contentPane.add(btnAdd);
-		
-		JTextField txtItem = new JTextField();
-		txtItem.setForeground(Color.WHITE);
-		txtItem.setBackground(new Color(22, 22, 22));
-		txtItem.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		txtItem.setBounds(93, 781, 181, 25);
-		txtItem.setFont(pop12);
-		fieldChisel(txtItem, Color.WHITE, 5);
-		contentPane.add(txtItem);
-		txtItem.setColumns(10);
 		
 		JLabel lblVenda = new JLabel("Venda");
 		lblVenda.setHorizontalAlignment(SwingConstants.LEFT);
@@ -250,24 +249,23 @@ public class TelaVenda extends JFrame {
 		txtSearch.setColumns(10);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(47, 162, 715, 602);
+		scrollPane.setBounds(47, 162, 715, 502);
 		scrollPane.setFont(pop12);
 		scrollPane.setForeground(Color.WHITE);
 		scrollPane.setBackground(new Color(22, 22, 22));
-		scrollPane.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		//scrollPane.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		scrollChisel(scrollPane, Color.WHITE, 5);
-		scrollPane.getVerticalScrollBar().setUI(minScrollBar);
+//		scrollPane.getVerticalScrollBar().setUI(minScrollBar);
 		contentPane.add(scrollPane);
 		
 		tblProdutos = new JTable();
 		tblProdutos.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null},
-			},
+			new Object[][] {},
 			new String[] {
 				"ID", "NOME", "PRE\u00C7O"
 			}
 		));
+		
 		
 		
 		JTableHeader Theader = tblProdutos.getTableHeader();
@@ -307,7 +305,7 @@ public class TelaVenda extends JFrame {
 		lblPreco.setBounds(415, 11, 120, 14);
 		dtlProduto.add(lblPreco);
 		
-		JLabel lblQuantidade = new JLabel("ESTOQUE: 0");
+		JLabel lblQuantidade = new JLabel("ESTOQUE: 0.00");
 		lblQuantidade.setForeground(Color.WHITE);
 		lblQuantidade.setFont(pop10);
 		lblQuantidade.setBounds(10, 36, 190, 14);
@@ -319,7 +317,7 @@ public class TelaVenda extends JFrame {
 		lblMaterial.setBounds(10, 61, 190, 14);
 		dtlProduto.add(lblMaterial);
 		
-		JLabel lblDimensoes = new JLabel("DIMENSÕES 0x0x0");
+		JLabel lblDimensoes = new JLabel("DIMENSÕES: 0x0x0");
 		lblDimensoes.setForeground(Color.WHITE);
 		lblDimensoes.setFont(pop10);
 		lblDimensoes.setBounds(10, 86, 190, 14);
@@ -400,8 +398,7 @@ public class TelaVenda extends JFrame {
 		fieldChisel(txtPagamentoValor, Color.WHITE, 5);
 		pagamentoPanel.add(txtPagamentoValor);
 		txtPagamentoValor.setColumns(10);
-		
-		JLabel lblTroco = new JLabel("Troco:  R$0,00");
+		JLabel lblTroco = new JLabel("Troco:  R$"+troco);
 		lblTroco.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTroco.setForeground(Color.WHITE);
 		lblTroco.setFont(pop10);
@@ -415,6 +412,65 @@ public class TelaVenda extends JFrame {
 		buttonChisel(btNEncerrar, clYellow, 5);
 		btNEncerrar.setBounds(379, 70, 156, 23);
 		pagamentoPanel.add(btNEncerrar);
+		
+		JButton btnAdd = new JButton("");
+		btnAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				ProdutoBD produtoBD = new ProdutoBD();
+				
+				// transformar o texto do do codigo em int
+				int codigo = Integer.parseInt(txtCodigo.getText());
+				
+				//for pra poder ver todos os produtos e pegar o produto de tal id
+				for (Produto produto : produtoBD.getListarProdutos()) {
+					
+					//verifica se o id bateu com o produto da lista e seta os valores na tela e calcula tudo
+					if(produto.getIdProduto() == codigo) {
+						DefaultTableModel model = (DefaultTableModel) tblProdutos.getModel();
+						model.addRow(new Object[] { produto.getIdProduto(), produto.getNomeProduto(), produto.getPrecoVendaProduto()});
+						tblProdutos.setModel(model);
+						
+						//soma o preco total
+						precoT = produto.getPrecoVendaProduto()+precoT;
+						
+						
+						//seta o total ali embaixo
+						lblTotal.setText(String.valueOf("Total: "+precoT));
+						
+						//seta o troco ali no pagamento 
+						lblPagTotal.setText(String.valueOf("Total: "+ precoT));
+						
+						//set a quantidade do estoque do produto selecionado no painel
+						lblQuantidade.setText("ESTOQUE: "+produto.getQuantidadeEstoque());
+						
+						//set as dimesões no painel
+						lblDimensoes.setText("DIMENSÕES: "+produto.getDimencoesProduto());
+						
+						//set o id no painel
+						lblID.setText("#"+produto.getIdProduto());
+						
+						//set o preço no painel
+						lblPreco.setText("R$"+produto.getPrecoVendaProduto());
+						
+						//set o material no painel
+						lblMaterial.setText("Material: "+produto.getMaterialProduto());
+						
+						lblNomeProduto.setText(produto.getNomeProduto());
+						
+//						troco = precoT - Float.parseFloat(lblPagamentoValor.getText());
+//						lblTroco.setText("Troco: "+troco);
+						
+					}
+				}
+			}
+		});
+		btnAdd.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		btnAdd.setIcon(new ImageIcon("./img/add.png"));
+		btnAdd.setForeground(null);
+		btnAdd.setBackground(null);
+		btnAdd.setBounds(280, 90, 431, 25);
+		contentPane.add(btnAdd);
 		
 		JLabel fakeBG = new JLabel("");
 		fakeBG.setIcon(new ImageIcon("./img/bg.png"));
@@ -487,3 +543,4 @@ public class TelaVenda extends JFrame {
         }
     }
 }
+

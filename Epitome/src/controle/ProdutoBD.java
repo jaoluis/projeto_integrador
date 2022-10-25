@@ -65,7 +65,8 @@ public class ProdutoBD {
 		try {
 
 			//insert no preco
-			 PreparedStatement ps = connection.prepareStatement("insert into preco (preco_custo, preco_venda, data_alteracao, fk_id_historico_produto)"
+			
+			 PreparedStatement ps = connection.prepareStatement("insert into preco (preco_custo, preco_venda, data_alteracao, fk_id_historico_produto_preco)"
 					+ "values ( ? , ? , ?, ? )");
 				ps.setFloat(1, produto.getPrecoCustoProduto());
 				ps.setFloat(2, produto.getPrecoVendaProduto());
@@ -173,10 +174,9 @@ public class ProdutoBD {
 	
 	public List<Produto> getListarProdutos(){
 		     
-		String sql1 = "select * from produto inner join preco on produto.fk_id_historico_produto  = preco.fk_id_historico_produto;";
+		String sql1 = "select * from produto inner join preco on produto.fk_id_historico_produto  = preco.fk_id_historico_produto_preco;";
 		
 		List<Produto> produtos = new ArrayList<Produto>();
-		List<Produto> produtosV = new ArrayList<Produto>();
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rset = null;
@@ -188,7 +188,7 @@ public class ProdutoBD {
 			
 			while (rset.next()) {
 				Produto produto = new Produto();
-				produto.setIdProduto(rset.getInt("id_historico_produto"));
+				produto.setIdProduto(rset.getInt("id_produto"));
 				produto.setNomeProduto(rset.getString("nome_produto"));
 				produto.setMaterialProduto(rset.getString("material_produto"));
 				produto.setQuantidadeEstoque(rset.getInt("estoque_produto"));

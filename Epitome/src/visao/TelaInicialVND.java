@@ -94,8 +94,11 @@ public class TelaInicialVND extends JFrame {
 		
 		JButton btnVenda = new JButton("VENDA");
 		btnVenda.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug: tela inicial adm > tela de venda");
+			public void actionPerformed(ActionEvent e) {				
+			TelaVenda telaVenda = new TelaVenda(usuarioLogado);
+			telaVenda.setVisible(true);
+			setVisible(false);
+			System.out.println("debug: tela inicial adm > tela de venda");
 			}
 		});
 		btnVenda.setOpaque(false);
@@ -105,11 +108,11 @@ public class TelaInicialVND extends JFrame {
 		btnVenda.setBounds(10, 53, 156, 34);
 		panel.add(btnVenda);
 		
-		JButton btnRelatorio = new JButton("Relatório de Vendas");
+		JButton btnRelatorio = new JButton("Relatï¿½rio de Vendas");
 		btnRelatorio.setFont(pop10);
 		btnRelatorio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug: tela inicial adm > relatório de vendas");
+				System.out.println("debug: tela inicial adm > relatï¿½rio de vendas");
 			}
 		});
 		btnRelatorio.setBackground(null);
