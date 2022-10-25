@@ -391,7 +391,7 @@ public class TelaCadastro extends JFrame {
 					//
 				//}
 
-				// tratamento de exceções: campos vazios e formatos errados
+				// tratamento de exceÃ§Ãµes: campos vazios e formatos errados
 				// funcao cadastro (email, senha, nomeUsuario, nome, cpf, data, cargo);
 			//}
 		});
@@ -417,7 +417,7 @@ public class TelaCadastro extends JFrame {
         panel.setBorder(BorderFactory.createCompoundBorder(LineBorder, emptyBorder));
 	}
 
-	protected MaskFormatter def_mask(String envolucro, char substituto) {
+	public MaskFormatter def_mask(String envolucro, char substituto) {
 		MaskFormatter mask = null;
 		try {
 			mask = new MaskFormatter(envolucro);

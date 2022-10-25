@@ -163,6 +163,7 @@ public class TelaInicialADM extends JFrame {
 		btnRelatorio.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		btnRelatorio.setForeground(clBlue);
 		btnRelatorio.setBounds(219, 59, 242, 23);
+		btnRelatorio.setFocusPainted(false);
 		panel.add(btnRelatorio);
 		
 		JButton btnSair = new JButton("Sair");
@@ -176,6 +177,7 @@ public class TelaInicialADM extends JFrame {
 		btnSair.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		btnSair.setForeground(clGreen);
 		btnSair.setBounds(219, 82, 242, 23);
+		btnSair.setFocusPainted(false);
 		panel.add(btnSair);
 		
 		JButton btnLogin = new JButton("Perfil");
@@ -191,6 +193,7 @@ public class TelaInicialADM extends JFrame {
 		btnLogin.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		btnLogin.setForeground(clRed);
 		btnLogin.setBounds(219, 36, 242, 23);
+		btnLogin.setFocusPainted(false);
 		panel.add(btnLogin);
 		
 		JLabel lblAdministrador = new JLabel("Administrador");

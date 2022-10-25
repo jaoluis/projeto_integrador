@@ -171,7 +171,7 @@ public class TelaCadastroFornecedor extends JFrame {
 		btnContinuar.setBounds(10, 432, 156, 23);
 		panel.add(btnContinuar);
 		
-		JLabel lblEndereco = new JLabel("ENDEREÃ‡O(S)");
+		JLabel lblEndereco = new JLabel("ENDEREÇO(S)");
 		lblEndereco.setForeground(new Color(197, 197, 197));
 		lblEndereco.setFont(null);
 		lblEndereco.setFont(pop10);
@@ -324,7 +324,7 @@ public class TelaCadastroFornecedor extends JFrame {
 		fakeBG.setBounds(-477, -224, 1600, 861);
 		contentPane.add(fakeBG);
 		
-		JLabel lblDetEndereco = new JLabel("EndereÃ§o");
+		JLabel lblDetEndereco = new JLabel("Endereço");
 		lblDetEndereco.setForeground(new Color(255, 255, 255));
 		lblDetEndereco.setFont(pop12);
 		lblDetEndereco.setHorizontalAlignment(SwingConstants.CENTER);
@@ -375,7 +375,7 @@ public class TelaCadastroFornecedor extends JFrame {
 		endPanel.add(txtRua);
 		txtRua.setColumns(10);
 
-		JLabel lblNumero = new JLabel("NÃšMERO");
+		JLabel lblNumero = new JLabel("NÚMERO");
 		lblNumero.setForeground(new Color(197, 197, 197));
 		lblNumero.setFont(pop10);
 		lblNumero.setBounds(10, 171, 156, 14);

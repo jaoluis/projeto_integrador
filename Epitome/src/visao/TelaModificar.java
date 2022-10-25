@@ -230,7 +230,7 @@ public class TelaModificar extends JFrame {
 				System.out.println("debug: tela de cadastro > cadastrar");
 				String email = txtEmail.getText();
 				if (email.isBlank()) {
-					JOptionPane.showMessageDialog(null, "E-mail inválido", "Erro", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "E-mail invÃ¡lido", "Erro", JOptionPane.ERROR_MESSAGE);
 					System.out.println("E-mail vazio");
 					return;
 				}
@@ -244,7 +244,7 @@ public class TelaModificar extends JFrame {
 				
 				String nomeUsuario = txtUsername.getText();
 				if (nomeUsuario.isBlank()) {
-					JOptionPane.showMessageDialog(null, "Favor inserir um nome de usuário", "Erro", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Favor inserir um nome de usuÃ¡rio", "Erro", JOptionPane.ERROR_MESSAGE);
 					System.out.println("username vazio");
 					return;
 				}
@@ -259,8 +259,8 @@ public class TelaModificar extends JFrame {
 				String cpf = txtCPF.getText();
 				for (char c: cpf.toCharArray()) {
 					if (c != '0' && c != '1' && c != '2' && c != '3' && c != '4' && c != '5' && c != '6' && c != '7' && c != '8' && c != '9' && c != '.' && c != '-') {
-						JOptionPane.showMessageDialog(null, "CPF inválido", "Erro", JOptionPane.ERROR_MESSAGE);
-						System.out.println("CPF inválido: " + cpf);
+						JOptionPane.showMessageDialog(null, "CPF invÃ¡lido", "Erro", JOptionPane.ERROR_MESSAGE);
+						System.out.println("CPF invÃ¡lido: " + cpf);
 						return;
 					}
 				}
@@ -271,9 +271,9 @@ public class TelaModificar extends JFrame {
 				try {
 				date = LocalDate.parse(data, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 				}catch (Exception erroConversaoStringData) {
-					//Joption quando dá erro na data
+					//Joption quando dÃ¡ erro na data
 					
-					JOptionPane.showMessageDialog(null, "Data inválida", "Erro", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Data invÃ¡lida", "Erro", JOptionPane.ERROR_MESSAGE);
 					System.out.println("Deu erro na hora de converter para Data" + erroConversaoStringData);
 					return;
 				}
@@ -306,7 +306,7 @@ public class TelaModificar extends JFrame {
 				dao = new UsuarioDAO();
 				dao.update(usuario);
 
-				// tratamento de exceções: campos vazios e formatos errados
+				// tratamento de exceÃ§Ãµes: campos vazios e formatos errados
 				// funcao cadastro (email, senha, nomeUsuario, nome, cpf, data, cargo);
 			}
 		});

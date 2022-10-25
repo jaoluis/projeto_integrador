@@ -103,7 +103,7 @@ public class TelaPerfil extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JButton btnDelete = new JButton("Delete");
+		JButton btnDelete = new JButton("DELETAR");
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -120,7 +120,7 @@ public class TelaPerfil extends JFrame {
 		btnDelete.setBounds(270, 65, 156, 34);
 		panel.add(btnDelete);
 		
-		JButton btnModificar = new JButton("Modificar");
+		JButton btnModificar = new JButton("MODIFICAR");
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				TelaModificar telaModificar = new TelaModificar(id);
@@ -212,12 +212,10 @@ public class TelaPerfil extends JFrame {
 
 
 private void Chisel(JButton button, Color color, int radius) {
-		// button.setFocusPainted(false);
+	button.setFocusPainted(false);
 	button.setForeground(color);
 	RoundedBorder LineBorder = new RoundedBorder(color, radius);
-	Border emptyBorder = BorderFactory.createEmptyBorder(button.getBorder().getBorderInsets(button).top,
-			button.getBorder().getBorderInsets(button).left, button.getBorder().getBorderInsets(button).bottom,
-			button.getBorder().getBorderInsets(button).right);
+	Border emptyBorder = BorderFactory.createEmptyBorder();
 	button.setBorder(BorderFactory.createCompoundBorder(LineBorder, emptyBorder));
 		
 	}

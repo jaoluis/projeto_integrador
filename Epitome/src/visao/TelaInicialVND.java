@@ -101,17 +101,18 @@ public class TelaInicialVND extends JFrame {
 		btnVenda.setBounds(10, 53, 156, 34);
 		panel.add(btnVenda);
 		
-		JButton btnRelatorio = new JButton("RelatÃ³rio de Vendas");
+		JButton btnRelatorio = new JButton("Relatório de Vendas");
 		btnRelatorio.setFont(pop10);
 		btnRelatorio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug: tela inicial adm > relatÃ³rio de vendas");
+				System.out.println("debug: tela inicial adm > relatório de vendas");
 			}
 		});
 		btnRelatorio.setBackground(null);
 		btnRelatorio.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		btnRelatorio.setForeground(clBlue);
 		btnRelatorio.setBounds(176, 59, 231, 23);
+		btnRelatorio.setFocusPainted(false);
 		panel.add(btnRelatorio);
 		
 		JButton btnSair = new JButton("Sair");
@@ -125,6 +126,7 @@ public class TelaInicialVND extends JFrame {
 		btnSair.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		btnSair.setForeground(clGreen);
 		btnSair.setBounds(176, 82, 231, 23);
+		btnSair.setFocusPainted(false);
 		panel.add(btnSair);
 		
 		JButton btnLogin = new JButton("Perfil");
@@ -140,6 +142,7 @@ public class TelaInicialVND extends JFrame {
 		btnLogin.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		btnLogin.setForeground(clRed);
 		btnLogin.setBounds(176, 36, 231, 23);
+		btnLogin.setFocusPainted(false);
 		panel.add(btnLogin);
 		
 		JLabel lblVendedor = new JLabel("Vendedor");
