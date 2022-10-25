@@ -157,8 +157,8 @@ public class TelaRelatorio extends JFrame {
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: tela de estoque > perfil");
-				TelaPerfil telaPerfil = new TelaPerfil(0);
-				telaPerfil.setVisible(true);
+				//TelaPerfil telaPerfil = new TelaPerfil(0);
+				//telaPerfil.setVisible(true);
 			}
 		});
 		btnLogin.setBackground(null);
@@ -181,8 +181,8 @@ public class TelaRelatorio extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: tela de estoque > tela inicial");
 				//separar adm e vendedor
-				TelaInicialADM telainicial = new TelaInicialADM();
-				telainicial.setVisible(true);
+				//TelaInicialADM telainicial = new TelaInicialADM();
+				//telainicial.setVisible(true);
 				setVisible(false);
 			}
 		});

@@ -258,7 +258,7 @@ public class TelaEstoque extends JFrame {
 		scrollPane.setFont(pop12);
 		scrollPane.setForeground(new Color(255, 255, 255));
 		scrollPane.setBackground(new Color(22, 22, 22));
-		// scrollPane.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		scrollPane.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		scrollChisel(scrollPane, new Color(255, 255, 255), 5);
 		scrollPane.getVerticalScrollBar().setUI(minScrollBar);
 		contentPane.add(scrollPane);

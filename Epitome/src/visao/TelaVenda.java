@@ -72,7 +72,7 @@ public class TelaVenda extends JFrame {
 		Color clLight = new Color(197, 197, 197);
 		Color clYellow = new Color(239, 161, 35);
 		
-		/*BasicScrollBarUI minScrollBar = new BasicScrollBarUI() {
+		BasicScrollBarUI minScrollBar = new BasicScrollBarUI() {
 		    @Override
 		    protected void configureScrollBarColors() {
 		        this.thumbColor = clLight;
@@ -98,7 +98,7 @@ public class TelaVenda extends JFrame {
 		        return button;
 		    }
 		};
-		*/
+		
 		Font poppins, pop10 = null, pop12 = null, pop16 = null, pop24 = null;
 		
 		try {
@@ -161,8 +161,8 @@ public class TelaVenda extends JFrame {
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: tela de estoque > perfil");
-				TelaPerfil telaPerfil = new TelaPerfil(0);
-				telaPerfil.setVisible(true);
+				//TelaPerfil telaPerfil = new TelaPerfil(0);
+				//telaPerfil.setVisible(true);
 			}
 		});
 		btnLogin.setBackground(null);
@@ -212,8 +212,7 @@ public class TelaVenda extends JFrame {
 		JButton btnAdd = new JButton("");
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				TelaCadastroProduto tcp = new TelaCadastroProduto();
-				tcp.setVisible(true);
+				System.out.println("debug: adicionar item por código (txtItem)");
 			}
 		});
 		btnAdd.setBorder(javax.swing.BorderFactory.createEmptyBorder());
@@ -222,6 +221,16 @@ public class TelaVenda extends JFrame {
 		btnAdd.setBackground(null);
 		btnAdd.setBounds(47, 775, 36, 36);
 		contentPane.add(btnAdd);
+		
+		JTextField txtItem = new JTextField();
+		txtItem.setForeground(Color.WHITE);
+		txtItem.setBackground(new Color(22, 22, 22));
+		txtItem.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		txtItem.setBounds(93, 781, 181, 25);
+		txtItem.setFont(pop12);
+		fieldChisel(txtItem, Color.WHITE, 5);
+		contentPane.add(txtItem);
+		txtItem.setColumns(10);
 		
 		JLabel lblVenda = new JLabel("Venda");
 		lblVenda.setHorizontalAlignment(SwingConstants.LEFT);
@@ -245,9 +254,9 @@ public class TelaVenda extends JFrame {
 		scrollPane.setFont(pop12);
 		scrollPane.setForeground(Color.WHITE);
 		scrollPane.setBackground(new Color(22, 22, 22));
-		//scrollPane.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		scrollPane.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		scrollChisel(scrollPane, Color.WHITE, 5);
-//		scrollPane.getVerticalScrollBar().setUI(minScrollBar);
+		scrollPane.getVerticalScrollBar().setUI(minScrollBar);
 		contentPane.add(scrollPane);
 		
 		tblProdutos = new JTable();
