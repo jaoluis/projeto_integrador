@@ -130,11 +130,7 @@ public class TelaVenda extends JFrame {
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(22, 22, 22));
-<<<<<<< Updated upstream
 		panel.setBounds(1322, 11, 252, 124);
-=======
-		panel.setBounds(1065, 11, 252, 124);
->>>>>>> Stashed changes
 		panelChisel(panel, Color.WHITE, 5);
 		contentPane.add(panel);
 		panel.setLayout(null);
@@ -210,11 +206,8 @@ public class TelaVenda extends JFrame {
 		txtCodigo.setBackground(new Color(0, 0, 0));
 		txtCodigo.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtCodigo.setFont(pop12);
-<<<<<<< Updated upstream
 		txtCodigo.setBounds(95, 775, 244, 36);
-=======
 		txtCodigo.setBounds(875, 455, 244, 36);
->>>>>>> Stashed changes
 		contentPane.add(txtCodigo);
 		txtCodigo.setColumns(10);
 		
@@ -481,11 +474,8 @@ public class TelaVenda extends JFrame {
 		btnAdd.setIcon(new ImageIcon("./img/add.png"));
 		btnAdd.setForeground(null);
 		btnAdd.setBackground(null);
-<<<<<<< Updated upstream
 		btnAdd.setBounds(47, 775, 36, 36);
-=======
 		btnAdd.setBounds(801, 455, 56, 36);
->>>>>>> Stashed changes
 		contentPane.add(btnAdd);
 		
 		JLabel fakeBG = new JLabel("");
