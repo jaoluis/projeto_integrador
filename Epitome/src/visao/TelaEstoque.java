@@ -211,8 +211,9 @@ public class TelaEstoque extends JFrame {
 		btnEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: editar produto (tela de cadastro de produto)");
-				//TelaCadastroProduto tcp = new TelaCadastroProduto();
-				//tcp.setVisible(true);
+				TelaModificarProduto tmp = new TelaModificarProduto();
+				tmp.setVisible(true);
+				
 			}
 		});
 		btnEdit.setBorder(javax.swing.BorderFactory.createEmptyBorder());
@@ -256,7 +257,7 @@ public class TelaEstoque extends JFrame {
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(47, 162, 1480, 602);
 		scrollPane.setFont(pop12);
-		scrollPane.setForeground(new Color(255, 255, 255));
+		scrollPane.setForeground(new Color(22, 22, 22));
 		scrollPane.setBackground(new Color(22, 22, 22));
 		scrollPane.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		scrollChisel(scrollPane, new Color(255, 255, 255), 5);
@@ -279,14 +280,7 @@ public class TelaEstoque extends JFrame {
 		tblProdutos.setShowHorizontalLines(false);
 		tblProdutos.setShowVerticalLines(false);
 		tblProdutos.setShowGrid(false);
-		tblProdutos.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null, null, null},
-			},
-			new String[] {
-				"ID", "NOME", "PRE\u00C7O", "QUANTIDADE", "MATERIAL", "DIMENS\u00D5ES", "FORNECEDOR"
-			}
-		));
+		tblProdutos.setModel(model);
 		
 		
 		JTableHeader Theader = tblProdutos.getTableHeader();

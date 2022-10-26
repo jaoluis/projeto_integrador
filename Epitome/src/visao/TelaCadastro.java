@@ -65,8 +65,7 @@ public class TelaCadastro extends JFrame {
 	 * Create the frame.
 	 */
 	public TelaCadastro() {
-		setIconImage(Toolkit.getDefaultToolkit()
-				.getImage("./img/app_icon_small.png"));
+		setIconImage(Toolkit.getDefaultToolkit().getImage("./img/app_icon_small.png"));
 		Color clRed = new Color(226, 0, 54);
 		Color clBlue = new Color(113, 206, 236);
 
@@ -224,9 +223,9 @@ public class TelaCadastro extends JFrame {
 		rdVendedor.setBackground(null);
 		rdVendedor.setFont(pop10);
 		rdVendedor.setIcon(new ImageIcon("./img/radio_button.png"));
-		rdVendedor.setSelectedIcon(
-				new ImageIcon("./img/radio_button_checked.png"));
+		rdVendedor.setSelectedIcon(new ImageIcon("./img/radio_button_checked.png"));
 		rdVendedor.setBounds(10, 327, 156, 23);
+		rdVendedor.setFocusPainted(false);
 		panel.add(rdVendedor);
 
 		JRadioButton rdAdministrador = new JRadioButton("ADMINISTRADOR");
@@ -236,9 +235,9 @@ public class TelaCadastro extends JFrame {
 		rdAdministrador.setBackground((Color) null);
 		rdAdministrador.setFont(pop10);
 		rdAdministrador.setIcon(new ImageIcon("./img/radio_button.png"));
-		rdAdministrador.setSelectedIcon(
-				new ImageIcon("./img/radio_button_checked.png"));
+		rdAdministrador.setSelectedIcon(new ImageIcon("./img/radio_button_checked.png"));
 		rdAdministrador.setBounds(10, 353, 156, 23);
+		rdAdministrador.setFocusPainted(false);
 		panel.add(rdAdministrador);
 
 		JButton btnTelaLogin = new JButton("");
@@ -375,39 +374,8 @@ public class TelaCadastro extends JFrame {
 				}else {
 					System.out.println("Email ou CPF invalido ");
 				}
-				//else {
-					//System.out.println("CPF Invalido");
-					//
-					//
-					// Coloca Alguma coisa dizendo que ta errado na tela
-					//
-					//
-					//
-					//
-					//
-					//
-					//
-					//
-					///
-					//
-					///
-					//
-					///
-					//
-					//
-					//
-				//}
-				//}
-				//else {
-					//System.out.println("Email Invalido");
-					//
-					// Coloca Alguma coisa dizendo que ta errado na tela
-					//
-				//}
-
-				// tratamento de exceÃ§Ãµes: campos vazios e formatos errados
-				// funcao cadastro (email, senha, nomeUsuario, nome, cpf, data, cargo);
-			//}
+			}
+				
 		});
 		btnContinuar.setOpaque(false);
 		btnContinuar.setBackground(null);
@@ -479,5 +447,4 @@ public class TelaCadastro extends JFrame {
 			g.drawRoundRect(x, y, width - 1, height - 1, radius, radius);
 		}
 	}
-
 }

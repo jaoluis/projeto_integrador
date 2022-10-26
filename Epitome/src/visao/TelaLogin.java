@@ -119,7 +119,7 @@ public class TelaLogin extends JFrame {
 		txtSenha.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtSenha.setBounds(10, 95, 156, 20);
 		txtSenha.setFont(pop12);
-		txtSenha.setEchoChar('•');
+		txtSenha.setEchoChar('ï¿½');
 		panel.add(txtSenha);
 
 		JLabel lblSenha = new JLabel("SENHA");
@@ -177,8 +177,12 @@ public class TelaLogin extends JFrame {
 				setVisible(false);
 			}
 			else {
-				TelaInicialVND iniciologinVND = new TelaInicialVND(usuarioLogado);
-				iniciologinVND.setVisible(true);
+				//TelaInicialVND iniciologinVND = new TelaInicialVND(usuarioLogado);
+				//iniciologinVND.setVisible(true);
+				//setVisible(false);
+				
+				TelaInicialADM iniciologinADM = new TelaInicialADM(usuarioLogado);
+				iniciologinADM.setVisible(true);
 				setVisible(false);
 			}
 			}

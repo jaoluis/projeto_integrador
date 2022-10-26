@@ -111,7 +111,7 @@ public class TelaInicialADM extends JFrame {
 				System.out.println("debug: tela inicial adm > tela de estoque");
 				TelaEstoque telaEstoque = new TelaEstoque(usuarioLogado);
 				telaEstoque.setVisible(true);
-				//setVisible(false);
+				setVisible(false);
 			}
 		});
 		btnEstoque.setOpaque(false);
