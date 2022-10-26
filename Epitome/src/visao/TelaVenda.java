@@ -130,7 +130,11 @@ public class TelaVenda extends JFrame {
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(22, 22, 22));
-		panel.setBounds(1050, 11, 252, 124);
+<<<<<<< Updated upstream
+		panel.setBounds(1322, 11, 252, 124);
+=======
+		panel.setBounds(1065, 11, 252, 124);
+>>>>>>> Stashed changes
 		panelChisel(panel, Color.WHITE, 5);
 		contentPane.add(panel);
 		panel.setLayout(null);
@@ -206,7 +210,11 @@ public class TelaVenda extends JFrame {
 		txtCodigo.setBackground(new Color(0, 0, 0));
 		txtCodigo.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtCodigo.setFont(pop12);
-		txtCodigo.setBounds(800, 455, 244, 36);
+<<<<<<< Updated upstream
+		txtCodigo.setBounds(95, 775, 244, 36);
+=======
+		txtCodigo.setBounds(875, 455, 244, 36);
+>>>>>>> Stashed changes
 		contentPane.add(txtCodigo);
 		txtCodigo.setColumns(10);
 		
@@ -386,7 +394,7 @@ public class TelaVenda extends JFrame {
 		lblTotal.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblTotal.setForeground(Color.WHITE);
 		lblTotal.setFont(pop16);
-		lblTotal.setBounds(499, 775, 263, 14);
+		lblTotal.setBounds(1065, 466, 263, 14);
 		contentPane.add(lblTotal);
 		
 		JTextField txtPagamentoValor = new JTextField();
@@ -412,6 +420,10 @@ public class TelaVenda extends JFrame {
 		buttonChisel(btNEncerrar, clYellow, 5);
 		btNEncerrar.setBounds(379, 70, 156, 23);
 		pagamentoPanel.add(btNEncerrar);
+		
+		JLabel lblNewLabel = new JLabel("New label");
+		lblNewLabel.setBounds(0, 0, 46, 14);
+		pagamentoPanel.add(lblNewLabel);
 		
 		JButton btnAdd = new JButton("");
 		btnAdd.addActionListener(new ActionListener() {
@@ -469,13 +481,23 @@ public class TelaVenda extends JFrame {
 		btnAdd.setIcon(new ImageIcon("./img/add.png"));
 		btnAdd.setForeground(null);
 		btnAdd.setBackground(null);
-		btnAdd.setBounds(280, 90, 431, 25);
+<<<<<<< Updated upstream
+		btnAdd.setBounds(47, 775, 36, 36);
+=======
+		btnAdd.setBounds(801, 455, 56, 36);
+>>>>>>> Stashed changes
 		contentPane.add(btnAdd);
 		
 		JLabel fakeBG = new JLabel("");
+		fakeBG.setForeground(new Color(0, 0, 0));
 		fakeBG.setIcon(new ImageIcon("./img/bg.png"));
 		fakeBG.setBounds(0, 0, 1600, 861);
 		contentPane.add(fakeBG);
+		
+		JLabel txtDigiteOCodigo = new JLabel("Digite o Codigo do Produto");
+		txtDigiteOCodigo.setForeground(new Color(255, 255, 255));
+		txtDigiteOCodigo.setBounds(875, 440, 128, 14);
+		contentPane.add(txtDigiteOCodigo);
 		
 	}
 	

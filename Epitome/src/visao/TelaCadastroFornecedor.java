@@ -36,7 +36,9 @@ import javax.swing.plaf.basic.BasicScrollBarUI;
 import javax.swing.text.MaskFormatter;
 
 import controle.Conexao;
+import controle.FornecedorBD;
 import controle.UsuarioDAO;
+import modelo.Fornecedor;
 import modelo.Usuario;
 
 import javax.swing.JList;
@@ -157,21 +159,9 @@ public class TelaCadastroFornecedor extends JFrame {
 		txtCNPJ.setFont(pop12);
 		panel.add(txtCNPJ);
 
-		JButton btnContinuar = new JButton("CADASTRAR");
-		btnContinuar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug: tela de cadastro de fornecedor > cadastrar fornecedor");
-				}
-				
-		});
-		btnContinuar.setOpaque(false);
-		btnContinuar.setBackground(null);
-		Chisel(btnContinuar, clYellow, 5);
-		btnContinuar.setFont(pop12);
-		btnContinuar.setBounds(10, 432, 156, 23);
-		panel.add(btnContinuar);
 		
-		JLabel lblEndereco = new JLabel("ENDEREÇO(S)");
+		
+		JLabel lblEndereco = new JLabel("ENDEREï¿½O(S)");
 		lblEndereco.setForeground(new Color(197, 197, 197));
 		lblEndereco.setFont(null);
 		lblEndereco.setFont(pop10);
@@ -182,7 +172,7 @@ public class TelaCadastroFornecedor extends JFrame {
 		btnAddEndereco.setIcon(new ImageIcon("./img/add_forn.png"));
 		btnAddEndereco.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// adicionar endereÃ§o Ã  lista
+			// adicionar endereÃ§o Ã  lista
 			}
 		});
 		btnAddEndereco.setBackground(null);
@@ -231,7 +221,7 @@ public class TelaCadastroFornecedor extends JFrame {
 		listaEndereco.setSelectionForeground(new Color(22,22,22));
 		listaEndereco.setModel(new AbstractListModel() {
 			// sempre que tem um item selecionado, alterar campos do painel endPanel
-			String[] values = new String[] {"1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "4"};
+			String[] values = new String[] {""};
 			public int getSize() {
 				return values.length;
 			}
@@ -250,8 +240,8 @@ public class TelaCadastroFornecedor extends JFrame {
 		lblContato.setFont(null);
 		lblContato.setFont(pop10);
 		lblContato.setBounds(10, 265, 156, 14);
-		panel.add(lblContato);
-		
+	panel.add(lblContato);
+	
 		JScrollPane cntScrollPane = new JScrollPane();
 		cntScrollPane.setBounds(10, 279, 156, 113);
 		cntScrollPane.getVerticalScrollBar().setBackground(new Color(22, 22, 22));
@@ -281,9 +271,8 @@ public class TelaCadastroFornecedor extends JFrame {
 		        return button;
 		    }
 		});
-
 		scrollChisel(cntScrollPane, new Color(255, 255, 255), 5);
-		cntScrollPane.setBackground(null);
+	cntScrollPane.setBackground(null);
 		cntScrollPane.setForeground(null);
 		panel.add(cntScrollPane);
 		
@@ -293,7 +282,7 @@ public class TelaCadastroFornecedor extends JFrame {
 		listaContato.setSelectionForeground(new Color(22,22,22));
 		listaContato.setModel(new AbstractListModel() {
 			// sempre que tem um item selecionado, alterar campos do painel endPanel
-			String[] values = new String[] {"1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "4"};
+			String[] values = new String[] {""};
 			public int getSize() {
 				return values.length;
 			}
@@ -324,7 +313,7 @@ public class TelaCadastroFornecedor extends JFrame {
 		fakeBG.setBounds(-477, -224, 1600, 861);
 		contentPane.add(fakeBG);
 		
-		JLabel lblDetEndereco = new JLabel("Endereço");
+		JLabel lblDetEndereco = new JLabel("Endereï¿½o");
 		lblDetEndereco.setForeground(new Color(255, 255, 255));
 		lblDetEndereco.setFont(pop12);
 		lblDetEndereco.setHorizontalAlignment(SwingConstants.CENTER);
@@ -375,7 +364,7 @@ public class TelaCadastroFornecedor extends JFrame {
 		endPanel.add(txtRua);
 		txtRua.setColumns(10);
 
-		JLabel lblNumero = new JLabel("NÚMERO");
+		JLabel lblNumero = new JLabel("Nï¿½MERO");
 		lblNumero.setForeground(new Color(197, 197, 197));
 		lblNumero.setFont(pop10);
 		lblNumero.setBounds(10, 171, 156, 14);
@@ -445,6 +434,108 @@ public class TelaCadastroFornecedor extends JFrame {
 		btnAlterarContato.setBounds(10, 171, 156, 23);
 		cntPanel.add(btnAlterarContato);
 		
+		JButton btnContinuar = new JButton("CADASTRAR");
+		btnContinuar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("debug: tela de cadastro de fornecedor > cadastrar fornecedor");
+				FornecedorBD fornecedorBD = new FornecedorBD();
+				Fornecedor fornecedor =  new Fornecedor();
+				
+			
+			String nome = txtNome.getText();
+			if (nome.isBlank()) {
+				JOptionPane.showMessageDialog(null, "Favor inserir um Nome.", "Erro", JOptionPane.ERROR_MESSAGE);
+				System.out.println("nome vazio");
+				return;
+			}
+			
+			String cnpj = txtCNPJ.getText();
+			
+			if (cnpj.isBlank()) {
+				JOptionPane.showMessageDialog(null, "Favor inserir um cnpj", "Erro", JOptionPane.ERROR_MESSAGE);
+				System.out.println("cnpj Vazio");
+				return;
+			}
+			
+			String cidade = txtCidade.getText();
+			if (nome.isBlank()) {
+				JOptionPane.showMessageDialog(null, "Favor inserir uma cidade", "Erro", JOptionPane.ERROR_MESSAGE);
+				System.out.println("cidade Vazio");
+				return;
+			}
+			
+			String Rua = txtRua.getText();
+			if (nome.isBlank()) {
+				JOptionPane.showMessageDialog(null, "Favor inserir uma Rua.", "Erro", JOptionPane.ERROR_MESSAGE);
+				System.out.println("rua vazio");
+				return;
+			}
+			
+			String bairro = txtBairro.getText();
+			if (nome.isBlank()) {
+				JOptionPane.showMessageDialog(null, "Favor inserir um bairro.", "Erro", JOptionPane.ERROR_MESSAGE);
+				System.out.println("bairro vazio");
+				return;
+			}
+			String numero = txtNumero.getText();
+			int numero1;
+			
+			try {
+				numero1 = Integer.parseInt(txtNumero.getText());
+			} catch (NumberFormatException x) {
+				JOptionPane.showMessageDialog(null, "Digite apenas numeros.", "Aviso", JOptionPane.WARNING_MESSAGE);
+				System.out.println("NÃ£o converteu para inteiro");
+				return;
+			}
+			
+
+			if (nome.isBlank()) {
+				JOptionPane.showMessageDialog(null, "Favor inserir um numero.", "Erro", JOptionPane.ERROR_MESSAGE);
+				System.out.println("numero vazio");
+				return;
+			}
+			
+			String email = txtEmail.getText();
+			if (nome.isBlank()) {
+				JOptionPane.showMessageDialog(null, "Favor inserir um Email.", "Erro", JOptionPane.ERROR_MESSAGE);
+				System.out.println("Email vazio");
+				return;
+			}
+			
+			String telefone = txtTelefone.getText();
+			if (nome.isBlank()) {
+				JOptionPane.showMessageDialog(null, "Favor inserir um Telefone.", "Erro", JOptionPane.ERROR_MESSAGE);
+				System.out.println("Telefone vazio");
+				return;
+			}
+			
+			
+			if(fornecedorBD.validarEmail(email) == true && fornecedorBD.isCNPJ(cnpj.toString()) == true) {
+			fornecedor.setNome_fornecedor(nome);
+			fornecedor.setCnpj_fornecedor(cnpj);
+			fornecedor.setCidade(cidade);
+			fornecedor.setBairro(bairro);
+			fornecedor.setRua(Rua);
+			fornecedor.setNumero(numero);
+			fornecedor.setEmail(email);
+			fornecedor.setTelefone(telefone);
+			
+			long id = fornecedorBD.insert(fornecedor);
+			
+			fornecedorBD.insert2(fornecedor,id);
+			}else {
+				System.out.println("Email Invalido ou CNPJ");
+			}
+			
+			
+			}
+		});
+		btnContinuar.setOpaque(false);
+		btnContinuar.setBackground(null);
+		Chisel(btnContinuar, clYellow, 5);
+		btnContinuar.setFont(pop12);
+		btnContinuar.setBounds(10, 432, 156, 23);
+		panel.add(btnContinuar);
 	}
 	
 	private void scrollChisel(JScrollPane scrollPane, Color color, int i) {
