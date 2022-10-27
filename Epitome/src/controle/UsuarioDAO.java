@@ -192,6 +192,7 @@ public class UsuarioDAO {
 				ps.setInt(1, id);
 				ps.execute();
 				System.out.println("usuario deletado");
+				System.out.println(id);
 				Conexao.getClose();
 				}catch(Exception e) {
 					System.out.println("Debug: erro ao da Delete: "+e);

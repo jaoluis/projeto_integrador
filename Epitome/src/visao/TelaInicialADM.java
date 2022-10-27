@@ -87,7 +87,7 @@ public class TelaInicialADM extends JFrame {
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(22, 22, 22));
-		panel.setBounds(592, 388, 471, 187);
+		panel.setBounds(592, 388, 471, 254);
 		panelChisel(panel, new Color(255, 255, 255), 5);
 		contentPane.add(panel);
 		panel.setLayout(null);
@@ -96,14 +96,49 @@ public class TelaInicialADM extends JFrame {
 		btnVenda.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: tela inicial adm > tela de venda");
+				TelaVenda telaVenda = new TelaVenda(usuarioLogado);
+				telaVenda.setVisible(true);
+				setVisible(false);
 			}
 		});
 		btnVenda.setOpaque(false);
 		btnVenda.setBackground(null);
 		buttonChisel(btnVenda, new Color(255, 255, 255), 5);
 		btnVenda.setFont(pop12);
-		btnVenda.setBounds(10, 36, 199, 34);
+		btnVenda.setBounds(10, 36, 205, 34);
 		panel.add(btnVenda);
+		
+		JButton btnCadastroFornecedor = new JButton("Cadastrar Fornecedor");
+		btnCadastroFornecedor.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("debug: tela inicial adm > tela de cadastro fornecedor");
+				TelaCadastroFornecedor telaCadastroFornecedor = new TelaCadastroFornecedor();
+				telaCadastroFornecedor.setVisible(true);
+				setVisible(false);
+			}
+		});
+		btnCadastroFornecedor.setOpaque(false);
+		btnCadastroFornecedor.setBackground(null);
+		buttonChisel(btnCadastroFornecedor, new Color(255, 255, 255), 5);
+		btnCadastroFornecedor.setFont(pop12);
+		btnCadastroFornecedor.setBounds(10, 176, 205, 34);
+		panel.add(btnCadastroFornecedor);
+		
+		JButton btnListarFornecedor = new JButton("Listar Fornecedores");
+		btnListarFornecedor.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("debug: tela inicial adm > tela de listar fornecedor");
+				TelaFornecedores telaFornecedores = new TelaFornecedores(usuarioLogado);
+				telaFornecedores.setVisible(true);
+				setVisible(false);
+			}
+		});
+		btnListarFornecedor.setOpaque(false);
+		btnListarFornecedor.setBackground(null);
+		buttonChisel(btnListarFornecedor, new Color(255, 255, 255), 5);
+		btnListarFornecedor.setFont(pop12);
+		btnListarFornecedor.setBounds(10, 211, 205, 34);
+		panel.add(btnListarFornecedor);
 		
 		JButton btnEstoque = new JButton("ESTOQUE");
 		btnEstoque.addActionListener(new ActionListener() {
@@ -118,7 +153,7 @@ public class TelaInicialADM extends JFrame {
 		btnEstoque.setBackground(null);
 		buttonChisel(btnEstoque, new Color(255, 255, 255), 5);
 		btnEstoque.setFont(pop12);
-		btnEstoque.setBounds(10, 71, 199, 34);
+		btnEstoque.setBounds(10, 71, 205, 34);
 		panel.add(btnEstoque);
 		
 		JButton btnCadastrarUsuarios = new JButton("CADASTRAR USUÁRIO");
@@ -134,7 +169,7 @@ public class TelaInicialADM extends JFrame {
 		btnCadastrarUsuarios.setBackground(null);
 		buttonChisel(btnCadastrarUsuarios, new Color(255, 255, 255), 5);
 		btnCadastrarUsuarios.setFont(pop12);
-		btnCadastrarUsuarios.setBounds(10, 106, 199, 34);
+		btnCadastrarUsuarios.setBounds(10, 106, 205, 34);
 		panel.add(btnCadastrarUsuarios);
 		
 		JButton btnListarUsuario = new JButton("LISTAR USUÁRIOS");
@@ -150,7 +185,7 @@ public class TelaInicialADM extends JFrame {
 		btnListarUsuario.setBackground(null);
 		buttonChisel(btnListarUsuario, new Color(255, 255, 255), 5);
 		btnListarUsuario.setFont(pop12);
-		btnListarUsuario.setBounds(10, 141, 199, 34);
+		btnListarUsuario.setBounds(10, 141, 205, 34);
 		panel.add(btnListarUsuario);
 		
 		JButton btnRelatorio = new JButton("Relatório de Vendas");

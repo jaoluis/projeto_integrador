@@ -23,9 +23,17 @@ public class Fornecedor {
 	//construtores//
 	public Fornecedor() { };
 	
-	public Fornecedor(String nome, String cnpj) {
-		nome_fornecedor = nome;
-		cnpj_fornecedor = cnpj;
+	public void setFornecedor(int id_funcionario, String nome, String cnpj,String email,String telefone,String cidade,String bairro,String rua,String numero) {
+		this.nome_fornecedor = nome;
+		this.cnpj_fornecedor = cnpj;
+		this.id_funcionario = id_funcionario;
+		this.email = email;
+		this.telefone = telefone;
+		this.cidade = cidade;
+		this.bairro = bairro;
+		this.rua = rua;
+		this.numero = numero;
+		
 	}
 	
 	//FUNCIONARIO//

@@ -49,7 +49,7 @@ import javax.swing.AbstractListModel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 
-public class TelaCadastroFornecedor extends JFrame {
+public class TelaFornecedorModificar extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtNome;
@@ -64,7 +64,7 @@ public class TelaCadastroFornecedor extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TelaCadastroFornecedor frame = new TelaCadastroFornecedor();
+					TelaFornecedorModificar frame = new TelaFornecedorModificar(0);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -75,9 +75,10 @@ public class TelaCadastroFornecedor extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @param id 
 	 */
 	@SuppressWarnings("unchecked")
-	public TelaCadastroFornecedor() {
+	public TelaFornecedorModificar(int id) {
 		setIconImage(Toolkit.getDefaultToolkit()
 				.getImage("./img/app_icon_small.png"));
 		Color clRed = new Color(226, 0, 54);

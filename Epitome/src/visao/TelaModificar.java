@@ -316,6 +316,8 @@ public class TelaModificar extends JFrame {
 				UsuarioDAO dao;
 				dao = new UsuarioDAO();
 				dao.update(usuario);
+				
+				setVisible(false);
 
 				// tratamento de exceÃ§Ãµes: campos vazios e formatos errados
 				// funcao cadastro (email, senha, nomeUsuario, nome, cpf, data, cargo);

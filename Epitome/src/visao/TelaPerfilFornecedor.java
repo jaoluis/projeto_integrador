@@ -9,7 +9,9 @@ import javax.swing.JPasswordField;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
+import controle.FornecedorBD;
 import controle.UsuarioDAO;
+import modelo.Fornecedor;
 import modelo.Usuario;
 
 import java.awt.FlowLayout;
@@ -33,7 +35,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import java.awt.Toolkit;
 
-public class TelaPerfilADM extends JFrame {
+public class TelaPerfilFornecedor extends JFrame {
 	private int id;
 	private JPanel contentPane;
 
@@ -46,7 +48,7 @@ public class TelaPerfilADM extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TelaPerfilADM frame = new TelaPerfilADM(null);
+					TelaPerfilFornecedor frame = new TelaPerfilFornecedor(0);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -61,7 +63,11 @@ public class TelaPerfilADM extends JFrame {
 	 */
 	UsuarioDAO usuarioDao = new UsuarioDAO();
 	
-	public TelaPerfilADM(Usuario usuarioLogado) {
+	public TelaPerfilFornecedor(int id) {
+		FornecedorBD fornecedorBD = new FornecedorBD();
+		Fornecedor fornecedor = new Fornecedor();
+		
+		fornecedor = fornecedorBD.fornecedorDadosUnico(id);
 		setIconImage(Toolkit.getDefaultToolkit().getImage("./img/app_icon_small.png"));
 		Color clRed = new Color(226, 0, 54);
 		Color clBlue = new Color(113, 206, 236);
@@ -100,9 +106,7 @@ public class TelaPerfilADM extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				System.out.println("debug: tela Perfil > Deletar Usuari");
-				id = usuarioLogado.getId_usuario();
-				//chama metodo
-				usuarioDao.DeleteByID(id);
+				fornecedorBD.DeleteByID(id);
 				setVisible(false);
 			}
 		});
@@ -117,8 +121,8 @@ public class TelaPerfilADM extends JFrame {
 		JButton btnModificar = new JButton("MODIFICAR");
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				TelaModificar telaModificar = new TelaModificar(usuarioLogado);
-				telaModificar.setVisible(true);
+				TelaFornecedorModificar telaFornecedorModificar = new TelaFornecedorModificar(id);
+				telaFornecedorModificar.setVisible(true);
 				setVisible(false);
 				System.out.println("debug: tela Perfil > tela de Modificar");
 				
@@ -132,7 +136,7 @@ public class TelaPerfilADM extends JFrame {
 		btnModificar.setBounds(270, 100, 156, 34);
 		panel.add(btnModificar);
 		
-		JLabel lblCargo = new JLabel(usuarioLogado.getCargo());
+		JLabel lblCargo = new JLabel(fornecedor.getEmail());
 		//lblCargo.setText(cargo do usuario);
 		lblCargo.setForeground(new Color(255, 255, 255));
 		lblCargo.setFont(pop12);
@@ -140,7 +144,7 @@ public class TelaPerfilADM extends JFrame {
 		lblCargo.setBounds(10, 11, 156, 14);
 		panel.add(lblCargo);
 		
-		JLabel lblID = new JLabel(String.valueOf(usuarioLogado.getId_usuario()));
+		JLabel lblID = new JLabel(String.valueOf(fornecedor.getId_funcionario()));
 		lblID.setHorizontalAlignment(SwingConstants.CENTER);
 		//lblID.setText(id do usuario);
 		lblID.setForeground(new Color(255, 255, 255));
@@ -148,14 +152,14 @@ public class TelaPerfilADM extends JFrame {
 		lblID.setBounds(10, 36, 156, 14);
 		panel.add(lblID);
 		
-		JLabel lblNome = new JLabel(usuarioLogado.getNome_usuario());
+		JLabel lblNome = new JLabel(fornecedor.getNome_fornecedor());
 		lblNome.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNome.setFont(pop12);
 		lblNome.setForeground(Color.WHITE);
 		lblNome.setBounds(192, 11, 231, 14);
 		panel.add(lblNome);
 		
-		JLabel lblEmailInfo = new JLabel(usuarioLogado.getEmail());
+		JLabel lblEmailInfo = new JLabel(fornecedor.getEmail());
 		lblEmailInfo.setHorizontalAlignment(SwingConstants.LEFT);
 		lblEmailInfo.setForeground(Color.WHITE);
 		lblEmailInfo.setFont(pop12);
@@ -176,7 +180,7 @@ public class TelaPerfilADM extends JFrame {
 		lblCPF.setBounds(10, 86, 108, 14);
 		panel.add(lblCPF);
 		
-		JLabel lblCPFInfo = new JLabel(usuarioLogado.getCpf_usuario());
+		JLabel lblCPFInfo = new JLabel(fornecedor.getCnpj_fornecedor());
 		lblCPFInfo.setHorizontalAlignment(SwingConstants.LEFT);
 		lblCPFInfo.setForeground(Color.WHITE);
 		lblCPFInfo.setFont(pop12);
@@ -189,10 +193,10 @@ public class TelaPerfilADM extends JFrame {
 		lblNascimento.setFont(pop12);
 		lblNascimento.setBounds(10, 111, 108, 14);
 		panel.add(lblNascimento);
-        Date dataAtual = usuarioLogado.getNascimento_data();
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        String dataFormatada = dateFormat.format(dataAtual);
-		JLabel lblNacimentoInfo = new JLabel(dataFormatada);
+        String dataAtual = "12/01/2003";
+//        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+//        String dataFormatada = dateFormat.format(dataAtual);
+		JLabel lblNacimentoInfo = new JLabel(dataAtual);
 		lblNacimentoInfo.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNacimentoInfo.setForeground(Color.WHITE);
 		lblNacimentoInfo.setFont(pop12);

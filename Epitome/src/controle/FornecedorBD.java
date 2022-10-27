@@ -5,14 +5,18 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.JOptionPane;
 
+import modelo.Contato;
 import modelo.Fornecedor;
 import modelo.Produto;
+import modelo.endereco;
 
 public class FornecedorBD {
 	private static Connection connection;
@@ -45,24 +49,38 @@ public class FornecedorBD {
 		
 		}
 	
-	public boolean insert2(Fornecedor fornecedor, long id) {
+	public boolean insertContato( Contato contatoA, long id ) {
 		connection = Conexao.getConnection();
 	    Integer n1= (int) id;
 		try {
 			
 			PreparedStatement psi = connection.prepareStatement("insert into Fornecedor_Contato ( email, telefone, fk_id_fornecedor)"
 				+ "values ( ? , ?, ?)");
-				psi.setString(1, fornecedor.getEmail());
-				psi.setString(2, fornecedor.getTelefone());
+				psi.setString(1, contatoA.getEmail());
+				psi.setString(2, contatoA.getTelefone());
 				psi.setLong(3, n1);
 				psi.execute();
+				
+				Conexao.getClose();
+				System.out.println("conexao Fechada");
+			return true;
+			} catch (SQLException e) {
+				JOptionPane.showMessageDialog(null, "Erro com o BD insert");
+				e.printStackTrace();
+			}
+			return false;
+		}
 			
+	public boolean insertEndereco(endereco enderecoA, long id) {
+		connection = Conexao.getConnection();
+	    Integer n1= (int) id;
+		try {
 			PreparedStatement psii = connection.prepareStatement("insert into Fornecedor_Endereco ( cidade, bairro, rua, numero, fk_id_fornecedor)"
 				+ "values ( ? , ? , ? , ? , ?  )");
-				psii.setString(1, fornecedor.getCidade());
-				psii.setString(2, fornecedor.getBairro());
-				psii.setString(3, fornecedor.getRua());
-				psii.setString(4, fornecedor.getNumero());
+				psii.setString(1, enderecoA.getCidade());
+				psii.setString(2, enderecoA.getBairro());
+				psii.setString(3, enderecoA.getRua());
+				psii.setInt(4, enderecoA.getNumero());
 				psii.setLong(5, n1);
 				psii.execute();						
 			
@@ -152,5 +170,135 @@ public class FornecedorBD {
 				return b;
 			}
 	
+			
+			public List<Fornecedor> getListarFornecedores(){
+			     
+				String sql1 = "select id_fornecedor,nome_fornecedor, nome_fornecedor from fornecedor;";
+				
+				List<Fornecedor> fornecedores = new ArrayList<Fornecedor>();
+				Connection conn = null;
+				PreparedStatement ps = null;
+				ResultSet rset = null;
+				try {
+					conn = Conexao.getConnection();
+					ps = (PreparedStatement) conn.prepareStatement(sql1);
+					
+					rset = ps.executeQuery();
+					
+					while (rset.next()) {
+						Fornecedor fornecedor = new Fornecedor();
+						fornecedor.setId_funcionario(rset.getInt("id_fornecedor"));
+						fornecedor.setNome_fornecedor(rset.getString("nome_fornecedor"));
+						fornecedor.setCnpj_fornecedor(rset.getString("nome_fornecedor"));
+						
+						fornecedores.add(fornecedor);
+						
+
+						
+					}
+					
+					Conexao.getClose();
+					System.out.println("conexao Fechada");
+					
+				} catch (Exception e) {
+					System.out.println("Debug: Deu erro no listarFornecedor1" + e);
+				}finally {
+					try {
+					if(rset!=null) {
+						Conexao.getClose();
+					}
+					if(ps!=null) {
+						Conexao.getClose();
+					}
+					if(conn!=null) {
+						Conexao.getClose();;
+					}
+					}catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+				
+				
+				return fornecedores;
+			}
+			
+			public Fornecedor fornecedorDadosUnico(int id) {
+				
+				String sql1 = "select *\r\n"
+						+ "from fornecedor inner join  fornecedor_endereco \r\n"
+						+ "on fornecedor.id_fornecedor  = fornecedor_endereco.fk_id_fornecedor \r\n"
+						+ "inner join fornecedor_contato on fornecedor.id_fornecedor = fornecedor_contato.fk_id_fornecedor where id_fornecedor = ?;\r\n";
+				Fornecedor fornecedor = new Fornecedor();
+				Connection conn = null;
+				PreparedStatement ps = null;
+				ResultSet rset = null;
+				try {
+					conn = Conexao.getConnection();
+					ps = (PreparedStatement) conn.prepareStatement(sql1);
+					ps.setInt(1, id);
+					
+					rset = ps.executeQuery();
+					
+					while (rset.next()) {
+						
+						fornecedor.setId_funcionario(rset.getInt("id_fornecedor"));
+						fornecedor.setNome_fornecedor(rset.getString("nome_fornecedor"));
+						fornecedor.setCnpj_fornecedor(rset.getString("nome_fornecedor"));
+						
+					}
+					
+				} catch (Exception e) {
+					System.out.println("Debug: Deu erro no listarFornecedorEspecfico" + e);
+				}finally {
+					try {
+					if(rset!=null) {
+						Conexao.getClose();
+					}
+					if(ps!=null) {
+						Conexao.getClose();
+					}
+					if(conn!=null) {
+						Conexao.getClose();;
+					}
+					}catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+				
+				
+				return fornecedor;
+			}
+				
+			public void DeleteByID(int id) {
+				String sql = "DELETE FROM fornecedor WHERE id_fornecedor = ?";
+				
+				Connection conn = null;
+				
+				PreparedStatement ps = null;
+				try {
+					conn = Conexao.getConnection();		
+					ps = conn.prepareStatement(sql);
+					ps.setInt(1, id);
+					ps.execute();
+					System.out.println("produto deletado");
+					Conexao.getClose();
+					}catch(Exception e) {
+						System.out.println("Debug: erro ao da Delete: "+e);
+					} finally {
+						try {
+							if (ps!=null) {
+								Conexao.getClose();
+							}
+							if(conn!=null) {
+								Conexao.getClose();
+							}
+						}catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+			}
+			
+			
+			}
 	
-}
+
