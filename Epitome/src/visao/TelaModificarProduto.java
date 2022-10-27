@@ -198,11 +198,32 @@ public class TelaModificarProduto extends JFrame {
 		lblDataDeNascimento.setBounds(10, 261, 156, 14);
 		panel.add(lblDataDeNascimento);
 
-		JLabel lblCargo = new JLabel("FORNECEDOR(ES)");
-		lblCargo.setForeground(new Color(197, 197, 197));
-		lblCargo.setBounds(10, 306, 156, 14);
-		lblCargo.setFont(pop10);
-		panel.add(lblCargo);
+		JLabel lblFornecedor = new JLabel("FORNECEDOR(ES)");
+		lblFornecedor.setForeground(new Color(197, 197, 197));
+		lblFornecedor.setBounds(10, 306, 122, 14);
+		lblFornecedor.setFont(pop10);
+		panel.add(lblFornecedor);
+		
+		JTextField txtFornecedor = new JTextField();
+		txtFornecedor.setForeground(new Color(255, 255, 255));
+		txtFornecedor.setBackground(new Color(45, 45, 45));
+		txtFornecedor.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		txtFornecedor.setBounds(10, 320, 156, 20);
+		txtFornecedor.setFont(pop12);
+		panel.add(txtFornecedor);
+		txtFornecedor.setColumns(10);
+		
+		JButton btnAddFornecedor = new JButton("");
+		btnAddFornecedor.setIcon(new ImageIcon("./img/add_forn.png"));
+		btnAddFornecedor.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// adicionar Fornecedor à lista
+			}
+		});
+		btnAddFornecedor.setBackground(null);
+		btnAddFornecedor.setBorder(BorderFactory.createEmptyBorder());
+		btnAddFornecedor.setBounds(150, 303, 16, 16);
+		panel.add(btnAddFornecedor);
 
 		JButton btnContinuar = new JButton("ALTERAR");
 		btnContinuar.addActionListener(new ActionListener() {
@@ -242,6 +263,21 @@ public class TelaModificarProduto extends JFrame {
 		btnContinuar.setFont(pop12);
 		btnContinuar.setBounds(10, 400, 156, 23);
 		panel.add(btnContinuar);
+		
+		JButton btnDeletar = new JButton("DELETAR");
+		btnDeletar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("debug: tela de alteração de produto > deletar produto");
+				
+				
+			}
+		});
+		btnDeletar.setOpaque(false);
+		btnDeletar.setBackground(null);
+		Chisel(btnDeletar, clRed, 5);
+		btnDeletar.setFont(pop12);
+		btnDeletar.setBounds(10, 432, 156, 23);
+		panel.add(btnDeletar);
 		
 		JLabel fakeBG = new JLabel("");
 		fakeBG.setIcon(new ImageIcon("./img/bg.png"));

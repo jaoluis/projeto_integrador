@@ -166,7 +166,7 @@ public class TelaCadastroFornecedor extends JFrame {
 
 		
 		
-		JLabel lblEndereco = new JLabel("ENDERE�O(S)");
+		JLabel lblEndereco = new JLabel("ENDEREÇO(S)");
 		lblEndereco.setForeground(new Color(197, 197, 197));
 		lblEndereco.setFont(null);
 		lblEndereco.setFont(pop10);
@@ -242,6 +242,7 @@ public class TelaCadastroFornecedor extends JFrame {
 		listaEndereco.setBounds(0, 50, 156, 113);
 		scrollPane.setViewportView(listaEndereco);
 		
+		
 		JLabel lblContato = new JLabel("CONTATO(S)");
 		lblContato.setForeground(new Color(197, 197, 197));
 		lblContato.setFont(null);
@@ -282,6 +283,26 @@ public class TelaCadastroFornecedor extends JFrame {
 	cntScrollPane.setBackground(null);
 		cntScrollPane.setForeground(null);
 		panel.add(cntScrollPane);
+		
+		JList listaContato = new JList();
+		listaContato.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		listaContato.setSelectionBackground(clYellow);
+		listaContato.setSelectionForeground(new Color(22,22,22));
+		listaContato.setModel(new AbstractListModel() {
+			// sempre que tem um item selecionado, alterar campos do painel endPanel
+
+			public int getSize() {
+				return values.length;
+			}
+			public Object getElementAt(int index) {
+				return values[index];
+			}
+		});
+		listaContato.setBackground(new Color(22, 22, 22));
+		listaContato.setForeground(new Color(197, 197, 197));
+		listaContato.setFont(pop10);
+		listaContato.setBounds(0, 50, 156, 113);	
+		cntScrollPane.setViewportView(listaContato);
 		
 		JButton btnAddContato = new JButton("");
 		btnAddContato.setIcon(new ImageIcon("./img/add_forn.png"));
@@ -403,8 +424,8 @@ public class TelaCadastroFornecedor extends JFrame {
 		txtTelefone.setFont(pop12);
 		cntPanel.add(txtTelefone);
 		
-		JButton btnAlterarEndereco = new JButton("ALTERAR");
-		btnAlterarEndereco.addActionListener(new ActionListener() {
+		JButton btnAlterarContato = new JButton("ALTERAR");
+		btnAlterarContato.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				boolean f = true;
 				String email = txtEmail.getText();
@@ -465,23 +486,19 @@ public class TelaCadastroFornecedor extends JFrame {
 				
 			}
 		});
-		btnAlterarEndereco.setOpaque(false);
-		btnAlterarEndereco.setForeground(new Color(239, 161, 35));
-		btnAlterarEndereco.setFont(pop12);
-		Chisel(btnAlterarEndereco, clYellow, 5);
-		btnAlterarEndereco.setFocusPainted(false);
-		btnAlterarEndereco.setBackground((Color) null);
-		btnAlterarEndereco.setBounds(10, 171, 156, 23);
-		cntPanel.add(btnAlterarEndereco);
+		btnAlterarContato.setOpaque(false);
+		btnAlterarContato.setForeground(new Color(239, 161, 35));
+		btnAlterarContato.setFont(pop12);
+		Chisel(btnAlterarContato, clYellow, 5);
+		btnAlterarContato.setFocusPainted(false);
+		btnAlterarContato.setBackground((Color) null);
+		btnAlterarContato.setBounds(10, 171, 156, 23);
+		cntPanel.add(btnAlterarContato);
 		
 		
-		JButton btnAlterarContato= new JButton("ALTERAR");
-		btnAlterarContato.addActionListener(new ActionListener() {
+		JButton btnAlterarEndereco= new JButton("ALTERAR");
+		btnAlterarEndereco.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				
-
-				
 				
 				boolean f = true;
 				String cidade = txtCidade.getText();
@@ -566,14 +583,14 @@ public class TelaCadastroFornecedor extends JFrame {
 				
 			}
 		});
-		btnAlterarContato.setOpaque(false);
-		btnAlterarContato.setForeground(new Color(239, 161, 35));
-		btnAlterarContato.setFont(pop12);
-		Chisel(btnAlterarContato, clYellow, 5);
-		btnAlterarContato.setFocusPainted(false);
-		btnAlterarContato.setBackground((Color) null);
-		btnAlterarContato.setBounds(10, 216, 156, 23);
-		endPanel.add(btnAlterarContato);
+		btnAlterarEndereco.setOpaque(false);
+		btnAlterarEndereco.setForeground(new Color(239, 161, 35));
+		btnAlterarEndereco.setFont(pop12);
+		Chisel(btnAlterarEndereco, clYellow, 5);
+		btnAlterarEndereco.setFocusPainted(false);
+		btnAlterarEndereco.setBackground((Color) null);
+		btnAlterarEndereco.setBounds(10, 216, 156, 23);
+		endPanel.add(btnAlterarEndereco);
 		
 		
 		JButton btnContinuar = new JButton("CADASTRAR");
