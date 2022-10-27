@@ -281,18 +281,7 @@ public class TelaFornecedores extends JFrame {
 		for (Fornecedor fornecedor : fornecedorBD.getListarFornecedores()) {
 
 			model.addRow(new Object[] {fornecedor.getId_funcionario(),fornecedor.getNome_fornecedor(),fornecedor.getCnpj_fornecedor() });
-			KeyboardFocusManager.getCurrentKeyboardFocusManager()
-            .addKeyEventDispatcher(new KeyEventDispatcher() {
-                public boolean dispatchKeyEvent(KeyEvent event) {
-                    if(event.getID() == KeyEvent.KEY_RELEASED 
-                            && event.getKeyCode() == KeyEvent.VK_ENTER){
-                        System.out.println("a");
-                        return true;
-                     }
-                     return false;
-                }
-            
-        }); 
+			
     }
 			
 		

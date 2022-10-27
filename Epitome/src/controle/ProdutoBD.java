@@ -6,23 +6,18 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.*;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JOptionPane;
 
 import modelo.Produto;
-import modelo.Usuario;
-import visao.TelaInicialADM;
 
 public class ProdutoBD {
 	
 	private static Connection connection;
 	
 	public long insert(Produto produto) {
-		Date now = new Date(System.currentTimeMillis());
+
 		connection = Conexao.getConnection();
 		long id = 0;
 		try {
@@ -122,6 +117,7 @@ public class ProdutoBD {
 			ps.setString(3, produto.getMaterialProduto());
 			ps.setString(4, produto.getDimencoesProduto());
 			ps.setInt(5, produto.getIdProduto());
+			System.out.println(produto.getIdProduto());
 			ps.execute();
 			
 			
@@ -147,9 +143,10 @@ public class ProdutoBD {
 		String sql = "DELETE FROM produto WHERE id_produto = ?";
 		
 		Connection conn = null;
-		
+		System.out.println(id);
 		PreparedStatement ps = null;
 		try {
+
 			conn = Conexao.getConnection();		
 			ps = conn.prepareStatement(sql);
 			ps.setInt(1, id);
@@ -172,11 +169,11 @@ public class ProdutoBD {
 			}
 	}
 	
-	public List<Produto> getListarProdutos(){
+	public ArrayList<Produto> getListarProdutos(){
 		     
 		String sql1 = "select * from produto inner join preco on produto.fk_id_historico_produto  = preco.fk_id_historico_produto_preco;";
 		
-		List<Produto> produtos = new ArrayList<Produto>();
+		ArrayList<Produto> produtos = new ArrayList<Produto>();
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rset = null;

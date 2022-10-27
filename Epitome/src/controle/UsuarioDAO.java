@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -13,7 +14,9 @@ import java.util.regex.Pattern;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
+import modelo.Contato;
 import modelo.Usuario;
+import modelo.endereco;
 import visao.TelaInicialADM;
 import visao.TelaInicialVND;
 import visao.TelaListarUsuarios;
@@ -22,12 +25,13 @@ public class UsuarioDAO {
 
 	private static Connection connection;
 
-	public boolean insert(Usuario usuario) {
+	public long insert(Usuario usuario) {
 		connection = Conexao.getConnection();
+		long id = 0;
 		try {
 		
 		PreparedStatement ps = connection.prepareStatement("insert into Usuario (email_usuario, senha_usuario, cpf_usuario, nome_usuario, cargo_usuario, nascimento_usuario)"
-				+ "values ( ? , ? , ? , ? , ? , ? )");
+				+ "values ( ? , ? , ? , ? , ? , ? )", Statement.RETURN_GENERATED_KEYS);
 			ps.setString(1, usuario.getEmail());
 			ps.setString(4, usuario.getNome_usuario());
 			ps.setString(2, usuario.getSenha_usuario());
@@ -35,17 +39,22 @@ public class UsuarioDAO {
 			ps.setString(3, usuario.getCpf_usuario());
 			ps.setString(5, usuario.getCargo());
 			ps.execute();
+			
+			ResultSet generatedKeys = ps.getGeneratedKeys();
+			 generatedKeys.next();
+			 id = generatedKeys.getLong(1);
+					 
 			Conexao.getClose();
 			System.out.println("conexao Fechada");
 			
 			
 			
-		return true;
+		return id;
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Erro com o BD insert");
 			e.printStackTrace();
 		}
-		return false;
+		return id;
  
 	}
 		public Usuario verificacao(Usuario usuario) {
@@ -93,6 +102,56 @@ public class UsuarioDAO {
 			return null;
 
 		}
+		
+		public boolean insertContato(Contato contato, long id) {
+			connection = Conexao.getConnection();
+			try {
+			
+				PreparedStatement ps = connection.prepareStatement("insert into  usuario_contato(email, telefone,fk_id_usuario_contato)"
+						+ "values ( ? , ? , ? )");
+
+				ps.setString(1, contato.getEmail());
+				ps.setString(2, contato.getTelefone());
+				ps.setLong(3, id);
+				ps.execute();		
+				System.out.println("conexao Fechada");
+				
+				
+				
+			return true;
+			} catch (SQLException e) {
+				JOptionPane.showMessageDialog(null, "Erro com o BD insert");
+				e.printStackTrace();
+			}
+			return false;
+	 
+		}
+		
+		public boolean insertEndereco(endereco enderecoA, long id) {
+			connection = Conexao.getConnection();
+		    Integer n1= (int) id;
+			try {
+				PreparedStatement psii = connection.prepareStatement("insert into usuario_endereco ( cidade, bairro, rua, numero, fk_id_usuario_endereco)"
+					+ "values ( ? , ? , ? , ? , ?  )");
+					psii.setString(1, enderecoA.getCidade());
+					psii.setString(2, enderecoA.getBairro());
+					psii.setString(3, enderecoA.getRua());
+					psii.setInt(4, enderecoA.getNumero());
+					psii.setLong(5, n1);
+					psii.execute();						
+				
+				Conexao.getClose();
+				System.out.println("conexao Fechada");
+			return true;
+			} catch (SQLException e) {
+				JOptionPane.showMessageDialog(null, "Erro com o BD insert");
+				e.printStackTrace();
+			}
+			return false;
+		}
+
+		
+		
 		
 		public List<Usuario> getListarUsuarios(){
 			

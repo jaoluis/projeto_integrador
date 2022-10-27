@@ -54,6 +54,7 @@ public class TelaCadastro extends JFrame {
 	private final ButtonGroup cargoGroup = new ButtonGroup();
 	ArrayList<endereco> enderecoF =  new ArrayList<endereco>();
 	ArrayList<Contato> contatoC =  new ArrayList<Contato>();
+	String[] valuesCnt = new String[] {"Adicione um contato"};
 
 	/**
 	 * Launch the application.
@@ -400,76 +401,7 @@ public class TelaCadastro extends JFrame {
 		txtTelefone.setFont(pop12);
 		cntPanel.add(txtTelefone);
 		
-		JButton btnAlterarContato = new JButton("ALTERAR");
-		btnAlterarContato.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				boolean f = true;
-				String email = txtEmailCnt.getText();
-				if (email.isBlank()) {
-					JOptionPane.showMessageDialog(null, "Favor inserir um email", "Erro", JOptionPane.ERROR_MESSAGE);
-					System.out.println("email Vazio");
-					f =false;
-					return;
-				}
-				
-				String telefone = txtTelefone.getText();
-				if (telefone.isBlank()) {
-					JOptionPane.showMessageDialog(null, "Favor inserir um telefone.", "Erro", JOptionPane.ERROR_MESSAGE);
-					System.out.println("telefone vazio");
-					f =false;
-					return;
-				}
-				
-				
-				if(f=true) {
-				Contato contato = new Contato();
-				contato.setEmail(email);
-				contato.setTelefone(telefone);
-				contatoC.add(contato);
-				
-				
-			values[0] = contato.getEmail() + contato.getTelefone();
-			
-			for (Contato contatoA : contatoC) {	
-				String[] values = new String[] {contatoA.getTelefone()+contatoA.getEmail()};
-				
-				JList listaEndereco = new JList();
-				listaEndereco.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-				listaEndereco.setSelectionBackground(clYellow);
-				listaEndereco.setSelectionForeground(new Color(22,22,22));
-				listaEndereco.setModel(new AbstractListModel() {
-					// sempre que tem um item selecionado, alterar campos do painel endPanel
 
-					public int getSize() {
-						return values.length;
-					}
-					public Object getElementAt(int index) {
-						return values[index];
-					}
-				});
-				
-				Font poppins, pop10 = null, pop12 = null;
-				listaEndereco.setBackground(new Color(22, 22, 22));
-				listaEndereco.setForeground(new Color(197, 197, 197));
-				listaEndereco.setFont(pop10);
-				listaEndereco.setBounds(0, 0, 156, 113);
-				scrollPane.setViewportView(listaEndereco);
-						}
-
-				
-				}
-				System.out.println("debug: tela de cadastro de fornecedor > cadastro contato");
-				
-			}
-		});
-		btnAlterarContato.setOpaque(false);
-		btnAlterarContato.setForeground(new Color(239, 161, 35));
-		btnAlterarContato.setFont(pop12);
-		Chisel(btnAlterarContato, clYellow, 5);
-		btnAlterarContato.setFocusPainted(false);
-		btnAlterarContato.setBackground((Color) null);
-		btnAlterarContato.setBounds(179, 171, 156, 23);
-		cntPanel.add(btnAlterarContato);
 		
 		JLabel lblContato = new JLabel("CONTATO(S)");
 		lblContato.setBounds(10, 15, 156, 14);
@@ -513,7 +445,6 @@ public class TelaCadastro extends JFrame {
 		});
 		
 		
-		String[] valuesCnt = new String[] {"Adicione um contato"};
 		
 		JList listaContato = new JList();
 		listaContato.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -741,7 +672,7 @@ public class TelaCadastro extends JFrame {
 					}
 				}
 				
-				String email = txtEmailCnt.getText();
+				String email = txtEmail.getText();
 				if (email.isBlank()) {
 					JOptionPane.showMessageDialog(null, "E-mail inválido", "Erro", JOptionPane.ERROR_MESSAGE);
 					System.out.println("E-mail vazio");
@@ -784,6 +715,7 @@ public class TelaCadastro extends JFrame {
 			            cpfSN.append(caracter);
 			        }
 			    }
+
 				if(dao.validarEmail(email) == true && dao.validarCPF(cpfSN.toString()) == true) {
 				
 				try {
@@ -819,9 +751,17 @@ public class TelaCadastro extends JFrame {
 				usuario.setLogin_usuario(nomeUsuario);
 				usuario.setNascimento_data(Date.valueOf(date));
 
-				dao.insert(usuario);
+				long id = dao.insert(usuario);
+				
+				for (endereco enderecoA: enderecoF) {
+				dao.insertEndereco(enderecoA, id);
+				}
+				
+				for (Contato contatoA : contatoC) {
+				dao.insertContato(contatoA, id);
+				}
 				}else {
-					System.out.println("Email ou CPF invalido ");
+					System.out.println("Email ou CPF invalido "+email);
 				}
 			}
 				
@@ -837,6 +777,76 @@ public class TelaCadastro extends JFrame {
 		fakeBG.setIcon(new ImageIcon("./img/bg.png"));
 		fakeBG.setBounds(-477, -224, 1600, 861);
 		contentPane.add(fakeBG);
+		
+		JButton btnAlterarContato = new JButton("ALTERAR");
+		btnAlterarContato.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				boolean f = true;
+				String email = txtEmailCnt.getText();
+				if (email.isBlank()) {
+					JOptionPane.showMessageDialog(null, "Favor inserir um email", "Erro", JOptionPane.ERROR_MESSAGE);
+					System.out.println("email Vazio");
+					f =false;
+					return;
+				}
+				
+				String telefone = txtTelefone.getText();
+				if (telefone.isBlank()) {
+					JOptionPane.showMessageDialog(null, "Favor inserir um telefone.", "Erro", JOptionPane.ERROR_MESSAGE);
+					System.out.println("telefone vazio");
+					f =false;
+					return;
+				}
+				
+				
+				if(f=true) {
+				Contato contato = new Contato();
+				contato.setEmail(email);
+				contato.setTelefone(telefone);
+				contatoC.add(contato);
+				
+			
+			
+			for (Contato contatoA : contatoC) {	
+				valuesCnt = new String[] {contatoA.getTelefone()+contatoA.getEmail()};
+				
+				JList listaEndereco = new JList();
+				listaEndereco.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+				listaEndereco.setSelectionBackground(clYellow);
+				listaEndereco.setSelectionForeground(new Color(22,22,22));
+				listaEndereco.setModel(new AbstractListModel() {
+					// sempre que tem um item selecionado, alterar campos do painel endPanel
+
+					public int getSize() {
+						return values.length;
+					}
+					public Object getElementAt(int index) {
+						return values[index];
+					}
+				});
+				
+				Font poppins, pop10 = null, pop12 = null;
+				listaEndereco.setBackground(new Color(22, 22, 22));
+				listaEndereco.setForeground(new Color(197, 197, 197));
+				listaEndereco.setFont(pop10);
+				listaEndereco.setBounds(0, 0, 156, 113);
+				scrollPane.setViewportView(listaEndereco);
+						}
+
+				
+				}
+				System.out.println("debug: tela de cadastro de fornecedor > cadastro contato");
+				
+			}
+		});
+		btnAlterarContato.setOpaque(false);
+		btnAlterarContato.setForeground(new Color(239, 161, 35));
+		btnAlterarContato.setFont(pop12);
+		Chisel(btnAlterarContato, clYellow, 5);
+		btnAlterarContato.setFocusPainted(false);
+		btnAlterarContato.setBackground((Color) null);
+		btnAlterarContato.setBounds(179, 171, 156, 23);
+		cntPanel.add(btnAlterarContato);
 	}
 
 	private void scrollChisel(JScrollPane scrollPane, Color color, int i) {

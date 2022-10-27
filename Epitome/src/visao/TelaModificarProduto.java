@@ -10,41 +10,31 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.sql.Date;
-import java.sql.SQLException;
 import java.text.ParseException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.MaskFormatter;
 
-import controle.Conexao;
 import controle.ProdutoBD;
-import controle.UsuarioDAO;
 import modelo.Produto;
-import modelo.Usuario;
 
 public class TelaModificarProduto extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtNome;
 	private final ButtonGroup cargoGroup = new ButtonGroup();
+	private static Produto produtoAEditar;
 
 	/**
 	 * Launch the application.
@@ -53,7 +43,7 @@ public class TelaModificarProduto extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TelaModificarProduto frame = new TelaModificarProduto();
+					TelaModificarProduto frame = new TelaModificarProduto(produtoAEditar);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -65,7 +55,7 @@ public class TelaModificarProduto extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public TelaModificarProduto() {
+	public TelaModificarProduto(Produto produtoAEditar) {
 		setIconImage(Toolkit.getDefaultToolkit()
 				.getImage("./img/app_icon_small.png"));
 		Color clRed = new Color(226, 0, 54);
@@ -121,6 +111,7 @@ public class TelaModificarProduto extends JFrame {
 		txtMaterial.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtMaterial.setBounds(10, 230, 156, 20);
 		txtMaterial.setFont(pop12);
+		txtMaterial.setText(produtoAEditar.getMaterialProduto());
 		panel.add(txtMaterial);
 		txtMaterial.setColumns(10);
 
@@ -130,6 +121,7 @@ public class TelaModificarProduto extends JFrame {
 		txtDimensoes.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtDimensoes.setBounds(10, 275, 156, 20);
 		txtDimensoes.setFont(pop12);
+		txtDimensoes.setText(produtoAEditar.getDimencoesProduto());
 		panel.add(txtDimensoes);
 		txtDimensoes.setColumns(10);
 
@@ -145,6 +137,7 @@ public class TelaModificarProduto extends JFrame {
 		txtPrecoCusto.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtPrecoCusto.setBounds(10, 140, 156, 20);
 		txtPrecoCusto.setFont(pop12);
+		txtPrecoCusto.setText(String.valueOf(produtoAEditar.getPrecoCustoProduto()));
 		panel.add(txtPrecoCusto);
 		txtPrecoCusto.setColumns(10);
 
@@ -160,6 +153,7 @@ public class TelaModificarProduto extends JFrame {
 		txtQuantidade.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtQuantidade.setBounds(10, 185, 156, 20);
 		txtQuantidade.setFont(pop12);
+		txtQuantidade.setText(String.valueOf(produtoAEditar.getQuantidadeEstoque()));
 		panel.add(txtQuantidade);
 		txtQuantidade.setColumns(10);
 
@@ -175,6 +169,7 @@ public class TelaModificarProduto extends JFrame {
 		txtNome.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtNome.setBounds(10, 50, 156, 20);
 		txtNome.setFont(pop12);
+		txtNome.setText(produtoAEditar.getNomeProduto());
 		panel.add(txtNome);
 		txtNome.setColumns(10);
 
@@ -189,7 +184,9 @@ public class TelaModificarProduto extends JFrame {
 		txtPrecoVenda.setBackground(new Color(45, 45, 45));
 		txtPrecoVenda.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtPrecoVenda.setBounds(10, 95, 156, 20);
+		txtPrecoVenda.setText(String.valueOf(produtoAEditar.getPrecoVendaProduto()));
 		txtPrecoVenda.setFont(pop12);
+		
 		panel.add(txtPrecoVenda);
 
 		JLabel lblDataDeNascimento = new JLabel("DIMENSÕES");
@@ -250,10 +247,11 @@ public class TelaModificarProduto extends JFrame {
 					produto.setDimencoesProduto(dimensoes);
 					produto.setMaterialProduto(material);
 					produto.setQuantidadeEstoque(qtd);
+					produto.setIdProduto(produtoAEditar.getIdProduto());
 				
 				ProdutoBD produtoBD = new ProdutoBD();
-				long id = produtoBD.insert(produto);
-				produtoBD.insert2(produto, id);
+				produtoBD.update(produto);
+				System.out.println("update realizado");
 				
 			}
 		});
@@ -268,6 +266,9 @@ public class TelaModificarProduto extends JFrame {
 		btnDeletar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: tela de alteração de produto > deletar produto");
+				
+				ProdutoBD produtoBD = new ProdutoBD();
+				produtoBD.DeleteByID(produtoAEditar.getIdProduto());
 				
 				
 			}

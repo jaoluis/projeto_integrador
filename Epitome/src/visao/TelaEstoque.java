@@ -1,36 +1,30 @@
 package visao;
 
-import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
-import javax.swing.plaf.basic.BasicScrollBarUI;
-
-import java.awt.FlowLayout;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Insets;
-
-import javax.swing.JTextField;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import java.awt.Color;
-import java.awt.Component;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.sql.Date;
-import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import java.awt.Toolkit;
-import javax.swing.JComboBox;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.basic.BasicScrollBarUI;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
@@ -42,6 +36,7 @@ public class TelaEstoque extends JFrame {
 
 	private JPanel contentPane;
 	private JTable tblProdutos;
+	private ArrayList<Produto> produtos;
 
 	/**
 	 * Launch the application.
@@ -68,34 +63,34 @@ public class TelaEstoque extends JFrame {
 		Color clBlue = new Color(113, 206, 236);
 		Color clGreen = new Color(105, 122, 39);
 		Color clLight = new Color(197, 197, 197);
-		
-		BasicScrollBarUI minScrollBar = new BasicScrollBarUI() {
-		    @Override
-		    protected void configureScrollBarColors() {
-		        this.thumbColor = clLight;
-		    }
-		    
-		    @Override
-		    protected JButton createDecreaseButton(int orientation) {
-		        JButton button = super.createDecreaseButton(orientation);
-		        button.setBackground(new Color(22, 22, 22));
-		        button.setForeground(null);
-		        button.setSelectedIcon(null);
-		        button.setBorder(BorderFactory.createLineBorder(new Color(22,22,22), 2));
-		        return button;
-		    }
 
-		    @Override
-		    protected JButton createIncreaseButton(int orientation) {
-		        JButton button = super.createIncreaseButton(orientation);
-		        button.setBackground(new Color(22, 22, 22));
-		        button.setForeground(null);
-		        button.setSelectedIcon(null);
-		        button.setBorder(BorderFactory.createLineBorder(new Color(22,22,22), 2));
-		        return button;
-		    }
-		};
-		
+//		BasicScrollBarUI minScrollBar = new BasicScrollBarUI() {
+//			@Override
+//			protected void configureScrollBarColors() {
+//				this.thumbColor = clLight;
+//			}
+//
+//			@Override
+//			protected JButton createDecreaseButton(int orientation) {
+//				JButton button = super.createDecreaseButton(orientation);
+//				button.setBackground(new Color(22, 22, 22));
+//				button.setForeground(null);
+//				button.setSelectedIcon(null);
+//				button.setBorder(BorderFactory.createLineBorder(new Color(22, 22, 22), 2));
+//				return button;
+//			}
+//
+//			@Override
+//			protected JButton createIncreaseButton(int orientation) {
+//				JButton button = super.createIncreaseButton(orientation);
+//				button.setBackground(new Color(22, 22, 22));
+//				button.setForeground(null);
+//				button.setSelectedIcon(null);
+//				button.setBorder(BorderFactory.createLineBorder(new Color(22, 22, 22), 2));
+//				return button;
+//			}
+//		};
+
 		Font poppins, pop10 = null, pop12 = null, pop24 = null;
 
 		try {
@@ -211,9 +206,19 @@ public class TelaEstoque extends JFrame {
 		btnEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: editar produto (tela de cadastro de produto)");
-				TelaModificarProduto tmp = new TelaModificarProduto();
+
+				int linha = tblProdutos.getSelectedRow();
+				int idProduto = (int) tblProdutos.getValueAt(linha, 0);
+
+				Produto produtoAEditar = null;
+				for (Produto produto : produtos) {
+					if (idProduto == produto.getIdProduto()) {
+						produtoAEditar = produto;
+					}
+				}
+				TelaModificarProduto tmp = new TelaModificarProduto(produtoAEditar);
 				tmp.setVisible(true);
-				
+
 			}
 		});
 		btnEdit.setBorder(javax.swing.BorderFactory.createEmptyBorder());
@@ -261,28 +266,31 @@ public class TelaEstoque extends JFrame {
 		scrollPane.setBackground(new Color(22, 22, 22));
 		scrollPane.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		scrollChisel(scrollPane, new Color(255, 255, 255), 5);
-		scrollPane.getVerticalScrollBar().setUI(minScrollBar);
+//		scrollPane.getVerticalScrollBar().setUI(minScrollBar);
 		contentPane.add(scrollPane);
 
-		DefaultTableModel model = new DefaultTableModel(null, new String[] { "ID", "NOME", "PRE\u00C7O", "QUANTIDADE", "MATERIAL", "DIMENS\u00D5ES", "FORNECEDOR" });
+		DefaultTableModel model = new DefaultTableModel(null,
+				new String[] { "ID", "NOME", "PRE\u00C7O", "QUANTIDADE", "MATERIAL", "DIMENS\u00D5ES", "FORNECEDOR" });
 		tblProdutos = new JTable(model);
 		tblProdutos.setModel(new DefaultTableModel(new Object[][] { { null, null, null, null, null, null, null }, },
 				new String[] { "ID", "NOME", "PRE\u00C7O", "QUANTIDADE", "MATERIAL", "DIMENS\u00D5ES", "FORNECEDOR" }));
 
 		ProdutoBD produtoBD = new ProdutoBD();
-		for (Produto produto : produtoBD.getListarProdutos()) {
+		produtos = produtoBD.getListarProdutos();
+		for (Produto produto : produtos) {
 
-			model.addRow(new Object[] { produto.getIdProduto(), produto.getNomeProduto(), produto.getPrecoVendaProduto(), produto.getQuantidadeEstoque(), produto.getMaterialProduto(), produto.getMaterialProduto(), produto.getDimencoesProduto(), "Sem fornecedor" });
+			model.addRow(new Object[] { produto.getIdProduto(), produto.getNomeProduto(),
+					produto.getPrecoVendaProduto(), produto.getQuantidadeEstoque(), produto.getMaterialProduto(),
+					produto.getDimencoesProduto(), "Sem fornecedor" });
 			TelaPerfilADM telaPerfil = new TelaPerfilADM(usuarioLogado);
 		}
-		
+
 		tblProdutos = new JTable();
 		tblProdutos.setShowHorizontalLines(false);
 		tblProdutos.setShowVerticalLines(false);
 		tblProdutos.setShowGrid(false);
 		tblProdutos.setModel(model);
-		
-		
+
 		JTableHeader Theader = tblProdutos.getTableHeader();
 
 		Theader.setFont(pop12);
