@@ -41,6 +41,8 @@ import controle.ProdutoBD;
 import controle.UsuarioDAO;
 import modelo.Produto;
 import modelo.Usuario;
+import javax.swing.JRadioButton;
+import javax.swing.ButtonGroup;
 
 public class TelaVenda extends JFrame {
 
@@ -49,6 +51,7 @@ public class TelaVenda extends JFrame {
 	private JTextField txtCodigo;
 	float precoT = 0;
 	float troco = (float) 0.00;
+	private final ButtonGroup pagGroup = new ButtonGroup();
 
 	/**
 	 * Launch the application.
@@ -146,6 +149,7 @@ public class TelaVenda extends JFrame {
 		btnRelatorio.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		btnRelatorio.setForeground(clBlue);
 		btnRelatorio.setBounds(10, 59, 232, 23);
+		btnRelatorio.setFocusPainted(false);
 		panel.add(btnRelatorio);
 		
 		JButton btnSair = new JButton("Sair");
@@ -159,22 +163,24 @@ public class TelaVenda extends JFrame {
 		btnSair.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		btnSair.setForeground(clGreen);
 		btnSair.setBounds(10, 82, 232, 23);
+		btnSair.setFocusPainted(false);
 		panel.add(btnSair);
 		
-		JButton btnLogin = new JButton("Perfil");
-		btnLogin.setFont(pop10);
-		btnLogin.addActionListener(new ActionListener() {
+		JButton btnPerfil = new JButton("Perfil");
+		btnPerfil.setFont(pop10);
+		btnPerfil.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: tela de estoque > perfil");
 				TelaPerfilVND telaPerfil = new TelaPerfilVND(usuarioLogado);
 				telaPerfil.setVisible(true);
 			}
 		});
-		btnLogin.setBackground(null);
-		btnLogin.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		btnLogin.setForeground(clRed);
-		btnLogin.setBounds(10, 36, 232, 23);
-		panel.add(btnLogin);
+		btnPerfil.setBackground(null);
+		btnPerfil.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		btnPerfil.setForeground(clRed);
+		btnPerfil.setBounds(10, 36, 232, 23);
+		btnPerfil.setFocusPainted(false);
+		panel.add(btnPerfil);
 		
 		JLabel lblNome = new JLabel("Fulano da Silva");
 		//lblNome.setText(nome do usuario)
@@ -206,8 +212,8 @@ public class TelaVenda extends JFrame {
 		txtCodigo.setBackground(new Color(0, 0, 0));
 		txtCodigo.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtCodigo.setFont(pop12);
-		txtCodigo.setBounds(95, 775, 244, 36);
-		txtCodigo.setBounds(875, 455, 244, 36);
+		fieldChisel(txtCodigo, Color.WHITE, 5);
+		txtCodigo.setBounds(818, 468, 244, 25);
 		contentPane.add(txtCodigo);
 		txtCodigo.setColumns(10);
 		
@@ -367,27 +373,11 @@ public class TelaVenda extends JFrame {
 		lblPagamentoValor.setBounds(176, 40, 88, 14);
 		pagamentoPanel.add(lblPagamentoValor);
 		
-		JButton btnDinheiro = new JButton("DINHEIRO");
-		btnDinheiro.setOpaque(false);
-		btnDinheiro.setFont(pop12);
-		btnDinheiro.setBackground(null);
-		buttonChisel(btnDinheiro, clGreen, 5);
-		btnDinheiro.setBounds(10, 36, 156, 23);
-		pagamentoPanel.add(btnDinheiro);
-		
-		JButton btnCartao = new JButton("CARTÃO");
-		btnCartao.setOpaque(false);
-		btnCartao.setFont(pop12);
-		btnCartao.setBackground((Color) null);
-		btnCartao.setBounds(10, 70, 156, 23);
-		buttonChisel(btnCartao, clBlue, 5);
-		pagamentoPanel.add(btnCartao);
-		
 		JLabel lblTotal = new JLabel("TOTAL: R$0,00");
 		lblTotal.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblTotal.setForeground(Color.WHITE);
 		lblTotal.setFont(pop16);
-		lblTotal.setBounds(1065, 466, 263, 14);
+		lblTotal.setBounds(1065, 474, 252, 14);
 		contentPane.add(lblTotal);
 		
 		JTextField txtPagamentoValor = new JTextField();
@@ -414,9 +404,27 @@ public class TelaVenda extends JFrame {
 		btNEncerrar.setBounds(379, 70, 156, 23);
 		pagamentoPanel.add(btNEncerrar);
 		
-		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setBounds(0, 0, 46, 14);
-		pagamentoPanel.add(lblNewLabel);
+		JRadioButton rdDinheiro = new JRadioButton("DINHEIRO");
+		pagGroup.add(rdDinheiro);
+		rdDinheiro.setFocusPainted(false);
+		rdDinheiro.setForeground(Color.WHITE);
+		rdDinheiro.setBackground(null);
+		rdDinheiro.setFont(pop10);
+		rdDinheiro.setIcon(new ImageIcon("./img/radio_button.png"));
+		rdDinheiro.setSelectedIcon(new ImageIcon("./img/radio_button_checked.png"));
+		rdDinheiro.setBounds(20, 32, 109, 23);
+		pagamentoPanel.add(rdDinheiro);
+		
+		JRadioButton rdCartao = new JRadioButton("CARTÃO");
+		pagGroup.add(rdCartao);
+		rdCartao.setFocusPainted(false);
+		rdCartao.setForeground(Color.WHITE);
+		rdCartao.setFont(pop10);
+		rdCartao.setBackground((Color) null);
+		rdCartao.setIcon(new ImageIcon("./img/radio_button.png"));
+		rdCartao.setSelectedIcon(new ImageIcon("./img/radio_button_checked.png"));
+		rdCartao.setBounds(20, 58, 109, 23);
+		pagamentoPanel.add(rdCartao);
 		
 		JButton btnAdd = new JButton("");
 		btnAdd.addActionListener(new ActionListener() {
@@ -474,20 +482,20 @@ public class TelaVenda extends JFrame {
 		btnAdd.setIcon(new ImageIcon("./img/add.png"));
 		btnAdd.setForeground(null);
 		btnAdd.setBackground(null);
-		btnAdd.setBounds(47, 775, 36, 36);
-		btnAdd.setBounds(801, 455, 56, 36);
-		contentPane.add(btnAdd);
+		btnAdd.setBounds(772, 462, 36, 36);
+		contentPane.add(btnAdd);		
+		
+		JLabel txtDigiteOCodigo = new JLabel("CÓDIGO");
+		txtDigiteOCodigo.setForeground(new Color(255, 255, 255));
+		txtDigiteOCodigo.setFont(pop10);
+		txtDigiteOCodigo.setBounds(818, 453, 128, 14);
+		contentPane.add(txtDigiteOCodigo);
 		
 		JLabel fakeBG = new JLabel("");
 		fakeBG.setForeground(new Color(0, 0, 0));
 		fakeBG.setIcon(new ImageIcon("./img/bg.png"));
 		fakeBG.setBounds(0, 0, 1600, 861);
 		contentPane.add(fakeBG);
-		
-		JLabel txtDigiteOCodigo = new JLabel("Digite o Codigo do Produto");
-		txtDigiteOCodigo.setForeground(new Color(255, 255, 255));
-		txtDigiteOCodigo.setBounds(875, 440, 128, 14);
-		contentPane.add(txtDigiteOCodigo);
 		
 	}
 	
