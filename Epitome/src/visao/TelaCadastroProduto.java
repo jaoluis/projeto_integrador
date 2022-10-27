@@ -198,11 +198,32 @@ public class TelaCadastroProduto extends JFrame {
 		lblDataDeNascimento.setBounds(10, 261, 156, 14);
 		panel.add(lblDataDeNascimento);
 
-		JLabel lblCargo = new JLabel("FORNECEDOR(ES)");
-		lblCargo.setForeground(new Color(197, 197, 197));
-		lblCargo.setBounds(10, 306, 156, 14);
-		lblCargo.setFont(pop10);
-		panel.add(lblCargo);
+		JLabel lblFornecedores = new JLabel("FORNECEDOR(ES)");
+		lblFornecedores.setForeground(new Color(197, 197, 197));
+		lblFornecedores.setBounds(10, 306, 156, 14);
+		lblFornecedores.setFont(pop10);
+		panel.add(lblFornecedores);
+		
+		JTextField txtFornecedor = new JTextField();
+		txtFornecedor.setForeground(new Color(255, 255, 255));
+		txtFornecedor.setBackground(new Color(45, 45, 45));
+		txtFornecedor.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		txtFornecedor.setBounds(10, 320, 156, 20);
+		txtFornecedor.setFont(pop12);
+		panel.add(txtFornecedor);
+		txtFornecedor.setColumns(10);
+		
+		JButton btnAddFornecedor = new JButton("");
+		btnAddFornecedor.setIcon(new ImageIcon("./img/add_forn.png"));
+		btnAddFornecedor.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// adicionar Fornecedor à lista
+			}
+		});
+		btnAddFornecedor.setBackground(null);
+		btnAddFornecedor.setBorder(BorderFactory.createEmptyBorder());
+		btnAddFornecedor.setBounds(150, 303, 16, 16);
+		panel.add(btnAddFornecedor);
 
 		JButton btnContinuar = new JButton("CADASTRAR");
 		btnContinuar.addActionListener(new ActionListener() {
