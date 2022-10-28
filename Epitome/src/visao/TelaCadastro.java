@@ -11,7 +11,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.sql.Date;
-import java.sql.SQLException;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -22,7 +21,6 @@ import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -37,24 +35,27 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
-import javax.swing.plaf.basic.BasicScrollBarUI;
 import javax.swing.text.MaskFormatter;
 
-import controle.Conexao;
 import controle.UsuarioDAO;
 import modelo.Contato;
+import modelo.Endereco;
 import modelo.Usuario;
-import modelo.endereco;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
 
 public class TelaCadastro extends JFrame {
 
+	private static final long serialVersionUID = 1L;
+	
 	private JPanel contentPane;
 	private JTextField txtEmail;
 	private JPasswordField txtSenha;
 	private final ButtonGroup cargoGroup = new ButtonGroup();
-	ArrayList<endereco> enderecoF =  new ArrayList<endereco>();
+	ArrayList<Endereco> enderecoF =  new ArrayList<Endereco>();
 	ArrayList<Contato> contatoC =  new ArrayList<Contato>();
-	String[] valuesCnt = new String[] {"Adicione um contato"};
+	ArrayList<String> valuesEnd = new ArrayList<String>();
+	ArrayList<String> valuesCnt = new ArrayList<String>();
 
 	/**
 	 * Launch the application.
@@ -79,7 +80,6 @@ public class TelaCadastro extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage("./img/app_icon_small.png"));
 		Color clRed = new Color(226, 0, 54);
 		Color clBlue = new Color(113, 206, 236);
-		Color clLight = new Color(197, 197, 197);
 		Color clYellow = new Color(239, 161, 35);
 
 		Font poppins, pop10 = null, pop12 = null;
@@ -107,97 +107,35 @@ public class TelaCadastro extends JFrame {
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(22, 22, 22));
 		panel.setBounds(73, 34, 176, 466);
-		panelbuttonChisel(panel, new Color(255, 255, 255), 5);
+		panelbuttonChisel(panel, Color.WHITE, 5);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
 		JPanel endPanel = new JPanel();
 		endPanel.setBackground(new Color(22, 22, 22));
 		endPanel.setBounds(282, 34, 345, 250);
-		panelbuttonChisel(endPanel, new Color(255, 255, 255), 5);
+		panelbuttonChisel(endPanel, Color.WHITE, 5);
 		contentPane.add(endPanel);
 		endPanel.setLayout(null);
 		
-		JLabel lblEndereco = new JLabel("ENDEREÇO(S)");
-		lblEndereco.setBounds(10, 11, 156, 14);
+		JLabel lblEndereco = new JLabel("ENDERE\u00C7O(S)");
+		lblEndereco.setBounds(10, 11, 133, 14);
 		endPanel.add(lblEndereco);
 		lblEndereco.setForeground(new Color(197, 197, 197));
 		lblEndereco.setFont(null);
 		lblEndereco.setFont(pop10);
 		
-		JButton btnAddEndereco = new JButton("");
-		btnAddEndereco.setBounds(150, 11, 16, 16);
-		endPanel.add(btnAddEndereco);
-		btnAddEndereco.setIcon(new ImageIcon("./img/add_forn.png"));
-		btnAddEndereco.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			// adicionar endereço à lista
-			}
-		});
-		btnAddEndereco.setBackground(null);
-		btnAddEndereco.setBorder(BorderFactory.createEmptyBorder());
-		
-		
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 28, 156, 211);
-		endPanel.add(scrollPane);
-		scrollPane.getVerticalScrollBar().setBackground(new Color(22, 22, 22));
-		scrollPane.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
-		    @Override
-		    protected void configureScrollBarColors() {
-		        this.thumbColor = clLight;
-		    }
-		    
-		    @Override
-		    protected JButton createDecreaseButton(int orientation) {
-		        JButton button = super.createDecreaseButton(orientation);
-		        button.setBackground(new Color(22, 22, 22));
-		        button.setForeground(null);
-		        button.setSelectedIcon(null);
-		        button.setBorder(BorderFactory.createLineBorder(new Color(22,22,22), 2));
-		        return button;
-		    }
+		JScrollPane endScrollPane = new JScrollPane();
+		endScrollPane.setBounds(10, 28, 156, 211);
+		endPanel.add(endScrollPane);
+		Rolagem.defRolagem(endScrollPane, new Rolagem(), new Rolagem());
 
-		    @Override
-		    protected JButton createIncreaseButton(int orientation) {
-		        JButton button = super.createIncreaseButton(orientation);
-		        button.setBackground(new Color(22, 22, 22));
-		        button.setForeground(null);
-		        button.setSelectedIcon(null);
-		        button.setBorder(BorderFactory.createLineBorder(new Color(22,22,22), 2));
-		        return button;
-		    }
-		});
-
-		scrollChisel(scrollPane, new Color(255, 255, 255), 5);
-		scrollPane.setBackground(null);
-		scrollPane.setForeground(null);
-		
-		String[] values = new String[] {"Adicione um endereço"};
-		
-		JList listaEndereco = new JList();
-		listaEndereco.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		listaEndereco.setSelectionBackground(clYellow);
-		listaEndereco.setSelectionForeground(new Color(22,22,22));
-		listaEndereco.setModel(new AbstractListModel() {
-			// sempre que tem um item selecionado, alterar campos do painel endPanel
-
-			public int getSize() {
-				return values.length;
-			}
-			public Object getElementAt(int index) {
-				return values[index];
-			}
-		});
-		listaEndereco.setBackground(new Color(22, 22, 22));
-		listaEndereco.setForeground(new Color(197, 197, 197));
-		listaEndereco.setFont(pop10);
-		listaEndereco.setBounds(0, 50, 156, 113);
-		scrollPane.setViewportView(listaEndereco);
+		scrollChisel(endScrollPane, Color.WHITE, 5);
+		endScrollPane.setBackground(null);
+		endScrollPane.setForeground(null);
 		
 		JLabel lblDetEndereco = new JLabel("Endereço");
-		lblDetEndereco.setForeground(new Color(255, 255, 255));
+		lblDetEndereco.setForeground(Color.WHITE);
 		lblDetEndereco.setFont(pop12);
 		lblDetEndereco.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDetEndereco.setBounds(176, 11, 156, 14);
@@ -210,7 +148,9 @@ public class TelaCadastro extends JFrame {
 		endPanel.add(lblCidade);
 
 		JTextField txtCidade = new JTextField();
-		txtCidade.setForeground(new Color(255, 255, 255));
+		txtCidade.setCaretColor(Color.WHITE);
+		txtCidade.setEnabled(false);
+		txtCidade.setForeground(Color.WHITE);
 		txtCidade.setBackground(new Color(45, 45, 45));
 		txtCidade.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtCidade.setBounds(176, 50, 156, 20);
@@ -225,7 +165,9 @@ public class TelaCadastro extends JFrame {
 		endPanel.add(lblBairro);
 
 		JTextField txtBairro = new JTextField();
-		txtBairro.setForeground(new Color(255, 255, 255));
+		txtBairro.setCaretColor(Color.WHITE);
+		txtBairro.setEnabled(false);
+		txtBairro.setForeground(Color.WHITE);
 		txtBairro.setBackground(new Color(45, 45, 45));
 		txtBairro.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtBairro.setBounds(176, 95, 156, 20);
@@ -239,7 +181,9 @@ public class TelaCadastro extends JFrame {
 		endPanel.add(lblRua);
 
 		JTextField txtRua = new JTextField();
-		txtRua.setForeground(new Color(255, 255, 255));
+		txtRua.setCaretColor(Color.WHITE);
+		txtRua.setEnabled(false);
+		txtRua.setForeground(Color.WHITE);
 		txtRua.setBackground(new Color(45, 45, 45));
 		txtRua.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtRua.setBounds(176, 140, 156, 20);
@@ -254,31 +198,92 @@ public class TelaCadastro extends JFrame {
 		endPanel.add(lblNumero);
 
 		JTextField txtNumero = new JTextField();
-		txtNumero.setForeground(new Color(255, 255, 255));
+		txtNumero.setCaretColor(Color.WHITE);
+		txtNumero.setEnabled(false);
+		txtNumero.setForeground(Color.WHITE);
 		txtNumero.setBackground(new Color(45, 45, 45));
 		txtNumero.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtNumero.setBounds(176, 185, 156, 20);
 		txtNumero.setFont(pop12);
 		endPanel.add(txtNumero);
 		
+		JList<String> listaEndereco = new JList<String>();
+		listaEndereco.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				
+				if (listaEndereco.getSelectedIndex() == -1) {
+					return;
+				}
+				
+				Endereco end = enderecoF.get(listaEndereco.getSelectedIndex());
+				txtCidade.setText(end.getCidade());
+				txtBairro.setText(end.getBairro());
+				txtRua.setText(end.getRua());
+				txtNumero.setText(Integer.toString(end.getNumero()));
+			}
+		});
+		listaEndereco.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		listaEndereco.setSelectionBackground(clYellow);
+		listaEndereco.setSelectionForeground(new Color(22,22,22));
+		listaEndereco.setModel(new AbstractListModel<String>() {
+
+			private static final long serialVersionUID = 1L;
+			
+			public int getSize() {
+				return new String[] {}.length;
+			}
+			public String getElementAt(int index) {
+				return new String[] {}[index];
+			}
+		});
+		listaEndereco.setBackground(new Color(22, 22, 22));
+		listaEndereco.setForeground(new Color(197, 197, 197));
+		listaEndereco.setFont(pop10);
+		listaEndereco.setBounds(0, 50, 156, 113);
+		endScrollPane.setViewportView(listaEndereco);
+		
+		JButton btnAddEndereco = new JButton("");
+		btnAddEndereco.setBounds(150, 11, 16, 16);
+		endPanel.add(btnAddEndereco);
+		btnAddEndereco.setIcon(new ImageIcon("./img/add_forn.png"));
+		btnAddEndereco.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+								
+				enderecoF.add(new Endereco());
+				valuesEnd.add(Integer.toString(valuesEnd.size() + 1));
+				
+				updateList(listaEndereco, valuesEnd);
+				
+				txtCidade.setEnabled(true);
+				txtBairro.setEnabled(true);
+				txtRua.setEnabled(true);
+				txtNumero.setEnabled(true);
+			}
+		});
+		btnAddEndereco.setBackground(null);
+		btnAddEndereco.setBorder(BorderFactory.createEmptyBorder());
+		
 		JButton btnAlterarEndereco= new JButton("ALTERAR");
 		btnAlterarEndereco.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				boolean f = true;
+				if (listaEndereco.getSelectedIndex() == -1) {
+					JOptionPane.showMessageDialog(null, "Favor inserir um endereço", "Erro", JOptionPane.ERROR_MESSAGE);
+					System.out.println("sem enderecos");	
+					return;
+				}
+				
 				String cidade = txtCidade.getText();
 				if (cidade.isBlank()) {
 					JOptionPane.showMessageDialog(null, "Favor inserir uma cidade", "Erro", JOptionPane.ERROR_MESSAGE);
 					System.out.println("cidade Vazio");
-					f =false;
 					return;
 				}
 				
-				String Rua = txtRua.getText();
-				if (Rua.isBlank()) {
+				String rua = txtRua.getText();
+				if (rua.isBlank()) {
 					JOptionPane.showMessageDialog(null, "Favor inserir uma Rua.", "Erro", JOptionPane.ERROR_MESSAGE);
 					System.out.println("rua vazio");
-					f =false;
 					return;
 				}
 				
@@ -286,7 +291,6 @@ public class TelaCadastro extends JFrame {
 				if (bairro.isBlank()) {
 					JOptionPane.showMessageDialog(null, "Favor inserir um bairro.", "Erro", JOptionPane.ERROR_MESSAGE);
 					System.out.println("bairro vazio");
-					f =false;
 					return;
 				}
 				String numero = txtNumero.getText();
@@ -295,78 +299,74 @@ public class TelaCadastro extends JFrame {
 				try {
 					numero1 = Integer.parseInt(txtNumero.getText());
 				} catch (NumberFormatException x) {
-					JOptionPane.showMessageDialog(null, "Digite apenas numeros.", "Aviso", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Digite apenas números.", "Aviso", JOptionPane.WARNING_MESSAGE);
 					System.out.println("Não converteu para inteiro");
-					f =false;
 					return;
 				}
 				
 
 				if (numero.isBlank()) {
-					JOptionPane.showMessageDialog(null, "Favor inserir um numero.", "Erro", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Favor inserir um número.", "Erro", JOptionPane.ERROR_MESSAGE);
 					System.out.println("numero vazio");
-					f =false;
 					return;
 				}
 				
-				if(f=true) {
-				endereco enderecoAdd = new endereco();
+				Endereco enderecoAdd = new Endereco();
 				enderecoAdd.setBairro(bairro);
 				enderecoAdd.setCidade(cidade);
 				enderecoAdd.setNumero(numero1);
-				enderecoAdd.setRua(Rua);
-				enderecoF.add(enderecoAdd);
-				for (endereco enderecoA : enderecoF) {	
-		String[] values = new String[] {enderecoA.getRua()+enderecoA.getBairro() + enderecoA.getCidade() + enderecoA.getNumero()};
+				enderecoAdd.setRua(rua);
+				enderecoF.set(listaEndereco.getSelectedIndex(), enderecoAdd);
+				valuesEnd.set(listaEndereco.getSelectedIndex(), cidade + ", " + bairro + ", " + rua + " - " + numero1);
 
-		JList listaEndereco = new JList();
-		listaEndereco.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		listaEndereco.setSelectionBackground(clYellow);
-		listaEndereco.setSelectionForeground(new Color(22,22,22));
-		listaEndereco.setModel(new AbstractListModel() {
-			// sempre que tem um item selecionado, alterar campos do painel endPanel
-
-			public int getSize() {
-				return values.length;
-			}
-			public Object getElementAt(int index) {
-				return values[index];
-			}
-		});
-		
-		Font poppins, pop10 = null, pop12 = null;
-		listaEndereco.setBackground(new Color(22, 22, 22));
-		listaEndereco.setForeground(new Color(197, 197, 197));
-		listaEndereco.setFont(pop10);
-		listaEndereco.setBounds(0, 0, 156, 113);
-		scrollPane.setViewportView(listaEndereco);
-				}
-
+				System.out.println("debug: tela de cadastro de fornecedor > cadastro endereco");
 				
-				}
-				System.out.println("debug: tela de cadastro de fornecedor > cadastro enderecor");
-				
+				updateList(listaEndereco, valuesEnd);
 			}
 		});
 		btnAlterarEndereco.setOpaque(false);
-		btnAlterarEndereco.setForeground(new Color(239, 161, 35));
+		btnAlterarEndereco.setForeground(clYellow);
 		btnAlterarEndereco.setFont(pop12);
 		Chisel(btnAlterarEndereco, clYellow, 5);
 		btnAlterarEndereco.setFocusPainted(false);
 		btnAlterarEndereco.setBackground((Color) null);
-		btnAlterarEndereco.setBounds(176, 216, 156, 23);
+		btnAlterarEndereco.setBounds(176, 216, 123, 23);
 		endPanel.add(btnAlterarEndereco);
+		
+		JButton btnDelEndereco = new JButton("");
+		btnDelEndereco.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int idx = listaEndereco.getSelectedIndex();
+				
+				if (idx == -1) {
+					return;
+				}
+				
+				enderecoF.remove(idx);
+				valuesEnd.remove(idx);
+				updateList(listaEndereco, valuesEnd);
+			}
+		});
+		btnDelEndereco.setIcon(new ImageIcon("./img/delete.png"));
+		btnDelEndereco.setOpaque(false);
+		btnDelEndereco.setForeground(clRed);
+		btnDelEndereco.setFont(pop12);
+		Chisel(btnDelEndereco, clRed, 5);
+		btnDelEndereco.setFocusPainted(false);
+		btnDelEndereco.setBackground((Color) null);
+		btnDelEndereco.setBounds(309, 216, 23, 23);
+		endPanel.add(btnDelEndereco);
 		
 		
 		JPanel cntPanel = new JPanel();
 		cntPanel.setBackground(new Color(22, 22, 22));
 		cntPanel.setBounds(282, 295, 345, 205);
-		panelbuttonChisel(cntPanel, new Color(255, 255, 255), 5);
+		panelbuttonChisel(cntPanel, Color.WHITE, 5);
 		contentPane.add(cntPanel);
 		cntPanel.setLayout(null);
 				
 		JLabel lblDetContato = new JLabel("Contato");
-		lblDetContato.setForeground(new Color(255, 255, 255));
+		lblDetContato.setForeground(Color.WHITE);
 		lblDetContato.setFont(pop12);
 		lblDetContato.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDetContato.setBounds(179, 11, 156, 14);
@@ -379,7 +379,9 @@ public class TelaCadastro extends JFrame {
 		cntPanel.add(lblEmailCnt);
 
 		JTextField txtEmailCnt = new JTextField();
-		txtEmailCnt.setForeground(new Color(255, 255, 255));
+		txtEmailCnt.setEnabled(false);
+		txtEmailCnt.setCaretColor(Color.WHITE);
+		txtEmailCnt.setForeground(Color.WHITE);
 		txtEmailCnt.setBackground(new Color(45, 45, 45));
 		txtEmailCnt.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtEmailCnt.setBounds(179, 50, 156, 20);
@@ -394,7 +396,9 @@ public class TelaCadastro extends JFrame {
 		cntPanel.add(lblTelefone);
 
 		JTextField txtTelefone = new JTextField();
-		txtTelefone.setForeground(new Color(255, 255, 255));
+		txtTelefone.setEnabled(false);
+		txtTelefone.setCaretColor(Color.WHITE);
+		txtTelefone.setForeground(Color.WHITE);
 		txtTelefone.setBackground(new Color(45, 45, 45));
 		txtTelefone.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtTelefone.setBounds(179, 95, 156, 20);
@@ -404,7 +408,7 @@ public class TelaCadastro extends JFrame {
 
 		
 		JLabel lblContato = new JLabel("CONTATO(S)");
-		lblContato.setBounds(10, 15, 156, 14);
+		lblContato.setBounds(10, 11, 131, 14);
 		cntPanel.add(lblContato);
 		lblContato.setForeground(new Color(197, 197, 197));
 		lblContato.setFont(null);
@@ -413,51 +417,37 @@ public class TelaCadastro extends JFrame {
 		JScrollPane cntScrollPane = new JScrollPane();
 		cntScrollPane.setBounds(10, 29, 156, 165);
 		cntPanel.add(cntScrollPane);
-		cntScrollPane.getVerticalScrollBar().setBackground(new Color(22, 22, 22));
-		scrollChisel(cntScrollPane, new Color(255, 255, 255), 5);
+		scrollChisel(cntScrollPane, Color.WHITE, 5);
 		cntScrollPane.setBackground(null);
 		cntScrollPane.setForeground(null);
-		cntScrollPane.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
-		    @Override
-		    protected void configureScrollBarColors() {
-		        this.thumbColor = clLight;
-		    }
-		    
-		    @Override
-		    protected JButton createDecreaseButton(int orientation) {
-		        JButton button = super.createDecreaseButton(orientation);
-		        button.setBackground(new Color(22, 22, 22));
-		        button.setForeground(null);
-		        button.setSelectedIcon(null);
-		        button.setBorder(BorderFactory.createLineBorder(new Color(22,22,22), 2));
-		        return button;
-		    }
-
-		    @Override
-		    protected JButton createIncreaseButton(int orientation) {
-		        JButton button = super.createIncreaseButton(orientation);
-		        button.setBackground(new Color(22, 22, 22));
-		        button.setForeground(null);
-		        button.setSelectedIcon(null);
-		        button.setBorder(BorderFactory.createLineBorder(new Color(22,22,22), 2));
-		        return button;
-		    }
+		Rolagem.defRolagem(cntScrollPane);
+		
+		
+		
+		JList<String> listaContato = new JList<String>();
+		listaContato.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				if (listaContato.getSelectedIndex() == -1) {
+					return;
+				}
+				
+				Contato con = contatoC.get(listaContato.getSelectedIndex());
+				txtEmailCnt.setText(con.getEmail());
+				txtTelefone.setText(con.getTelefone());
+			}
 		});
-		
-		
-		
-		JList listaContato = new JList();
 		listaContato.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		listaContato.setSelectionBackground(clYellow);
 		listaContato.setSelectionForeground(new Color(22,22,22));
-		listaContato.setModel(new AbstractListModel() {
-			// sempre que tem um item selecionado, alterar campos do painel endPanel
+		listaContato.setModel(new AbstractListModel<String>() {
 
+			private static final long serialVersionUID = 1L;
+			
 			public int getSize() {
-				return valuesCnt.length;
+				return new String[] {}.length;
 			}
-			public Object getElementAt(int index) {
-				return valuesCnt[index];
+			public String getElementAt(int index) {
+				return new String[] {}[index];
 			}
 		});
 		listaContato.setBackground(new Color(22, 22, 22));
@@ -472,14 +462,21 @@ public class TelaCadastro extends JFrame {
 		btnAddContato.setIcon(new ImageIcon("./img/add_forn.png"));
 		btnAddContato.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// adicionar contato à lista
+				
+				contatoC.add(new Contato());
+				valuesCnt.add(Integer.toString(valuesCnt.size() + 1));
+				
+				updateList(listaContato, valuesCnt);
+				
+				txtEmailCnt.setEnabled(true);
+				txtTelefone.setEnabled(true);
 			}
 		});
 		btnAddContato.setBackground(null);
 		btnAddContato.setBorder(BorderFactory.createEmptyBorder());
 
 		JLabel lblEstamosQuaseL = new JLabel("Criar conta");
-		lblEstamosQuaseL.setForeground(new Color(255, 255, 255));
+		lblEstamosQuaseL.setForeground(Color.WHITE);
 		lblEstamosQuaseL.setFont(pop12);
 		lblEstamosQuaseL.setHorizontalAlignment(SwingConstants.CENTER);
 		lblEstamosQuaseL.setBounds(10, 11, 156, 14);
@@ -491,8 +488,9 @@ public class TelaCadastro extends JFrame {
 		lblCPF.setBounds(10, 216, 156, 14);
 		panel.add(lblCPF);
 
-		JFormattedTextField txtCPF = new JFormattedTextField(def_mask("###.###.###-##", '•'));
-		txtCPF.setForeground(new Color(255, 255, 255));
+		JFormattedTextField txtCPF = new JFormattedTextField(def_mask("###.###.###-##", '\u2022'));
+		txtCPF.setCaretColor(Color.WHITE);
+		txtCPF.setForeground(Color.WHITE);
 		txtCPF.setBackground(new Color(45, 45, 45));
 		txtCPF.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtCPF.setBounds(10, 230, 156, 20);
@@ -500,8 +498,9 @@ public class TelaCadastro extends JFrame {
 		panel.add(txtCPF);
 		txtCPF.setColumns(10);
 
-		JFormattedTextField txtData = new JFormattedTextField(def_mask("##/##/####", '•'));
-		txtData.setForeground(new Color(255, 255, 255));
+		JFormattedTextField txtData = new JFormattedTextField(def_mask("##/##/####", '\u2022'));
+		txtData.setCaretColor(Color.WHITE);
+		txtData.setForeground(Color.WHITE);
 		txtData.setBackground(new Color(45, 45, 45));
 		txtData.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtData.setBounds(10, 275, 156, 20);
@@ -516,7 +515,8 @@ public class TelaCadastro extends JFrame {
 		panel.add(lblUsername);
 
 		JTextField txtUsername = new JTextField();
-		txtUsername.setForeground(new Color(255, 255, 255));
+		txtUsername.setCaretColor(Color.WHITE);
+		txtUsername.setForeground(Color.WHITE);
 		txtUsername.setBackground(new Color(45, 45, 45));
 		txtUsername.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtUsername.setBounds(10, 140, 156, 20);
@@ -531,7 +531,8 @@ public class TelaCadastro extends JFrame {
 		panel.add(lblNome);
 
 		JTextField txtNome = new JTextField();
-		txtNome.setForeground(new Color(255, 255, 255));
+		txtNome.setCaretColor(Color.WHITE);
+		txtNome.setForeground(Color.WHITE);
 		txtNome.setBackground(new Color(45, 45, 45));
 		txtNome.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtNome.setBounds(10, 185, 156, 20);
@@ -546,7 +547,8 @@ public class TelaCadastro extends JFrame {
 		panel.add(lblEmail);
 
 		txtEmail = new JTextField();
-		txtEmail.setForeground(new Color(255, 255, 255));
+		txtEmail.setCaretColor(Color.WHITE);
+		txtEmail.setForeground(Color.WHITE);
 		txtEmail.setBackground(new Color(45, 45, 45));
 		txtEmail.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtEmail.setBounds(10, 50, 156, 20);
@@ -561,15 +563,17 @@ public class TelaCadastro extends JFrame {
 		panel.add(lblSenha);
 
 		txtSenha = new JPasswordField();
-		txtSenha.setForeground(new Color(255, 255, 255));
+		txtSenha.setCaretColor(Color.WHITE);
+		txtSenha.setForeground(Color.WHITE);
 		txtSenha.setBackground(new Color(45, 45, 45));
 		txtSenha.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtSenha.setBounds(10, 95, 156, 20);
 		txtSenha.setFont(pop12);
-		txtSenha.setEchoChar('•');
+		txtSenha.setEchoChar('\u2022');
 		panel.add(txtSenha);
 
 		JButton btnLogin = new JButton("Fazer login");
+		btnLogin.setFocusPainted(false);
 		btnLogin.setFont(pop10);
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -716,7 +720,7 @@ public class TelaCadastro extends JFrame {
 			        }
 			    }
 
-				if(dao.validarEmail(email) == true && dao.validarCPF(cpfSN.toString()) == true) {
+				if(dao.validarEmail(email) == true && UsuarioDAO.validarCPF(cpfSN.toString()) == true) {
 				
 				try {
 				date = LocalDate.parse(data, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
@@ -753,15 +757,19 @@ public class TelaCadastro extends JFrame {
 
 				long id = dao.insert(usuario);
 				
-				for (endereco enderecoA: enderecoF) {
-				dao.insertEndereco(enderecoA, id);
+				for (Endereco enderecoA: enderecoF) {
+					if (!enderecoA.isBlank()) {
+						dao.insertEndereco(enderecoA, id);
+					}
 				}
 				
 				for (Contato contatoA : contatoC) {
-				dao.insertContato(contatoA, id);
+					if (!contatoA.isBlank()) {
+						dao.insertContato(contatoA, id);
+					}
 				}
 				}else {
-					System.out.println("Email ou CPF invalido "+email);
+					System.out.println("Email ou CPF inválido " + email + cpf);
 				}
 			}
 				
@@ -781,12 +789,17 @@ public class TelaCadastro extends JFrame {
 		JButton btnAlterarContato = new JButton("ALTERAR");
 		btnAlterarContato.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				boolean f = true;
+				
+				if (listaContato.getSelectedIndex() == -1) {
+					JOptionPane.showMessageDialog(null, "Favor inserir um contato", "Erro", JOptionPane.ERROR_MESSAGE);
+					System.out.println("sem contatos");	
+					return;
+				}
+				
 				String email = txtEmailCnt.getText();
 				if (email.isBlank()) {
 					JOptionPane.showMessageDialog(null, "Favor inserir um email", "Erro", JOptionPane.ERROR_MESSAGE);
 					System.out.println("email Vazio");
-					f =false;
 					return;
 				}
 				
@@ -794,59 +807,63 @@ public class TelaCadastro extends JFrame {
 				if (telefone.isBlank()) {
 					JOptionPane.showMessageDialog(null, "Favor inserir um telefone.", "Erro", JOptionPane.ERROR_MESSAGE);
 					System.out.println("telefone vazio");
-					f =false;
 					return;
 				}
-				
-				
-				if(f=true) {
+			
 				Contato contato = new Contato();
 				contato.setEmail(email);
 				contato.setTelefone(telefone);
-				contatoC.add(contato);
+				contatoC.set(listaContato.getSelectedIndex(), contato);
+				valuesCnt.set(listaContato.getSelectedIndex(), email + " / " + telefone);
 				
-			
-			
-			for (Contato contatoA : contatoC) {	
-				valuesCnt = new String[] {contatoA.getTelefone()+contatoA.getEmail()};
-				
-				JList listaEndereco = new JList();
-				listaEndereco.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-				listaEndereco.setSelectionBackground(clYellow);
-				listaEndereco.setSelectionForeground(new Color(22,22,22));
-				listaEndereco.setModel(new AbstractListModel() {
-					// sempre que tem um item selecionado, alterar campos do painel endPanel
-
-					public int getSize() {
-						return values.length;
-					}
-					public Object getElementAt(int index) {
-						return values[index];
-					}
-				});
-				
-				Font poppins, pop10 = null, pop12 = null;
-				listaEndereco.setBackground(new Color(22, 22, 22));
-				listaEndereco.setForeground(new Color(197, 197, 197));
-				listaEndereco.setFont(pop10);
-				listaEndereco.setBounds(0, 0, 156, 113);
-				scrollPane.setViewportView(listaEndereco);
-						}
-
-				
-				}
+				updateList(listaContato, valuesCnt);
 				System.out.println("debug: tela de cadastro de fornecedor > cadastro contato");
 				
 			}
 		});
 		btnAlterarContato.setOpaque(false);
-		btnAlterarContato.setForeground(new Color(239, 161, 35));
+		btnAlterarContato.setForeground(clYellow);
 		btnAlterarContato.setFont(pop12);
 		Chisel(btnAlterarContato, clYellow, 5);
 		btnAlterarContato.setFocusPainted(false);
 		btnAlterarContato.setBackground((Color) null);
-		btnAlterarContato.setBounds(179, 171, 156, 23);
+		btnAlterarContato.setBounds(179, 171, 123, 23);
 		cntPanel.add(btnAlterarContato);
+		
+		JButton btnDelContato = new JButton("");
+		btnDelContato.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int idx = listaContato.getSelectedIndex();
+				
+				if (idx == -1) {
+					return;
+				}
+				
+				contatoC.remove(idx);
+				valuesCnt.remove(idx);
+				updateList(listaContato, valuesCnt);
+			}
+		});
+		btnDelContato.setIcon(new ImageIcon("./img/delete.png"));
+		btnDelContato.setOpaque(false);
+		btnDelContato.setForeground(clRed);
+		btnDelContato.setFont(null);
+		btnDelContato.setFocusPainted(false);
+		btnDelContato.setBackground((Color) null);
+		Chisel(btnDelContato, clRed, 5);
+		btnDelContato.setBounds(312, 171, 23, 23);
+		cntPanel.add(btnDelContato);
+	}
+
+	public static void updateList(JList<String> listaEndereco, ArrayList<String> values) {
+		String[] up = new String[values.size()];
+		
+		for (int i = 0; i < values.size(); i++) {
+            up[i] = values.get(i);
+        }
+		
+		listaEndereco.setListData(up);
+		
 	}
 
 	private void scrollChisel(JScrollPane scrollPane, Color color, int i) {

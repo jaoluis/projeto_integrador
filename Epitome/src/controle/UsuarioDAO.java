@@ -16,7 +16,7 @@ import javax.swing.JOptionPane;
 
 import modelo.Contato;
 import modelo.Usuario;
-import modelo.endereco;
+import modelo.Endereco;
 import visao.TelaInicialADM;
 import visao.TelaInicialVND;
 import visao.TelaListarUsuarios;
@@ -127,7 +127,7 @@ public class UsuarioDAO {
 	 
 		}
 		
-		public boolean insertEndereco(endereco enderecoA, long id) {
+		public boolean insertEndereco(Endereco enderecoA, long id) {
 			connection = Conexao.getConnection();
 		    Integer n1= (int) id;
 			try {

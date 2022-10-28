@@ -119,7 +119,7 @@ public class TelaLogin extends JFrame {
 		txtSenha.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtSenha.setBounds(10, 95, 156, 20);
 		txtSenha.setFont(pop12);
-		txtSenha.setEchoChar('�');
+		txtSenha.setEchoChar('\u2022');
 		panel.add(txtSenha);
 
 		JLabel lblSenha = new JLabel("SENHA");

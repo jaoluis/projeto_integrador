@@ -14,9 +14,9 @@ import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 
 import modelo.Contato;
+import modelo.Endereco;
 import modelo.Fornecedor;
 import modelo.Produto;
-import modelo.endereco;
 
 public class FornecedorBD {
 	private static Connection connection;
@@ -71,7 +71,7 @@ public class FornecedorBD {
 			return false;
 		}
 			
-	public boolean insertEndereco(endereco enderecoA, long id) {
+	public boolean insertEndereco(Endereco enderecoA, long id) {
 		connection = Conexao.getConnection();
 	    Integer n1= (int) id;
 		try {
