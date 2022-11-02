@@ -197,7 +197,7 @@ public class TelaEstoque extends JFrame {
 		btnEdit.setIcon(new ImageIcon("./img/edit.png"));
 		btnEdit.setForeground(null);
 		btnEdit.setBackground(null);
-		btnEdit.setBounds(93, 775, 36, 36);
+		btnEdit.setBounds(47, 326, 25, 25);
 		contentPane.add(btnEdit);
 
 		JButton btnAdd = new JButton("");
@@ -211,7 +211,7 @@ public class TelaEstoque extends JFrame {
 		btnAdd.setIcon(new ImageIcon("./img/add.png"));
 		btnAdd.setForeground(null);
 		btnAdd.setBackground(null);
-		btnAdd.setBounds(47, 775, 36, 36);
+		btnAdd.setBounds(47, 475, 36, 36);
 		contentPane.add(btnAdd);
 
 		JLabel lblEstoque = new JLabel("Estoque");
@@ -230,6 +230,22 @@ public class TelaEstoque extends JFrame {
 		fieldChisel(txtSearch, new Color(255, 255, 255), 5);
 		contentPane.add(txtSearch);
 		txtSearch.setColumns(10);
+		
+		JButton btnAtualizar = new JButton("");
+		btnAtualizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				TelaEstoque tE = new TelaEstoque(usuarioLogado);
+				tE.setVisible(true);
+				setVisible(false);
+			}
+		});
+		btnAtualizar.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		btnAtualizar.setIcon(new ImageIcon("./img/add.png"));
+		btnAtualizar.setForeground(null);
+		btnAtualizar.setBackground(null);
+		btnAtualizar.setBounds(550, 116, 36, 36);
+		contentPane.add(btnAtualizar);
+		
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(47, 162, 1480, 602);
@@ -250,11 +266,17 @@ public class TelaEstoque extends JFrame {
 		ProdutoBD produtoBD = new ProdutoBD();
 		produtos = produtoBD.getListarProdutos();
 		for (Produto produto : produtos) {
+				if(produto.getFornecedor()==0) {
+					model.addRow(new Object[] { produto.getIdProduto(), produto.getNomeProduto(),
+							produto.getPrecoVendaProduto(), produto.getQuantidadeEstoque(), produto.getMaterialProduto(),
+							produto.getDimencoesProduto(), "Sem fornecedor" });
+				}else {
+					model.addRow(new Object[] { produto.getIdProduto(), produto.getNomeProduto(),
+							produto.getPrecoVendaProduto(), produto.getQuantidadeEstoque(), produto.getMaterialProduto(),
+							produto.getDimencoesProduto(), produto.getFornecedor() });
+				}
 
-			model.addRow(new Object[] { produto.getIdProduto(), produto.getNomeProduto(),
-					produto.getPrecoVendaProduto(), produto.getQuantidadeEstoque(), produto.getMaterialProduto(),
-					produto.getDimencoesProduto(), "Sem fornecedor" });
-			TelaPerfilADM telaPerfil = new TelaPerfilADM(usuarioLogado);
+
 		}
 
 		tblProdutos = new JTable();

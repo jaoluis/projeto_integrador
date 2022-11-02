@@ -1,7 +1,7 @@
 package modelo;
 
 public class Fornecedor {
-	private int id_funcionario;
+	private int id_fornecedor;
 	private String nome_fornecedor;
 	private String cnpj_fornecedor;
 	
@@ -26,7 +26,7 @@ public class Fornecedor {
 	public void setFornecedor(int id_funcionario, String nome, String cnpj,String email,String telefone,String cidade,String bairro,String rua,String numero) {
 		this.nome_fornecedor = nome;
 		this.cnpj_fornecedor = cnpj;
-		this.id_funcionario = id_funcionario;
+		this.id_fornecedor = id_funcionario;
 		this.email = email;
 		this.telefone = telefone;
 		this.cidade = cidade;
@@ -37,11 +37,11 @@ public class Fornecedor {
 	}
 	
 	//FUNCIONARIO//
-	public int getId_funcionario() {
-		return id_funcionario;
+	public int getId_fornecedor() {
+		return id_fornecedor;
 	}
-	public void setId_funcionario(int id_funcionario) {
-		this.id_funcionario = id_funcionario;
+	public void setId_fornecedor(int id_funcionario) {
+		this.id_fornecedor = id_funcionario;
 	}
 	public String getNome_fornecedor() {
 		return nome_fornecedor;

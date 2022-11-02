@@ -26,6 +26,7 @@ import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.MaskFormatter;
 
+import controle.FornecedorBD;
 import controle.ProdutoBD;
 import modelo.Produto;
 
@@ -205,6 +206,7 @@ public class TelaModificarProduto extends JFrame {
 		txtFornecedor.setForeground(new Color(255, 255, 255));
 		txtFornecedor.setBackground(new Color(45, 45, 45));
 		txtFornecedor.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		txtFornecedor.setText(String.valueOf(produtoAEditar.getFornecedor()));
 		txtFornecedor.setBounds(10, 320, 156, 20);
 		txtFornecedor.setFont(pop12);
 		panel.add(txtFornecedor);
@@ -240,6 +242,19 @@ public class TelaModificarProduto extends JFrame {
 				String material = txtMaterial.getText();
 				String dimensoes = txtDimensoes.getText();
 				
+				String fornecedor = txtFornecedor.getText();
+				int idFornecedor = 0;
+				if (fornecedor.isBlank()==false) {
+					idFornecedor = Integer.parseInt(fornecedor);
+				}
+				FornecedorBD fornedorBD = new FornecedorBD();
+				
+				if(fornedorBD.VRFornR(idFornecedor)==false && idFornecedor !=0) {
+					JOptionPane.showMessageDialog(null, "Favor inserir um Fornecedor Existende.", "Erro", JOptionPane.ERROR_MESSAGE);
+					System.out.println("Fornecedor não existe");
+					return;
+				}
+				
 					Produto produto = new Produto();
 					produto.setNomeProduto(nome);
 					produto.setPrecoCustoProduto(precoCusto);
@@ -248,6 +263,7 @@ public class TelaModificarProduto extends JFrame {
 					produto.setMaterialProduto(material);
 					produto.setQuantidadeEstoque(qtd);
 					produto.setIdProduto(produtoAEditar.getIdProduto());
+					produto.setFornecedor(idFornecedor);
 				
 				ProdutoBD produtoBD = new ProdutoBD();
 				produtoBD.update(produto);
@@ -261,6 +277,7 @@ public class TelaModificarProduto extends JFrame {
 		btnContinuar.setFont(pop12);
 		btnContinuar.setBounds(10, 400, 156, 23);
 		panel.add(btnContinuar);
+		
 		
 		JButton btnDeletar = new JButton("DELETAR");
 		btnDeletar.addActionListener(new ActionListener() {

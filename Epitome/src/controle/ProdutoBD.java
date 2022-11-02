@@ -57,6 +57,8 @@ public class ProdutoBD {
 		connection = Conexao.getConnection();
 
 		    Integer n1= (int) id;
+
+		
 		try {
 
 			//insert no preco
@@ -71,13 +73,22 @@ public class ProdutoBD {
 				
 				
 		//insert no produto
-			ps = connection.prepareStatement("insert into produto (nome_produto, estoque_produto, material_produto, dimensoes_produto, fk_id_historico_produto)"
-						+ "values (? , ? , ?, ?, ?)");
+			ps = connection.prepareStatement("insert into produto (nome_produto, estoque_produto, material_produto, dimensoes_produto, fk_id_historico_produto, fk_id_fornecedor_id)"
+						+ "values (? , ? , ?, ?, ?,?)");
 					ps.setString(1, produto.getNomeProduto());
 					ps.setInt(2, produto.getQuantidadeEstoque());
 					ps.setString(3, produto.getMaterialProduto());
 					ps.setString(4, produto.getDimencoesProduto());
 					ps.setInt(5, n1);
+					
+				    String f;
+					System.out.println(produto.getFornecedor());
+					if(produto.getFornecedor()==0) {
+						ps.setString(6, null);
+					}else {
+						ps.setInt(6, produto.getFornecedor());
+					}
+
 						
 						ps.execute();
 					
@@ -97,8 +108,13 @@ public class ProdutoBD {
 	
 	
 	public void update (Produto produto) {
-		String sql  = "UPDATE historico_produto SET nome_produto = ?, estoque_produto  = ?, material_produto  = ?, dimensoes_produto  = ?" + "WHERE id_historico_produto = ?";
-		String sql1 = "UPDATE produto SET nome_produto = ?, estoque_produto  = ?, material_produto  = ?, dimensoes_produto  = ?" + "WHERE fk_id_historico_produto = ?";
+		String sql  = "UPDATE historico_produto SET nome_produto = ?, estoque_produto  = ?, material_produto  = ?, dimensoes_produto  = ?" + "WHERE id_historico_produto = ?;";
+		String sql1 = "UPDATE produto\r\n"
+				+ " SET nome_produto = ?, estoque_produto  = ?, \r\n"
+				+ " material_produto  = ?, \r\n"
+				+ " dimensoes_produto  = ?, \r\n"
+				+ " fk_id_fornecedor_id = ? \r\n"
+				+ " WHERE fk_id_historico_produto = ?;";
 		Connection conn = null;
 		PreparedStatement ps = null;
 		
@@ -111,13 +127,17 @@ public class ProdutoBD {
 			ps.setString(4, produto.getDimencoesProduto());
 			ps.setInt(5, produto.getIdProduto());
 			ps.execute();
+			
+			
+			System.out.println(produto.getFornecedor());
 			ps = conn.prepareStatement(sql1);
 			ps.setString(1, produto.getNomeProduto());
 			ps.setInt(2, produto.getQuantidadeEstoque());
 			ps.setString(3, produto.getMaterialProduto());
 			ps.setString(4, produto.getDimencoesProduto());
-			ps.setInt(5, produto.getIdProduto());
-			System.out.println(produto.getIdProduto());
+			ps.setInt(5, produto.getFornecedor());
+			ps.setInt(6, produto.getIdProduto());
+			
 			ps.execute();
 			
 			
@@ -192,6 +212,7 @@ public class ProdutoBD {
 				produto.setDimencoesProduto(rset.getString("dimensoes_produto"));
 				produto.setPrecoVendaProduto(rset.getInt("preco_venda"));
 				produto.setPrecoCustoProduto(rset.getInt("preco_custo"));
+				produto.setFornecedor(rset.getInt("fk_id_fornecedor_id"));
 				
 				produtos.add(produto);
 				

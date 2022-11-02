@@ -28,6 +28,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import java.awt.Toolkit;
@@ -49,6 +51,7 @@ public class TelaFornecedores extends JFrame {
 	private JTable tblFornecedores;
 	private int id = 0;
 	private boolean selecionadoValor;
+	private List<Fornecedor> fornecedores;
 	
 
 	/**
@@ -219,30 +222,42 @@ public class TelaFornecedores extends JFrame {
 		btnEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: editar produto (tela de cadastro de produto)");
-				TelaPerfilFornecedor telaPerfilFornecedor = new TelaPerfilFornecedor(id);
+
+				int linha = tblFornecedores.getSelectedRow();
+				int idFornecedor = (int) tblFornecedores.getValueAt(linha, 0);
+
+				Fornecedor fornecedorAEditar = null;
+				for (Fornecedor fornecedor : fornecedores) {
+					if (idFornecedor == fornecedor.getId_fornecedor()) {
+						fornecedorAEditar = fornecedor;
+					}
+				}
+				TelaPerfilFornecedor telaPerfilFornecedor = new TelaPerfilFornecedor(fornecedorAEditar.getId_fornecedor());
 				telaPerfilFornecedor.setVisible(true);
-				
+
 			}
 		});
+		
+		
 		btnEdit.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		btnEdit.setIcon(new ImageIcon("./img/edit.png"));
 		btnEdit.setForeground(null);
 		btnEdit.setBackground(null);
-		btnEdit.setBounds(93, 775, 36, 36);
+		btnEdit.setBounds(47, 426, 25, 25);
 		contentPane.add(btnEdit);
 
 		JButton btnAdd = new JButton("");
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				TelaCadastroProduto tcp = new TelaCadastroProduto();
-				tcp.setVisible(true);
+				TelaCadastroFornecedor tcf = new TelaCadastroFornecedor();
+				tcf.setVisible(true);
 			}
 		});
 		btnAdd.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		btnAdd.setIcon(new ImageIcon("./img/add.png"));
 		btnAdd.setForeground(null);
 		btnAdd.setBackground(null);
-		btnAdd.setBounds(47, 775, 36, 36);
+		btnAdd.setBounds(47, 626, 25, 25);
 		contentPane.add(btnAdd);
 
 		JLabel lblEstoque = new JLabel("Fornecedores");
@@ -277,10 +292,11 @@ public class TelaFornecedores extends JFrame {
 		tblFornecedores.setModel(new DefaultTableModel(new Object[][] { { null, null, null}, },
 				new String[] { "ID", "NOME", "CNPJ" }));
 
-		FornecedorBD fornecedorBD = new FornecedorBD();
-		for (Fornecedor fornecedor : fornecedorBD.getListarFornecedores()) {
+			FornecedorBD fornecedorBD = new FornecedorBD();
+			fornecedores = fornecedorBD.getListarFornecedores();
+		for (Fornecedor fornecedor : fornecedores) {
 
-			model.addRow(new Object[] {fornecedor.getId_funcionario(),fornecedor.getNome_fornecedor(),fornecedor.getCnpj_fornecedor() });
+			model.addRow(new Object[] {fornecedor.getId_fornecedor(),fornecedor.getNome_fornecedor(),fornecedor.getCnpj_fornecedor() });
 			
     }
 			

@@ -28,6 +28,7 @@ import java.io.File;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import java.awt.Toolkit;
@@ -39,8 +40,12 @@ import javax.swing.table.JTableHeader;
 
 import controle.ProdutoBD;
 import controle.UsuarioDAO;
+import controle.VendaBD;
+import modelo.ProdVNDQuant;
 import modelo.Produto;
 import modelo.Usuario;
+import modelo.Venda;
+
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
 
@@ -52,6 +57,10 @@ public class TelaVenda extends JFrame {
 	float precoT = 0;
 	float troco = (float) 0.00;
 	private final ButtonGroup pagGroup = new ButtonGroup();
+	Venda venda = new Venda();
+	ArrayList<ProdVNDQuant> QuantVND = new ArrayList<ProdVNDQuant>();
+	ProdVNDQuant vendaInicial = new ProdVNDQuant();
+
 
 	/**
 	 * Launch the application.
@@ -396,13 +405,7 @@ public class TelaVenda extends JFrame {
 		lblTroco.setBounds(391, 40, 144, 14);
 		pagamentoPanel.add(lblTroco);
 		
-		JButton btNEncerrar = new JButton("ENCERRAR");
-		btNEncerrar.setOpaque(false);
-		btNEncerrar.setFont(pop12);
-		btNEncerrar.setBackground((Color) null);
-		buttonChisel(btNEncerrar, clYellow, 5);
-		btNEncerrar.setBounds(379, 70, 156, 23);
-		pagamentoPanel.add(btNEncerrar);
+
 		
 		JRadioButton rdDinheiro = new JRadioButton("DINHEIRO");
 		pagGroup.add(rdDinheiro);
@@ -426,6 +429,54 @@ public class TelaVenda extends JFrame {
 		rdCartao.setBounds(20, 58, 109, 23);
 		pagamentoPanel.add(rdCartao);
 		
+		JButton btNEncerrar = new JButton("ENCERRAR");
+		btNEncerrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("debug: encerrar compra");
+				
+				if (rdDinheiro.isSelected()==true) {
+
+					float a =    Float.parseFloat(txtPagamentoValor.getText()) - precoT;
+					lblTroco.setText("Troco:  R$"+a);
+
+					
+				}
+				Date now = new Date(System.currentTimeMillis());
+				venda.setDataVenda(now);
+				venda.setFk(usuarioLogado.getId_usuario());
+				if(rdCartao.isSelected()==true) {
+				venda.setPagamento("cartao");
+				}else if(rdDinheiro.isSelected()==true) {
+					venda.setPagamento("dinheiro");
+				}else {
+					System.out.println("debug: forma de pagamento não informada");
+				}
+				venda.setTotal(precoT);
+					
+
+				VendaBD vendaBD = new VendaBD();
+				Long id = vendaBD.insert(venda);
+				
+				for (ProdVNDQuant a: QuantVND) {
+					if(a.getId()!=0) {
+						vendaBD.insert(a, id);
+					}
+
+				}
+				vendaBD.insert(venda);
+			}
+
+		});
+		btNEncerrar.setOpaque(false);
+		btNEncerrar.setFont(pop12);
+		btNEncerrar.setBackground((Color) null);
+		buttonChisel(btNEncerrar, clYellow, 5);
+		btNEncerrar.setBounds(379, 70, 156, 23);
+		pagamentoPanel.add(btNEncerrar);
+		
+		vendaInicial.setId(0);
+		vendaInicial.setQuant(0);
+		QuantVND.add(vendaInicial);
 		JButton btnAdd = new JButton("");
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -471,9 +522,20 @@ public class TelaVenda extends JFrame {
 						
 						lblNomeProduto.setText(produto.getNomeProduto());
 						
-//						troco = precoT - Float.parseFloat(lblPagamentoValor.getText());
-//						lblTroco.setText("Troco: "+troco);
-						
+						for (ProdVNDQuant vendaQ : QuantVND) {
+						if (produto.getIdProduto()==vendaQ.getId()) {
+							vendaQ.setQuant(vendaQ.getQuant()+1);
+							QuantVND.add(vendaQ);
+							System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+							}else {
+							ProdVNDQuant vendaQ1 = new ProdVNDQuant();
+							vendaQ1.setId(produto.getIdProduto());
+							vendaQ1.setQuant(1);
+							QuantVND.add(vendaQ1);
+
+						}
+						System.out.println(vendaQ.getId());
+						}
 					}
 				}
 			}

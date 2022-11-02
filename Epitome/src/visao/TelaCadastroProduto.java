@@ -35,6 +35,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.text.MaskFormatter;
 
 import controle.Conexao;
+import controle.FornecedorBD;
 import controle.ProdutoBD;
 import controle.UsuarioDAO;
 import modelo.Produto;
@@ -275,6 +276,25 @@ public class TelaCadastroProduto extends JFrame {
 					return;
 				}
 				
+
+				
+				
+				String fornecedor = txtFornecedor.getText();
+				int idFornecedor = 0;
+				if (fornecedor.isBlank()==false) {
+					idFornecedor = Integer.parseInt(fornecedor);
+				}
+				FornecedorBD fornedorBD = new FornecedorBD();
+				
+				if(fornedorBD.VRFornR(idFornecedor)==false && idFornecedor !=0) {
+					JOptionPane.showMessageDialog(null, "Favor inserir um Fornecedor Existende.", "Erro", JOptionPane.ERROR_MESSAGE);
+					System.out.println("Fornecedor não existe");
+					return;
+				}
+				
+				System.out.println("a");
+				
+				ProdutoBD produtoBD = new ProdutoBD();
 				Produto produto = new Produto();
 				produto.setNomeProduto(nome);
 				produto.setPrecoCustoProduto(precoCusto);
@@ -282,10 +302,13 @@ public class TelaCadastroProduto extends JFrame {
 				produto.setDimencoesProduto(dimensoes);
 				produto.setMaterialProduto(material);
 				produto.setQuantidadeEstoque(qtd);
+				produto.setFornecedor(idFornecedor);
+
 				
-				ProdutoBD produtoBD = new ProdutoBD();
+
 				long id = produtoBD.insert(produto);
 				produtoBD.insert2(produto, id);
+
 				
 			}
 		});

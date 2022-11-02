@@ -9,12 +9,13 @@ public class Produto {
 		private String dimensoesProduto;
 		private float precoCustoProduto;
 		private float precoVendaProduto;
+		private int fornecedor;
 		
 		public Produto() {
 			// TODO Auto-generated constructor stub
 		}
 		public Produto(int idProduto, String nomeProduto, String materialProduto, int quantidadeEstoque,
-				String dimensoesProduto, float precoCustoProduto, float precoVendaProduto) {
+				String dimensoesProduto, float precoCustoProduto, float precoVendaProduto, int fornecedor) {
 			super();
 			this.idProduto = idProduto;
 			this.nomeProduto = nomeProduto;
@@ -23,6 +24,7 @@ public class Produto {
 			this.dimensoesProduto = dimensoesProduto;
 			this.setPrecoCustoProduto(precoCustoProduto);
 			this.setPrecoVendaProduto(precoVendaProduto);
+			this.setFornecedor(fornecedor);
 		}
 		
 		public void mostrar() {
@@ -76,6 +78,12 @@ public class Produto {
 		}
 		public void setPrecoVendaProduto(float precoVendaProduto) {
 			this.precoVendaProduto = precoVendaProduto;
+		}
+		public int getFornecedor() {
+			return fornecedor;
+		}
+		public void setFornecedor(int fornecedor) {
+			this.fornecedor = fornecedor;
 		}
 
 		

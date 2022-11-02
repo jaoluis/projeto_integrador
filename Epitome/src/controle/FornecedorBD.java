@@ -187,7 +187,7 @@ public class FornecedorBD {
 					
 					while (rset.next()) {
 						Fornecedor fornecedor = new Fornecedor();
-						fornecedor.setId_funcionario(rset.getInt("id_fornecedor"));
+						fornecedor.setId_fornecedor(rset.getInt("id_fornecedor"));
 						fornecedor.setNome_fornecedor(rset.getString("nome_fornecedor"));
 						fornecedor.setCnpj_fornecedor(rset.getString("nome_fornecedor"));
 						
@@ -241,9 +241,15 @@ public class FornecedorBD {
 					
 					while (rset.next()) {
 						
-						fornecedor.setId_funcionario(rset.getInt("id_fornecedor"));
+						fornecedor.setId_fornecedor(rset.getInt("id_fornecedor"));
 						fornecedor.setNome_fornecedor(rset.getString("nome_fornecedor"));
-						fornecedor.setCnpj_fornecedor(rset.getString("nome_fornecedor"));
+						fornecedor.setCnpj_fornecedor(rset.getString("cnpj_fornecedor"));
+						fornecedor.setCidade(rset.getString("cidade"));
+						fornecedor.setBairro(rset.getString("bairro"));
+						fornecedor.setRua(rset.getString("rua"));
+						fornecedor.setNumero(rset.getString("numero"));
+						fornecedor.setEmail(rset.getString("email"));
+						fornecedor.setTelefone(rset.getString("telefone"));
 						
 					}
 					
@@ -298,6 +304,57 @@ public class FornecedorBD {
 					}
 			}
 			
+			
+			public static boolean VRFornR(int id){
+			     
+				String sql1 = "select id_fornecedor from fornecedor;";
+				boolean r = false;
+				Connection conn = null;
+				PreparedStatement ps = null;
+				ResultSet rset = null;
+				try {
+					conn = Conexao.getConnection();
+					ps = (PreparedStatement) conn.prepareStatement(sql1);
+					
+					rset = ps.executeQuery();
+					
+					while (rset.next()) {
+						Fornecedor fornecedor = new Fornecedor();
+						fornecedor.setId_fornecedor(rset.getInt("id_fornecedor"));
+						if(rset.getInt("id_fornecedor")==id) {
+							r = true;
+						}
+
+						
+						
+
+						
+					}
+					
+					Conexao.getClose();
+					System.out.println("conexao Fechada");
+					
+				} catch (Exception e) {
+					System.out.println("Debug: Deu erro no listarFornecedor1" + e);
+				}finally {
+					try {
+					if(rset!=null) {
+						Conexao.getClose();
+					}
+					if(ps!=null) {
+						Conexao.getClose();
+					}
+					if(conn!=null) {
+						Conexao.getClose();;
+					}
+					}catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+				
+				
+				return r;
+			}
 			
 			}
 	

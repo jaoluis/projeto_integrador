@@ -40,9 +40,10 @@ import controle.Conexao;
 import controle.FornecedorBD;
 import controle.UsuarioDAO;
 import modelo.Contato;
+import modelo.Endereco;
 import modelo.Fornecedor;
 import modelo.Usuario;
-import modelo.endereco;
+import modelo.Endereco;
 
 import javax.swing.JList;
 import javax.swing.AbstractListModel;
@@ -54,7 +55,7 @@ public class TelaFornecedorModificar extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtNome;
 	private JLabel lblCidade;
-	ArrayList<endereco> enderecoF =  new ArrayList<endereco>();
+	ArrayList<Endereco> enderecoF =  new ArrayList<Endereco>();
 	ArrayList<Contato> contatoC =  new ArrayList<Contato>();
 
 	/**
@@ -529,13 +530,13 @@ public class TelaFornecedorModificar extends JFrame {
 				}
 				
 				if(f=true) {
-				endereco enderecoAdd = new endereco();
+				Endereco enderecoAdd = new Endereco();
 				enderecoAdd.setBairro(bairro);
 				enderecoAdd.setCidade(cidade);
 				enderecoAdd.setNumero(numero1);
 				enderecoAdd.setRua(Rua);
 				enderecoF.add(enderecoAdd);
-				for (endereco enderecoA : enderecoF) {	
+				for (Endereco enderecoA : enderecoF) {	
 		String[] values = new String[] {enderecoA.getRua()+enderecoA.getBairro() + enderecoA.getCidade() + enderecoA.getNumero()};
 		
 		JList listaEndereco = new JList();
@@ -608,7 +609,7 @@ public class TelaFornecedorModificar extends JFrame {
 			
 			long id = fornecedorBD.insert(fornecedor);
 			
-			for (endereco enderecoA: enderecoF) {
+			for (Endereco enderecoA: enderecoF) {
 				fornecedorBD.insertEndereco(enderecoA, id);
 			}
 			for (Contato contatoA : contatoC) {

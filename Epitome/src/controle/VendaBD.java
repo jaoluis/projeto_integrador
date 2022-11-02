@@ -1,16 +1,20 @@
 package controle;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JOptionPane;
 
 import modelo.Fornecedor;
+import modelo.ProdVNDQuant;
 import modelo.Usuario;
 import modelo.Venda;
 
@@ -18,17 +22,42 @@ public class VendaBD {
 	
 private static Connection connection;
 	
-	public boolean insert(Venda venda) {
+	public long insert(Venda venda) {
 		connection = Conexao.getConnection();
+		long id = 0;
 		try {
 			PreparedStatement ps = connection.prepareStatement("insert into venda (data_venda, preco_total_venda, pagamento, fk_id_usuario_venda)"
-				+ "values ( ? , ?, ?, ?)",Statement.RETURN_GENERATED_KEYS);
+				+ "values ( ? , ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 				ps.setDate(1, venda.getDataVenda());
 				ps.setFloat(2, venda.getTotal());
 				ps.setString(3, venda.getPagamento());
 				ps.setFloat(4, venda.getFk());
-				ps.execute();
+				ps.execute();			
 				
+				ResultSet generatedKeys = ps.getGeneratedKeys();
+				 generatedKeys.next();
+				 id = generatedKeys.getLong(1);
+			Conexao.getClose();
+			System.out.println("conexao Fechada");
+			
+			 return id;
+				} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Erro com o BD insert");
+			e.printStackTrace();
+		}
+		return id;
+		
+		
+		}
+	
+	public boolean insert(ProdVNDQuant vendaQuant, long id) {
+		connection = Conexao.getConnection();
+		try {
+			PreparedStatement ps = connection.prepareStatement("insert into produto_venda (quantidade,fk_id_produto,fk_id_venda)"
+				+ "values ( ? , ?,?)",Statement.RETURN_GENERATED_KEYS);
+				ps.setInt(1, vendaQuant.getQuant());
+				ps.setInt(2, vendaQuant.getId());
+				ps.setLong(3, id);
 				ps.execute();
 			
 			Conexao.getClose();
@@ -43,6 +72,7 @@ private static Connection connection;
 		
 		
 		}
+	
 	
 	public List<Venda> getListarVendas(){
 		
@@ -89,7 +119,14 @@ private static Connection connection;
 				e.printStackTrace();
 			}
 		}
-		 return usuarios;
+		 return vendas;
 	}
+	
+	public String getDateTime() {
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		Date date = new Date(0);
+		return dateFormat.format(date);
+	}
+
 
 }

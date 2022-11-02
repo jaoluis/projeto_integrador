@@ -316,6 +316,7 @@ public class TelaCadastro extends JFrame {
 				enderecoAdd.setCidade(cidade);
 				enderecoAdd.setNumero(numero1);
 				enderecoAdd.setRua(rua);
+				
 				enderecoF.set(listaEndereco.getSelectedIndex(), enderecoAdd);
 				valuesEnd.set(listaEndereco.getSelectedIndex(), cidade + ", " + bairro + ", " + rua + " - " + numero1);
 

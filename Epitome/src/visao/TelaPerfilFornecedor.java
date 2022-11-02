@@ -144,7 +144,7 @@ public class TelaPerfilFornecedor extends JFrame {
 		lblCargo.setBounds(10, 11, 156, 14);
 		panel.add(lblCargo);
 		
-		JLabel lblID = new JLabel(String.valueOf(fornecedor.getId_funcionario()));
+		JLabel lblID = new JLabel(String.valueOf(fornecedor.getId_fornecedor()));
 		lblID.setHorizontalAlignment(SwingConstants.CENTER);
 		//lblID.setText(id do usuario);
 		lblID.setForeground(new Color(255, 255, 255));
