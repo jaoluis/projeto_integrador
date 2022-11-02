@@ -68,14 +68,11 @@ public class TelaCadastroFornecedor extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	@SuppressWarnings("unchecked")
 	public TelaCadastroFornecedor() {
 		setIconImage(Toolkit.getDefaultToolkit()
 				.getImage("./img/app_icon_small.png"));
 		Color clRed = new Color(226, 0, 54);
-		Color clBlue = new Color(113, 206, 236);
 		Color clYellow = new Color(239, 161, 35);
-		Color clLight = new Color(197, 197, 197);
 		
 		Font poppins, pop10 = null, pop12 = null;
 
@@ -91,7 +88,7 @@ public class TelaCadastroFornecedor extends JFrame {
 
 		setResizable(false);
 		setTitle("Sistema de Vendas Ep\u00EDtome");
-		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 703, 564);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(45, 45, 45));

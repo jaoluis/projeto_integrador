@@ -1,10 +1,13 @@
 package controle;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -200,6 +203,95 @@ public class UsuarioDAO {
 				}
 			}
 			 return usuarios;
+		}
+		
+		public Usuario getUsuario(int id) {
+			String s = "select * from usuario where id_usuario = ?";
+			Usuario u = new Usuario();
+			
+			Connection conn = null;
+			PreparedStatement ps = null;
+			ResultSet rset = null;
+			try {
+				conn = Conexao.getConnection();
+				ps = (PreparedStatement) conn.prepareStatement(s);
+				ps.setInt(1, id);
+				
+				rset = ps.executeQuery();
+				
+				while (rset.next()) {
+					u.setCargo(rset.getString("cargo_usuario"));
+					u.setEmail(rset.getString("email_usuario"));
+					u.setSenha_usuario(rset.getString("senha_usuario"));
+					u.setCpf_usuario(rset.getString("cpf_usuario"));
+					u.setNome_usuario(rset.getString("nome_usuario"));
+					u.setNascimento_data(rset.getDate("nascimento_usuario"));
+					
+				}
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+			return u;
+		}
+		
+		public List<Endereco> getEnderecos(int id){
+			List<Endereco> enderecos = new ArrayList<Endereco>();
+			
+			String s = "select * from usuario_endereco where fk_id_usuario_endereco = ?";
+			
+			Connection conn = null;
+			PreparedStatement ps = null;
+			ResultSet rset = null;
+			try {
+				conn = Conexao.getConnection();
+				ps = (PreparedStatement) conn.prepareStatement(s);
+				ps.setInt(1, id);
+				
+				rset = ps.executeQuery();
+				
+				while (rset.next()) {
+					Endereco e = new Endereco();
+					e.setCidade(rset.getString("cidade"));
+					e.setBairro(rset.getString("bairro"));
+					e.setRua(rset.getString("rua"));
+					e.setNumero(rset.getInt("numero"));
+					
+					enderecos.add(e);
+					
+				}
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+			return enderecos;
+		}
+		
+		public List<Contato> getContatos(int id){
+			List<Contato> contatos = new ArrayList<Contato>();
+			
+			String s = "select * from usuario_contato where fk_id_usuario_contato = ?";
+			
+			Connection conn = null;
+			PreparedStatement ps = null;
+			ResultSet rset = null;
+			try {
+				conn = Conexao.getConnection();
+				ps = (PreparedStatement) conn.prepareStatement(s);
+				ps.setInt(1, id);
+				
+				rset = ps.executeQuery();
+				
+				while (rset.next()) {
+					Contato c = new Contato();
+					c.setEmail(rset.getString("email"));
+					c.setTelefone(rset.getString("telefone"));
+					
+					contatos.add(c);
+					
+				}
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+			return contatos;
 		}
 		
 		public void update (Usuario usuario) {

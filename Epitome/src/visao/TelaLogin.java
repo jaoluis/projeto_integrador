@@ -10,15 +10,11 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.sql.Date;
-import java.sql.SQLException;
-
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -26,8 +22,6 @@ import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
-import controle.Conexao;
-import controle.LoginBD;
 import controle.UsuarioDAO;
 import modelo.Usuario;
 
@@ -142,6 +136,11 @@ public class TelaLogin extends JFrame {
 		btnEsqueci.setBounds(10, 115, 156, 23);
 		panel.add(btnEsqueci);
 
+		
+		//remover, para testes
+		txtEmail.setText("admin1@email.com");
+		txtSenha.setText("senha1234");
+		
 		JButton btnEntrar = new JButton("ENTRAR");
 		btnEntrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

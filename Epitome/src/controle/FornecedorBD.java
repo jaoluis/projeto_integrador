@@ -75,7 +75,7 @@ public class FornecedorBD {
 		connection = Conexao.getConnection();
 	    Integer n1= (int) id;
 		try {
-			PreparedStatement psii = connection.prepareStatement("insert into Fornecedor_Endereco ( cidade, bairro, rua, numero, fk_id_fornecedor)"
+			PreparedStatement psii = connection.prepareStatement("insert into Fornecedor_Endereco (cidade, bairro, rua, numero, fk_id_fornecedor)"
 				+ "values ( ? , ? , ? , ? , ?  )");
 				psii.setString(1, enderecoA.getCidade());
 				psii.setString(2, enderecoA.getBairro());
@@ -274,6 +274,67 @@ public class FornecedorBD {
 				
 				return fornecedor;
 			}
+			
+			public List<Endereco> getEnderecos(int id){
+				List<Endereco> enderecos = new ArrayList<Endereco>();
+				
+				String s = "select * from fornecedor_endereco where fk_id_fornecedor = ?";
+				
+				Connection conn = null;
+				PreparedStatement ps = null;
+				ResultSet rset = null;
+				try {
+					conn = Conexao.getConnection();
+					ps = (PreparedStatement) conn.prepareStatement(s);
+					ps.setInt(1, id);
+					
+					rset = ps.executeQuery();
+					
+					while (rset.next()) {
+						Endereco e = new Endereco();
+						e.setCidade(rset.getString("cidade"));
+						e.setBairro(rset.getString("bairro"));
+						e.setRua(rset.getString("rua"));
+						e.setNumero(rset.getInt("numero"));
+						
+						enderecos.add(e);
+						
+					}
+				}catch (Exception e) {
+					e.printStackTrace();
+				}
+				return enderecos;
+			}
+			
+			public List<Contato> getContatos(int id){
+				List<Contato> contatos = new ArrayList<Contato>();
+				
+				String s = "select * from fornecedor_contato where fk_id_fornecedor = ?";
+				
+				Connection conn = null;
+				PreparedStatement ps = null;
+				ResultSet rset = null;
+				try {
+					conn = Conexao.getConnection();
+					ps = (PreparedStatement) conn.prepareStatement(s);
+					ps.setInt(1, id);
+					
+					rset = ps.executeQuery();
+					
+					while (rset.next()) {
+						Contato c = new Contato();
+						c.setEmail(rset.getString("email"));
+						c.setTelefone(rset.getString("telefone"));
+						
+						contatos.add(c);
+						
+					}
+				}catch (Exception e) {
+					e.printStackTrace();
+				}
+				return contatos;
+			}
+			
 				
 			public void DeleteByID(int id) {
 				String sql = "DELETE FROM fornecedor WHERE id_fornecedor = ?";

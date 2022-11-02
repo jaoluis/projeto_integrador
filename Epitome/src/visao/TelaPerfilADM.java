@@ -66,13 +66,12 @@ public class TelaPerfilADM extends JFrame {
 		Color clRed = new Color(226, 0, 54);
 		Color clBlue = new Color(113, 206, 236);
 		
-		Font poppins, pop10 = null, pop12 = null;
+		Font poppins, pop12 = null;
 		
 		try {
 			  
 		    poppins = Font.createFont(Font.TRUETYPE_FONT, new File("./font/Poppins-SemiBold.ttf"));
-		    pop10 = poppins.deriveFont(Font.TRUETYPE_FONT, 10);
-			pop12 = poppins.deriveFont(Font.TRUETYPE_FONT, 12);
+		    pop12 = poppins.deriveFont(Font.TRUETYPE_FONT, 12);
 		  
 		} catch (Exception e) {
 		  e.printStackTrace();
@@ -117,7 +116,7 @@ public class TelaPerfilADM extends JFrame {
 		JButton btnModificar = new JButton("MODIFICAR");
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				TelaModificar telaModificar = new TelaModificar(usuarioLogado);
+				TelaModificar telaModificar = new TelaModificar(usuarioLogado, usuarioLogado.getId_usuario());
 				telaModificar.setVisible(true);
 				setVisible(false);
 				System.out.println("debug: tela Perfil > tela de Modificar");

@@ -11,13 +11,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.sql.Date;
-import java.sql.SQLException;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
+import javax.swing.AbstractListModel;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -25,19 +24,24 @@ import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.text.MaskFormatter;
 
-import controle.Conexao;
 import controle.UsuarioDAO;
-import modelo.Produto;
+import modelo.Contato;
+import modelo.Endereco;
 import modelo.Usuario;
 
 public class TelaModificar extends JFrame {
@@ -45,6 +49,11 @@ public class TelaModificar extends JFrame {
 	private JTextField txtEmail;
 	private JPasswordField txtSenha;
 	private final ButtonGroup cargoGroup = new ButtonGroup();
+	
+	ArrayList<Endereco> enderecoF =  new ArrayList<Endereco>();
+	ArrayList<Contato> contatoC =  new ArrayList<Contato>();
+	ArrayList<String> valuesEnd = new ArrayList<String>();
+	ArrayList<String> valuesCnt = new ArrayList<String>();
 
 	/**
 	 * Launch the application.
@@ -53,7 +62,7 @@ public class TelaModificar extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TelaModificar frame = new TelaModificar(null);
+					TelaModificar frame = new TelaModificar(null, -1);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -64,12 +73,14 @@ public class TelaModificar extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @param id 
 	 */
-	public TelaModificar(Usuario usuarioLogado) {
+	public TelaModificar(Usuario usuarioLogado, int id) {
 		setIconImage(Toolkit.getDefaultToolkit()
 				.getImage("./img/app_icon_small.png"));
 		Color clRed = new Color(226, 0, 54);
 		Color clBlue = new Color(113, 206, 236);
+		Color clYellow = new Color(239, 161, 35);
 
 		Font poppins, pop10 = null, pop12 = null;
 
@@ -83,9 +94,15 @@ public class TelaModificar extends JFrame {
 			e.printStackTrace();
 		}
 
+		UsuarioDAO ubd = new UsuarioDAO(); 
+	
+		Usuario usuarioOld = ubd.getUsuario(id);
+		enderecoF = (ArrayList<Endereco>) ubd.getEnderecos(id);
+		contatoC = (ArrayList<Contato>) ubd.getContatos(id);
+		
 		setResizable(false);
 		setTitle("Sistema de Vendas Ep\u00EDtome");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 703, 564);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(45, 45, 45));
@@ -95,78 +112,429 @@ public class TelaModificar extends JFrame {
 
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(22, 22, 22));
-		panel.setBounds(243, 35, 176, 466);
+		panel.setBounds(73, 35, 176, 466);
 		panelbuttonChisel(panel, new Color(255, 255, 255), 5);
 		contentPane.add(panel);
 		panel.setLayout(null);
 
-		JLabel lblEstamosQuaseL = new JLabel("Alterar conta");
-		lblEstamosQuaseL.setForeground(new Color(255, 255, 255));
-		lblEstamosQuaseL.setFont(pop12);
-		lblEstamosQuaseL.setHorizontalAlignment(SwingConstants.CENTER);
-		lblEstamosQuaseL.setBounds(10, 11, 156, 14);
-		panel.add(lblEstamosQuaseL);
+		JPanel endPanel = new JPanel();
+		endPanel.setBackground(new Color(22, 22, 22));
+		endPanel.setBounds(282, 34, 345, 250);
+		panelbuttonChisel(endPanel, Color.WHITE, 5);
+		contentPane.add(endPanel);
+		endPanel.setLayout(null);
+		
+		JLabel lblEndereco = new JLabel("ENDERE\u00C7O(S)");
+		lblEndereco.setBounds(10, 11, 133, 14);
+		endPanel.add(lblEndereco);
+		lblEndereco.setForeground(new Color(197, 197, 197));
+		lblEndereco.setFont(null);
+		lblEndereco.setFont(pop10);
+		
+		JScrollPane endScrollPane = new JScrollPane();
+		endScrollPane.setBounds(10, 28, 156, 211);
+		endPanel.add(endScrollPane);
+		Rolagem.defRolagem(endScrollPane, new Rolagem(), new Rolagem());
+
+		scrollChisel(endScrollPane, Color.WHITE, 5);
+		endScrollPane.setBackground(null);
+		endScrollPane.setForeground(null);
+		
+		JLabel lblDetEndereco = new JLabel("Endereço");
+		lblDetEndereco.setForeground(Color.WHITE);
+		lblDetEndereco.setFont(pop12);
+		lblDetEndereco.setHorizontalAlignment(SwingConstants.CENTER);
+		lblDetEndereco.setBounds(176, 11, 156, 14);
+		endPanel.add(lblDetEndereco);
+		
+		JLabel lblCidade = new JLabel("CIDADE");
+		lblCidade.setForeground(new Color(197, 197, 197));
+		lblCidade.setFont(pop10);
+		lblCidade.setBounds(176, 36, 156, 14);
+		endPanel.add(lblCidade);
+
+		JTextField txtCidade = new JTextField();
+		txtCidade.setCaretColor(Color.WHITE);
+		txtCidade.setEnabled(false);
+		txtCidade.setForeground(Color.WHITE);
+		txtCidade.setBackground(new Color(45, 45, 45));
+		txtCidade.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		txtCidade.setBounds(176, 50, 156, 20);
+		txtCidade.setFont(pop12);
+		endPanel.add(txtCidade);
+		txtCidade.setColumns(10);
+
+		JLabel lblBairro = new JLabel("BAIRRO");
+		lblBairro.setForeground(new Color(197, 197, 197));
+		lblBairro.setFont(pop10);
+		lblBairro.setBounds(176, 81, 156, 14);
+		endPanel.add(lblBairro);
+
+		JTextField txtBairro = new JTextField();
+		txtBairro.setCaretColor(Color.WHITE);
+		txtBairro.setEnabled(false);
+		txtBairro.setForeground(Color.WHITE);
+		txtBairro.setBackground(new Color(45, 45, 45));
+		txtBairro.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		txtBairro.setBounds(176, 95, 156, 20);
+		txtBairro.setFont(pop12);
+		endPanel.add(txtBairro);
+		
+		JLabel lblRua = new JLabel("RUA");
+		lblRua.setForeground(new Color(197, 197, 197));
+		lblRua.setFont(pop10);
+		lblRua.setBounds(176, 126, 156, 14);
+		endPanel.add(lblRua);
+
+		JTextField txtRua = new JTextField();
+		txtRua.setCaretColor(Color.WHITE);
+		txtRua.setEnabled(false);
+		txtRua.setForeground(Color.WHITE);
+		txtRua.setBackground(new Color(45, 45, 45));
+		txtRua.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		txtRua.setBounds(176, 140, 156, 20);
+		txtRua.setFont(pop12);
+		endPanel.add(txtRua);
+		txtRua.setColumns(10);
+
+		JLabel lblNumero = new JLabel("NÚMERO");
+		lblNumero.setForeground(new Color(197, 197, 197));
+		lblNumero.setFont(pop10);
+		lblNumero.setBounds(176, 171, 156, 14);
+		endPanel.add(lblNumero);
+
+		JTextField txtNumero = new JTextField();
+		txtNumero.setCaretColor(Color.WHITE);
+		txtNumero.setEnabled(false);
+		txtNumero.setForeground(Color.WHITE);
+		txtNumero.setBackground(new Color(45, 45, 45));
+		txtNumero.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		txtNumero.setBounds(176, 185, 156, 20);
+		txtNumero.setFont(pop12);
+		endPanel.add(txtNumero);
+		
+		JList<String> listaEndereco = new JList<String>();
+		listaEndereco.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				
+				if (listaEndereco.getSelectedIndex() == -1) {
+					return;
+				}
+				
+				Endereco end = enderecoF.get(listaEndereco.getSelectedIndex());
+				txtCidade.setText(end.getCidade());
+				txtBairro.setText(end.getBairro());
+				txtRua.setText(end.getRua());
+				txtNumero.setText(Integer.toString(end.getNumero()));
+			}
+		});
+		listaEndereco.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		listaEndereco.setSelectionBackground(clYellow);
+		listaEndereco.setSelectionForeground(new Color(22,22,22));
+		listaEndereco.setModel(new AbstractListModel<String>() {
+
+			private static final long serialVersionUID = 1L;
+			
+			public int getSize() {
+				return new String[] {}.length;
+			}
+			public String getElementAt(int index) {
+				return new String[] {}[index];
+			}
+		});
+		listaEndereco.setBackground(new Color(22, 22, 22));
+		listaEndereco.setForeground(new Color(197, 197, 197));
+		listaEndereco.setFont(pop10);
+		listaEndereco.setBounds(0, 50, 156, 113);
+		endScrollPane.setViewportView(listaEndereco);
+		
+		JButton btnAddEndereco = new JButton("");
+		btnAddEndereco.setBounds(150, 11, 16, 16);
+		endPanel.add(btnAddEndereco);
+		btnAddEndereco.setIcon(new ImageIcon("./img/add_forn.png"));
+		btnAddEndereco.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+								
+				enderecoF.add(new Endereco());
+				valuesEnd.add(Integer.toString(valuesEnd.size() + 1));
+				
+				TelaCadastro.updateList(listaEndereco, valuesEnd);
+				
+				txtCidade.setEnabled(true);
+				txtBairro.setEnabled(true);
+				txtRua.setEnabled(true);
+				txtNumero.setEnabled(true);
+			}
+		});
+		btnAddEndereco.setBackground(null);
+		btnAddEndereco.setBorder(BorderFactory.createEmptyBorder());
+		
+		JButton btnAlterarEndereco= new JButton("ALTERAR");
+		btnAlterarEndereco.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				if (listaEndereco.getSelectedIndex() == -1) {
+					JOptionPane.showMessageDialog(null, "Favor inserir um endereço", "Erro", JOptionPane.ERROR_MESSAGE);
+					System.out.println("sem enderecos");	
+					return;
+				}
+				
+				String cidade = txtCidade.getText();
+				if (cidade.isBlank()) {
+					JOptionPane.showMessageDialog(null, "Favor inserir uma cidade", "Erro", JOptionPane.ERROR_MESSAGE);
+					System.out.println("cidade Vazio");
+					return;
+				}
+				
+				String rua = txtRua.getText();
+				if (rua.isBlank()) {
+					JOptionPane.showMessageDialog(null, "Favor inserir uma Rua.", "Erro", JOptionPane.ERROR_MESSAGE);
+					System.out.println("rua vazio");
+					return;
+				}
+				
+				String bairro = txtBairro.getText();
+				if (bairro.isBlank()) {
+					JOptionPane.showMessageDialog(null, "Favor inserir um bairro.", "Erro", JOptionPane.ERROR_MESSAGE);
+					System.out.println("bairro vazio");
+					return;
+				}
+				String numero = txtNumero.getText();
+				int numero1;
+				
+				try {
+					numero1 = Integer.parseInt(txtNumero.getText());
+				} catch (NumberFormatException x) {
+					JOptionPane.showMessageDialog(null, "Digite apenas números.", "Aviso", JOptionPane.WARNING_MESSAGE);
+					System.out.println("Não converteu para inteiro");
+					return;
+				}
+				
+
+				if (numero.isBlank()) {
+					JOptionPane.showMessageDialog(null, "Favor inserir um número.", "Erro", JOptionPane.ERROR_MESSAGE);
+					System.out.println("numero vazio");
+					return;
+				}
+				
+				Endereco enderecoAdd = new Endereco();
+				enderecoAdd.setBairro(bairro);
+				enderecoAdd.setCidade(cidade);
+				enderecoAdd.setNumero(numero1);
+				enderecoAdd.setRua(rua);
+				
+				enderecoF.set(listaEndereco.getSelectedIndex(), enderecoAdd);
+				valuesEnd.set(listaEndereco.getSelectedIndex(), cidade + ", " + bairro + ", " + rua + " - " + numero1);
+
+				System.out.println("debug: tela de cadastro de fornecedor > cadastro endereco");
+				
+				TelaCadastro.updateList(listaEndereco, valuesEnd);
+			}
+		});
+		btnAlterarEndereco.setOpaque(false);
+		btnAlterarEndereco.setForeground(clYellow);
+		btnAlterarEndereco.setFont(pop12);
+		Chisel(btnAlterarEndereco, clYellow, 5);
+		btnAlterarEndereco.setFocusPainted(false);
+		btnAlterarEndereco.setBackground((Color) null);
+		btnAlterarEndereco.setBounds(176, 216, 123, 23);
+		endPanel.add(btnAlterarEndereco);
+		
+		JButton btnDelEndereco = new JButton("");
+		btnDelEndereco.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int idx = listaEndereco.getSelectedIndex();
+				
+				if (idx == -1) {
+					return;
+				}
+				
+				enderecoF.remove(idx);
+				valuesEnd.remove(idx);
+				TelaCadastro.updateList(listaEndereco, valuesEnd);
+			}
+		});
+		btnDelEndereco.setIcon(new ImageIcon("./img/delete.png"));
+		btnDelEndereco.setOpaque(false);
+		btnDelEndereco.setForeground(clRed);
+		btnDelEndereco.setFont(pop12);
+		Chisel(btnDelEndereco, clRed, 5);
+		btnDelEndereco.setFocusPainted(false);
+		btnDelEndereco.setBackground((Color) null);
+		btnDelEndereco.setBounds(309, 216, 23, 23);
+		endPanel.add(btnDelEndereco);
+		
+		
+		JPanel cntPanel = new JPanel();
+		cntPanel.setBackground(new Color(22, 22, 22));
+		cntPanel.setBounds(282, 295, 345, 205);
+		panelbuttonChisel(cntPanel, Color.WHITE, 5);
+		contentPane.add(cntPanel);
+		cntPanel.setLayout(null);
+				
+		JLabel lblDetContato = new JLabel("Contato");
+		lblDetContato.setForeground(Color.WHITE);
+		lblDetContato.setFont(pop12);
+		lblDetContato.setHorizontalAlignment(SwingConstants.CENTER);
+		lblDetContato.setBounds(179, 11, 156, 14);
+		cntPanel.add(lblDetContato);
+		
+		JLabel lblEmailCnt = new JLabel("E-MAIL");
+		lblEmailCnt.setForeground(new Color(197, 197, 197));
+		lblEmailCnt.setFont(pop10);
+		lblEmailCnt.setBounds(179, 36, 156, 14);
+		cntPanel.add(lblEmailCnt);
+
+		JTextField txtEmailCnt = new JTextField();
+		txtEmailCnt.setEnabled(false);
+		txtEmailCnt.setCaretColor(Color.WHITE);
+		txtEmailCnt.setForeground(Color.WHITE);
+		txtEmailCnt.setBackground(new Color(45, 45, 45));
+		txtEmailCnt.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		txtEmailCnt.setBounds(179, 50, 156, 20);
+		txtEmailCnt.setFont(pop12);
+		cntPanel.add(txtEmailCnt);
+		txtEmailCnt.setColumns(10);
+
+		JLabel lblTelefone = new JLabel("TELEFONE");
+		lblTelefone.setForeground(new Color(197, 197, 197));
+		lblTelefone.setFont(pop10);
+		lblTelefone.setBounds(179, 81, 156, 14);
+		cntPanel.add(lblTelefone);
+
+		JTextField txtTelefone = new JTextField();
+		txtTelefone.setEnabled(false);
+		txtTelefone.setCaretColor(Color.WHITE);
+		txtTelefone.setForeground(Color.WHITE);
+		txtTelefone.setBackground(new Color(45, 45, 45));
+		txtTelefone.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		txtTelefone.setBounds(179, 95, 156, 20);
+		txtTelefone.setFont(pop12);
+		cntPanel.add(txtTelefone);
+		
+
+		
+		JLabel lblContato = new JLabel("CONTATO(S)");
+		lblContato.setBounds(10, 11, 131, 14);
+		cntPanel.add(lblContato);
+		lblContato.setForeground(new Color(197, 197, 197));
+		lblContato.setFont(null);
+		lblContato.setFont(pop10);
+		
+		JScrollPane cntScrollPane = new JScrollPane();
+		cntScrollPane.setBounds(10, 29, 156, 165);
+		cntPanel.add(cntScrollPane);
+		scrollChisel(cntScrollPane, Color.WHITE, 5);
+		cntScrollPane.setBackground(null);
+		cntScrollPane.setForeground(null);
+		Rolagem.defRolagem(cntScrollPane);
+		
+		
+		
+		JList<String> listaContato = new JList<String>();
+		listaContato.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				if (listaContato.getSelectedIndex() == -1) {
+					return;
+				}
+				
+				Contato con = contatoC.get(listaContato.getSelectedIndex());
+				txtEmailCnt.setText(con.getEmail());
+				txtTelefone.setText(con.getTelefone());
+			}
+		});
+		listaContato.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		listaContato.setSelectionBackground(clYellow);
+		listaContato.setSelectionForeground(new Color(22,22,22));
+		listaContato.setModel(new AbstractListModel<String>() {
+
+			private static final long serialVersionUID = 1L;
+			
+			public int getSize() {
+				return new String[] {}.length;
+			}
+			public String getElementAt(int index) {
+				return new String[] {}[index];
+			}
+		});
+		listaContato.setBackground(new Color(22, 22, 22));
+		listaContato.setForeground(new Color(197, 197, 197));
+		listaContato.setFont(pop10);
+		listaContato.setBounds(0, 50, 156, 113);
+		cntScrollPane.setViewportView(listaContato);
+			
+		JButton btnAddContato = new JButton("");
+		btnAddContato.setBounds(150, 11, 16, 16);
+		cntPanel.add(btnAddContato);
+		btnAddContato.setIcon(new ImageIcon("./img/add_forn.png"));
+		btnAddContato.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				contatoC.add(new Contato());
+				valuesCnt.add(Integer.toString(valuesCnt.size() + 1));
+				
+				TelaCadastro.updateList(listaContato, valuesCnt);
+				
+				txtEmailCnt.setEnabled(true);
+				txtTelefone.setEnabled(true);
+			}
+		});
+		btnAddContato.setBackground(null);
+		btnAddContato.setBorder(BorderFactory.createEmptyBorder());
+
+		JLabel lblAlterarConta = new JLabel("Alterar conta");
+		lblAlterarConta.setForeground(Color.WHITE);
+		lblAlterarConta.setFont(pop12);
+		lblAlterarConta.setHorizontalAlignment(SwingConstants.CENTER);
+		lblAlterarConta.setBounds(10, 11, 156, 14);
+		panel.add(lblAlterarConta);
 
 		JLabel lblCPF = new JLabel("CPF");
 		lblCPF.setForeground(new Color(197, 197, 197));
 		lblCPF.setFont(pop10);
-		lblCPF.setBounds(10, 216, 156, 14);
+		lblCPF.setBounds(10, 167, 156, 14);
 		panel.add(lblCPF);
 
-		JFormattedTextField txtCPF = new JFormattedTextField(def_mask("###.###.###-##", '•'));
-		txtCPF.setForeground(new Color(255, 255, 255));
+		JFormattedTextField txtCPF = new JFormattedTextField(def_mask("###.###.###-##", '\u2022'));
+		txtCPF.setText(usuarioOld.getCpf_usuario());
+		txtCPF.setCaretColor(Color.WHITE);
+		txtCPF.setForeground(Color.WHITE);
 		txtCPF.setBackground(new Color(45, 45, 45));
 		txtCPF.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		txtCPF.setBounds(10, 230, 156, 20);
+		txtCPF.setBounds(10, 181, 156, 20);
 		txtCPF.setFont(pop12);
 		panel.add(txtCPF);
 		txtCPF.setColumns(10);
-		txtCPF.setText(usuarioLogado.getCpf_usuario());
 
-		JFormattedTextField txtData = new JFormattedTextField(def_mask("##/##/####", '•'));
-		txtData.setForeground(new Color(255, 255, 255));
+		JFormattedTextField txtData = new JFormattedTextField(def_mask("##/##/####", '\u2022'));
+		txtData.setText(usuarioOld.getNascimento_data().toString());
+		txtData.setCaretColor(Color.WHITE);
+		txtData.setForeground(Color.WHITE);
 		txtData.setBackground(new Color(45, 45, 45));
 		txtData.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		txtData.setBounds(10, 275, 156, 20);
+		txtData.setBounds(10, 226, 156, 20);
 		txtData.setFont(pop12);
 		panel.add(txtData);
 		txtData.setColumns(10);
-        Date dataAtual = usuarioLogado.getNascimento_data();
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        String dataFormatada = dateFormat.format(dataAtual);
-		txtData.setText(dataFormatada);
-
-		JLabel lblUsername = new JLabel("NOME DE USUÁRIO");
-		lblUsername.setForeground(new Color(197, 197, 197));
-		lblUsername.setFont(pop10);
-		lblUsername.setBounds(10, 126, 156, 14);
-		panel.add(lblUsername);
-
-		JTextField txtUsername = new JTextField();
-		txtUsername.setForeground(new Color(255, 255, 255));
-		txtUsername.setBackground(new Color(45, 45, 45));
-		txtUsername.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		txtUsername.setBounds(10, 140, 156, 20);
-		txtUsername.setFont(pop12);
-		panel.add(txtUsername);
-		txtUsername.setColumns(10);
-		txtUsername.setText(usuarioLogado.getNome_usuario());
+		
+		System.out.println("      " + usuarioOld.getLogin_usuario());
 
 		JLabel lblNome = new JLabel("NOME");
 		lblNome.setForeground(new Color(197, 197, 197));
 		lblNome.setFont(pop10);
-		lblNome.setBounds(10, 171, 156, 14);
+		lblNome.setBounds(10, 122, 156, 14);
 		panel.add(lblNome);
 
 		JTextField txtNome = new JTextField();
-		txtNome.setForeground(new Color(255, 255, 255));
+		txtNome.setText(usuarioOld.getNome_usuario());
+		txtNome.setCaretColor(Color.WHITE);
+		txtNome.setForeground(Color.WHITE);
 		txtNome.setBackground(new Color(45, 45, 45));
 		txtNome.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		txtNome.setBounds(10, 185, 156, 20);
+		txtNome.setBounds(10, 136, 156, 20);
 		txtNome.setFont(pop12);
 		panel.add(txtNome);
 		txtNome.setColumns(10);
-		txtNome.setText(usuarioLogado.getNome_usuario());
 
 		JLabel lblEmail = new JLabel("E-MAIL");
 		lblEmail.setForeground(new Color(197, 197, 197));
@@ -175,14 +543,15 @@ public class TelaModificar extends JFrame {
 		panel.add(lblEmail);
 
 		txtEmail = new JTextField();
-		txtEmail.setForeground(new Color(255, 255, 255));
+		txtEmail.setText(usuarioOld.getEmail());
+		txtEmail.setCaretColor(Color.WHITE);
+		txtEmail.setForeground(Color.WHITE);
 		txtEmail.setBackground(new Color(45, 45, 45));
 		txtEmail.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtEmail.setBounds(10, 50, 156, 20);
 		txtEmail.setFont(pop12);
 		panel.add(txtEmail);
 		txtEmail.setColumns(10);
-		txtEmail.setText(usuarioLogado.getEmail());
 
 		JLabel lblSenha = new JLabel("SENHA");
 		lblSenha.setForeground(new Color(197, 197, 197));
@@ -191,24 +560,25 @@ public class TelaModificar extends JFrame {
 		panel.add(lblSenha);
 
 		txtSenha = new JPasswordField();
-		txtSenha.setForeground(new Color(255, 255, 255));
+		txtSenha.setText(usuarioOld.getSenha_usuario());
+		txtSenha.setCaretColor(Color.WHITE);
+		txtSenha.setForeground(Color.WHITE);
 		txtSenha.setBackground(new Color(45, 45, 45));
 		txtSenha.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtSenha.setBounds(10, 95, 156, 20);
 		txtSenha.setFont(pop12);
-		txtSenha.setEchoChar('•');
+		txtSenha.setEchoChar('\u2022');
 		panel.add(txtSenha);
-		txtSenha.setText(usuarioLogado.getSenha_usuario());
 
 		JLabel lblDataDeNascimento = new JLabel("DATA DE NASCIMENTO");
 		lblDataDeNascimento.setForeground(new Color(197, 197, 197));
 		lblDataDeNascimento.setFont(pop10);
-		lblDataDeNascimento.setBounds(10, 261, 156, 14);
+		lblDataDeNascimento.setBounds(10, 212, 156, 14);
 		panel.add(lblDataDeNascimento);
 
 		JLabel lblCargo = new JLabel("CARGO");
 		lblCargo.setForeground(new Color(197, 197, 197));
-		lblCargo.setBounds(10, 306, 156, 14);
+		lblCargo.setBounds(10, 257, 156, 14);
 		lblCargo.setFont(pop10);
 		panel.add(lblCargo);
 
@@ -218,9 +588,9 @@ public class TelaModificar extends JFrame {
 		rdVendedor.setBackground(null);
 		rdVendedor.setFont(pop10);
 		rdVendedor.setIcon(new ImageIcon("./img/radio_button.png"));
-		rdVendedor.setSelectedIcon(
-				new ImageIcon("./img/radio_button_checked.png"));
-		rdVendedor.setBounds(10, 327, 156, 23);
+		rdVendedor.setSelectedIcon(new ImageIcon("./img/radio_button_checked.png"));
+		rdVendedor.setBounds(10, 278, 156, 23);
+		rdVendedor.setFocusPainted(false);
 		panel.add(rdVendedor);
 
 		JRadioButton rdAdministrador = new JRadioButton("ADMINISTRADOR");
@@ -230,13 +600,37 @@ public class TelaModificar extends JFrame {
 		rdAdministrador.setBackground((Color) null);
 		rdAdministrador.setFont(pop10);
 		rdAdministrador.setIcon(new ImageIcon("./img/radio_button.png"));
-		rdAdministrador.setSelectedIcon(
-				new ImageIcon("./img/radio_button_checked.png"));
-		rdAdministrador.setBounds(10, 353, 156, 23);
+		rdAdministrador.setSelectedIcon(new ImageIcon("./img/radio_button_checked.png"));
+		rdAdministrador.setBounds(10, 304, 156, 23);
+		rdAdministrador.setFocusPainted(false);
 		panel.add(rdAdministrador);
 
-		JButton btnContinuar = new JButton("ALTERAR");
-		btnContinuar.addActionListener(new ActionListener() {
+		if (usuarioOld.getCargo() == "administrador") {
+			rdAdministrador.setSelected(true);
+		} else {
+			rdVendedor.setSelected(true);
+		}
+		
+		//inserção dos contatos e endereços
+		
+				int t = 0;
+				for (Endereco e: enderecoF) {
+					valuesEnd.add("");
+					valuesEnd.set(t, e.getCidade() + ", " + e.getBairro() + ", " + e.getRua() + " - " + e.getNumero());
+					t++;
+				}
+				TelaCadastro.updateList(listaEndereco, valuesEnd);
+				
+				t = 0;
+				for (Contato c: contatoC) {
+					valuesCnt.add("");
+					valuesCnt.set(t, c.getEmail() + " / " + c.getTelefone());
+					t++;
+				}
+				TelaCadastro.updateList(listaContato, valuesCnt);
+		
+		JButton btnAlterar = new JButton("ALTERAR");
+		btnAlterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: tela de cadastro > cadastrar");
 				String email = txtEmail.getText();
@@ -253,12 +647,12 @@ public class TelaModificar extends JFrame {
 					return;
 				}
 				
-				String nomeUsuario = txtUsername.getText();
-				if (nomeUsuario.isBlank()) {
-					JOptionPane.showMessageDialog(null, "Favor inserir um nome de usuÃ¡rio", "Erro", JOptionPane.ERROR_MESSAGE);
-					System.out.println("username vazio");
-					return;
-				}
+//				String nomeUsuario = txtUsername.getText();
+//				if (nomeUsuario.isBlank()) {
+//					JOptionPane.showMessageDialog(null, "Favor inserir um nome de usuÃ¡rio", "Erro", JOptionPane.ERROR_MESSAGE);
+//					System.out.println("username vazio");
+//					return;
+//				}
 				
 				String nome = txtNome.getText();
 				if (nome.isBlank()) {
@@ -309,7 +703,7 @@ public class TelaModificar extends JFrame {
 				usuario.setCpf_usuario(cpf);
 				usuario.setEmail(email);
 				usuario.setSenha_usuario(senha);
-				usuario.setLogin_usuario(nomeUsuario);
+//				usuario.setLogin_usuario(nomeUsuario);
 				usuario.setNascimento_data(Date.valueOf(date));
 				usuario.setId_usuario(usuarioLogado.getId_usuario());
 
@@ -323,17 +717,93 @@ public class TelaModificar extends JFrame {
 				// funcao cadastro (email, senha, nomeUsuario, nome, cpf, data, cargo);
 			}
 		});
-		btnContinuar.setOpaque(false);
-		btnContinuar.setBackground(null);
-		Chisel(btnContinuar, clBlue, 5);
-		btnContinuar.setFont(pop12);
-		btnContinuar.setBounds(10, 400, 156, 23);
-		panel.add(btnContinuar);
+		btnAlterar.setOpaque(false);
+		btnAlterar.setBackground(null);
+		Chisel(btnAlterar, clBlue, 5);
+		btnAlterar.setFont(pop12);
+		btnAlterar.setBounds(10, 400, 156, 23);
+		panel.add(btnAlterar);
 		
 		JLabel fakeBG = new JLabel("");
 		fakeBG.setIcon(new ImageIcon("./img/bg.png"));
 		fakeBG.setBounds(-477, -224, 1600, 861);
 		contentPane.add(fakeBG);
+		
+		JButton btnAlterarContato = new JButton("ALTERAR");
+		btnAlterarContato.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				if (listaContato.getSelectedIndex() == -1) {
+					JOptionPane.showMessageDialog(null, "Favor inserir um contato", "Erro", JOptionPane.ERROR_MESSAGE);
+					System.out.println("sem contatos");	
+					return;
+				}
+				
+				String email = txtEmailCnt.getText();
+				if (email.isBlank()) {
+					JOptionPane.showMessageDialog(null, "Favor inserir um email", "Erro", JOptionPane.ERROR_MESSAGE);
+					System.out.println("email Vazio");
+					return;
+				}
+				
+				String telefone = txtTelefone.getText();
+				if (telefone.isBlank()) {
+					JOptionPane.showMessageDialog(null, "Favor inserir um telefone.", "Erro", JOptionPane.ERROR_MESSAGE);
+					System.out.println("telefone vazio");
+					return;
+				}
+			
+				Contato contato = new Contato();
+				contato.setEmail(email);
+				contato.setTelefone(telefone);
+				contatoC.set(listaContato.getSelectedIndex(), contato);
+				valuesCnt.set(listaContato.getSelectedIndex(), email + " / " + telefone);
+				
+				TelaCadastro.updateList(listaContato, valuesCnt);
+				System.out.println("debug: tela de cadastro de fornecedor > cadastro contato");
+				
+			}
+		});
+		btnAlterarContato.setOpaque(false);
+		btnAlterarContato.setForeground(clYellow);
+		btnAlterarContato.setFont(pop12);
+		Chisel(btnAlterarContato, clYellow, 5);
+		btnAlterarContato.setFocusPainted(false);
+		btnAlterarContato.setBackground((Color) null);
+		btnAlterarContato.setBounds(179, 171, 123, 23);
+		cntPanel.add(btnAlterarContato);
+		
+		JButton btnDelContato = new JButton("");
+		btnDelContato.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int idx = listaContato.getSelectedIndex();
+				
+				if (idx == -1) {
+					return;
+				}
+				
+				contatoC.remove(idx);
+				valuesCnt.remove(idx);
+				TelaCadastro.updateList(listaContato, valuesCnt);
+			}
+		});
+		btnDelContato.setIcon(new ImageIcon("./img/delete.png"));
+		btnDelContato.setOpaque(false);
+		btnDelContato.setForeground(clRed);
+		btnDelContato.setFont(null);
+		btnDelContato.setFocusPainted(false);
+		btnDelContato.setBackground((Color) null);
+		Chisel(btnDelContato, clRed, 5);
+		btnDelContato.setBounds(312, 171, 23, 23);
+		cntPanel.add(btnDelContato);
+	}
+
+	private void scrollChisel(JScrollPane scrollPane, Color color, int i) {
+		scrollPane.setForeground(color);
+        RoundedBorder LineBorder = new RoundedBorder(color, i);
+        Border emptyBorder = BorderFactory.createEmptyBorder();
+        scrollPane.setBorder(BorderFactory.createCompoundBorder(LineBorder, emptyBorder));
+		
 	}
 
 	private static void panelbuttonChisel(JPanel panel, Color color, int radius) {

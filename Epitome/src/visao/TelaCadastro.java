@@ -486,7 +486,7 @@ public class TelaCadastro extends JFrame {
 		JLabel lblCPF = new JLabel("CPF");
 		lblCPF.setForeground(new Color(197, 197, 197));
 		lblCPF.setFont(pop10);
-		lblCPF.setBounds(10, 216, 156, 14);
+		lblCPF.setBounds(10, 167, 156, 14);
 		panel.add(lblCPF);
 
 		JFormattedTextField txtCPF = new JFormattedTextField(def_mask("###.###.###-##", '\u2022'));
@@ -494,7 +494,7 @@ public class TelaCadastro extends JFrame {
 		txtCPF.setForeground(Color.WHITE);
 		txtCPF.setBackground(new Color(45, 45, 45));
 		txtCPF.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		txtCPF.setBounds(10, 230, 156, 20);
+		txtCPF.setBounds(10, 181, 156, 20);
 		txtCPF.setFont(pop12);
 		panel.add(txtCPF);
 		txtCPF.setColumns(10);
@@ -504,31 +504,15 @@ public class TelaCadastro extends JFrame {
 		txtData.setForeground(Color.WHITE);
 		txtData.setBackground(new Color(45, 45, 45));
 		txtData.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		txtData.setBounds(10, 275, 156, 20);
+		txtData.setBounds(10, 226, 156, 20);
 		txtData.setFont(pop12);
 		panel.add(txtData);
 		txtData.setColumns(10);
 
-		JLabel lblUsername = new JLabel("NOME DE USUÁRIO");
-		lblUsername.setForeground(new Color(197, 197, 197));
-		lblUsername.setFont(pop10);
-		lblUsername.setBounds(10, 126, 156, 14);
-		panel.add(lblUsername);
-
-		JTextField txtUsername = new JTextField();
-		txtUsername.setCaretColor(Color.WHITE);
-		txtUsername.setForeground(Color.WHITE);
-		txtUsername.setBackground(new Color(45, 45, 45));
-		txtUsername.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		txtUsername.setBounds(10, 140, 156, 20);
-		txtUsername.setFont(pop12);
-		panel.add(txtUsername);
-		txtUsername.setColumns(10);
-
 		JLabel lblNome = new JLabel("NOME");
 		lblNome.setForeground(new Color(197, 197, 197));
 		lblNome.setFont(pop10);
-		lblNome.setBounds(10, 171, 156, 14);
+		lblNome.setBounds(10, 122, 156, 14);
 		panel.add(lblNome);
 
 		JTextField txtNome = new JTextField();
@@ -536,7 +520,7 @@ public class TelaCadastro extends JFrame {
 		txtNome.setForeground(Color.WHITE);
 		txtNome.setBackground(new Color(45, 45, 45));
 		txtNome.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		txtNome.setBounds(10, 185, 156, 20);
+		txtNome.setBounds(10, 136, 156, 20);
 		txtNome.setFont(pop12);
 		panel.add(txtNome);
 		txtNome.setColumns(10);
@@ -593,12 +577,12 @@ public class TelaCadastro extends JFrame {
 		JLabel lblDataDeNascimento = new JLabel("DATA DE NASCIMENTO");
 		lblDataDeNascimento.setForeground(new Color(197, 197, 197));
 		lblDataDeNascimento.setFont(pop10);
-		lblDataDeNascimento.setBounds(10, 261, 156, 14);
+		lblDataDeNascimento.setBounds(10, 212, 156, 14);
 		panel.add(lblDataDeNascimento);
 
 		JLabel lblCargo = new JLabel("CARGO");
 		lblCargo.setForeground(new Color(197, 197, 197));
-		lblCargo.setBounds(10, 306, 156, 14);
+		lblCargo.setBounds(10, 257, 156, 14);
 		lblCargo.setFont(pop10);
 		panel.add(lblCargo);
 
@@ -609,7 +593,7 @@ public class TelaCadastro extends JFrame {
 		rdVendedor.setFont(pop10);
 		rdVendedor.setIcon(new ImageIcon("./img/radio_button.png"));
 		rdVendedor.setSelectedIcon(new ImageIcon("./img/radio_button_checked.png"));
-		rdVendedor.setBounds(10, 327, 156, 23);
+		rdVendedor.setBounds(10, 278, 156, 23);
 		rdVendedor.setFocusPainted(false);
 		panel.add(rdVendedor);
 
@@ -621,7 +605,7 @@ public class TelaCadastro extends JFrame {
 		rdAdministrador.setFont(pop10);
 		rdAdministrador.setIcon(new ImageIcon("./img/radio_button.png"));
 		rdAdministrador.setSelectedIcon(new ImageIcon("./img/radio_button_checked.png"));
-		rdAdministrador.setBounds(10, 353, 156, 23);
+		rdAdministrador.setBounds(10, 304, 156, 23);
 		rdAdministrador.setFocusPainted(false);
 		panel.add(rdAdministrador);
 
@@ -692,12 +676,12 @@ public class TelaCadastro extends JFrame {
 					return;
 				}
 				
-				String nomeUsuario = txtUsername.getText();
-				if (nomeUsuario.isBlank()) {
-					JOptionPane.showMessageDialog(null, "Favor inserir um nome de usuário", "Erro", JOptionPane.ERROR_MESSAGE);
-					System.out.println("username vazio");
-					return;
-				}
+//				String nomeUsuario = txtUsername.getText();
+//				if (nomeUsuario.isBlank()) {
+//					JOptionPane.showMessageDialog(null, "Favor inserir um nome de usuário", "Erro", JOptionPane.ERROR_MESSAGE);
+//					System.out.println("username vazio");
+//					return;
+//				}
 				
 				String nome = txtNome.getText();
 				if (nome.isBlank()) {
@@ -753,7 +737,7 @@ public class TelaCadastro extends JFrame {
 				usuario.setCpf_usuario(cpf);
 				usuario.setEmail(email);
 				usuario.setSenha_usuario(senha);
-				usuario.setLogin_usuario(nomeUsuario);
+//				usuario.setLogin_usuario(nomeUsuario);
 				usuario.setNascimento_data(Date.valueOf(date));
 
 				long id = dao.insert(usuario);

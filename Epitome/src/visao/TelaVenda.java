@@ -1,18 +1,12 @@
 package visao;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
-import javax.swing.plaf.basic.BasicScrollBarUI;
-
-import java.awt.FlowLayout;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -26,20 +20,16 @@ import java.awt.Component;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.sql.Date;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import java.awt.Toolkit;
-import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
 import controle.ProdutoBD;
-import controle.UsuarioDAO;
 import controle.VendaBD;
 import modelo.ProdVNDQuant;
 import modelo.Produto;
@@ -51,6 +41,11 @@ import javax.swing.ButtonGroup;
 
 public class TelaVenda extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private JPanel contentPane;
 	private JTable tblProdutos;
 	private JTextField txtCodigo;
@@ -86,36 +81,9 @@ public class TelaVenda extends JFrame {
 		Color clRed = new Color(226, 0, 54);
 		Color clBlue = new Color(113, 206, 236);
 		Color clGreen = new Color(168, 198, 51);
-		Color clLight = new Color(197, 197, 197);
 		Color clYellow = new Color(239, 161, 35);
 		
-		/*BasicScrollBarUI minScrollBar = new BasicScrollBarUI() {
-		    @Override
-		    protected void configureScrollBarColors() {
-		        this.thumbColor = clLight;
-		    }
-		    
-		    @Override
-		    protected JButton createDecreaseButton(int orientation) {
-		        JButton button = super.createDecreaseButton(orientation);
-		        button.setBackground(new Color(22, 22, 22));
-		        button.setForeground(null);
-		        button.setSelectedIcon(null);
-		        button.setBorder(BorderFactory.createLineBorder(new Color(22,22,22), 2));
-		        return button;
-		    }
-
-		    @Override
-		    protected JButton createIncreaseButton(int orientation) {
-		        JButton button = super.createIncreaseButton(orientation);
-		        button.setBackground(new Color(22, 22, 22));
-		        button.setForeground(null);
-		        button.setSelectedIcon(null);
-		        button.setBorder(BorderFactory.createLineBorder(new Color(22,22,22), 2));
-		        return button;
-		    }
-		};
-		*/
+		
 		Font poppins, pop10 = null, pop12 = null, pop16 = null, pop24 = null;
 		
 		try {
@@ -147,11 +115,11 @@ public class TelaVenda extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JButton btnRelatorio = new JButton("Relatório de Vendas");
+		JButton btnRelatorio = new JButton("Relat\u00F3rio de Vendas");
 		btnRelatorio.setFont(pop10);
 		btnRelatorio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug: tela de estoque > relatório de vendas");
+				System.out.println("debug: tela de estoque > relat\u00F3rio de vendas");
 			}
 		});
 		btnRelatorio.setBackground(null);
@@ -269,9 +237,9 @@ public class TelaVenda extends JFrame {
 		scrollPane.setFont(pop12);
 		scrollPane.setForeground(Color.WHITE);
 		scrollPane.setBackground(new Color(22, 22, 22));
-		//scrollPane.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		scrollPane.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		scrollChisel(scrollPane, Color.WHITE, 5);
-//		scrollPane.getVerticalScrollBar().setUI(minScrollBar);
+		Rolagem.defRolagem(scrollPane);
 		contentPane.add(scrollPane);
 		
 		tblProdutos = new JTable();
@@ -333,7 +301,7 @@ public class TelaVenda extends JFrame {
 		lblMaterial.setBounds(10, 61, 190, 14);
 		dtlProduto.add(lblMaterial);
 		
-		JLabel lblDimensoes = new JLabel("DIMENSÕES: 0x0x0");
+		JLabel lblDimensoes = new JLabel("DIMENS\u00D5ES: 0x0x0");
 		lblDimensoes.setForeground(Color.WHITE);
 		lblDimensoes.setFont(pop10);
 		lblDimensoes.setBounds(10, 86, 190, 14);
@@ -547,7 +515,7 @@ public class TelaVenda extends JFrame {
 		btnAdd.setBounds(772, 462, 36, 36);
 		contentPane.add(btnAdd);		
 		
-		JLabel txtDigiteOCodigo = new JLabel("CÓDIGO");
+		JLabel txtDigiteOCodigo = new JLabel("C\u00D3DIGO");
 		txtDigiteOCodigo.setForeground(new Color(255, 255, 255));
 		txtDigiteOCodigo.setFont(pop10);
 		txtDigiteOCodigo.setBounds(818, 453, 128, 14);

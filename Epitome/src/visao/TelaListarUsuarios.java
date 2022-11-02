@@ -10,40 +10,22 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.sql.Date;
-import java.sql.SQLException;
 import java.text.ParseException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JRadioButton;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.MaskFormatter;
 
-import controle.Conexao;
 import controle.UsuarioDAO;
 import modelo.Usuario;
 
 public class TelaListarUsuarios extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField txtEmail;
-	private JPasswordField txtSenha;
-	private final ButtonGroup cargoGroup = new ButtonGroup();
-
 	/**
 	 * Launch the application.
 	 */
@@ -60,24 +42,18 @@ public class TelaListarUsuarios extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
-private int i;
-	private int id;
-	private int id2;
 	public TelaListarUsuarios() {
 		setIconImage(Toolkit.getDefaultToolkit()
 				.getImage("./img/app_icon_small.png"));
-		Color clRed = new Color(226, 0, 54);
-		Color clBlue = new Color(113, 206, 236);
+		new Color(226, 0, 54);
+		new Color(113, 206, 236);
 
-		Font poppins, pop10 = null, pop12 = null;
+		Font poppins, pop12 = null;
 
 		try {
 
 			poppins = Font.createFont(Font.TRUETYPE_FONT, new File("./font/Poppins-SemiBold.ttf"));
-			pop10 = poppins.deriveFont(Font.TRUETYPE_FONT, 10);
+			poppins.deriveFont(Font.TRUETYPE_FONT, 10);
 			pop12 = poppins.deriveFont(Font.TRUETYPE_FONT, 12);
 
 		} catch (Exception e) {
@@ -101,7 +77,7 @@ private int i;
 		int i = 10;
 		UsuarioDAO usuarioDao = new UsuarioDAO();
 		for (Usuario c : usuarioDao.getListarUsuarios()) {
-		JButton btnUsuario = new JButton("Usuario: " +c.getNome_usuario() );
+		JButton btnUsuario = new JButton(c.getNome_usuario());
 		btnUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: tela listarUsuarios > tela de Perfil");
