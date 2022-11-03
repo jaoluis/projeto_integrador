@@ -30,8 +30,7 @@ public class FornecedorBD {
 				ps.setString(1, fornecedor.getNome_fornecedor());
 				ps.setString(2, fornecedor.getCnpj_fornecedor());
 				ps.execute();
-				
-				ps.execute();
+			
 				ResultSet generatedKeys = ps.getGeneratedKeys();
 				 generatedKeys.next();
 				 id = generatedKeys.getLong(1);
@@ -173,7 +172,7 @@ public class FornecedorBD {
 			
 			public List<Fornecedor> getListarFornecedores(){
 			     
-				String sql1 = "select id_fornecedor,nome_fornecedor, nome_fornecedor from fornecedor;";
+				String sql1 = "select id_fornecedor,nome_fornecedor, cnpj_fornecedor from fornecedor;";
 				
 				List<Fornecedor> fornecedores = new ArrayList<Fornecedor>();
 				Connection conn = null;
@@ -189,7 +188,7 @@ public class FornecedorBD {
 						Fornecedor fornecedor = new Fornecedor();
 						fornecedor.setId_fornecedor(rset.getInt("id_fornecedor"));
 						fornecedor.setNome_fornecedor(rset.getString("nome_fornecedor"));
-						fornecedor.setCnpj_fornecedor(rset.getString("nome_fornecedor"));
+						fornecedor.setCnpj_fornecedor(rset.getString("cnpj_fornecedor"));
 						
 						fornecedores.add(fornecedor);
 						

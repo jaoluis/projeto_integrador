@@ -107,6 +107,7 @@ public class TelaModificarProduto extends JFrame {
 		panel.add(lblCPF);
 
 		JTextField txtMaterial = new JTextField();
+		txtMaterial.setCaretColor(Color.WHITE);
 		txtMaterial.setForeground(new Color(255, 255, 255));
 		txtMaterial.setBackground(new Color(45, 45, 45));
 		txtMaterial.setBorder(javax.swing.BorderFactory.createEmptyBorder());
@@ -117,6 +118,7 @@ public class TelaModificarProduto extends JFrame {
 		txtMaterial.setColumns(10);
 
 		JTextField txtDimensoes = new JTextField();
+		txtDimensoes.setCaretColor(Color.WHITE);
 		txtDimensoes.setForeground(new Color(255, 255, 255));
 		txtDimensoes.setBackground(new Color(45, 45, 45));
 		txtDimensoes.setBorder(javax.swing.BorderFactory.createEmptyBorder());
@@ -133,6 +135,7 @@ public class TelaModificarProduto extends JFrame {
 		panel.add(lblUsername);
 
 		JTextField txtPrecoCusto = new JTextField();
+		txtPrecoCusto.setCaretColor(Color.WHITE);
 		txtPrecoCusto.setForeground(new Color(255, 255, 255));
 		txtPrecoCusto.setBackground(new Color(45, 45, 45));
 		txtPrecoCusto.setBorder(javax.swing.BorderFactory.createEmptyBorder());
@@ -149,6 +152,7 @@ public class TelaModificarProduto extends JFrame {
 		panel.add(lblNome);
 
 		JTextField txtQuantidade = new JTextField();
+		txtQuantidade.setCaretColor(Color.WHITE);
 		txtQuantidade.setForeground(new Color(255, 255, 255));
 		txtQuantidade.setBackground(new Color(45, 45, 45));
 		txtQuantidade.setBorder(javax.swing.BorderFactory.createEmptyBorder());
@@ -165,6 +169,7 @@ public class TelaModificarProduto extends JFrame {
 		panel.add(lblEmail);
 
 		txtNome = new JTextField();
+		txtNome.setCaretColor(Color.WHITE);
 		txtNome.setForeground(new Color(255, 255, 255));
 		txtNome.setBackground(new Color(45, 45, 45));
 		txtNome.setBorder(javax.swing.BorderFactory.createEmptyBorder());
@@ -181,6 +186,7 @@ public class TelaModificarProduto extends JFrame {
 		panel.add(lblSenha);
 
 		JTextField txtPrecoVenda = new JTextField();
+		txtPrecoVenda.setCaretColor(Color.WHITE);
 		txtPrecoVenda.setForeground(new Color(255, 255, 255));
 		txtPrecoVenda.setBackground(new Color(45, 45, 45));
 		txtPrecoVenda.setBorder(javax.swing.BorderFactory.createEmptyBorder());
@@ -203,6 +209,7 @@ public class TelaModificarProduto extends JFrame {
 		panel.add(lblFornecedor);
 		
 		JTextField txtFornecedor = new JTextField();
+		txtFornecedor.setCaretColor(Color.WHITE);
 		txtFornecedor.setForeground(new Color(255, 255, 255));
 		txtFornecedor.setBackground(new Color(45, 45, 45));
 		txtFornecedor.setBorder(javax.swing.BorderFactory.createEmptyBorder());
@@ -211,18 +218,6 @@ public class TelaModificarProduto extends JFrame {
 		txtFornecedor.setFont(pop12);
 		panel.add(txtFornecedor);
 		txtFornecedor.setColumns(10);
-		
-		JButton btnAddFornecedor = new JButton("");
-		btnAddFornecedor.setIcon(new ImageIcon("./img/add_forn.png"));
-		btnAddFornecedor.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// adicionar Fornecedor à lista
-			}
-		});
-		btnAddFornecedor.setBackground(null);
-		btnAddFornecedor.setBorder(BorderFactory.createEmptyBorder());
-		btnAddFornecedor.setBounds(150, 303, 16, 16);
-		panel.add(btnAddFornecedor);
 
 		JButton btnContinuar = new JButton("ALTERAR");
 		btnContinuar.addActionListener(new ActionListener() {
@@ -268,6 +263,7 @@ public class TelaModificarProduto extends JFrame {
 				ProdutoBD produtoBD = new ProdutoBD();
 				produtoBD.update(produto);
 				System.out.println("update realizado");
+				dispose();
 				
 			}
 		});
@@ -275,26 +271,26 @@ public class TelaModificarProduto extends JFrame {
 		btnContinuar.setBackground(null);
 		Chisel(btnContinuar, clGreen, 5);
 		btnContinuar.setFont(pop12);
-		btnContinuar.setBounds(10, 400, 156, 23);
+		btnContinuar.setBounds(10, 432, 123, 23);
 		panel.add(btnContinuar);
 		
 		
-		JButton btnDeletar = new JButton("DELETAR");
+		JButton btnDeletar = new JButton("");
 		btnDeletar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug: tela de alteração de produto > deletar produto");
-				
 				ProdutoBD produtoBD = new ProdutoBD();
 				produtoBD.DeleteByID(produtoAEditar.getIdProduto());
-				
-				
+				dispose();
 			}
 		});
+		btnDeletar.setIcon(new ImageIcon("./img/delete.png"));
 		btnDeletar.setOpaque(false);
-		btnDeletar.setBackground(null);
+		btnDeletar.setForeground(clRed);
+		btnDeletar.setFont(null);
+		btnDeletar.setFocusPainted(false);
+		btnDeletar.setBackground((Color) null);
 		Chisel(btnDeletar, clRed, 5);
-		btnDeletar.setFont(pop12);
-		btnDeletar.setBounds(10, 432, 156, 23);
+		btnDeletar.setBounds(143, 432, 23, 23);
 		panel.add(btnDeletar);
 		
 		JLabel fakeBG = new JLabel("");

@@ -11,7 +11,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.sql.Date;
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -45,6 +47,10 @@ import modelo.Endereco;
 import modelo.Usuario;
 
 public class TelaModificar extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField txtEmail;
 	private JPasswordField txtSenha;
@@ -507,7 +513,9 @@ public class TelaModificar extends JFrame {
 		txtCPF.setColumns(10);
 
 		JFormattedTextField txtData = new JFormattedTextField(def_mask("##/##/####", '\u2022'));
-		txtData.setText(usuarioOld.getNascimento_data().toString());
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        String dataFormatada = dateFormat.format(usuarioOld.getNascimento_data());
+		txtData.setText(dataFormatada);
 		txtData.setCaretColor(Color.WHITE);
 		txtData.setForeground(Color.WHITE);
 		txtData.setBackground(new Color(45, 45, 45));

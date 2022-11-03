@@ -434,6 +434,7 @@ public class TelaCadastroFornecedor extends JFrame {
 				}
 				 
 				Contato contato = new Contato();
+				contato.setId(contatoC.get(listaContato.getSelectedIndex()).getId());
 				contato.setEmail(email);
 				contato.setTelefone(telefone);
 				contatoC.set(listaContato.getSelectedIndex(), contato);
@@ -506,19 +507,20 @@ public class TelaCadastroFornecedor extends JFrame {
 				try {
 					numero1 = Integer.parseInt(txtNumero.getText());
 				} catch (NumberFormatException x) {
-					JOptionPane.showMessageDialog(null, "Digite apenas números.", "Aviso", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Digite apenas nï¿½meros.", "Aviso", JOptionPane.WARNING_MESSAGE);
 					System.out.println("NÃ£o converteu para inteiro");
 					return;
 				}
 				
 
 				if (numero.isBlank()) {
-					JOptionPane.showMessageDialog(null, "Favor inserir um número.", "Erro", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Favor inserir um nï¿½mero.", "Erro", JOptionPane.ERROR_MESSAGE);
 					System.out.println("numero vazio");
 					return;
 				}
 				
 				Endereco enderecoAdd = new Endereco();
+				enderecoAdd.setId(enderecoF.get(listaEndereco.getSelectedIndex()).getId());
 				enderecoAdd.setBairro(bairro);
 				enderecoAdd.setCidade(cidade);
 				enderecoAdd.setNumero(numero1);
@@ -596,8 +598,10 @@ public class TelaCadastroFornecedor extends JFrame {
 			fornecedor.setCnpj_fornecedor(cnpj);
 			
 			long id = fornecedorBD.insert(fornecedor);
+			System.out.println("fk_id_fornecedor: " + id);
 			
 			for (Endereco enderecoA: enderecoF) {
+				System.out.println(enderecoA.getCidade() + ", id: " + enderecoA.getId());
 				fornecedorBD.insertEndereco(enderecoA, id);
 			}
 			for (Contato contatoA : contatoC) {
@@ -605,9 +609,11 @@ public class TelaCadastroFornecedor extends JFrame {
 			}
 
 			}else {
+				JOptionPane.showMessageDialog(null, "CNPJ ou E-mail invÃ¡lido", "Erro", JOptionPane.ERROR_MESSAGE);
 				System.out.println("Email Invalido ou CNPJ");
+				return;
 			}
-			
+			dispose();
 			
 			}
 		});

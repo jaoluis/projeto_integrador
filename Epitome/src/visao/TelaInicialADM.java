@@ -1,36 +1,29 @@
 package visao;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
-import controle.UsuarioDAO;
 import modelo.Usuario;
 
-import java.awt.FlowLayout;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Insets;
 
-import javax.swing.JTextField;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.sql.Date;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import java.awt.Toolkit;
-import javax.swing.JComboBox;
 
 public class TelaInicialADM extends JFrame {
 
@@ -108,13 +101,12 @@ public class TelaInicialADM extends JFrame {
 		btnVenda.setBounds(10, 36, 205, 34);
 		panel.add(btnVenda);
 		
-		JButton btnCadastroFornecedor = new JButton("Cadastrar Fornecedor");
+		JButton btnCadastroFornecedor = new JButton("CADASTRAR FORNECEDOR");
 		btnCadastroFornecedor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: tela inicial adm > tela de cadastro fornecedor");
 				TelaCadastroFornecedor telaCadastroFornecedor = new TelaCadastroFornecedor();
 				telaCadastroFornecedor.setVisible(true);
-				setVisible(false);
 			}
 		});
 		btnCadastroFornecedor.setOpaque(false);
@@ -124,7 +116,7 @@ public class TelaInicialADM extends JFrame {
 		btnCadastroFornecedor.setBounds(10, 176, 205, 34);
 		panel.add(btnCadastroFornecedor);
 		
-		JButton btnListarFornecedor = new JButton("Listar Fornecedores");
+		JButton btnListarFornecedor = new JButton("FORNECEDORES");
 		btnListarFornecedor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: tela inicial adm > tela de listar fornecedor");
@@ -172,7 +164,7 @@ public class TelaInicialADM extends JFrame {
 		btnCadastrarUsuarios.setBounds(10, 106, 205, 34);
 		panel.add(btnCadastrarUsuarios);
 		
-		JButton btnListarUsuario = new JButton("LISTAR USUÁRIOS");
+		JButton btnListarUsuario = new JButton("USUÁRIOS");
 		btnListarUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: tela Listar usuarios > tela de Listar Usuarios");
@@ -240,7 +232,7 @@ public class TelaInicialADM extends JFrame {
 		lblAdministrador.setFont(pop12);
 		panel.add(lblAdministrador);
 		
-		JLabel lblNome = new JLabel("Fulano da Silva");
+		JLabel lblNome = new JLabel(usuarioLogado.getNome_usuario());
 		//lblNome.setText(nome do usuario)
 		lblNome.setBounds(230, 11, 231, 14);
 		panel.add(lblNome);

@@ -127,7 +127,7 @@ public class TelaPerfilFornecedor extends JFrame {
 		btnModificar.setBounds(270, 100, 156, 34);
 		panel.add(btnModificar);
 		
-		JLabel lblCargo = new JLabel(fornecedor.getEmail());
+		JLabel lblCargo = new JLabel("fornecedor");
 		//lblCargo.setText(cargo do usuario);
 		lblCargo.setForeground(new Color(255, 255, 255));
 		lblCargo.setFont(pop12);
@@ -164,7 +164,7 @@ public class TelaPerfilFornecedor extends JFrame {
 		lblEmail.setBounds(10, 61, 108, 14);
 		panel.add(lblEmail);
 		
-		JLabel lblCPF = new JLabel("CPF");
+		JLabel lblCPF = new JLabel("CNPJ");
 		lblCPF.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblCPF.setForeground(new Color(197, 197, 197));
 		lblCPF.setFont(pop12);
@@ -177,22 +177,7 @@ public class TelaPerfilFornecedor extends JFrame {
 		lblCPFInfo.setFont(pop12);
 		lblCPFInfo.setBounds(128, 86, 295, 14);
 		panel.add(lblCPFInfo);
-		
-		JLabel lblNascimento = new JLabel("NASCIMENTO");
-		lblNascimento.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNascimento.setForeground(new Color(197, 197, 197));
-		lblNascimento.setFont(pop12);
-		lblNascimento.setBounds(10, 111, 108, 14);
-		panel.add(lblNascimento);
         String dataAtual = "12/01/2003";
-//        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-//        String dataFormatada = dateFormat.format(dataAtual);
-		JLabel lblNacimentoInfo = new JLabel(dataAtual);
-		lblNacimentoInfo.setHorizontalAlignment(SwingConstants.LEFT);
-		lblNacimentoInfo.setForeground(Color.WHITE);
-		lblNacimentoInfo.setFont(pop12);
-		lblNacimentoInfo.setBounds(128, 111, 295, 14);
-		panel.add(lblNacimentoInfo);
 		
 		JLabel fakeBG = new JLabel("");
 		fakeBG.setIcon(new ImageIcon("./img/bg.png"));

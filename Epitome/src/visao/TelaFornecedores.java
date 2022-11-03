@@ -80,32 +80,6 @@ public class TelaFornecedores extends JFrame {
 		Color clGreen = new Color(105, 122, 39);
 		Color clLight = new Color(197, 197, 197);
 		
-		BasicScrollBarUI minScrollBar = new BasicScrollBarUI() {
-		    @Override
-		    protected void configureScrollBarColors() {
-		        this.thumbColor = clLight;
-		    }
-		    
-		    @Override
-		    protected JButton createDecreaseButton(int orientation) {
-		        JButton button = super.createDecreaseButton(orientation);
-		        button.setBackground(new Color(22, 22, 22));
-		        button.setForeground(null);
-		        button.setSelectedIcon(null);
-		        button.setBorder(BorderFactory.createLineBorder(new Color(22,22,22), 2));
-		        return button;
-		    }
-
-		    @Override
-		    protected JButton createIncreaseButton(int orientation) {
-		        JButton button = super.createIncreaseButton(orientation);
-		        button.setBackground(new Color(22, 22, 22));
-		        button.setForeground(null);
-		        button.setSelectedIcon(null);
-		        button.setBorder(BorderFactory.createLineBorder(new Color(22,22,22), 2));
-		        return button;
-		    }
-		};
 		
 		Font poppins, pop10 = null, pop12 = null, pop24 = null;
 
@@ -232,8 +206,8 @@ public class TelaFornecedores extends JFrame {
 						fornecedorAEditar = fornecedor;
 					}
 				}
-				TelaPerfilFornecedor telaPerfilFornecedor = new TelaPerfilFornecedor(fornecedorAEditar.getId_fornecedor());
-				telaPerfilFornecedor.setVisible(true);
+				TelaFornecedorModificar telaModForn = new TelaFornecedorModificar(fornecedorAEditar.getId_fornecedor());
+				telaModForn.setVisible(true);
 
 			}
 		});
@@ -243,7 +217,7 @@ public class TelaFornecedores extends JFrame {
 		btnEdit.setIcon(new ImageIcon("./img/edit.png"));
 		btnEdit.setForeground(null);
 		btnEdit.setBackground(null);
-		btnEdit.setBounds(47, 426, 25, 25);
+		btnEdit.setBounds(93, 775, 36, 36);
 		contentPane.add(btnEdit);
 
 		JButton btnAdd = new JButton("");
@@ -257,7 +231,7 @@ public class TelaFornecedores extends JFrame {
 		btnAdd.setIcon(new ImageIcon("./img/add.png"));
 		btnAdd.setForeground(null);
 		btnAdd.setBackground(null);
-		btnAdd.setBounds(47, 626, 25, 25);
+		btnAdd.setBounds(47, 775, 36, 36);
 		contentPane.add(btnAdd);
 
 		JLabel lblEstoque = new JLabel("Fornecedores");
@@ -284,7 +258,7 @@ public class TelaFornecedores extends JFrame {
 		scrollPane.setBackground(new Color(22, 22, 22));
 		scrollPane.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		scrollChisel(scrollPane, new Color(255, 255, 255), 5);
-		scrollPane.getVerticalScrollBar().setUI(minScrollBar);
+		Rolagem.defRolagem(scrollPane);
 		contentPane.add(scrollPane);
 
 		DefaultTableModel model = new DefaultTableModel(null, new String[] { "ID", "NOME", "CNPJ"});
@@ -295,10 +269,10 @@ public class TelaFornecedores extends JFrame {
 			FornecedorBD fornecedorBD = new FornecedorBD();
 			fornecedores = fornecedorBD.getListarFornecedores();
 		for (Fornecedor fornecedor : fornecedores) {
-
+		
 			model.addRow(new Object[] {fornecedor.getId_fornecedor(),fornecedor.getNome_fornecedor(),fornecedor.getCnpj_fornecedor() });
 			
-    }
+		}
 			
 		
 		tblFornecedores = new JTable();

@@ -435,6 +435,7 @@ public class TelaFornecedorModificar extends JFrame {
 				}
 				 
 				Contato contato = new Contato();
+				contato.setId(contatoC.get(listaContato.getSelectedIndex()).getId());
 				contato.setEmail(email);
 				contato.setTelefone(telefone);
 				contatoC.set(listaContato.getSelectedIndex(), contato);
@@ -520,6 +521,7 @@ public class TelaFornecedorModificar extends JFrame {
 				}
 				
 				Endereco enderecoAdd = new Endereco();
+				enderecoAdd.setId(enderecoF.get(listaEndereco.getSelectedIndex()).getId());
 				enderecoAdd.setBairro(bairro);
 				enderecoAdd.setCidade(cidade);
 				enderecoAdd.setNumero(numero1);
@@ -604,7 +606,7 @@ public class TelaFornecedorModificar extends JFrame {
 			
 			
 			if (txtCNPJ.getText().isBlank()) {
-				JOptionPane.showMessageDialog(null, "Favor inserir um cnpj", "Erro", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Favor inserir um CNPJ", "Erro", JOptionPane.ERROR_MESSAGE);
 				System.out.println("cnpj Vazio");
 				return;
 			}
@@ -629,9 +631,11 @@ public class TelaFornecedorModificar extends JFrame {
 			fornecedorBD.update1(enderecoF);
 
 			}else {
+				JOptionPane.showMessageDialog(null, "CNPJ ou E-mail inválido", "Erro", JOptionPane.ERROR_MESSAGE);
 				System.out.println("Email Invalido ou CNPJ");
+				return;
 			}
-			
+			dispose();
 			
 			}
 		});
@@ -639,8 +643,26 @@ public class TelaFornecedorModificar extends JFrame {
 		btnContinuar.setBackground(null);
 		Chisel(btnContinuar, clYellow, 5);
 		btnContinuar.setFont(pop12);
-		btnContinuar.setBounds(10, 432, 156, 23);
+		btnContinuar.setBounds(10, 432, 123, 23);
 		panel.add(btnContinuar);
+		
+		JButton btnDeletar = new JButton("");
+		btnDeletar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				FornecedorBD fornecedorBD = new FornecedorBD();
+				fornecedorBD.DeleteByID(id);
+				setVisible(false);
+			}
+		});
+		btnDeletar.setIcon(new ImageIcon("./img/delete.png"));
+		btnDeletar.setOpaque(false);
+		btnDeletar.setForeground(clRed);
+		btnDeletar.setFont(null);
+		btnDeletar.setFocusPainted(false);
+		btnDeletar.setBackground((Color) null);
+		Chisel(btnDeletar, clRed, 5);
+		btnDeletar.setBounds(143, 432, 23, 23);
+		panel.add(btnDeletar);
 		
 		
 	}
