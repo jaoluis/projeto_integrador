@@ -213,7 +213,10 @@ public class TelaModificarProduto extends JFrame {
 		txtFornecedor.setForeground(new Color(255, 255, 255));
 		txtFornecedor.setBackground(new Color(45, 45, 45));
 		txtFornecedor.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		txtFornecedor.setText(String.valueOf(produtoAEditar.getFornecedor()));
+		if (produtoAEditar.getFornecedor() != 0) {
+			txtFornecedor.setText(String.valueOf(produtoAEditar.getFornecedor()));
+		}
+		
 		txtFornecedor.setBounds(10, 320, 156, 20);
 		txtFornecedor.setFont(pop12);
 		panel.add(txtFornecedor);
@@ -227,6 +230,16 @@ public class TelaModificarProduto extends JFrame {
 				String nome = txtNome.getText();
 				float precoVenda = 0f;
 				float precoCusto = 0f;
+				
+				int f = 0;
+				try {
+					f = Integer.parseInt(txtFornecedor.getText());
+				} catch (NumberFormatException x) {
+					JOptionPane.showMessageDialog(null, "Fornecedor inválido", "Erro", JOptionPane.ERROR_MESSAGE);
+					System.out.println("fornecedor vazio");
+					return;
+				}
+				
 				try {
 					precoVenda = Float.parseFloat(txtPrecoVenda.getText());
 					precoCusto = Float.parseFloat(txtPrecoCusto.getText());
@@ -237,28 +250,30 @@ public class TelaModificarProduto extends JFrame {
 				String material = txtMaterial.getText();
 				String dimensoes = txtDimensoes.getText();
 				
-				String fornecedor = txtFornecedor.getText();
-				int idFornecedor = 0;
-				if (fornecedor.isBlank()==false) {
-					idFornecedor = Integer.parseInt(fornecedor);
-				}
+//				String fornecedor = txtFornecedor.getText();
+//				int idFornecedor = 0;
+//				if (fornecedor.isBlank()==false) {
+//					idFornecedor = Integer.parseInt(fornecedor);
+//				}
 				FornecedorBD fornedorBD = new FornecedorBD();
 				
-				if(fornedorBD.VRFornR(idFornecedor)==false && idFornecedor !=0) {
+				if(FornecedorBD.VRFornR(f)==false && f !=0) {
 					JOptionPane.showMessageDialog(null, "Favor inserir um Fornecedor Existende.", "Erro", JOptionPane.ERROR_MESSAGE);
 					System.out.println("Fornecedor não existe");
 					return;
 				}
 				
-					Produto produto = new Produto();
+
+				Produto produto = new Produto();
 					produto.setNomeProduto(nome);
 					produto.setPrecoCustoProduto(precoCusto);
 					produto.setPrecoVendaProduto(precoVenda);
 					produto.setDimencoesProduto(dimensoes);
 					produto.setMaterialProduto(material);
 					produto.setQuantidadeEstoque(qtd);
+					produto.setFornecedor(f);
 					produto.setIdProduto(produtoAEditar.getIdProduto());
-					produto.setFornecedor(idFornecedor);
+
 				
 				ProdutoBD produtoBD = new ProdutoBD();
 				produtoBD.update(produto);

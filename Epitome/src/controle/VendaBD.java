@@ -74,11 +74,11 @@ private static Connection connection;
 		}
 	
 	
-	public List<Venda> getListarVendas(){
+	public ArrayList<Venda> getListarVendas(){
 		
-		String sql = "SELECT * FROM usuario";
+		String sql = "SELECT * FROM venda";
 		
-		List<Venda> vendas = new ArrayList<Venda>();
+		ArrayList<Venda> vendas = new ArrayList<Venda>();
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rset = null;
@@ -96,7 +96,6 @@ private static Connection connection;
 				venda.setTotal(rset.getFloat("preco_total_venda"));
 				venda.setPagamento(rset.getString("pagamento"));
 				venda.setDataVenda(rset.getDate("data_venda"));
-				venda.setTotal(0);
 
 				vendas.add(venda);
 				
@@ -126,6 +125,43 @@ private static Connection connection;
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		Date date = new Date(0);
 		return dateFormat.format(date);
+	}
+	
+	public void DeleteByID(int id) {
+		String sql = "DELETE FROM venda WHERE id_venda = ?";
+		String sql1 = "DELETE FROM produto_venda WHERE fk_id_venda = ?";
+		
+		Connection conn = null;
+		
+		PreparedStatement ps = null;
+		try {
+			
+			conn = Conexao.getConnection();		
+			ps = conn.prepareStatement(sql1);
+			ps.setInt(1, id);
+			ps.execute();
+			
+			conn = Conexao.getConnection();		
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, id);
+			ps.execute();
+			
+			System.out.println("fornecedor deletado");
+			Conexao.getClose();
+			}catch(Exception e) {
+				System.out.println("Debug: erro ao da Delete: "+e);
+			} finally {
+				try {
+					if (ps!=null) {
+						Conexao.getClose();
+					}
+					if(conn!=null) {
+						Conexao.getClose();
+					}
+				}catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
 	}
 
 

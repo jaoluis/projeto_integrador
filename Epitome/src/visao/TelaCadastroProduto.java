@@ -227,6 +227,15 @@ public class TelaCadastroProduto extends JFrame {
 				System.out.println("debug: tela de cadastro de produto > cadastrar produto");
 				
 				String nome = txtNome.getText();
+				int f = 0;
+				try {
+					f = Integer.parseInt(txtFornecedor.getText());
+				} catch (NumberFormatException x) {
+					JOptionPane.showMessageDialog(null, "Fornecedor inválido", "Erro", JOptionPane.ERROR_MESSAGE);
+					System.out.println("fornecedor vazio");
+					return;
+				}
+				
 				if (nome.isBlank()) {
 					JOptionPane.showMessageDialog(null, "Nome inválido", "Erro", JOptionPane.ERROR_MESSAGE);
 					System.out.println("Nome vazio");
@@ -271,14 +280,14 @@ public class TelaCadastroProduto extends JFrame {
 					return;
 				}
 				
-				String fornecedor = txtFornecedor.getText();
-				int idFornecedor = 0;
-				if (fornecedor.isBlank()==false) {
-					idFornecedor = Integer.parseInt(fornecedor);
-				}
+//				String fornecedor = txtFornecedor.getText();
+//				int idFornecedor = 0;
+//				if (fornecedor.isBlank()==false) {
+//					idFornecedor = Integer.parseInt(fornecedor);
+//				}
 				new FornecedorBD();
 				
-				if(FornecedorBD.VRFornR(idFornecedor)==false && idFornecedor !=0) {
+				if(FornecedorBD.VRFornR(f)==false && f !=0) {
 					JOptionPane.showMessageDialog(null, "Favor inserir um Fornecedor Existende.", "Erro", JOptionPane.ERROR_MESSAGE);
 					System.out.println("Fornecedor não existe");
 					return;
@@ -294,7 +303,7 @@ public class TelaCadastroProduto extends JFrame {
 				produto.setDimencoesProduto(dimensoes);
 				produto.setMaterialProduto(material);
 				produto.setQuantidadeEstoque(qtd);
-				produto.setFornecedor(idFornecedor);
+				produto.setFornecedor(f);
 
 				
 

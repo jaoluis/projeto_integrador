@@ -185,6 +185,9 @@ public class TelaInicialADM extends JFrame {
 		btnRelatorio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: tela inicial adm > relatório de vendas");
+				TelaRelatorio telaRel = new TelaRelatorio(usuarioLogado);
+				telaRel.setVisible(true);
+				setVisible(false);
 			}
 		});
 		btnRelatorio.setBackground(null);

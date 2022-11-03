@@ -339,17 +339,31 @@ public class FornecedorBD {
 			
 				
 			public void DeleteByID(int id) {
+				String sql1 = "DELETE FROM fornecedor_contato WHERE fk_id_fornecedor = ?";
 				String sql = "DELETE FROM fornecedor WHERE id_fornecedor = ?";
+				String sql2 = "DELETE FROM fornecedor_endereco WHERE fk_id_fornecedor = ?";
 				
 				Connection conn = null;
 				
 				PreparedStatement ps = null;
 				try {
+					
+					conn = Conexao.getConnection();		
+					ps = conn.prepareStatement(sql1);
+					ps.setInt(1, id);
+					ps.execute();
+					
+					conn = Conexao.getConnection();		
+					ps = conn.prepareStatement(sql2);
+					ps.setInt(1, id);
+					ps.execute();
+					
 					conn = Conexao.getConnection();		
 					ps = conn.prepareStatement(sql);
 					ps.setInt(1, id);
 					ps.execute();
-					System.out.println("produto deletado");
+					
+					System.out.println("fornecedor deletado");
 					Conexao.getClose();
 					}catch(Exception e) {
 						System.out.println("Debug: erro ao da Delete: "+e);
@@ -508,6 +522,9 @@ public class FornecedorBD {
 			}
 
 		}
+			
+			
+			
 			
 			
 			
