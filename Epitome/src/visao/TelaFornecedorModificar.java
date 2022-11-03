@@ -507,14 +507,14 @@ public class TelaFornecedorModificar extends JFrame {
 				try {
 					numero1 = Integer.parseInt(txtNumero.getText());
 				} catch (NumberFormatException x) {
-					JOptionPane.showMessageDialog(null, "Digite apenas números.", "Aviso", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Digite apenas nï¿½meros.", "Aviso", JOptionPane.WARNING_MESSAGE);
 					System.out.println("NÃ£o converteu para inteiro");
 					return;
 				}
 				
 
 				if (numero.isBlank()) {
-					JOptionPane.showMessageDialog(null, "Favor inserir um número.", "Erro", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Favor inserir um nï¿½mero.", "Erro", JOptionPane.ERROR_MESSAGE);
 					System.out.println("numero vazio");
 					return;
 				}
@@ -568,7 +568,7 @@ public class TelaFornecedorModificar extends JFrame {
 		
 		
 		
-		//inserção dos contatos e endereços
+		//inserï¿½ï¿½o dos contatos e endereï¿½os
 		
 		int t = 0;
 		for (Endereco e: enderecoF) {
@@ -601,28 +601,32 @@ public class TelaFornecedorModificar extends JFrame {
 				return;
 			}
 			
-			String cnpj = txtCNPJ.getText();
 			
-			if (cnpj.isBlank()) {
+			
+			if (txtCNPJ.getText().isBlank()) {
 				JOptionPane.showMessageDialog(null, "Favor inserir um cnpj", "Erro", JOptionPane.ERROR_MESSAGE);
 				System.out.println("cnpj Vazio");
 				return;
 			}
 			
+		    StringBuffer sb = new StringBuffer();
+
+		    char [] caracteres = txtCNPJ.getText().toCharArray();
+
+		    for (Character caracter : caracteres) {
+		        if (Character.isDigit(caracter)) {
+		            sb.append(caracter);
+		        }
+		    }
 			
-			
+			String cnpj = String.valueOf(sb);
 			if(FornecedorBD.isCNPJ(cnpj.toString()) == true) {
 			fornecedor.setNome_fornecedor(nome);
-			fornecedor.setCnpj_fornecedor(cnpj);
+			fornecedor.setCnpj_fornecedor(txtCNPJ.getText());
+			fornecedor.setId_fornecedor(id);
 			
-			long id = fornecedorBD.insert(fornecedor);
-			
-			for (Endereco enderecoA: enderecoF) {
-				fornecedorBD.insertEndereco(enderecoA, id);
-			}
-			for (Contato contatoA : contatoC) {
-				fornecedorBD.insertContato(contatoA, id);
-			}
+			fornecedorBD.update(fornecedor, contatoC);
+			fornecedorBD.update1(enderecoF);
 
 			}else {
 				System.out.println("Email Invalido ou CNPJ");

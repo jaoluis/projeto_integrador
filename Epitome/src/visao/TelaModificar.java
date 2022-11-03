@@ -709,7 +709,8 @@ public class TelaModificar extends JFrame {
 
 				UsuarioDAO dao;
 				dao = new UsuarioDAO();
-				dao.update(usuario);
+				dao.update(usuario, contatoC );
+				dao.updateEndereco(enderecoF);
 				
 				setVisible(false);
 

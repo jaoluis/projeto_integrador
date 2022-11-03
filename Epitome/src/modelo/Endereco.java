@@ -5,6 +5,7 @@ public class Endereco {
 	private String bairro;
 	private String rua;
 	private int numero;
+	private int id;
 	
 	public Endereco() {
 		this.cidade = "";
@@ -67,6 +68,14 @@ public class Endereco {
 
 	public void setNumero(int numero) {
 		this.numero = numero;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 	

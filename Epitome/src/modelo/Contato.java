@@ -3,6 +3,7 @@ package modelo;
 public class Contato {
 	private String email;
 	private String telefone;
+	private int id;
 	
 	public Contato() {
 		this.email = "";
@@ -39,6 +40,14 @@ public class Contato {
 			return true;
 		}
 		return false;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 	

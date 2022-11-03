@@ -296,6 +296,8 @@ public class FornecedorBD {
 						e.setBairro(rset.getString("bairro"));
 						e.setRua(rset.getString("rua"));
 						e.setNumero(rset.getInt("numero"));
+						e.setId(rset.getInt("id_fornecedor_endereco"));
+						System.out.println((rset.getInt("id_fornecedor_endereco")));
 						
 						enderecos.add(e);
 						
@@ -325,6 +327,7 @@ public class FornecedorBD {
 						Contato c = new Contato();
 						c.setEmail(rset.getString("email"));
 						c.setTelefone(rset.getString("telefone"));
+						c.setId(rset.getInt("id_fornecedor_contato"));
 						
 						contatos.add(c);
 						
@@ -416,6 +419,99 @@ public class FornecedorBD {
 				
 				return r;
 			}
+			
+			
+			
+			public void update (Fornecedor fornecedor, ArrayList<Contato> contatos) {
+				String sql  = "UPDATE fornecedor SET nome_fornecedor = ?, cnpj_fornecedor  = ?" + "WHERE id_fornecedor = ?;";
+				String sql1 = "UPDATE fornecedor_contato SET email = ?, telefone  = ?" + "WHERE id_fornecedor_contato = ?;";
+
+				Connection conn = null;
+				PreparedStatement ps = null;
+				
+				try {
+					conn = Conexao.getConnection();
+					ps = conn.prepareStatement(sql);
+					ps.setString(1, fornecedor.getNome_fornecedor());
+					ps.setString(2, fornecedor.getCnpj_fornecedor());
+					ps.setInt(3, fornecedor.getId_fornecedor());
+					System.out.println(fornecedor.getId_fornecedor());
+					ps.execute();
+					
+					
+					for (Contato contato : contatos) {
+					ps = conn.prepareStatement(sql1);
+					ps.setString(1, contato.getEmail());
+					ps.setString(2, contato.getTelefone());
+					ps.setInt(3, contato.getId());
+					System.out.println(contato.getId());
+					ps.execute();
+					}
+					
+					
+					System.out.println("Debug: produto alterado");
+					Conexao.getClose();
+				} catch (Exception e) {
+					System.out.println("Debug: erro ao da update: "+e);
+				}finally {
+					try {
+					if(ps!=null) {
+						Conexao.getClose();			
+						}
+					if (conn!=null) {
+						Conexao.getClose();
+					}
+					}catch (Exception e2) {
+						
+					}
+			}
+
+		}
+			
+			public void update1 (ArrayList<Endereco> enderecos) {
+				String sql2 = "UPDATE fornecedor_endereco SET cidade = ?, bairro  = ?, rua = ?, numero = ?"
+						+ " WHERE id_fornecedor_endereco = ?;";
+
+				Connection conn = null;
+				PreparedStatement ps = null;
+				
+				try {
+					conn = Conexao.getConnection();
+					
+					for (Endereco endereco : enderecos) {
+					ps = conn.prepareStatement(sql2);
+					ps.setString(1, endereco.getCidade());
+					ps.setString(2, endereco.getBairro());
+					ps.setString(3, endereco.getRua());
+					ps.setInt(4, endereco.getNumero());
+					ps.setInt(5, endereco.getId());
+					System.out.println(endereco.getId());
+					ps.execute();
+					}
+					Conexao.getClose();
+					
+					
+					System.out.println("Debug: produto alterado");
+					Conexao.getClose();
+				} catch (Exception e) {
+					System.out.println("Debug: erro ao da update: "+e);
+				}finally {
+					try {
+					if(ps!=null) {
+						Conexao.getClose();			
+						}
+					if (conn!=null) {
+						Conexao.getClose();
+					}
+					}catch (Exception e2) {
+						
+					}
+			}
+
+		}
+			
+			
+			
 			
 			}
 	

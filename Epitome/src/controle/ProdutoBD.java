@@ -141,7 +141,7 @@ public class ProdutoBD {
 			ps.execute();
 			
 			
-			System.out.println("Debug: usuario alterado");
+			System.out.println("Debug: produto alterado");
 			Conexao.getClose();
 		} catch (Exception e) {
 			System.out.println("Debug: erro ao da update: "+e);

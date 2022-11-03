@@ -294,9 +294,9 @@ public class UsuarioDAO {
 			return contatos;
 		}
 		
-		public void update (Usuario usuario) {
+		public void update (Usuario usuario, ArrayList<Contato> contatos) {
 			String sql  = "UPDATE usuario SET email_usuario = ?, senha_usuario = ?, cargo_usuario = ?, nome_usuario = ?, cpf_usuario = ?, nascimento_usuario = ?" + "WHERE id_usuario = ?";
-			
+			String sql1 = "UPDATE usuario_contato SET email = ?, telefone  = ?" + "WHERE id_usuario_contato = ?;";
 			Connection conn = null;
 			PreparedStatement ps = null;
 			
@@ -310,9 +310,17 @@ public class UsuarioDAO {
 				ps.setDate(6, usuario.getNascimento_data());
 				ps.setString(5, usuario.getCpf_usuario());
 				ps.setString(3, usuario.getCargo());
-				
 				ps.setInt(7, usuario.getId_usuario());
 				ps.execute();
+				
+				for (Contato contato : contatos) {
+				ps = conn.prepareStatement(sql1);
+				ps.setString(1, contato.getEmail());
+				ps.setString(2, contato.getTelefone());
+				ps.setInt(3, contato.getId());
+				ps.execute();
+				}
+				
 				System.out.println("Debug: usuario alterado");
 				Conexao.getClose();
 			} catch (Exception e) {
@@ -423,6 +431,49 @@ public class UsuarioDAO {
 			boolean b = m.matches();
 			return b;
 		}
+		
+		
+		public void updateEndereco (ArrayList<Endereco> enderecos) {
+			String sql2 = "UPDATE fornecedor_endereco SET cidade = ?, bairro  = ?, rua = ?, numero = ?"
+					+ " WHERE id_fornecedor_endereco = ?;";
+
+			Connection conn = null;
+			PreparedStatement ps = null;
+			
+			try {
+				conn = Conexao.getConnection();
+				
+				for (Endereco endereco : enderecos) {
+				ps = conn.prepareStatement(sql2);
+				ps.setString(1, endereco.getCidade());
+				ps.setString(2, endereco.getBairro());
+				ps.setString(3, endereco.getRua());
+				ps.setInt(4, endereco.getNumero());
+				ps.setInt(5, endereco.getId());
+				System.out.println(endereco.getId());
+				ps.execute();
+				}
+				Conexao.getClose();
+				
+				
+				System.out.println("Debug: produto alterado");
+				Conexao.getClose();
+			} catch (Exception e) {
+				System.out.println("Debug: erro ao da update: "+e);
+			}finally {
+				try {
+				if(ps!=null) {
+					Conexao.getClose();			
+					}
+				if (conn!=null) {
+					Conexao.getClose();
+				}
+				}catch (Exception e2) {
+					
+				}
+		}
+
+	}
 }
 
 
