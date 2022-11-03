@@ -1,58 +1,41 @@
 package visao;
 
-import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
-import javax.swing.plaf.basic.BasicScrollBarUI;
-
-import java.awt.FlowLayout;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Insets;
-import java.awt.KeyEventDispatcher;
-import java.awt.KeyboardFocusManager;
-
-import javax.swing.JTextField;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.io.File;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
-import java.awt.event.ActionEvent;
-import javax.swing.ImageIcon;
 import java.awt.Toolkit;
-import javax.swing.JComboBox;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.util.ArrayList;
+
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
-import controle.FornecedorBD;
 import controle.ProdutoBD;
-import modelo.Fornecedor;
 import modelo.Produto;
 import modelo.Usuario;
 
-public class TelaFornecedores extends JFrame {
+public class TelaEstoqueVND extends JFrame {
 
 	private JPanel contentPane;
-	private JTable tblFornecedores;
-	private int id = 0;
-	private boolean selecionadoValor;
-	private List<Fornecedor> fornecedores;
-	
+	private JTable tblProdutos;
+	private ArrayList<Produto> produtos;
 
 	/**
 	 * Launch the application.
@@ -61,7 +44,7 @@ public class TelaFornecedores extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TelaFornecedores frame = new TelaFornecedores(null);
+					TelaEstoqueVND frame = new TelaEstoqueVND(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -73,14 +56,13 @@ public class TelaFornecedores extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public TelaFornecedores(Usuario usuarioLogado) {
+	public TelaEstoqueVND(Usuario usuarioLogado) {
 		setIconImage(Toolkit.getDefaultToolkit().getImage("./img/app_icon_small.png"));
 		Color clRed = new Color(226, 0, 54);
 		Color clBlue = new Color(113, 206, 236);
 		Color clGreen = new Color(105, 122, 39);
 		Color clLight = new Color(197, 197, 197);
-		
-		
+
 		Font poppins, pop10 = null, pop12 = null, pop24 = null;
 
 		try {
@@ -111,25 +93,12 @@ public class TelaFornecedores extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 
-		JButton btnRelatorio = new JButton("Relatório de Vendas");
-		btnRelatorio.setFont(pop10);
-		btnRelatorio.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug: tela de estoque > relatório de vendas");
-			}
-		});
-		btnRelatorio.setBackground(null);
-		btnRelatorio.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		btnRelatorio.setForeground(clBlue);
-		btnRelatorio.setBounds(10, 59, 232, 23);
-		btnRelatorio.setFocusPainted(false);
-		panel.add(btnRelatorio);
 
 		JButton btnSair = new JButton("Sair");
 		btnSair.setFont(pop10);
 		btnSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug: tela de Fornecedores > sair");
+				System.out.println("debug: tela de estoque > sair");
 			}
 		});
 		btnSair.setBackground(null);
@@ -143,8 +112,8 @@ public class TelaFornecedores extends JFrame {
 		btnLogin.setFont(pop10);
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug: tela de Fornecedores > perfil");
-				TelaPerfilADM telaPerfil = new TelaPerfilADM(usuarioLogado);
+				System.out.println("debug: tela de estoque > perfil");
+				TelaPerfilVND telaPerfil = new TelaPerfilVND(usuarioLogado);
 				telaPerfil.setVisible(true);
 			}
 		});
@@ -156,6 +125,7 @@ public class TelaFornecedores extends JFrame {
 		panel.add(btnLogin);
 
 		JLabel lblNome = new JLabel(usuarioLogado.getNome_usuario());
+		// lblNome.setText(nome do usuario)
 		lblNome.setBounds(10, 11, 232, 14);
 		panel.add(lblNome);
 		lblNome.setHorizontalAlignment(SwingConstants.CENTER);
@@ -165,8 +135,8 @@ public class TelaFornecedores extends JFrame {
 		JButton btnReturn = new JButton("");
 		btnReturn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug: tela de Fornecedores > tela inicial");
-				TelaInicialADM telainicial = new TelaInicialADM(usuarioLogado);
+				System.out.println("debug: tela de estoque > tela inicial");
+				TelaInicialVND telainicial = new TelaInicialVND(usuarioLogado);
 				telainicial.setVisible(true);
 				setVisible(false);
 			}
@@ -191,49 +161,9 @@ public class TelaFornecedores extends JFrame {
 		btnSearch.setBounds(47, 126, 25, 25);
 		contentPane.add(btnSearch);
 
-		JButton btnEdit = new JButton("");
-		btnEdit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug: editar produto (tela de cadastro de produto)");
-
-				int linha = tblFornecedores.getSelectedRow();
-				int idFornecedor = (int) tblFornecedores.getValueAt(linha, 0);
-
-				Fornecedor fornecedorAEditar = null;
-				for (Fornecedor fornecedor : fornecedores) {
-					if (idFornecedor == fornecedor.getId_fornecedor()) {
-						fornecedorAEditar = fornecedor;
-					}
-				}
-				TelaFornecedorModificar telaModForn = new TelaFornecedorModificar(fornecedorAEditar.getId_fornecedor());
-				telaModForn.setVisible(true);
-
-			}
-		});
 		
-		
-		btnEdit.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		btnEdit.setIcon(new ImageIcon("./img/edit.png"));
-		btnEdit.setForeground(null);
-		btnEdit.setBackground(null);
-		btnEdit.setBounds(93, 775, 36, 36);
-		contentPane.add(btnEdit);
 
-		JButton btnAdd = new JButton("");
-		btnAdd.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				TelaCadastroFornecedor tcf = new TelaCadastroFornecedor();
-				tcf.setVisible(true);
-			}
-		});
-		btnAdd.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		btnAdd.setIcon(new ImageIcon("./img/add.png"));
-		btnAdd.setForeground(null);
-		btnAdd.setBackground(null);
-		btnAdd.setBounds(47, 775, 36, 36);
-		contentPane.add(btnAdd);
-
-		JLabel lblEstoque = new JLabel("Fornecedores");
+		JLabel lblEstoque = new JLabel("Estoque");
 		lblEstoque.setHorizontalAlignment(SwingConstants.LEFT);
 		lblEstoque.setForeground(Color.WHITE);
 		lblEstoque.setFont(pop24);
@@ -249,6 +179,23 @@ public class TelaFornecedores extends JFrame {
 		fieldChisel(txtSearch, new Color(255, 255, 255), 5);
 		contentPane.add(txtSearch);
 		txtSearch.setColumns(10);
+		
+		JButton btnAtualizar = new JButton("\u2B6F");
+		btnAtualizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				TelaEstoqueVND tE = new TelaEstoqueVND(usuarioLogado);
+				tE.setVisible(true);
+				setVisible(false);
+			}
+		});
+		btnAtualizar.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		btnAtualizar.setIcon(null);
+		btnAtualizar.setOpaque(false);
+		btnAtualizar.setForeground(Color.WHITE);
+		btnAtualizar.setBackground(null);
+		btnAtualizar.setBounds(521, 126, 25, 25);
+		contentPane.add(btnAtualizar);
+		
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(47, 162, 1480, 602);
@@ -260,41 +207,46 @@ public class TelaFornecedores extends JFrame {
 		Rolagem.defRolagem(scrollPane);
 		contentPane.add(scrollPane);
 
-		DefaultTableModel model = new DefaultTableModel(null, new String[] { "ID", "NOME", "CNPJ"});
-		tblFornecedores = new JTable(model);
-		tblFornecedores.setModel(new DefaultTableModel(new Object[][] { { null, null, null}, },
-				new String[] { "ID", "NOME", "CNPJ" }));
+		DefaultTableModel model = new DefaultTableModel(null,
+				new String[] { "ID", "NOME", "PRE\u00C7O", "QUANTIDADE", "MATERIAL", "DIMENS\u00D5ES", "FORNECEDOR" });
+		tblProdutos = new JTable(model);
+		tblProdutos.setModel(new DefaultTableModel(new Object[][] { { null, null, null, null, null, null, null }, },
+				new String[] { "ID", "NOME", "PRE\u00C7O", "QUANTIDADE", "MATERIAL", "DIMENS\u00D5ES", "FORNECEDOR" }));
 
-			FornecedorBD fornecedorBD = new FornecedorBD();
-			fornecedores = fornecedorBD.getListarFornecedores();
-		for (Fornecedor fornecedor : fornecedores) {
-		
-			model.addRow(new Object[] {fornecedor.getId_fornecedor(),fornecedor.getNome_fornecedor(),fornecedor.getCnpj_fornecedor() });
-			
+		ProdutoBD produtoBD = new ProdutoBD();
+		produtos = produtoBD.getListarProdutos();
+		for (Produto produto : produtos) {
+				if(produto.getFornecedor()==0) {
+					model.addRow(new Object[] { produto.getIdProduto(), produto.getNomeProduto(),
+							produto.getPrecoVendaProduto(), produto.getQuantidadeEstoque(), produto.getMaterialProduto(),
+							produto.getDimencoesProduto(), "Sem fornecedor" });
+				}else {
+					model.addRow(new Object[] { produto.getIdProduto(), produto.getNomeProduto(),
+							produto.getPrecoVendaProduto(), produto.getQuantidadeEstoque(), produto.getMaterialProduto(),
+							produto.getDimencoesProduto(), produto.getFornecedor() });
+				}
+
+
 		}
-			
-		
-		tblFornecedores = new JTable();
-		tblFornecedores.setShowHorizontalLines(false);
-		tblFornecedores.setShowVerticalLines(false);
-		tblFornecedores.setShowGrid(false);
-		tblFornecedores.setModel(model);
-		
-		
-		
-		
-		JTableHeader Theader = tblFornecedores.getTableHeader();
+
+		tblProdutos = new JTable();
+		tblProdutos.setShowHorizontalLines(false);
+		tblProdutos.setShowVerticalLines(false);
+		tblProdutos.setShowGrid(false);
+		tblProdutos.setModel(model);
+
+		JTableHeader Theader = tblProdutos.getTableHeader();
 
 		Theader.setFont(pop12);
 		Theader.setForeground(new Color(255, 255, 255));
 		Theader.setBackground(new Color(22, 22, 22));
 		Theader.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 
-		tblFornecedores.setFont(pop12);
-		tblFornecedores.setForeground(new Color(255, 255, 255));
-		tblFornecedores.setBackground(new Color(22, 22, 22));
-		tblFornecedores.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		scrollPane.setViewportView(tblFornecedores);
+		tblProdutos.setFont(pop12);
+		tblProdutos.setForeground(new Color(255, 255, 255));
+		tblProdutos.setBackground(new Color(22, 22, 22));
+		tblProdutos.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		scrollPane.setViewportView(tblProdutos);
 
 		JLabel fakeBG = new JLabel("");
 		fakeBG.setIcon(new ImageIcon("./img/bg.png"));

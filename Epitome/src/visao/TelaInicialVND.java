@@ -108,10 +108,16 @@ public class TelaInicialVND extends JFrame {
 		btnVenda.setBounds(10, 53, 156, 34);
 		panel.add(btnVenda);
 		
-		JButton btnRelatorio = new JButton("Relat�rio de Vendas");
+		JButton btnRelatorio = new JButton("Estoque");
 		btnRelatorio.setFont(pop10);
 		btnRelatorio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				TelaEstoqueVND TE = new TelaEstoqueVND(usuarioLogado);
+				TE.setVisible(true);
+				setVisible(false);
+				
+				
 				System.out.println("debug: tela inicial adm > relat�rio de vendas");
 			}
 		});
@@ -126,6 +132,9 @@ public class TelaInicialVND extends JFrame {
 		btnSair.setFont(pop10);
 		btnSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				TelaLogin TL = new TelaLogin();
+				TL.setVisible(true);
+				setVisible(false);
 				System.out.println("debug: tela inicial adm > sair");
 			}
 		});
@@ -161,8 +170,8 @@ public class TelaInicialVND extends JFrame {
 		lblVendedor.setFont(pop12);
 		panel.add(lblVendedor);
 		
-		JLabel lblNome = new JLabel("Fulano da Silva");
-		//lblNome.setText(nome do usuario)
+		JLabel lblNome = new JLabel(usuarioLogado.getNome_usuario());
+		lblNome.setText(usuarioLogado.getNome_usuario());
 		lblNome.setBounds(176, 11, 231, 14);
 		panel.add(lblNome);
 		lblNome.setHorizontalAlignment(SwingConstants.CENTER);

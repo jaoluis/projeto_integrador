@@ -175,7 +175,7 @@ public class TelaRelatorio extends JFrame {
 		btnLogin.setFocusPainted(false);
 		panel.add(btnLogin);
 		
-		JLabel lblNome = new JLabel("Fulano da Silva");
+		JLabel lblNome = new JLabel(usuarioLogado.getNome_usuario());
 		//lblNome.setText(nome do usuario)
 		lblNome.setBounds(10, 11, 232, 14);
 		panel.add(lblNome);

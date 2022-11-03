@@ -167,10 +167,10 @@ public class TelaLogin extends JFrame {
 			dao = new UsuarioDAO();
 			Usuario usuarioLogado = dao.verificacao(usuario);
 			
-			if (usuarioLogado.getCargo() == "administrador") {
+			if (usuarioLogado.getCargo().equals("administrador")) {
 				TelaInicialADM iniciologinADM = new TelaInicialADM(usuarioLogado);
 				iniciologinADM.setVisible(true);
-			}else if(usuarioLogado.getCargo() == "vendedor"){
+			}else if(usuarioLogado.getCargo().equals("vendedor")){
 				TelaInicialVND iniciologinVND = new TelaInicialVND(usuarioLogado);
 				iniciologinVND.setVisible(true);
 				setVisible(false);
@@ -179,10 +179,10 @@ public class TelaLogin extends JFrame {
 				//TelaInicialVND iniciologinVND = new TelaInicialVND(usuarioLogado);
 				//iniciologinVND.setVisible(true);
 				//setVisible(false);
-				
-				TelaInicialADM iniciologinADM = new TelaInicialADM(usuarioLogado);
-				iniciologinADM.setVisible(true);
-				setVisible(false);
+				System.out.println("ta qui pariu");
+//				TelaInicialADM iniciologinADM = new TelaInicialADM(usuarioLogado);
+//				iniciologinADM.setVisible(true);
+//				setVisible(false);
 			}
 			}
 		});
