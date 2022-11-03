@@ -69,8 +69,8 @@ public class TelaCadastroProduto extends JFrame {
 	public TelaCadastroProduto() {
 		setIconImage(Toolkit.getDefaultToolkit()
 				.getImage("./img/app_icon_small.png"));
-		Color clRed = new Color(226, 0, 54);
-		Color clBlue = new Color(113, 206, 236);
+		new Color(226, 0, 54);
+		new Color(113, 206, 236);
 		//Color clGreen = new Color(105, 122, 39);
 		Color clGreen = new Color(168, 198, 51);
 
@@ -117,6 +117,7 @@ public class TelaCadastroProduto extends JFrame {
 		panel.add(lblCPF);
 
 		JTextField txtMaterial = new JTextField();
+		txtMaterial.setCaretColor(Color.WHITE);
 		txtMaterial.setForeground(new Color(255, 255, 255));
 		txtMaterial.setBackground(new Color(45, 45, 45));
 		txtMaterial.setBorder(javax.swing.BorderFactory.createEmptyBorder());
@@ -126,6 +127,7 @@ public class TelaCadastroProduto extends JFrame {
 		txtMaterial.setColumns(10);
 
 		JTextField txtDimensoes = new JTextField();
+		txtDimensoes.setCaretColor(Color.WHITE);
 		txtDimensoes.setForeground(new Color(255, 255, 255));
 		txtDimensoes.setBackground(new Color(45, 45, 45));
 		txtDimensoes.setBorder(javax.swing.BorderFactory.createEmptyBorder());
@@ -141,6 +143,7 @@ public class TelaCadastroProduto extends JFrame {
 		panel.add(lblUsername);
 
 		JTextField txtPrecoCusto = new JTextField();
+		txtPrecoCusto.setCaretColor(Color.WHITE);
 		txtPrecoCusto.setForeground(new Color(255, 255, 255));
 		txtPrecoCusto.setBackground(new Color(45, 45, 45));
 		txtPrecoCusto.setBorder(javax.swing.BorderFactory.createEmptyBorder());
@@ -156,6 +159,7 @@ public class TelaCadastroProduto extends JFrame {
 		panel.add(lblNome);
 
 		JTextField txtQuantidade = new JTextField();
+		txtQuantidade.setCaretColor(Color.WHITE);
 		txtQuantidade.setForeground(new Color(255, 255, 255));
 		txtQuantidade.setBackground(new Color(45, 45, 45));
 		txtQuantidade.setBorder(javax.swing.BorderFactory.createEmptyBorder());
@@ -171,6 +175,7 @@ public class TelaCadastroProduto extends JFrame {
 		panel.add(lblEmail);
 
 		txtNome = new JTextField();
+		txtNome.setCaretColor(Color.WHITE);
 		txtNome.setForeground(new Color(255, 255, 255));
 		txtNome.setBackground(new Color(45, 45, 45));
 		txtNome.setBorder(javax.swing.BorderFactory.createEmptyBorder());
@@ -186,6 +191,7 @@ public class TelaCadastroProduto extends JFrame {
 		panel.add(lblSenha);
 
 		JTextField txtPrecoVenda = new JTextField();
+		txtPrecoVenda.setCaretColor(Color.WHITE);
 		txtPrecoVenda.setForeground(new Color(255, 255, 255));
 		txtPrecoVenda.setBackground(new Color(45, 45, 45));
 		txtPrecoVenda.setBorder(javax.swing.BorderFactory.createEmptyBorder());
@@ -201,11 +207,12 @@ public class TelaCadastroProduto extends JFrame {
 
 		JLabel lblFornecedores = new JLabel("FORNECEDOR(ES)");
 		lblFornecedores.setForeground(new Color(197, 197, 197));
-		lblFornecedores.setBounds(10, 306, 156, 14);
+		lblFornecedores.setBounds(10, 306, 118, 14);
 		lblFornecedores.setFont(pop10);
 		panel.add(lblFornecedores);
 		
 		JTextField txtFornecedor = new JTextField();
+		txtFornecedor.setCaretColor(Color.WHITE);
 		txtFornecedor.setForeground(new Color(255, 255, 255));
 		txtFornecedor.setBackground(new Color(45, 45, 45));
 		txtFornecedor.setBorder(javax.swing.BorderFactory.createEmptyBorder());
@@ -213,18 +220,6 @@ public class TelaCadastroProduto extends JFrame {
 		txtFornecedor.setFont(pop12);
 		panel.add(txtFornecedor);
 		txtFornecedor.setColumns(10);
-		
-		JButton btnAddFornecedor = new JButton("");
-		btnAddFornecedor.setIcon(new ImageIcon("./img/add_forn.png"));
-		btnAddFornecedor.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// adicionar Fornecedor à lista
-			}
-		});
-		btnAddFornecedor.setBackground(null);
-		btnAddFornecedor.setBorder(BorderFactory.createEmptyBorder());
-		btnAddFornecedor.setBounds(150, 303, 16, 16);
-		panel.add(btnAddFornecedor);
 
 		JButton btnContinuar = new JButton("CADASTRAR");
 		btnContinuar.addActionListener(new ActionListener() {
@@ -232,6 +227,15 @@ public class TelaCadastroProduto extends JFrame {
 				System.out.println("debug: tela de cadastro de produto > cadastrar produto");
 				
 				String nome = txtNome.getText();
+				int f = 0;
+				try {
+					f = Integer.parseInt(txtFornecedor.getText());
+				} catch (NumberFormatException x) {
+					JOptionPane.showMessageDialog(null, "Fornecedor inválido", "Erro", JOptionPane.ERROR_MESSAGE);
+					System.out.println("fornecedor vazio");
+					return;
+				}
+				
 				if (nome.isBlank()) {
 					JOptionPane.showMessageDialog(null, "Nome inválido", "Erro", JOptionPane.ERROR_MESSAGE);
 					System.out.println("Nome vazio");
@@ -276,17 +280,14 @@ public class TelaCadastroProduto extends JFrame {
 					return;
 				}
 				
-
+//				String fornecedor = txtFornecedor.getText();
+//				int idFornecedor = 0;
+//				if (fornecedor.isBlank()==false) {
+//					idFornecedor = Integer.parseInt(fornecedor);
+//				}
+				new FornecedorBD();
 				
-				
-				String fornecedor = txtFornecedor.getText();
-				int idFornecedor = 0;
-				if (fornecedor.isBlank()==false) {
-					idFornecedor = Integer.parseInt(fornecedor);
-				}
-				FornecedorBD fornedorBD = new FornecedorBD();
-				
-				if(fornedorBD.VRFornR(idFornecedor)==false && idFornecedor !=0) {
+				if(FornecedorBD.VRFornR(f)==false && f !=0) {
 					JOptionPane.showMessageDialog(null, "Favor inserir um Fornecedor Existende.", "Erro", JOptionPane.ERROR_MESSAGE);
 					System.out.println("Fornecedor não existe");
 					return;
@@ -302,13 +303,13 @@ public class TelaCadastroProduto extends JFrame {
 				produto.setDimencoesProduto(dimensoes);
 				produto.setMaterialProduto(material);
 				produto.setQuantidadeEstoque(qtd);
-				produto.setFornecedor(idFornecedor);
+				produto.setFornecedor(f);
 
 				
 
 				long id = produtoBD.insert(produto);
 				produtoBD.insert2(produto, id);
-
+				dispose();
 				
 			}
 		});
@@ -316,7 +317,7 @@ public class TelaCadastroProduto extends JFrame {
 		btnContinuar.setBackground(null);
 		Chisel(btnContinuar, clGreen, 5);
 		btnContinuar.setFont(pop12);
-		btnContinuar.setBounds(10, 400, 156, 23);
+		btnContinuar.setBounds(10, 432, 156, 23);
 		panel.add(btnContinuar);
 		
 		JLabel fakeBG = new JLabel("");

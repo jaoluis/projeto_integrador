@@ -30,8 +30,7 @@ public class FornecedorBD {
 				ps.setString(1, fornecedor.getNome_fornecedor());
 				ps.setString(2, fornecedor.getCnpj_fornecedor());
 				ps.execute();
-				
-				ps.execute();
+			
 				ResultSet generatedKeys = ps.getGeneratedKeys();
 				 generatedKeys.next();
 				 id = generatedKeys.getLong(1);
@@ -173,7 +172,7 @@ public class FornecedorBD {
 			
 			public List<Fornecedor> getListarFornecedores(){
 			     
-				String sql1 = "select id_fornecedor,nome_fornecedor, nome_fornecedor from fornecedor;";
+				String sql1 = "select id_fornecedor,nome_fornecedor, cnpj_fornecedor from fornecedor;";
 				
 				List<Fornecedor> fornecedores = new ArrayList<Fornecedor>();
 				Connection conn = null;
@@ -189,7 +188,7 @@ public class FornecedorBD {
 						Fornecedor fornecedor = new Fornecedor();
 						fornecedor.setId_fornecedor(rset.getInt("id_fornecedor"));
 						fornecedor.setNome_fornecedor(rset.getString("nome_fornecedor"));
-						fornecedor.setCnpj_fornecedor(rset.getString("nome_fornecedor"));
+						fornecedor.setCnpj_fornecedor(rset.getString("cnpj_fornecedor"));
 						
 						fornecedores.add(fornecedor);
 						
@@ -340,17 +339,31 @@ public class FornecedorBD {
 			
 				
 			public void DeleteByID(int id) {
+				String sql1 = "DELETE FROM fornecedor_contato WHERE fk_id_fornecedor = ?";
 				String sql = "DELETE FROM fornecedor WHERE id_fornecedor = ?";
+				String sql2 = "DELETE FROM fornecedor_endereco WHERE fk_id_fornecedor = ?";
 				
 				Connection conn = null;
 				
 				PreparedStatement ps = null;
 				try {
+					
+					conn = Conexao.getConnection();		
+					ps = conn.prepareStatement(sql1);
+					ps.setInt(1, id);
+					ps.execute();
+					
+					conn = Conexao.getConnection();		
+					ps = conn.prepareStatement(sql2);
+					ps.setInt(1, id);
+					ps.execute();
+					
 					conn = Conexao.getConnection();		
 					ps = conn.prepareStatement(sql);
 					ps.setInt(1, id);
 					ps.execute();
-					System.out.println("produto deletado");
+					
+					System.out.println("fornecedor deletado");
 					Conexao.getClose();
 					}catch(Exception e) {
 						System.out.println("Debug: erro ao da Delete: "+e);
@@ -509,6 +522,9 @@ public class FornecedorBD {
 			}
 
 		}
+			
+			
+			
 			
 			
 			

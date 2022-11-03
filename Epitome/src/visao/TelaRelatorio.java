@@ -25,6 +25,7 @@ import java.awt.Component;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import java.awt.Toolkit;
@@ -36,10 +37,16 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.text.MaskFormatter;
 
+import controle.VendaBD;
+import modelo.Produto;
+import modelo.Usuario;
+import modelo.Venda;
+
 public class TelaRelatorio extends JFrame {
 
 	private JPanel contentPane;
 	private JTable tblProdutos;
+	ArrayList<Venda> vendas = new ArrayList<Venda>();;
 
 	/**
 	 * Launch the application.
@@ -48,7 +55,7 @@ public class TelaRelatorio extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TelaRelatorio frame = new TelaRelatorio();
+					TelaRelatorio frame = new TelaRelatorio(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -60,7 +67,7 @@ public class TelaRelatorio extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public TelaRelatorio() {
+	public TelaRelatorio(Usuario usuarioLogado) {
 		setIconImage(Toolkit.getDefaultToolkit().getImage("./img/app_icon_small.png"));
 		Color clRed = new Color(226, 0, 54);
 		Color clBlue = new Color(113, 206, 236);
@@ -124,11 +131,11 @@ public class TelaRelatorio extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JButton btnRelatorio = new JButton("Relatório de Vendas");
+		JButton btnRelatorio = new JButton("Relatï¿½rio de Vendas");
 		btnRelatorio.setFont(pop10);
 		btnRelatorio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug: tela de estoque > relatório de vendas");
+				System.out.println("debug: tela de estoque > relatï¿½rio de vendas");
 			}
 		});
 		btnRelatorio.setBackground(null);
@@ -181,8 +188,8 @@ public class TelaRelatorio extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: tela de estoque > tela inicial");
 				//separar adm e vendedor
-				//TelaInicialADM telainicial = new TelaInicialADM();
-				//telainicial.setVisible(true);
+				TelaInicialADM telainicial = new TelaInicialADM(usuarioLogado);
+				telainicial.setVisible(true);
 				setVisible(false);
 			}
 		});
@@ -193,7 +200,7 @@ public class TelaRelatorio extends JFrame {
 		btnReturn.setBounds(23, 42, 27, 45);
 		contentPane.add(btnReturn);
 		
-		JLabel lblEstoque = new JLabel("Relatório de Vendas");
+		JLabel lblEstoque = new JLabel("Relatï¿½rio de Vendas");
 		lblEstoque.setHorizontalAlignment(SwingConstants.LEFT);
 		lblEstoque.setForeground(Color.WHITE);
 		lblEstoque.setFont(pop24);
@@ -206,6 +213,48 @@ public class TelaRelatorio extends JFrame {
 				System.out.println("debug: especificar intervalo");
 			}
 		});
+		
+		
+		JButton btnEdit = new JButton("");
+		btnEdit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("debug: editar produto (tela de cadastro de produto)");
+
+				int linha = tblProdutos.getSelectedRow();
+				int idProduto = (int) tblProdutos.getValueAt(linha, 0);
+
+				Venda produtoAEditar = null;
+				for (Venda venda : vendas) {
+					if (idProduto == venda.getId()) {
+						produtoAEditar = venda;
+						VendaBD vendaBD = new VendaBD();
+						vendaBD.DeleteByID(idProduto);
+					}
+				}
+			}
+		});
+		btnEdit.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		btnEdit.setIcon(new ImageIcon("./img/edit.png"));
+		btnEdit.setForeground(null);
+		btnEdit.setBackground(null);
+		btnEdit.setBounds(93, 775, 36, 36);
+		contentPane.add(btnEdit);
+
+		JButton btnAdd = new JButton("");
+		btnAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				TelaVenda tcp = new TelaVenda(usuarioLogado);
+				tcp.setVisible(true);
+			}
+		});
+		btnAdd.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		btnAdd.setIcon(new ImageIcon("./img/add.png"));
+		btnAdd.setForeground(null);
+		btnAdd.setBackground(null);
+		btnAdd.setBounds(47, 775, 36, 36);
+		contentPane.add(btnAdd);
+		
+		
 		btnSearch.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		btnSearch.setIcon(new ImageIcon("./img/search.png"));
 		btnSearch.setForeground(null);
@@ -213,7 +262,7 @@ public class TelaRelatorio extends JFrame {
 		btnSearch.setBounds(323, 126, 25, 25);
 		contentPane.add(btnSearch);
 		
-		JFormattedTextField txtAte = new JFormattedTextField(def_mask("##/##/####", '•'));
+		JFormattedTextField txtAte = new JFormattedTextField(def_mask("##/##/####", 'ï¿½'));
 		txtAte.setForeground(new Color(255, 255, 255));
 		txtAte.setBackground(new Color(22, 22, 22));
 		txtAte.setBorder(javax.swing.BorderFactory.createEmptyBorder());
@@ -223,14 +272,14 @@ public class TelaRelatorio extends JFrame {
 		contentPane.add(txtAte);
 		txtAte.setColumns(10);
 		
-		JLabel lblAte = new JLabel("ATÉ:");
+		JLabel lblAte = new JLabel("ATï¿½:");
 		lblAte.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblAte.setForeground(Color.WHITE);
 		lblAte.setFont(pop12);
 		lblAte.setBounds(184, 126, 27, 25);
 		contentPane.add(lblAte);
 		
-		JFormattedTextField txtDe = new JFormattedTextField(def_mask("##/##/####", '•'));
+		JFormattedTextField txtDe = new JFormattedTextField(def_mask("##/##/####", 'ï¿½'));
 		txtDe.setForeground(new Color(255, 255, 255));
 		txtDe.setBackground(new Color(22, 22, 22));
 		txtDe.setBorder(javax.swing.BorderFactory.createEmptyBorder());
@@ -261,18 +310,31 @@ public class TelaRelatorio extends JFrame {
 		tblProdutos.setShowHorizontalLines(false);
 		tblProdutos.setShowVerticalLines(false);
 		tblProdutos.setShowGrid(false);
-		tblProdutos.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null}
-			},
-			new String[] {
-				"ID", "PAGAMENTO", "TOTAL", "DATA", "QUANTIDADE"
+
+			DefaultTableModel model = new DefaultTableModel(null,
+					new String[] { "ID", "PAGAMENTO", "TOTAL", "DATA", "QUANTIDADE" });
+			tblProdutos = new JTable(model);
+			tblProdutos.setModel(new DefaultTableModel(new Object[][] { { null, null, null, null,null }, },
+					new String[] { "ID", "PAGAMENTO", "TOTAL", "DATA", "QUANTIDADE" }));
+			
+			
+
+			VendaBD vendaBD = new VendaBD();
+
+			vendas = vendaBD.getListarVendas();
+			for (Venda venda : vendas) {
+						model.addRow(new Object[] { venda.getId(), venda.getPagamento(),
+								venda.getTotal(), venda.getDataVenda(), "3" });
+						
+						System.out.println(venda.getId()+" "+ venda.getPagamento()+" "+ 
+								venda.getTotal()+" "+  venda.getDataVenda()+" "+  "3");
+
+
 			}
-		));
 		
 		
 		JTableHeader Theader = tblProdutos.getTableHeader();
-		
+		tblProdutos.setModel(model);
 		Theader.setFont(pop12);
 		Theader.setForeground(new Color(255, 255, 255));
 		Theader.setBackground(new Color(22, 22, 22));

@@ -38,6 +38,8 @@ import modelo.Venda;
 
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
 
 public class TelaVenda extends JFrame {
 
@@ -159,7 +161,7 @@ public class TelaVenda extends JFrame {
 		btnPerfil.setFocusPainted(false);
 		panel.add(btnPerfil);
 		
-		JLabel lblNome = new JLabel("Fulano da Silva");
+		JLabel lblNome = new JLabel(usuarioLogado.getNome_usuario());
 		//lblNome.setText(nome do usuario)
 		lblNome.setBounds(10, 11, 232, 14);
 		panel.add(lblNome);
@@ -171,10 +173,10 @@ public class TelaVenda extends JFrame {
 		btnReturn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// adm ou vendedor?
-				//System.out.println("debug: tela de estoque > tela inicial");
-				//TelaInicialADM telainicial = new TelaInicialADM();
-				//telainicial.setVisible(true);
-				//setVisible(false);
+				System.out.println("debug: tela de estoque > tela inicial");
+				TelaInicialADM telainicial = new TelaInicialADM(usuarioLogado);
+				telainicial.setVisible(true);
+				setVisible(false);
 			}
 		});
 		
@@ -357,7 +359,26 @@ public class TelaVenda extends JFrame {
 		lblTotal.setBounds(1065, 474, 252, 14);
 		contentPane.add(lblTotal);
 		
+		JLabel lblTroco = new JLabel("Troco:  R$"+troco);
+		lblTroco.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTroco.setForeground(Color.WHITE);
+		lblTroco.setFont(pop10);
+		lblTroco.setBounds(391, 40, 144, 14);
+		pagamentoPanel.add(lblTroco);
+		
 		JTextField txtPagamentoValor = new JTextField();
+		txtPagamentoValor.addPropertyChangeListener(new PropertyChangeListener() {
+			public void propertyChange(PropertyChangeEvent evt) {
+				try {
+					System.out.println(txtPagamentoValor.getText());
+//					troco = Float.parseFloat(txtPagamentoValor.getText()) - precoT;
+//					lblTroco.setText("Troco:  R$" + troco);
+				} catch (Exception x) {
+					troco = 0.0f;
+					lblTroco.setText("Troco:  R$" + troco);
+				}
+			}
+		});
 		txtPagamentoValor.setForeground(Color.WHITE);
 		txtPagamentoValor.setBackground(new Color(22, 22, 22));
 		txtPagamentoValor.setBorder(javax.swing.BorderFactory.createEmptyBorder());
@@ -366,14 +387,6 @@ public class TelaVenda extends JFrame {
 		fieldChisel(txtPagamentoValor, Color.WHITE, 5);
 		pagamentoPanel.add(txtPagamentoValor);
 		txtPagamentoValor.setColumns(10);
-		JLabel lblTroco = new JLabel("Troco:  R$"+troco);
-		lblTroco.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTroco.setForeground(Color.WHITE);
-		lblTroco.setFont(pop10);
-		lblTroco.setBounds(391, 40, 144, 14);
-		pagamentoPanel.add(lblTroco);
-		
-
 		
 		JRadioButton rdDinheiro = new JRadioButton("DINHEIRO");
 		pagGroup.add(rdDinheiro);
