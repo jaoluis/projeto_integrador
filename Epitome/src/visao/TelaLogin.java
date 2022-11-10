@@ -138,8 +138,8 @@ public class TelaLogin extends JFrame {
 
 		
 		//remover, para testes
-		txtEmail.setText("admin1@email.com");
-		txtSenha.setText("senha1234");
+		txtEmail.setText("gustavo.s07@aluno.com");
+		txtSenha.setText("1234");
 		
 		JButton btnEntrar = new JButton("ENTRAR");
 		btnEntrar.addActionListener(new ActionListener() {
@@ -170,6 +170,7 @@ public class TelaLogin extends JFrame {
 			if (usuarioLogado.getCargo().equals("administrador")) {
 				TelaInicialADM iniciologinADM = new TelaInicialADM(usuarioLogado);
 				iniciologinADM.setVisible(true);
+				setVisible(false);
 			}else if(usuarioLogado.getCargo().equals("vendedor")){
 				TelaInicialVND iniciologinVND = new TelaInicialVND(usuarioLogado);
 				iniciologinVND.setVisible(true);

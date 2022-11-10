@@ -11,13 +11,22 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.text.ParseException;
+import java.util.ArrayList;
+
+import javax.swing.AbstractListModel;
 import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.text.MaskFormatter;
 
 import controle.UsuarioDAO;
@@ -26,6 +35,8 @@ import modelo.Usuario;
 public class TelaListarUsuarios extends JFrame {
 
 	private JPanel contentPane;
+	private ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
+	private ArrayList<String> valuesUsuario = new ArrayList<String>();
 	/**
 	 * Launch the application.
 	 */
@@ -45,16 +56,18 @@ public class TelaListarUsuarios extends JFrame {
 	public TelaListarUsuarios() {
 		setIconImage(Toolkit.getDefaultToolkit()
 				.getImage("./img/app_icon_small.png"));
-		new Color(226, 0, 54);
-		new Color(113, 206, 236);
+		Color clRed = new Color(226, 0, 54);
+		Color clBlue = new Color(113, 206, 236);
+		Color clYellow = new Color(239, 161, 35);
 
-		Font poppins, pop12 = null;
+		Font poppins, pop12 = null, pop10 = null;
 
 		try {
 
 			poppins = Font.createFont(Font.TRUETYPE_FONT, new File("./font/Poppins-SemiBold.ttf"));
 			poppins.deriveFont(Font.TRUETYPE_FONT, 10);
 			pop12 = poppins.deriveFont(Font.TRUETYPE_FONT, 12);
+			pop10 = poppins.deriveFont(Font.TRUETYPE_FONT, 10);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -62,7 +75,7 @@ public class TelaListarUsuarios extends JFrame {
 		setResizable(false);
 		setTitle("Sistema de Vendas Ep\u00EDtome");
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		setBounds(100, 100, 703, 564);
+		setBounds(100, 100, 700, 564);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(45, 45, 45));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -71,30 +84,136 @@ public class TelaListarUsuarios extends JFrame {
 
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(22, 22, 22));
-		panel.setBounds(243, 48, 176, 466);
+		panel.setBounds(208, 26, 242, 488);
 		contentPane.add(panel);
+		panelChisel(panel, Color.WHITE, 5);
 		panel.setLayout(null);
-		int i = 10;
-		UsuarioDAO usuarioDao = new UsuarioDAO();
-		for (Usuario c : usuarioDao.getListarUsuarios()) {
-		JButton btnUsuario = new JButton(c.getNome_usuario());
-		btnUsuario.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug: tela listarUsuarios > tela de Perfil");
-				TelaPerfilADM telaPerfil = new TelaPerfilADM(c);
-				telaPerfil.setVisible(true);
-				setVisible(false);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 11, 174, 466);
+		Rolagem.defRolagem(scrollPane);
+
+		scrollChisel(scrollPane, Color.WHITE, 5);
+		scrollPane.setBackground(null);
+		scrollPane.setForeground(null);
+		panel.add(scrollPane);
+		
+		usuarios = (ArrayList<Usuario>) new UsuarioDAO().getListarUsuarios();
+		
+		JList<String> listaUsuario = new JList<String>();
+		listaUsuario.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				
+				if (listaUsuario.getSelectedIndex() == -1) {
+					return;
+				}
 			}
 		});
-		btnUsuario.setOpaque(false);
-		btnUsuario.setBackground(null);
-		Chisel(btnUsuario, new Color(255, 255, 255), 5);
-		btnUsuario.setFont(pop12);
-		btnUsuario.setBounds(10, i, 156, 34);
-		panel.add(btnUsuario);
-		i +=35;
-				}
+		listaUsuario.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		listaUsuario.setSelectionBackground(clYellow);
+		listaUsuario.setSelectionForeground(new Color(22,22,22));
+		listaUsuario.setModel(new AbstractListModel<String>() {
+
+			private static final long serialVersionUID = 1L;
+			public int getSize() {
+				return new String[] {}.length;
+			}
+			public String getElementAt(int index) {
+				return new String[] {}[index];
+			}
+		});
+		listaUsuario.setBackground(new Color(22, 22, 22));
+		listaUsuario.setForeground(new Color(197, 197, 197));
+		listaUsuario.setFont(pop12);
+		listaUsuario.setBounds(0, 50, 156, 113);
+		scrollPane.setViewportView(listaUsuario);
+		
+		int t = 0;
+		for (Usuario u: usuarios) {
+			valuesUsuario.add("");
+			valuesUsuario.set(t, u.getNome_usuario());
+			t++;
 		}
+		TelaCadastro.updateList(listaUsuario, valuesUsuario);
+		
+		JButton btnCadastrar = new JButton("");
+		btnCadastrar.setBounds(194, 11, 36, 36);
+		panel.add(btnCadastrar);
+		btnCadastrar.setBackground(null);
+		btnCadastrar.setFocusPainted(false);
+		btnCadastrar.setIcon(new ImageIcon("./img/add.png"));
+		btnCadastrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				TelaCadastro telaCadastro = new TelaCadastro();
+				telaCadastro.setVisible(true);
+			}
+		});
+
+		btnCadastrar.setBorder(BorderFactory.createEmptyBorder());
+		btnCadastrar.setForeground(Color.WHITE);
+		
+		JButton btnDetalhar = new JButton("");
+		btnDetalhar.setBounds(194, 58, 36, 36);
+		panel.add(btnDetalhar);
+		btnDetalhar.setBackground(null);
+		btnDetalhar.setFocusPainted(false);
+		btnDetalhar.setIcon(new ImageIcon("./img/show.png"));
+		btnDetalhar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (listaUsuario.getSelectedIndex() == -1) {
+					return;
+				}
+				Usuario u = usuarios.get(listaUsuario.getSelectedIndex());
+				TelaPerfilADM tl = new TelaPerfilADM(u);
+				tl.setVisible(true);
+			}
+		});
+		btnDetalhar.setForeground(Color.WHITE);
+		btnDetalhar.setBorder(BorderFactory.createEmptyBorder());
+		
+//		int i = 10;
+//		UsuarioDAO usuarioDao = new UsuarioDAO();
+//		for (Usuario c : usuarioDao.getListarUsuarios()) {
+//			JButton btnUsuario = new JButton(c.getNome_usuario());
+//			btnUsuario.addActionListener(new ActionListener() {
+//				public void actionPerformed(ActionEvent e) {
+//					System.out.println("debug: tela listarUsuarios > tela de Perfil");
+//					TelaPerfilADM telaPerfil = new TelaPerfilADM(c);
+//					telaPerfil.setVisible(true);
+//					setVisible(false);
+//				}
+//			});
+//			btnUsuario.setOpaque(false);
+//			btnUsuario.setBackground(null);
+//			Chisel(btnUsuario, Color.WHITE, 5);
+//			btnUsuario.setFont(pop12);
+//			btnUsuario.setBounds(10, i, 156, 34);
+//			panel.add(btnUsuario);
+//			i +=35;
+//		}
+		
+		JLabel fakeBG = new JLabel("");
+		fakeBG.setIcon(new ImageIcon("./img/bg.png"));
+		fakeBG.setBounds(-281, -138, 968, 663);
+		contentPane.add(fakeBG);
+		
+		}
+
+	private void scrollChisel(JScrollPane scrollPane, Color color, int i) {
+		scrollPane.setForeground(color);
+        RoundedBorder LineBorder = new RoundedBorder(color, i);
+        Border emptyBorder = BorderFactory.createEmptyBorder();
+        scrollPane.setBorder(BorderFactory.createCompoundBorder(LineBorder, emptyBorder));
+	}
+
+	private static void panelChisel(JPanel panel, Color color, int radius) {
+		
+        //panel.setFocusPainted(false);
+        panel.setForeground(color);
+        RoundedBorder LineBorder = new RoundedBorder(color, radius);
+        Border emptyBorder = BorderFactory.createEmptyBorder(417, 124, 417, 124);
+        panel.setBorder(BorderFactory.createCompoundBorder(LineBorder, emptyBorder));
+	}
 
 	protected MaskFormatter def_mask(String envolucro, char substituto) {
 		MaskFormatter mask = null;
@@ -147,5 +266,4 @@ public class TelaListarUsuarios extends JFrame {
 			g.drawRoundRect(x, y, width - 1, height - 1, radius, radius);
 		}
 	}
-
 }

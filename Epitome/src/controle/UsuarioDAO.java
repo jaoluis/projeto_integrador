@@ -205,7 +205,7 @@ public class UsuarioDAO {
 			 return usuarios;
 		}
 		
-		public Usuario getUsuario(int id) {
+		public static Usuario getUsuario(int id) {
 			String s = "select * from usuario where id_usuario = ?";
 			Usuario u = new Usuario();
 			
