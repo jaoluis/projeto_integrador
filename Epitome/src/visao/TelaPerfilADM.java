@@ -94,7 +94,8 @@ public class TelaPerfilADM extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JButton btnDelete = new JButton("DELETAR");
+		JButton btnDelete = new JButton("");
+		btnDelete.setIcon(new ImageIcon("./img/delete.png"));
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -107,13 +108,14 @@ public class TelaPerfilADM extends JFrame {
 		});
 		btnDelete.setOpaque(false);
 		btnDelete.setBackground(null);
-		Chisel(btnDelete, new Color(255, 255, 255), 5);
+		Chisel(btnDelete, clRed, 5);
 		btnDelete.setFont(pop12);
 		btnDelete.setForeground(clRed);
-		btnDelete.setBounds(270, 65, 156, 34);
+		btnDelete.setBounds(367, 107, 23, 23);
 		panel.add(btnDelete);
 		
-		JButton btnModificar = new JButton("MODIFICAR");
+		JButton btnModificar = new JButton("");
+		btnModificar.setIcon(new ImageIcon("./img/mini edit.png"));
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				TelaModificar telaModificar = new TelaModificar(usuarioLogado, usuarioLogado.getId_usuario());
@@ -125,10 +127,10 @@ public class TelaPerfilADM extends JFrame {
 		});
 		btnModificar.setOpaque(false);
 		btnModificar.setBackground(null);
-		Chisel(btnModificar, new Color(255, 255, 255), 5);
+		Chisel(btnModificar, clBlue, 5);
 		btnModificar.setFont(pop12);
 		btnModificar.setForeground(clBlue);
-		btnModificar.setBounds(270, 100, 156, 34);
+		btnModificar.setBounds(400, 107, 23, 23);
 		panel.add(btnModificar);
 		
 		JLabel lblCargo = new JLabel(usuarioLogado.getCargo());
@@ -136,22 +138,22 @@ public class TelaPerfilADM extends JFrame {
 		lblCargo.setForeground(new Color(255, 255, 255));
 		lblCargo.setFont(pop12);
 		lblCargo.setHorizontalAlignment(SwingConstants.CENTER);
-		lblCargo.setBounds(10, 11, 156, 14);
+		lblCargo.setBounds(10, 11, 127, 14);
 		panel.add(lblCargo);
 		
-		JLabel lblID = new JLabel(String.valueOf(usuarioLogado.getId_usuario()));
+		JLabel lblID = new JLabel("#" + String.valueOf(usuarioLogado.getId_usuario()));
 		lblID.setHorizontalAlignment(SwingConstants.CENTER);
 		//lblID.setText(id do usuario);
 		lblID.setForeground(new Color(255, 255, 255));
 		lblID.setFont(pop12);
-		lblID.setBounds(10, 36, 156, 14);
+		lblID.setBounds(10, 36, 127, 14);
 		panel.add(lblID);
 		
 		JLabel lblNome = new JLabel(usuarioLogado.getNome_usuario());
 		lblNome.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNome.setFont(pop12);
 		lblNome.setForeground(Color.WHITE);
-		lblNome.setBounds(192, 11, 231, 14);
+		lblNome.setBounds(128, 11, 295, 14);
 		panel.add(lblNome);
 		
 		JLabel lblEmailInfo = new JLabel(usuarioLogado.getEmail());

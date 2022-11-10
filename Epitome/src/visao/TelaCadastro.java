@@ -107,14 +107,14 @@ public class TelaCadastro extends JFrame {
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(22, 22, 22));
 		panel.setBounds(73, 34, 176, 466);
-		panelbuttonChisel(panel, Color.WHITE, 5);
+		panelChisel(panel, Color.WHITE, 5);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
 		JPanel endPanel = new JPanel();
 		endPanel.setBackground(new Color(22, 22, 22));
 		endPanel.setBounds(282, 34, 345, 250);
-		panelbuttonChisel(endPanel, Color.WHITE, 5);
+		panelChisel(endPanel, Color.WHITE, 5);
 		contentPane.add(endPanel);
 		endPanel.setLayout(null);
 		
@@ -362,7 +362,7 @@ public class TelaCadastro extends JFrame {
 		JPanel cntPanel = new JPanel();
 		cntPanel.setBackground(new Color(22, 22, 22));
 		cntPanel.setBounds(282, 295, 345, 205);
-		panelbuttonChisel(cntPanel, Color.WHITE, 5);
+		panelChisel(cntPanel, Color.WHITE, 5);
 		contentPane.add(cntPanel);
 		cntPanel.setLayout(null);
 				
@@ -645,8 +645,8 @@ public class TelaCadastro extends JFrame {
 		btnTelaCadastro.setBounds(33, 75, 30, 30);
 		contentPane.add(btnTelaCadastro);
 
-		JButton btnContinuar = new JButton("CONTINUAR");
-		btnContinuar.addActionListener(new ActionListener() {
+		JButton btnCadastrar = new JButton("CADASTRAR");
+		btnCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: tela de cadastro > cadastrar");
 				UsuarioDAO dao;
@@ -759,12 +759,12 @@ public class TelaCadastro extends JFrame {
 			}
 				
 		});
-		btnContinuar.setOpaque(false);
-		btnContinuar.setBackground(null);
-		Chisel(btnContinuar, clBlue, 5);
-		btnContinuar.setFont(pop12);
-		btnContinuar.setBounds(10, 400, 156, 23);
-		panel.add(btnContinuar);
+		btnCadastrar.setOpaque(false);
+		btnCadastrar.setBackground(null);
+		Chisel(btnCadastrar, clBlue, 5);
+		btnCadastrar.setFont(pop12);
+		btnCadastrar.setBounds(10, 400, 156, 23);
+		panel.add(btnCadastrar);
 		
 		JLabel fakeBG = new JLabel("");
 		fakeBG.setIcon(new ImageIcon("./img/bg.png"));
@@ -859,7 +859,7 @@ public class TelaCadastro extends JFrame {
 		
 	}
 
-	private static void panelbuttonChisel(JPanel panel, Color color, int radius) {
+	private static void panelChisel(JPanel panel, Color color, int radius) {
 		
         //panel.setFocusPainted(false);
         panel.setForeground(color);
