@@ -340,21 +340,38 @@ public class UsuarioDAO {
 
 	}
 		public void DeleteByID(int id) {
+			String sqlcnt = "DELETE FROM usuario_contato where fk_id_usuario_contato = ?";	
+			String sqlend = "DELETE FROM usuario_endereco where fk_id_usuario_endereco = ?";
+			String sqlvenda = "DELETE FROM venda where fk_id_usuario_venda = ?";
 			String sql = "DELETE FROM usuario WHERE id_usuario = ?";
 			
 			Connection conn = null;
 			
 			PreparedStatement ps = null;
 			try {
-				conn = Conexao.getConnection();		
+				conn = Conexao.getConnection();	
+				ps = conn.prepareStatement(sqlcnt);
+				ps.setInt(1, id);
+				ps.execute();
+				
+				conn = Conexao.getConnection();	
+				ps = conn.prepareStatement(sqlvenda);
+				ps.setInt(1, id);
+				ps.execute();
+				
+				ps = conn.prepareStatement(sqlend);
+				ps.setInt(1, id);
+				ps.execute();
+				
 				ps = conn.prepareStatement(sql);
 				ps.setInt(1, id);
 				ps.execute();
+				
 				System.out.println("usuario deletado");
 				System.out.println(id);
 				Conexao.getClose();
 				}catch(Exception e) {
-					System.out.println("Debug: erro ao da Delete: "+e);
+					System.out.println("Debug: erro ao da Delete: "+ e);
 				} finally {
 					try {
 						if (ps!=null) {

@@ -613,7 +613,7 @@ public class TelaModificar extends JFrame {
 		rdAdministrador.setFocusPainted(false);
 		panel.add(rdAdministrador);
 
-		if (usuarioOld.getCargo() == "administrador") {
+		if (usuarioOld.getCargo().equals("administrador")) {
 			rdAdministrador.setSelected(true);
 		} else {
 			rdVendedor.setSelected(true);

@@ -231,7 +231,7 @@ public class TelaEstoque extends JFrame {
 		contentPane.add(txtSearch);
 		txtSearch.setColumns(10);
 		
-		JButton btnAtualizar = new JButton("\u2B6F");
+		JButton btnAtualizar = new JButton("");
 		btnAtualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				TelaEstoque tE = new TelaEstoque(usuarioLogado);
@@ -240,11 +240,11 @@ public class TelaEstoque extends JFrame {
 			}
 		});
 		btnAtualizar.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		btnAtualizar.setIcon(null);
+		btnAtualizar.setIcon(new ImageIcon("./img/refresh.png"));
 		btnAtualizar.setOpaque(false);
 		btnAtualizar.setForeground(Color.WHITE);
 		btnAtualizar.setBackground(null);
-		btnAtualizar.setBounds(521, 126, 25, 25);
+		btnAtualizar.setBounds(139, 775, 36, 36);
 		contentPane.add(btnAtualizar);
 		
 

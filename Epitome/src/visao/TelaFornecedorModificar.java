@@ -89,6 +89,7 @@ public class TelaFornecedorModificar extends JFrame {
 		FornecedorBD fbd = new FornecedorBD();
 		
 		Fornecedor fornecedorOld = fbd.fornecedorDadosUnico(id);
+		System.out.println("testando: "+ fornecedorOld.getNome_fornecedor());
 		enderecoF = (ArrayList<Endereco>) fbd.getEnderecos(id);
 		contatoC = (ArrayList<Contato>) fbd.getContatos(id);
 		

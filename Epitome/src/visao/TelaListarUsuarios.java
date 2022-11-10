@@ -73,9 +73,9 @@ public class TelaListarUsuarios extends JFrame {
 			e.printStackTrace();
 		}
 		setResizable(false);
-		setTitle("Sistema de Vendas Ep\u00EDtome");
+		setTitle("Usuários");
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		setBounds(100, 100, 700, 564);
+		setBounds(100, 100, 359, 564);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(45, 45, 45));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -84,15 +84,21 @@ public class TelaListarUsuarios extends JFrame {
 
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(22, 22, 22));
-		panel.setBounds(208, 26, 242, 488);
+		panel.setBounds(50, 11, 242, 488);
 		contentPane.add(panel);
 		panelChisel(panel, Color.WHITE, 5);
 		panel.setLayout(null);
 		
+		JLabel lblUsuarios = new JLabel("USUÁRIOS");
+		lblUsuarios.setForeground(new Color(197, 197, 197));
+		lblUsuarios.setFont(null);
+		lblUsuarios.setFont(pop10);
+		lblUsuarios.setBounds(10, 15, 130, 14);
+		panel.add(lblUsuarios);
+		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 11, 174, 466);
+		scrollPane.setBounds(10, 32, 174, 445);
 		Rolagem.defRolagem(scrollPane);
-
 		scrollChisel(scrollPane, Color.WHITE, 5);
 		scrollPane.setBackground(null);
 		scrollPane.setForeground(null);
@@ -123,7 +129,7 @@ public class TelaListarUsuarios extends JFrame {
 			}
 		});
 		listaUsuario.setBackground(new Color(22, 22, 22));
-		listaUsuario.setForeground(new Color(197, 197, 197));
+		listaUsuario.setForeground(Color.WHITE);
 		listaUsuario.setFont(pop12);
 		listaUsuario.setBounds(0, 50, 156, 113);
 		scrollPane.setViewportView(listaUsuario);
@@ -137,7 +143,7 @@ public class TelaListarUsuarios extends JFrame {
 		TelaCadastro.updateList(listaUsuario, valuesUsuario);
 		
 		JButton btnCadastrar = new JButton("");
-		btnCadastrar.setBounds(194, 11, 36, 36);
+		btnCadastrar.setBounds(194, 32, 36, 36);
 		panel.add(btnCadastrar);
 		btnCadastrar.setBackground(null);
 		btnCadastrar.setFocusPainted(false);
@@ -153,7 +159,7 @@ public class TelaListarUsuarios extends JFrame {
 		btnCadastrar.setForeground(Color.WHITE);
 		
 		JButton btnDetalhar = new JButton("");
-		btnDetalhar.setBounds(194, 58, 36, 36);
+		btnDetalhar.setBounds(194, 79, 36, 36);
 		panel.add(btnDetalhar);
 		btnDetalhar.setBackground(null);
 		btnDetalhar.setFocusPainted(false);
@@ -171,26 +177,32 @@ public class TelaListarUsuarios extends JFrame {
 		btnDetalhar.setForeground(Color.WHITE);
 		btnDetalhar.setBorder(BorderFactory.createEmptyBorder());
 		
-//		int i = 10;
-//		UsuarioDAO usuarioDao = new UsuarioDAO();
-//		for (Usuario c : usuarioDao.getListarUsuarios()) {
-//			JButton btnUsuario = new JButton(c.getNome_usuario());
-//			btnUsuario.addActionListener(new ActionListener() {
-//				public void actionPerformed(ActionEvent e) {
-//					System.out.println("debug: tela listarUsuarios > tela de Perfil");
-//					TelaPerfilADM telaPerfil = new TelaPerfilADM(c);
-//					telaPerfil.setVisible(true);
-//					setVisible(false);
-//				}
-//			});
-//			btnUsuario.setOpaque(false);
-//			btnUsuario.setBackground(null);
-//			Chisel(btnUsuario, Color.WHITE, 5);
-//			btnUsuario.setFont(pop12);
-//			btnUsuario.setBounds(10, i, 156, 34);
-//			panel.add(btnUsuario);
-//			i +=35;
-//		}
+		JButton btnRefresh = new JButton("");
+		btnRefresh.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (listaUsuario.getSelectedIndex() == -1) {
+					return;
+				}
+					
+				usuarios = (ArrayList<Usuario>) new UsuarioDAO().getListarUsuarios();
+				valuesUsuario.clear();
+				
+				int t = 0;
+				for (Usuario u: usuarios) {
+					valuesUsuario.add("");
+					valuesUsuario.set(t, u.getNome_usuario());
+					t++;
+				}
+				TelaCadastro.updateList(listaUsuario, valuesUsuario);
+			}
+		});
+		btnRefresh.setForeground(Color.WHITE);
+		btnRefresh.setIcon(new ImageIcon("./img/refresh.png"));
+		btnRefresh.setFocusPainted(false);
+		btnRefresh.setBorder(BorderFactory.createEmptyBorder());
+		btnRefresh.setBackground((Color) null);
+		btnRefresh.setBounds(194, 126, 36, 36);
+		panel.add(btnRefresh);
 		
 		JLabel fakeBG = new JLabel("");
 		fakeBG.setIcon(new ImageIcon("./img/bg.png"));

@@ -25,21 +25,24 @@ public class FornecedorBD {
 		connection = Conexao.getConnection();
 		long id = 0;
 		try {
+			System.out.println("cadastrando fornecedor...");
 			PreparedStatement ps = connection.prepareStatement("insert into Fornecedor (nome_fornecedor, cnpj_fornecedor)"
-				+ "values ( ? , ? )",Statement.RETURN_GENERATED_KEYS);
+				+ "values ( ? , ? )", Statement.RETURN_GENERATED_KEYS);
 				ps.setString(1, fornecedor.getNome_fornecedor());
 				ps.setString(2, fornecedor.getCnpj_fornecedor());
 				ps.execute();
 			
 				ResultSet generatedKeys = ps.getGeneratedKeys();
-				 generatedKeys.next();
-				 id = generatedKeys.getLong(1);
+				generatedKeys.next();
+				id = generatedKeys.getLong(1);
+
+				System.out.println("id gerado: " + id);
+				
+				Conexao.getClose();
+				System.out.println("conexao Fechada");
 			
-			Conexao.getClose();
-			System.out.println("conexao Fechada");
-			
-			 return id;
-				} catch (SQLException e) {
+				return id;
+		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Erro com o BD insert");
 			e.printStackTrace();
 		}
@@ -80,7 +83,7 @@ public class FornecedorBD {
 				psii.setString(2, enderecoA.getBairro());
 				psii.setString(3, enderecoA.getRua());
 				psii.setInt(4, enderecoA.getNumero());
-				psii.setLong(5, n1);
+				psii.setInt(5, n1);
 				psii.execute();						
 			
 			Conexao.getClose();
@@ -222,11 +225,8 @@ public class FornecedorBD {
 			}
 			
 			public Fornecedor fornecedorDadosUnico(int id) {
-				
-				String sql1 = "select *\r\n"
-						+ "from fornecedor inner join  fornecedor_endereco \r\n"
-						+ "on fornecedor.id_fornecedor  = fornecedor_endereco.fk_id_fornecedor \r\n"
-						+ "inner join fornecedor_contato on fornecedor.id_fornecedor = fornecedor_contato.fk_id_fornecedor where id_fornecedor = ?;\r\n";
+				System.out.println("texxxtando > " + id);
+				String sql1 = "select * from fornecedor where id_fornecedor = ?;";
 				Fornecedor fornecedor = new Fornecedor();
 				Connection conn = null;
 				PreparedStatement ps = null;
@@ -243,12 +243,6 @@ public class FornecedorBD {
 						fornecedor.setId_fornecedor(rset.getInt("id_fornecedor"));
 						fornecedor.setNome_fornecedor(rset.getString("nome_fornecedor"));
 						fornecedor.setCnpj_fornecedor(rset.getString("cnpj_fornecedor"));
-						fornecedor.setCidade(rset.getString("cidade"));
-						fornecedor.setBairro(rset.getString("bairro"));
-						fornecedor.setRua(rset.getString("rua"));
-						fornecedor.setNumero(rset.getString("numero"));
-						fornecedor.setEmail(rset.getString("email"));
-						fornecedor.setTelefone(rset.getString("telefone"));
 						
 					}
 					

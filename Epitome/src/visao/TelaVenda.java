@@ -172,10 +172,15 @@ public class TelaVenda extends JFrame {
 		JButton btnReturn = new JButton("");
 		btnReturn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// adm ou vendedor?
-				System.out.println("debug: tela de estoque > tela inicial");
-				TelaInicialADM telainicial = new TelaInicialADM(usuarioLogado);
-				telainicial.setVisible(true);
+				
+				if (usuarioLogado.getCargo().equals("administrador")) {
+					TelaInicialADM telainicial = new TelaInicialADM(usuarioLogado);
+					telainicial.setVisible(true);
+				} else {
+					TelaInicialVND telainicial = new TelaInicialVND(usuarioLogado);
+					telainicial.setVisible(true);
+				}
+				
 				setVisible(false);
 			}
 		});

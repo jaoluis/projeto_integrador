@@ -99,6 +99,7 @@ public class TelaLogin extends JFrame {
 		panel.add(lblEmail);
 
 		txtEmail = new JTextField();
+		txtEmail.setCaretColor(Color.WHITE);
 		txtEmail.setForeground(new Color(255, 255, 255));
 		txtEmail.setBackground(new Color(45, 45, 45));
 		txtEmail.setBorder(javax.swing.BorderFactory.createEmptyBorder());
@@ -108,6 +109,7 @@ public class TelaLogin extends JFrame {
 		txtEmail.setColumns(10);
 
 		txtSenha = new JPasswordField();
+		txtSenha.setCaretColor(Color.WHITE);
 		txtSenha.setForeground(new Color(255, 255, 255));
 		txtSenha.setBackground(new Color(45, 45, 45));
 		txtSenha.setBorder(javax.swing.BorderFactory.createEmptyBorder());
@@ -121,20 +123,6 @@ public class TelaLogin extends JFrame {
 		lblSenha.setFont(pop10);
 		lblSenha.setBounds(10, 81, 156, 14);
 		panel.add(lblSenha);
-
-		JButton btnEsqueci = new JButton("Esqueceu sua senha?");
-		btnEsqueci.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug: tela de login > esqueci minha senha");
-			}
-		});
-		btnEsqueci.setBackground(null);
-		btnEsqueci.setFont(pop10);
-		btnEsqueci.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		btnEsqueci.setForeground(clRed);
-		btnEsqueci.setHorizontalAlignment(SwingConstants.LEFT);
-		btnEsqueci.setBounds(10, 115, 156, 23);
-		panel.add(btnEsqueci);
 
 		
 		//remover, para testes
@@ -193,23 +181,6 @@ public class TelaLogin extends JFrame {
 		btnEntrar.setFont(pop12);
 		btnEntrar.setBounds(10, 156, 156, 23);
 		panel.add(btnEntrar);
-
-		JButton btnTelaLogin = new JButton("");
-		btnTelaLogin.setIcon(new ImageIcon("./img/login.png"));
-		btnTelaLogin.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug: tela de login > tela de login");
-				TelaLogin telalogin = new TelaLogin();
-				telalogin.setVisible(true);
-				setVisible(false);
-			}
-		});
-		
-        btnTelaLogin.setBorder(BorderFactory.createEmptyBorder());
-		btnTelaLogin.setBackground(null);
-		btnTelaLogin.setForeground(Color.WHITE);
-		btnTelaLogin.setBounds(335, 111, 30, 30);
-		contentPane.add(btnTelaLogin);
 		
 		JLabel fakeBG = new JLabel("");
 		fakeBG.setIcon(new ImageIcon("./img/bg.png"));

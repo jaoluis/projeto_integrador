@@ -80,7 +80,7 @@ public class TelaInicialADM extends JFrame {
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(22, 22, 22));
-		panel.setBounds(592, 388, 471, 254);
+		panel.setBounds(592, 388, 471, 191);
 		panelChisel(panel, new Color(255, 255, 255), 5);
 		contentPane.add(panel);
 		panel.setLayout(null);
@@ -101,35 +101,19 @@ public class TelaInicialADM extends JFrame {
 		btnVenda.setBounds(10, 36, 205, 34);
 		panel.add(btnVenda);
 		
-		JButton btnCadastroFornecedor = new JButton("CADASTRAR FORNECEDOR");
-		btnCadastroFornecedor.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug: tela inicial adm > tela de cadastro fornecedor");
-				TelaCadastroFornecedor telaCadastroFornecedor = new TelaCadastroFornecedor();
-				telaCadastroFornecedor.setVisible(true);
-			}
-		});
-		btnCadastroFornecedor.setOpaque(false);
-		btnCadastroFornecedor.setBackground(null);
-		buttonChisel(btnCadastroFornecedor, new Color(255, 255, 255), 5);
-		btnCadastroFornecedor.setFont(pop12);
-		btnCadastroFornecedor.setBounds(10, 176, 205, 34);
-		panel.add(btnCadastroFornecedor);
-		
 		JButton btnListarFornecedor = new JButton("FORNECEDORES");
 		btnListarFornecedor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: tela inicial adm > tela de listar fornecedor");
-				TelaFornecedores telaFornecedores = new TelaFornecedores(usuarioLogado);
+				TelaFornecedores telaFornecedores = new TelaFornecedores();
 				telaFornecedores.setVisible(true);
-				setVisible(false);
 			}
 		});
 		btnListarFornecedor.setOpaque(false);
 		btnListarFornecedor.setBackground(null);
 		buttonChisel(btnListarFornecedor, new Color(255, 255, 255), 5);
 		btnListarFornecedor.setFont(pop12);
-		btnListarFornecedor.setBounds(10, 211, 205, 34);
+		btnListarFornecedor.setBounds(10, 141, 205, 34);
 		panel.add(btnListarFornecedor);
 		
 		JButton btnEstoque = new JButton("ESTOQUE");
@@ -148,22 +132,6 @@ public class TelaInicialADM extends JFrame {
 		btnEstoque.setBounds(10, 71, 205, 34);
 		panel.add(btnEstoque);
 		
-		JButton btnCadastrarUsuarios = new JButton("CADASTRAR USUÁRIO");
-		btnCadastrarUsuarios.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug: tela gerenciar usuario > tela de Cadastro");
-				TelaCadastro telaCadastro = new TelaCadastro();
-				telaCadastro.setVisible(true);
-				//setVisible(false);
-			}
-		});
-		btnCadastrarUsuarios.setOpaque(false);
-		btnCadastrarUsuarios.setBackground(null);
-		buttonChisel(btnCadastrarUsuarios, new Color(255, 255, 255), 5);
-		btnCadastrarUsuarios.setFont(pop12);
-		btnCadastrarUsuarios.setBounds(10, 106, 205, 34);
-		panel.add(btnCadastrarUsuarios);
-		
 		JButton btnListarUsuario = new JButton("USUÁRIOS");
 		btnListarUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -177,7 +145,7 @@ public class TelaInicialADM extends JFrame {
 		btnListarUsuario.setBackground(null);
 		buttonChisel(btnListarUsuario, new Color(255, 255, 255), 5);
 		btnListarUsuario.setFont(pop12);
-		btnListarUsuario.setBounds(10, 141, 205, 34);
+		btnListarUsuario.setBounds(10, 106, 205, 34);
 		panel.add(btnListarUsuario);
 		
 		JButton btnRelatorio = new JButton("Relatório de Vendas");
@@ -201,7 +169,9 @@ public class TelaInicialADM extends JFrame {
 		btnSair.setFont(pop10);
 		btnSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug: tela inicial adm > sair");
+				TelaLogin tl = new TelaLogin();
+				tl.setVisible(true);
+				setVisible(false);
 			}
 		});
 		btnSair.setBackground(null);
@@ -231,13 +201,13 @@ public class TelaInicialADM extends JFrame {
 		lblAdministrador.setHorizontalAlignment(SwingConstants.CENTER);
 		lblAdministrador.setForeground(Color.WHITE);
 		lblAdministrador.setFont(null);
-		lblAdministrador.setBounds(10, 11, 199, 14);
+		lblAdministrador.setBounds(10, 11, 205, 14);
 		lblAdministrador.setFont(pop12);
 		panel.add(lblAdministrador);
 		
 		JLabel lblNome = new JLabel(usuarioLogado.getNome_usuario());
 		//lblNome.setText(nome do usuario)
-		lblNome.setBounds(230, 11, 231, 14);
+		lblNome.setBounds(219, 11, 242, 14);
 		panel.add(lblNome);
 		lblNome.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNome.setForeground(new Color(255, 255, 255));

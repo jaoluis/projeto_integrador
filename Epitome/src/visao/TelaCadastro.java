@@ -840,14 +840,15 @@ public class TelaCadastro extends JFrame {
 		cntPanel.add(btnDelContato);
 	}
 
-	public static void updateList(JList<String> listaEndereco, ArrayList<String> values) {
+	public static void updateList(JList<String> lista, ArrayList<String> values) {
+		System.out.println("lista atualizada");
 		String[] up = new String[values.size()];
 		
 		for (int i = 0; i < values.size(); i++) {
             up[i] = values.get(i);
         }
 		
-		listaEndereco.setListData(up);
+		lista.setListData(up);
 		
 	}
 
