@@ -40,7 +40,6 @@ public class TelaEstoque extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTable tblProdutos;
 	private JTable tblProdutos_1;
 	private ArrayList<Produto> produtos;
 
@@ -184,8 +183,8 @@ public class TelaEstoque extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: editar produto (tela de cadastro de produto)");
 
-				int linha = tblProdutos.getSelectedRow();
-				int idProduto = (int) tblProdutos.getValueAt(linha, 0);
+				int linha = tblProdutos_1.getSelectedRow();
+				int idProduto = (int) tblProdutos_1.getValueAt(linha, 0);
 
 				Produto produtoAEditar = null;
 				for (Produto produto : produtos) {
@@ -263,11 +262,7 @@ public class TelaEstoque extends JFrame {
 		Rolagem.defRolagem(scrollPane);
 		contentPane.add(scrollPane);
 
-		DefaultTableModel model = new DefaultTableModel(null,
-				new String[] { "ID", "NOME", "PRE\u00C7O", "QUANTIDADE", "MATERIAL", "DIMENS\u00D5ES", "FORNECEDOR" });
-		tblProdutos = new JTable(model);
-		tblProdutos.setModel(new DefaultTableModel(new Object[][] { { null, null, null, null, null, null, null }, },
-				new String[] { "ID", "NOME", "PRE\u00C7O", "QUANTIDADE", "MATERIAL", "DIMENS\u00D5ES", "FORNECEDOR" }));
+		DefaultTableModel model = new DefaultTableModel(null, new String[] { "ID", "NOME", "PRE\u00C7O", "QUANTIDADE", "MATERIAL", "DIMENS\u00D5ES", "FORNECEDOR" });
 
 		ProdutoBD produtoBD = new ProdutoBD();
 		FornecedorBD fbd = new FornecedorBD();

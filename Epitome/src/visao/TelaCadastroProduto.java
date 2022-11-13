@@ -20,18 +20,13 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import javax.swing.plaf.ColorUIResource;
-import javax.swing.plaf.basic.BasicComboBoxUI;
-import javax.swing.plaf.basic.BasicComboPopup;
-import javax.swing.plaf.basic.ComboPopup;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 import javax.swing.plaf.metal.OceanTheme;
 import javax.swing.text.MaskFormatter;
@@ -43,7 +38,6 @@ import modelo.Produto;
 
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.ComboBoxModel;
 
 public class TelaCadastroProduto extends JFrame {
 
@@ -116,11 +110,11 @@ public class TelaCadastroProduto extends JFrame {
 		lblEstamosQuaseL.setBounds(10, 11, 156, 14);
 		panel.add(lblEstamosQuaseL);
 
-		JLabel lblCPF = new JLabel("MATERIAL");
-		lblCPF.setForeground(new Color(197, 197, 197));
-		lblCPF.setFont(pop10);
-		lblCPF.setBounds(10, 216, 156, 14);
-		panel.add(lblCPF);
+		JLabel lblMaterial = new JLabel("MATERIAL");
+		lblMaterial.setForeground(new Color(197, 197, 197));
+		lblMaterial.setFont(pop10);
+		lblMaterial.setBounds(10, 216, 156, 14);
+		panel.add(lblMaterial);
 		
 		JComboBox<String> cmbMaterial = new JComboBox<String>();
 		cmbMaterial.setModel(new DefaultComboBoxModel<String>(new String[] {"A\u00E7o", "Inox", "Madeira", "Misto", "Outro", "Pl\u00E1stico", "Porcelana", "Vidro"}));
@@ -143,11 +137,11 @@ public class TelaCadastroProduto extends JFrame {
 		panel.add(txtDimensoes);
 		txtDimensoes.setColumns(10);
 
-		JLabel lblUsername = new JLabel("PRE\u00C7O DE CUSTO");
-		lblUsername.setForeground(new Color(197, 197, 197));
-		lblUsername.setFont(pop10);
-		lblUsername.setBounds(10, 126, 156, 14);
-		panel.add(lblUsername);
+		JLabel lblPrecoCusto = new JLabel("PRE\u00C7O DE CUSTO");
+		lblPrecoCusto.setForeground(new Color(197, 197, 197));
+		lblPrecoCusto.setFont(pop10);
+		lblPrecoCusto.setBounds(10, 126, 156, 14);
+		panel.add(lblPrecoCusto);
 
 		JTextField txtPrecoCusto = new JTextField();
 		txtPrecoCusto.setCaretColor(Color.WHITE);
@@ -159,11 +153,11 @@ public class TelaCadastroProduto extends JFrame {
 		panel.add(txtPrecoCusto);
 		txtPrecoCusto.setColumns(10);
 
-		JLabel lblNome = new JLabel("QUANTIDADE");
-		lblNome.setForeground(new Color(197, 197, 197));
-		lblNome.setFont(pop10);
-		lblNome.setBounds(10, 171, 156, 14);
-		panel.add(lblNome);
+		JLabel lblQuantidade = new JLabel("QUANTIDADE");
+		lblQuantidade.setForeground(new Color(197, 197, 197));
+		lblQuantidade.setFont(pop10);
+		lblQuantidade.setBounds(10, 171, 156, 14);
+		panel.add(lblQuantidade);
 
 		JTextField txtQuantidade = new JTextField();
 		txtQuantidade.setCaretColor(Color.WHITE);
@@ -175,11 +169,11 @@ public class TelaCadastroProduto extends JFrame {
 		panel.add(txtQuantidade);
 		txtQuantidade.setColumns(10);
 
-		JLabel lblEmail = new JLabel("NOME");
-		lblEmail.setForeground(new Color(197, 197, 197));
-		lblEmail.setFont(pop10);
-		lblEmail.setBounds(10, 36, 156, 14);
-		panel.add(lblEmail);
+		JLabel lblNome = new JLabel("NOME");
+		lblNome.setForeground(new Color(197, 197, 197));
+		lblNome.setFont(pop10);
+		lblNome.setBounds(10, 36, 156, 14);
+		panel.add(lblNome);
 
 		txtNome = new JTextField();
 		txtNome.setCaretColor(Color.WHITE);
@@ -191,11 +185,11 @@ public class TelaCadastroProduto extends JFrame {
 		panel.add(txtNome);
 		txtNome.setColumns(10);
 
-		JLabel lblSenha = new JLabel("PRE\u00C7O DE VENDA");
-		lblSenha.setForeground(new Color(197, 197, 197));
-		lblSenha.setFont(pop10);
-		lblSenha.setBounds(10, 81, 156, 14);
-		panel.add(lblSenha);
+		JLabel lblPrecoVenda = new JLabel("PRE\u00C7O DE VENDA");
+		lblPrecoVenda.setForeground(new Color(197, 197, 197));
+		lblPrecoVenda.setFont(pop10);
+		lblPrecoVenda.setBounds(10, 81, 156, 14);
+		panel.add(lblPrecoVenda);
 
 		JTextField txtPrecoVenda = new JTextField();
 		txtPrecoVenda.setCaretColor(Color.WHITE);
@@ -206,17 +200,17 @@ public class TelaCadastroProduto extends JFrame {
 		txtPrecoVenda.setFont(pop12);
 		panel.add(txtPrecoVenda);
 
-		JLabel lblDataDeNascimento = new JLabel("DIMENS\u00D5ES");
-		lblDataDeNascimento.setForeground(new Color(197, 197, 197));
-		lblDataDeNascimento.setFont(pop10);
-		lblDataDeNascimento.setBounds(10, 261, 156, 14);
-		panel.add(lblDataDeNascimento);
+		JLabel lblDimensoes = new JLabel("DIMENS\u00D5ES");
+		lblDimensoes.setForeground(new Color(197, 197, 197));
+		lblDimensoes.setFont(pop10);
+		lblDimensoes.setBounds(10, 261, 156, 14);
+		panel.add(lblDimensoes);
 
-		JLabel lblFornecedores = new JLabel("FORNECEDOR");
-		lblFornecedores.setForeground(new Color(197, 197, 197));
-		lblFornecedores.setBounds(10, 306, 118, 14);
-		lblFornecedores.setFont(pop10);
-		panel.add(lblFornecedores);
+		JLabel lblFornecedor = new JLabel("FORNECEDOR");
+		lblFornecedor.setForeground(new Color(197, 197, 197));
+		lblFornecedor.setBounds(10, 306, 118, 14);
+		lblFornecedor.setFont(pop10);
+		panel.add(lblFornecedor);
 
 		UIManager.put("ComboBox.selectionBackground", new javax.swing.plaf.ColorUIResource(clGreen));
 		
@@ -231,7 +225,7 @@ public class TelaCadastroProduto extends JFrame {
 		
 		
 		ArrayList<Fornecedor> fornecedores = (ArrayList<Fornecedor>) new FornecedorBD().getListarFornecedores();		
-		DefaultComboBoxModel<String> model = new DefaultComboBoxModel<String>(new String[] {"Sem Fornecedor"});
+		DefaultComboBoxModel<String> model = new DefaultComboBoxModel<String>(new String[] {});
 		for (Fornecedor f: fornecedores) {
 			model.addElement(f.getNome_fornecedor());
 		}
@@ -240,6 +234,7 @@ public class TelaCadastroProduto extends JFrame {
 		JComboBox<String> cmbFornecedor = new JComboBox<String>(model);
 		cmbFornecedor.setBounds(10, 321, 156, 22);
 		cmbFornecedor.setUI(new Combo());
+		cmbFornecedor.setSelectedItem(null);
 		cmbFornecedor.setForeground(Color.WHITE);
 		cmbFornecedor.setBackground(new Color(45, 45, 45));
 		cmbFornecedor.setBorder(BorderFactory.createEmptyBorder());
@@ -254,7 +249,7 @@ public class TelaCadastroProduto extends JFrame {
 				String nome = txtNome.getText();
 				int f = 0;
 				try {
-					f = fornecedores.get(cmbFornecedor.getSelectedIndex() - 1).getId_fornecedor();
+					f = fornecedores.get(cmbFornecedor.getSelectedIndex()).getId_fornecedor();
 				} catch (NumberFormatException x) {
 					JOptionPane.showMessageDialog(null, "Fornecedor inválido", "Erro", JOptionPane.ERROR_MESSAGE);
 					System.out.println("fornecedor vazio");

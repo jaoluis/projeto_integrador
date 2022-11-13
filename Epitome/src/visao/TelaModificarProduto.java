@@ -11,11 +11,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.text.ParseException;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -28,6 +31,7 @@ import javax.swing.text.MaskFormatter;
 
 import controle.FornecedorBD;
 import controle.ProdutoBD;
+import modelo.Fornecedor;
 import modelo.Produto;
 
 public class TelaModificarProduto extends JFrame {
@@ -105,17 +109,35 @@ public class TelaModificarProduto extends JFrame {
 		lblCPF.setFont(pop10);
 		lblCPF.setBounds(10, 216, 156, 14);
 		panel.add(lblCPF);
-
-		JTextField txtMaterial = new JTextField();
-		txtMaterial.setCaretColor(Color.WHITE);
-		txtMaterial.setForeground(new Color(255, 255, 255));
-		txtMaterial.setBackground(new Color(45, 45, 45));
-		txtMaterial.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		txtMaterial.setBounds(10, 230, 156, 20);
-		txtMaterial.setFont(pop12);
-		txtMaterial.setText(produtoAEditar.getMaterialProduto());
-		panel.add(txtMaterial);
-		txtMaterial.setColumns(10);
+		
+		String[] materiais = new String[] {"A\u00E7o", "Inox", "Madeira", "Misto", "Outro", "Pl\u00E1stico", "Porcelana", "Vidro"};
+		
+		JComboBox<String> cmbMaterial = new JComboBox<String>();
+		cmbMaterial.setModel(new DefaultComboBoxModel<String>(materiais));
+		
+		int selm = 0;
+		boolean search = true;
+		
+		for (String m: materiais) {
+			if (m.equals(produtoAEditar.getMaterialProduto())) {
+				search = false;
+			}
+			if (search) {
+				selm++;
+			}
+		}
+		try {
+			cmbMaterial.setSelectedIndex(selm);
+		} catch (IllegalArgumentException e) {
+			cmbMaterial.setSelectedItem(null);
+		}
+		cmbMaterial.setForeground(Color.WHITE);
+		cmbMaterial.setFont(pop12);
+		cmbMaterial.setUI(new Combo());
+		cmbMaterial.setBorder(BorderFactory.createEmptyBorder());
+		cmbMaterial.setBackground(new Color(45, 45, 45));
+		cmbMaterial.setBounds(10, 231, 156, 22);
+		panel.add(cmbMaterial);
 
 		JTextField txtDimensoes = new JTextField();
 		txtDimensoes.setCaretColor(Color.WHITE);
@@ -128,7 +150,7 @@ public class TelaModificarProduto extends JFrame {
 		panel.add(txtDimensoes);
 		txtDimensoes.setColumns(10);
 
-		JLabel lblUsername = new JLabel("PREÇO DE CUSTO");
+		JLabel lblUsername = new JLabel("PRE\u00C7O DE CUSTO");
 		lblUsername.setForeground(new Color(197, 197, 197));
 		lblUsername.setFont(pop10);
 		lblUsername.setBounds(10, 126, 156, 14);
@@ -179,7 +201,7 @@ public class TelaModificarProduto extends JFrame {
 		panel.add(txtNome);
 		txtNome.setColumns(10);
 
-		JLabel lblSenha = new JLabel("PREÇO DE VENDA");
+		JLabel lblSenha = new JLabel("PRE\u00C7O DE VENDA");
 		lblSenha.setForeground(new Color(197, 197, 197));
 		lblSenha.setFont(pop10);
 		lblSenha.setBounds(10, 81, 156, 14);
@@ -196,31 +218,48 @@ public class TelaModificarProduto extends JFrame {
 		
 		panel.add(txtPrecoVenda);
 
-		JLabel lblDataDeNascimento = new JLabel("DIMENSÕES");
+		JLabel lblDataDeNascimento = new JLabel("DIMENS\u00D5ES");
 		lblDataDeNascimento.setForeground(new Color(197, 197, 197));
 		lblDataDeNascimento.setFont(pop10);
 		lblDataDeNascimento.setBounds(10, 261, 156, 14);
 		panel.add(lblDataDeNascimento);
 
-		JLabel lblFornecedor = new JLabel("FORNECEDOR(ES)");
+		JLabel lblFornecedor = new JLabel("FORNECEDOR");
 		lblFornecedor.setForeground(new Color(197, 197, 197));
 		lblFornecedor.setBounds(10, 306, 122, 14);
 		lblFornecedor.setFont(pop10);
 		panel.add(lblFornecedor);
 		
-		JTextField txtFornecedor = new JTextField();
-		txtFornecedor.setCaretColor(Color.WHITE);
-		txtFornecedor.setForeground(new Color(255, 255, 255));
-		txtFornecedor.setBackground(new Color(45, 45, 45));
-		txtFornecedor.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		if (produtoAEditar.getFornecedor() != 0) {
-			txtFornecedor.setText(String.valueOf(produtoAEditar.getFornecedor()));
+		ArrayList<Fornecedor> fornecedores = (ArrayList<Fornecedor>) new FornecedorBD().getListarFornecedores();		
+		DefaultComboBoxModel<String> model = new DefaultComboBoxModel<String>(new String[] {});
+		
+		int sel = 0;
+		search = true;
+		int f_id = produtoAEditar.getFornecedor();
+		
+		for (Fornecedor f: fornecedores) {
+			model.addElement(f.getNome_fornecedor());
+			if (f.getId_fornecedor() == f_id) {
+				search = false;
+			}
+			if (search) {
+				sel++;
+			}
 		}
 		
-		txtFornecedor.setBounds(10, 320, 156, 20);
-		txtFornecedor.setFont(pop12);
-		panel.add(txtFornecedor);
-		txtFornecedor.setColumns(10);
+		JComboBox<String> cmbFornecedor = new JComboBox<String>(model);
+		try {
+			cmbFornecedor.setSelectedIndex(sel);
+		} catch (IllegalArgumentException e) {
+			cmbFornecedor.setSelectedItem(null);
+		}
+		cmbFornecedor.setBounds(10, 321, 156, 22);
+		cmbFornecedor.setUI(new Combo());
+		cmbFornecedor.setForeground(Color.WHITE);
+		cmbFornecedor.setBackground(new Color(45, 45, 45));
+		cmbFornecedor.setBorder(BorderFactory.createEmptyBorder());
+		cmbFornecedor.setFont(pop12);
+		panel.add(cmbFornecedor);
 
 		JButton btnContinuar = new JButton("ALTERAR");
 		btnContinuar.addActionListener(new ActionListener() {
@@ -233,9 +272,14 @@ public class TelaModificarProduto extends JFrame {
 				
 				int f = 0;
 				try {
-					f = Integer.parseInt(txtFornecedor.getText());
+					try {
+						f = fornecedores.get(cmbFornecedor.getSelectedIndex()).getId_fornecedor();
+					} catch (IndexOutOfBoundsException x) {
+						JOptionPane.showMessageDialog(null, "Fornecedor inv\u00E1lido", "Erro", JOptionPane.ERROR_MESSAGE);
+						return;
+					}
 				} catch (NumberFormatException x) {
-					JOptionPane.showMessageDialog(null, "Fornecedor inválido", "Erro", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Fornecedor inv\u00E1lido", "Erro", JOptionPane.ERROR_MESSAGE);
 					System.out.println("fornecedor vazio");
 					return;
 				}
@@ -244,10 +288,10 @@ public class TelaModificarProduto extends JFrame {
 					precoVenda = Float.parseFloat(txtPrecoVenda.getText());
 					precoCusto = Float.parseFloat(txtPrecoCusto.getText());
 				} catch (NumberFormatException x) {
-					JOptionPane.showMessageDialog(null, "Preço(s) inválido(s)", "Erro", JOptionPane.ERROR_MESSAGE, null);
+					JOptionPane.showMessageDialog(null, "Preço(s) inv\u00E1lido(s)", "Erro", JOptionPane.ERROR_MESSAGE, null);
 				}
 				int qtd = Integer.parseInt(txtQuantidade.getText());
-				String material = txtMaterial.getText();
+				String material = (String) cmbMaterial.getSelectedItem();
 				String dimensoes = txtDimensoes.getText();
 				
 //				String fornecedor = txtFornecedor.getText();
@@ -258,7 +302,7 @@ public class TelaModificarProduto extends JFrame {
 				FornecedorBD fornedorBD = new FornecedorBD();
 				
 				if(FornecedorBD.VRFornR(f)==false && f !=0) {
-					JOptionPane.showMessageDialog(null, "Favor inserir um Fornecedor Existende.", "Erro", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Favor inserir um Fornecedor Existente.", "Erro", JOptionPane.ERROR_MESSAGE);
 					System.out.println("Fornecedor não existe");
 					return;
 				}

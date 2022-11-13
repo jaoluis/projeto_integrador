@@ -14,7 +14,7 @@ public class Conexao {
 			System.out.println("Não foi possivel acessar o Banco de dados");
 			e.printStackTrace();
 		}
-		System.out.println("Conectado � base de dados com sucesso.");
+		System.out.println("Conectado \u00E0 base de dados com sucesso.");
 		return conexao;
 	}
 
