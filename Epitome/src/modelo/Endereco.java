@@ -8,6 +8,7 @@ public class Endereco {
 	private int id;
 	
 	public Endereco() {
+		this.id = 0;
 		this.cidade = "";
 		this.bairro = "";
 		this.rua = "";

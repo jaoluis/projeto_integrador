@@ -102,8 +102,8 @@ public class TelaModificar extends JFrame {
 
 		UsuarioDAO ubd = new UsuarioDAO(); 
 	
-		Usuario usuarioOld = ubd.getUsuario(id);
-		enderecoF = (ArrayList<Endereco>) ubd.getEnderecos(id);
+		Usuario usuarioOld = UsuarioDAO.getUsuario(id);
+		enderecoF = (ArrayList<Endereco>) ubd.getEnderecos(id);	
 		contatoC = (ArrayList<Contato>) ubd.getContatos(id);
 		
 		setResizable(false);
@@ -161,7 +161,6 @@ public class TelaModificar extends JFrame {
 
 		JTextField txtCidade = new JTextField();
 		txtCidade.setCaretColor(Color.WHITE);
-		txtCidade.setEnabled(false);
 		txtCidade.setForeground(Color.WHITE);
 		txtCidade.setBackground(new Color(45, 45, 45));
 		txtCidade.setBorder(javax.swing.BorderFactory.createEmptyBorder());
@@ -178,7 +177,6 @@ public class TelaModificar extends JFrame {
 
 		JTextField txtBairro = new JTextField();
 		txtBairro.setCaretColor(Color.WHITE);
-		txtBairro.setEnabled(false);
 		txtBairro.setForeground(Color.WHITE);
 		txtBairro.setBackground(new Color(45, 45, 45));
 		txtBairro.setBorder(javax.swing.BorderFactory.createEmptyBorder());
@@ -194,7 +192,6 @@ public class TelaModificar extends JFrame {
 
 		JTextField txtRua = new JTextField();
 		txtRua.setCaretColor(Color.WHITE);
-		txtRua.setEnabled(false);
 		txtRua.setForeground(Color.WHITE);
 		txtRua.setBackground(new Color(45, 45, 45));
 		txtRua.setBorder(javax.swing.BorderFactory.createEmptyBorder());
@@ -211,7 +208,6 @@ public class TelaModificar extends JFrame {
 
 		JTextField txtNumero = new JTextField();
 		txtNumero.setCaretColor(Color.WHITE);
-		txtNumero.setEnabled(false);
 		txtNumero.setForeground(Color.WHITE);
 		txtNumero.setBackground(new Color(45, 45, 45));
 		txtNumero.setBorder(javax.swing.BorderFactory.createEmptyBorder());
@@ -323,7 +319,10 @@ public class TelaModificar extends JFrame {
 					return;
 				}
 				
+				Endereco endOld = enderecoF.get(listaEndereco.getSelectedIndex());
+				
 				Endereco enderecoAdd = new Endereco();
+				enderecoAdd.setId(endOld.getId());
 				enderecoAdd.setBairro(bairro);
 				enderecoAdd.setCidade(cidade);
 				enderecoAdd.setNumero(numero1);
@@ -392,7 +391,6 @@ public class TelaModificar extends JFrame {
 		cntPanel.add(lblEmailCnt);
 
 		JTextField txtEmailCnt = new JTextField();
-		txtEmailCnt.setEnabled(false);
 		txtEmailCnt.setCaretColor(Color.WHITE);
 		txtEmailCnt.setForeground(Color.WHITE);
 		txtEmailCnt.setBackground(new Color(45, 45, 45));
@@ -409,7 +407,6 @@ public class TelaModificar extends JFrame {
 		cntPanel.add(lblTelefone);
 
 		JTextField txtTelefone = new JTextField();
-		txtTelefone.setEnabled(false);
 		txtTelefone.setCaretColor(Color.WHITE);
 		txtTelefone.setForeground(Color.WHITE);
 		txtTelefone.setBackground(new Color(45, 45, 45));
@@ -717,8 +714,8 @@ public class TelaModificar extends JFrame {
 
 				UsuarioDAO dao;
 				dao = new UsuarioDAO();
-				dao.update(usuario, contatoC );
-				dao.updateEndereco(enderecoF);
+				dao.update(usuario, contatoC);
+				dao.updateEnderecoUsuario(usuario, enderecoF);
 				
 				setVisible(false);
 

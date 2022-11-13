@@ -6,6 +6,7 @@ public class Contato {
 	private int id;
 	
 	public Contato() {
+		this.id = 0;
 		this.email = "";
 		this.telefone = "";	
 	}

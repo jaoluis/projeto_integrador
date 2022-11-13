@@ -134,7 +134,7 @@ public class TelaCadastro extends JFrame {
 		endScrollPane.setBackground(null);
 		endScrollPane.setForeground(null);
 		
-		JLabel lblDetEndereco = new JLabel("Endereço");
+		JLabel lblDetEndereco = new JLabel("Endere\u00E7o");
 		lblDetEndereco.setForeground(Color.WHITE);
 		lblDetEndereco.setFont(pop12);
 		lblDetEndereco.setHorizontalAlignment(SwingConstants.CENTER);
@@ -191,7 +191,7 @@ public class TelaCadastro extends JFrame {
 		endPanel.add(txtRua);
 		txtRua.setColumns(10);
 
-		JLabel lblNumero = new JLabel("NÚMERO");
+		JLabel lblNumero = new JLabel("N\u00DAMERO");
 		lblNumero.setForeground(new Color(197, 197, 197));
 		lblNumero.setFont(pop10);
 		lblNumero.setBounds(176, 171, 156, 14);

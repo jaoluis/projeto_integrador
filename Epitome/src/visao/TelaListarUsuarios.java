@@ -73,7 +73,7 @@ public class TelaListarUsuarios extends JFrame {
 			e.printStackTrace();
 		}
 		setResizable(false);
-		setTitle("Usuários");
+		setTitle("Usu\u00E1rios");
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 359, 564);
 		contentPane = new JPanel();
@@ -89,7 +89,7 @@ public class TelaListarUsuarios extends JFrame {
 		panelChisel(panel, Color.WHITE, 5);
 		panel.setLayout(null);
 		
-		JLabel lblUsuarios = new JLabel("USUÁRIOS");
+		JLabel lblUsuarios = new JLabel("USU\u00C1RIOS");
 		lblUsuarios.setForeground(new Color(197, 197, 197));
 		lblUsuarios.setFont(null);
 		lblUsuarios.setFont(pop10);

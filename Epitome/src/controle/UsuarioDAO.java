@@ -255,6 +255,7 @@ public class UsuarioDAO {
 					e.setBairro(rset.getString("bairro"));
 					e.setRua(rset.getString("rua"));
 					e.setNumero(rset.getInt("numero"));
+					e.setId(rset.getInt("id_usuario_endereco"));
 					
 					enderecos.add(e);
 					
@@ -284,6 +285,7 @@ public class UsuarioDAO {
 					Contato c = new Contato();
 					c.setEmail(rset.getString("email"));
 					c.setTelefone(rset.getString("telefone"));
+					c.setId(rset.getInt("id_usuario_contato"));
 					
 					contatos.add(c);
 					
@@ -297,9 +299,46 @@ public class UsuarioDAO {
 		public void update (Usuario usuario, ArrayList<Contato> contatos) {
 			String sql  = "UPDATE usuario SET email_usuario = ?, senha_usuario = ?, cargo_usuario = ?, nome_usuario = ?, cpf_usuario = ?, nascimento_usuario = ?" + "WHERE id_usuario = ?";
 			String sql1 = "UPDATE usuario_contato SET email = ?, telefone  = ?" + "WHERE id_usuario_contato = ?;";
+			String sql2 = "insert into usuario_contato(email, telefone, fk_id_usuario_contato) values ( ? , ? , ? )";
+			
+			String sqld = "DELETE FROM usuario_contato where id_usuario_contato = ?;";
+			
+			ArrayList<Contato> old = (ArrayList<Contato>) getContatos(usuario.getId_usuario());
+			
 			Connection conn = null;
 			PreparedStatement ps = null;
 			
+			if (old.size() > contatos.size()) {
+				ArrayList<Integer> oldIds = new ArrayList<Integer>();
+				ArrayList<Integer> newIds = new ArrayList<Integer>();
+				
+				for (Contato c: old) {
+					oldIds.add(c.getId());
+				}
+				for (Contato c: contatos) {
+					newIds.add(c.getId());
+				}
+
+				
+				for (int oldId: oldIds) {
+					if (!newIds.contains(oldId)) {
+						conn = Conexao.getConnection();
+						try {
+							ps = conn.prepareStatement(sqld);
+							ps.setInt(1, oldId);
+							ps.execute();
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						
+						
+					}
+				}
+			}
+			
+			
+
 			try {
 				conn = Conexao.getConnection();
 				ps = conn.prepareStatement(sql);
@@ -314,11 +353,19 @@ public class UsuarioDAO {
 				ps.execute();
 				
 				for (Contato contato : contatos) {
-				ps = conn.prepareStatement(sql1);
-				ps.setString(1, contato.getEmail());
-				ps.setString(2, contato.getTelefone());
-				ps.setInt(3, contato.getId());
-				ps.execute();
+					if (contato.getId() == 0) {
+						ps = conn.prepareStatement(sql2);
+						ps.setString(1, contato.getEmail());
+						ps.setString(2, contato.getTelefone());
+						ps.setInt(3, usuario.getId_usuario());
+						ps.execute();
+					} else {
+						ps = conn.prepareStatement(sql1);
+						ps.setString(1, contato.getEmail());
+						ps.setString(2, contato.getTelefone());
+						ps.setInt(3, contato.getId());
+						ps.execute();
+					}
 				}
 				
 				System.out.println("Debug: usuario alterado");
@@ -450,25 +497,68 @@ public class UsuarioDAO {
 		}
 		
 		
-		public void updateEndereco (ArrayList<Endereco> enderecos) {
-			String sql2 = "UPDATE fornecedor_endereco SET cidade = ?, bairro  = ?, rua = ?, numero = ?"
-					+ " WHERE id_fornecedor_endereco = ?;";
+		public void updateEnderecoUsuario (Usuario usuario, ArrayList<Endereco> enderecos) {
+			String sql2 = "UPDATE usuario_endereco SET cidade = ?, bairro  = ?, rua = ?, numero = ? WHERE id_usuario_endereco = ?;";
+			String sqli = "insert into usuario_endereco (cidade, bairro, rua, numero, fk_id_usuario_endereco) values (?, ?, ?, ?, ?);";
+			
+			String sqld = "DELETE FROM usuario_endereco where id_usuario_endereco = ?;";
 
+			ArrayList<Endereco> old = (ArrayList<Endereco>) getEnderecos(usuario.getId_usuario());
+			
 			Connection conn = null;
 			PreparedStatement ps = null;
+			
+			if (old.size() > enderecos.size()) {
+				ArrayList<Integer> oldIds = new ArrayList<Integer>();
+				ArrayList<Integer> newIds = new ArrayList<Integer>();
+				
+				for (Endereco c: old) {
+					oldIds.add(c.getId());
+				}
+				for (Endereco c: enderecos) {
+					newIds.add(c.getId());
+				}
+
+				
+				for (int oldId: oldIds) {
+					if (!newIds.contains(oldId)) {
+						conn = Conexao.getConnection();
+						try {
+							ps = conn.prepareStatement(sqld);
+							ps.setInt(1, oldId);
+							ps.execute();
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						
+						
+					}
+				}
+			}
+			
 			
 			try {
 				conn = Conexao.getConnection();
 				
 				for (Endereco endereco : enderecos) {
-				ps = conn.prepareStatement(sql2);
-				ps.setString(1, endereco.getCidade());
-				ps.setString(2, endereco.getBairro());
-				ps.setString(3, endereco.getRua());
-				ps.setInt(4, endereco.getNumero());
-				ps.setInt(5, endereco.getId());
-				System.out.println(endereco.getId());
-				ps.execute();
+					if (endereco.getId() == 0) {
+						ps = conn.prepareStatement(sqli);
+						ps.setString(1, endereco.getCidade());
+						ps.setString(2, endereco.getBairro());
+						ps.setString(3, endereco.getRua());
+						ps.setInt(4, endereco.getNumero());
+						ps.setInt(5, usuario.getId_usuario());
+						ps.execute();
+					} else {
+						ps = conn.prepareStatement(sql2);
+						ps.setString(1, endereco.getCidade());
+						ps.setString(2, endereco.getBairro());
+						ps.setString(3, endereco.getRua());
+						ps.setInt(4, endereco.getNumero());
+						ps.setInt(5, endereco.getId());
+						ps.execute();
+					}
 				}
 				Conexao.getClose();
 				
