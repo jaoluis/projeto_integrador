@@ -27,14 +27,21 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
+import controle.FornecedorBD;
 import controle.ProdutoBD;
 import modelo.Produto;
 import modelo.Usuario;
+import javax.swing.ListSelectionModel;
 
 public class TelaEstoque extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTable tblProdutos;
+	private JTable tblProdutos_1;
 	private ArrayList<Produto> produtos;
 
 	/**
@@ -60,9 +67,7 @@ public class TelaEstoque extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage("./img/app_icon_small.png"));
 		Color clRed = new Color(226, 0, 54);
 		Color clBlue = new Color(113, 206, 236);
-		Color clGreen = new Color(105, 122, 39);
-		Color clLight = new Color(197, 197, 197);
-
+		Color clGreen = new Color(168, 198, 51);
 		Font poppins, pop10 = null, pop12 = null, pop24 = null;
 
 		try {
@@ -93,7 +98,7 @@ public class TelaEstoque extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 
-		JButton btnRelatorio = new JButton("Relatório de Vendas");
+		JButton btnRelatorio = new JButton("Relat\u00F3rio de Vendas");
 		btnRelatorio.setFont(pop10);
 		btnRelatorio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -265,7 +270,9 @@ public class TelaEstoque extends JFrame {
 				new String[] { "ID", "NOME", "PRE\u00C7O", "QUANTIDADE", "MATERIAL", "DIMENS\u00D5ES", "FORNECEDOR" }));
 
 		ProdutoBD produtoBD = new ProdutoBD();
+		FornecedorBD fbd = new FornecedorBD();
 		produtos = produtoBD.getListarProdutos();
+		
 		for (Produto produto : produtos) {
 				if(produto.getFornecedor()==0) {
 					model.addRow(new Object[] { produto.getIdProduto(), produto.getNomeProduto(),
@@ -274,30 +281,41 @@ public class TelaEstoque extends JFrame {
 				}else {
 					model.addRow(new Object[] { produto.getIdProduto(), produto.getNomeProduto(),
 							produto.getPrecoVendaProduto(), produto.getQuantidadeEstoque(), produto.getMaterialProduto(),
-							produto.getDimencoesProduto(), produto.getFornecedor() });
+							produto.getDimencoesProduto(), fbd.getFornecedor(produto.getFornecedor()).getNome_fornecedor() });
 				}
 
 
 		}
 
-		tblProdutos = new JTable();
-		tblProdutos.setShowHorizontalLines(false);
-		tblProdutos.setShowVerticalLines(false);
-		tblProdutos.setShowGrid(false);
-		tblProdutos.setModel(model);
+		tblProdutos_1 = new JTable() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 
-		JTableHeader Theader = tblProdutos.getTableHeader();
+			public boolean isCellEditable(int row, int column) {                
+                return false;               
+			}
+		};
+		tblProdutos_1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		tblProdutos_1.setDragEnabled(true);
+		tblProdutos_1.setShowHorizontalLines(false);
+		tblProdutos_1.setShowVerticalLines(false);
+		tblProdutos_1.setShowGrid(false);
+		tblProdutos_1.setModel(model);
+
+		JTableHeader Theader = tblProdutos_1.getTableHeader();
 
 		Theader.setFont(pop12);
 		Theader.setForeground(new Color(255, 255, 255));
 		Theader.setBackground(new Color(22, 22, 22));
 		Theader.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 
-		tblProdutos.setFont(pop12);
-		tblProdutos.setForeground(new Color(255, 255, 255));
-		tblProdutos.setBackground(new Color(22, 22, 22));
-		tblProdutos.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		scrollPane.setViewportView(tblProdutos);
+		tblProdutos_1.setFont(pop12);
+		tblProdutos_1.setForeground(new Color(255, 255, 255));
+		tblProdutos_1.setBackground(new Color(22, 22, 22));
+		tblProdutos_1.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		scrollPane.setViewportView(tblProdutos_1);
 
 		JLabel fakeBG = new JLabel("");
 		fakeBG.setIcon(new ImageIcon("./img/bg.png"));
@@ -312,10 +330,6 @@ public class TelaEstoque extends JFrame {
 		Border emptyBorder = BorderFactory.createEmptyBorder();
 		scrollPane.setBorder(BorderFactory.createCompoundBorder(LineBorder, emptyBorder));
 
-	}
-
-	private static void buttonChisel(JButton button, Color color, int radius) {
-		RoundedBorder LineBorder = new RoundedBorder(color, radius);
 	}
 
 	private static void panelChisel(JPanel panel, Color color, int radius) {

@@ -27,6 +27,10 @@ import modelo.Usuario;
 
 public class TelaLogin extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField txtEmail;
 	private JPasswordField txtSenha;
@@ -54,8 +58,6 @@ public class TelaLogin extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit()
 				.getImage("./img/app_icon_small.png"));
 		Color clRed = new Color(226, 0, 54);
-		Color clBlue = new Color(113, 206, 236);
-
 		Font poppins, pop10 = null, pop12 = null;
 
 		try {

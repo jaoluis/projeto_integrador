@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -146,7 +147,7 @@ public class TelaCadastroFornecedor extends JFrame {
 		lblCNPJ.setBounds(10, 81, 156, 14);
 		panel.add(lblCNPJ);
 
-		JTextField txtCNPJ = new JTextField();
+		JFormattedTextField txtCNPJ = new JFormattedTextField(def_mask("##.###.###/####-##", '\u2022'));
 		txtCNPJ.setCaretColor(Color.WHITE);
 		txtCNPJ.setForeground(Color.WHITE);
 		txtCNPJ.setBackground(new Color(45, 45, 45));
@@ -591,9 +592,9 @@ public class TelaCadastroFornecedor extends JFrame {
 				return;
 			}
 			
+			String cleanCNPJ = cnpj.replace(".","").replace("/", "").replace("-", "");
 			
-			
-			if(FornecedorBD.isCNPJ(cnpj.toString()) == true) {
+			if(FornecedorBD.isCNPJ(cleanCNPJ) == true) {
 			fornecedor.setNome_fornecedor(nome);
 			fornecedor.setCnpj_fornecedor(cnpj);
 			

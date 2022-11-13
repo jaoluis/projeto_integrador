@@ -1,16 +1,11 @@
 package visao;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
-import javax.swing.plaf.basic.BasicScrollBarUI;
-
-import java.awt.FlowLayout;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
@@ -29,7 +24,6 @@ import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import java.awt.Toolkit;
-import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -38,7 +32,6 @@ import javax.swing.table.JTableHeader;
 import javax.swing.text.MaskFormatter;
 
 import controle.VendaBD;
-import modelo.Produto;
 import modelo.Usuario;
 import modelo.Venda;
 
@@ -71,7 +64,7 @@ public class TelaRelatorio extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage("./img/app_icon_small.png"));
 		Color clRed = new Color(226, 0, 54);
 		Color clBlue = new Color(113, 206, 236);
-		Color clGreen = new Color(105, 122, 39);
+		Color clGreen = new Color(168, 198, 51);
 		Color clLight = new Color(197, 197, 197);
 		/*
 		BasicScrollBarUI minScrollBar = new BasicScrollBarUI() {
@@ -131,7 +124,7 @@ public class TelaRelatorio extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JButton btnRelatorio = new JButton("Relat�rio de Vendas");
+		JButton btnRelatorio = new JButton("Relat\u00F3rio de Vendas");
 		btnRelatorio.setFont(pop10);
 		btnRelatorio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -200,7 +193,7 @@ public class TelaRelatorio extends JFrame {
 		btnReturn.setBounds(23, 42, 27, 45);
 		contentPane.add(btnReturn);
 		
-		JLabel lblEstoque = new JLabel("Relat�rio de Vendas");
+		JLabel lblEstoque = new JLabel("Relat\u00F3rio de Vendas");
 		lblEstoque.setHorizontalAlignment(SwingConstants.LEFT);
 		lblEstoque.setForeground(Color.WHITE);
 		lblEstoque.setFont(pop24);
@@ -262,7 +255,7 @@ public class TelaRelatorio extends JFrame {
 		btnSearch.setBounds(323, 126, 25, 25);
 		contentPane.add(btnSearch);
 		
-		JFormattedTextField txtAte = new JFormattedTextField(def_mask("##/##/####", '�'));
+		JFormattedTextField txtAte = new JFormattedTextField(def_mask("##/##/####", '\u2022'));
 		txtAte.setForeground(new Color(255, 255, 255));
 		txtAte.setBackground(new Color(22, 22, 22));
 		txtAte.setBorder(javax.swing.BorderFactory.createEmptyBorder());
@@ -272,14 +265,14 @@ public class TelaRelatorio extends JFrame {
 		contentPane.add(txtAte);
 		txtAte.setColumns(10);
 		
-		JLabel lblAte = new JLabel("AT�:");
+		JLabel lblAte = new JLabel("AT\u00C9:");
 		lblAte.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblAte.setForeground(Color.WHITE);
 		lblAte.setFont(pop12);
 		lblAte.setBounds(184, 126, 27, 25);
 		contentPane.add(lblAte);
 		
-		JFormattedTextField txtDe = new JFormattedTextField(def_mask("##/##/####", '�'));
+		JFormattedTextField txtDe = new JFormattedTextField(def_mask("##/##/####", '\u2022'));
 		txtDe.setForeground(new Color(255, 255, 255));
 		txtDe.setBackground(new Color(22, 22, 22));
 		txtDe.setBorder(javax.swing.BorderFactory.createEmptyBorder());

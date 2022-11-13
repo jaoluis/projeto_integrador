@@ -56,8 +56,6 @@ public class TelaListarUsuarios extends JFrame {
 	public TelaListarUsuarios() {
 		setIconImage(Toolkit.getDefaultToolkit()
 				.getImage("./img/app_icon_small.png"));
-		Color clRed = new Color(226, 0, 54);
-		Color clBlue = new Color(113, 206, 236);
 		Color clYellow = new Color(239, 161, 35);
 
 		Font poppins, pop12 = null, pop10 = null;

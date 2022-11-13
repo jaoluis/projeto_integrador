@@ -128,7 +128,7 @@ public class TelaCadastro extends JFrame {
 		JScrollPane endScrollPane = new JScrollPane();
 		endScrollPane.setBounds(10, 28, 156, 211);
 		endPanel.add(endScrollPane);
-		Rolagem.defRolagem(endScrollPane, new Rolagem(), new Rolagem());
+		Rolagem.defRolagem(endScrollPane);
 
 		scrollChisel(endScrollPane, Color.WHITE, 5);
 		endScrollPane.setBackground(null);

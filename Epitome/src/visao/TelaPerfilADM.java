@@ -1,22 +1,18 @@
 package visao;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
-import controle.FornecedorBD;
 import controle.UsuarioDAO;
 import modelo.Contato;
 import modelo.Endereco;
 import modelo.Usuario;
 
-import java.awt.FlowLayout;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.SwingConstants;
@@ -24,7 +20,6 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Insets;
 
-import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.AbstractListModel;
 import javax.swing.BorderFactory;
@@ -43,6 +38,10 @@ import java.awt.Toolkit;
 import java.util.ArrayList;
 
 public class TelaPerfilADM extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int id;
 	private JPanel contentPane;
 
@@ -270,7 +269,6 @@ public class TelaPerfilADM extends JFrame {
 		listaContato.setBackground(new Color(22, 22, 22));
 		listaContato.setForeground(new Color(197, 197, 197));
 		listaContato.setFont(pop10);
-		listaContato.setBackground(new Color(22, 22, 22));
 		cntScrollPane.setViewportView(listaContato);
 		
 		ArrayList<Endereco> enderecos = (ArrayList<Endereco>) new UsuarioDAO().getEnderecos(usuarioLogado.getId_usuario());
@@ -297,7 +295,7 @@ public class TelaPerfilADM extends JFrame {
 		contentPane.add(fakeBG);
 	}
 
-private void scrollChisel(JScrollPane scrollPane, Color color, int i) {
+	private void scrollChisel(JScrollPane scrollPane, Color color, int i) {
 		scrollPane.setForeground(color);
         RoundedBorder LineBorder = new RoundedBorder(color, i);
         Border emptyBorder = BorderFactory.createEmptyBorder();

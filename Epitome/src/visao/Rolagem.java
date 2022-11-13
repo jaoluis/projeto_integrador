@@ -1,6 +1,7 @@
 package visao;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
@@ -25,16 +26,14 @@ public class Rolagem extends BasicScrollBarUI{
 	
 	public static void defRolagem(JScrollPane scrollPane) {
 		scrollPane.getVerticalScrollBar().setBackground(new Rolagem().getBg());
+		scrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(10, 0));
+		scrollPane.getVerticalScrollBar().setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 1));
 		scrollPane.getVerticalScrollBar().setUI(new Rolagem());
+		
 		scrollPane.getHorizontalScrollBar().setBackground(new Rolagem().getBg());
+		scrollPane.getHorizontalScrollBar().setPreferredSize(new Dimension(0, 10));
+		scrollPane.getHorizontalScrollBar().setBorder(BorderFactory.createEmptyBorder(2, 2, 1, 2));
 		scrollPane.getHorizontalScrollBar().setUI(new Rolagem());
-	}
-	
-	public static void defRolagem(JScrollPane scrollPane, Rolagem rolagemV, Rolagem rolagemH) {
-		scrollPane.getVerticalScrollBar().setBackground(rolagemV.getBg());
-		scrollPane.getVerticalScrollBar().setUI(rolagemV);
-		scrollPane.getHorizontalScrollBar().setBackground(rolagemH.getBg());
-		scrollPane.getHorizontalScrollBar().setUI(rolagemH);
 	}
 
 	@Override
@@ -44,22 +43,32 @@ public class Rolagem extends BasicScrollBarUI{
     
     @Override
     protected JButton createDecreaseButton(int orientation) {
-        JButton button = super.createDecreaseButton(orientation);
-        button.setBackground(bg);
-        button.setForeground(null);
-        button.setSelectedIcon(null);
-        button.setBorder(BorderFactory.createLineBorder(bg, 2));
-        return button;
+//        JButton button = super.createDecreaseButton(orientation);
+//        button.setBackground(bg);
+//        button.setForeground(null);
+//        button.setSelectedIcon(null);
+//        button.setBorder(BorderFactory.createLineBorder(bg, 2));
+//        return button;
+    	return createZeroButton();
     }
 
     @Override
     protected JButton createIncreaseButton(int orientation) {
-        JButton button = super.createIncreaseButton(orientation);
-        button.setBackground(bg);
-        button.setForeground(null);
-        button.setSelectedIcon(null);
-        button.setBorder(BorderFactory.createLineBorder(bg, 2));
-        return button;
+//        JButton button = super.createIncreaseButton(orientation);
+//        button.setBackground(bg);
+//        button.setForeground(null);
+//        button.setSelectedIcon(null);
+//        button.setBorder(BorderFactory.createLineBorder(bg, 2));
+//        return button;
+    	return createZeroButton();
+    }
+    
+    private JButton createZeroButton() {
+        JButton jbutton = new JButton();
+        jbutton.setPreferredSize(new Dimension(0, 0));
+        jbutton.setMinimumSize(new Dimension(0, 0));
+        jbutton.setMaximumSize(new Dimension(0, 0));
+        return jbutton;
     }
 
 	public Color getFg() {
@@ -77,6 +86,4 @@ public class Rolagem extends BasicScrollBarUI{
 	public void setBg(Color bg) {
 		this.bg = bg;
 	}
-    
-    
 }

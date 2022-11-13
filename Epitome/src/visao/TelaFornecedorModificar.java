@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -154,7 +155,7 @@ public class TelaFornecedorModificar extends JFrame {
 		lblCNPJ.setBounds(10, 81, 156, 14);
 		panel.add(lblCNPJ);
 
-		JTextField txtCNPJ = new JTextField();
+		JFormattedTextField txtCNPJ = new JFormattedTextField(def_mask("##.###.###/####-##", '\u2022'));
 		txtCNPJ.setText(fornecedorOld.getCnpj_fornecedor());
 		txtCNPJ.setCaretColor(Color.WHITE);
 		txtCNPJ.setForeground(Color.WHITE);
@@ -623,13 +624,16 @@ public class TelaFornecedorModificar extends JFrame {
 		    }
 			
 			String cnpj = String.valueOf(sb);
-			if(FornecedorBD.isCNPJ(cnpj.toString()) == true) {
+			
+			String cleanCNPJ = cnpj.replace(".","").replace("/", "").replace("-", "");
+			
+			if(FornecedorBD.isCNPJ(cleanCNPJ) == true) {
 			fornecedor.setNome_fornecedor(nome);
 			fornecedor.setCnpj_fornecedor(txtCNPJ.getText());
 			fornecedor.setId_fornecedor(id);
 			
 			fornecedorBD.update(fornecedor, contatoC);
-			fornecedorBD.update1(enderecoF);
+			fornecedorBD.update1(fornecedor, enderecoF);
 
 			}else {
 				JOptionPane.showMessageDialog(null, "CNPJ ou E-mail inválido", "Erro", JOptionPane.ERROR_MESSAGE);
