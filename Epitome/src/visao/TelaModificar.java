@@ -35,6 +35,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
@@ -100,6 +101,8 @@ public class TelaModificar extends JFrame {
 			e.printStackTrace();
 		}
 
+		UIManager.put("Button.select", new Color(22,22,22));
+		
 		UsuarioDAO ubd = new UsuarioDAO(); 
 	
 		Usuario usuarioOld = UsuarioDAO.getUsuario(id);
@@ -271,7 +274,7 @@ public class TelaModificar extends JFrame {
 		btnAddEndereco.setBackground(null);
 		btnAddEndereco.setBorder(BorderFactory.createEmptyBorder());
 		
-		JButton btnAlterarEndereco= new JButton("ALTERAR");
+		RoundButton btnAlterarEndereco= new RoundButton("ALTERAR");
 		btnAlterarEndereco.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -345,7 +348,7 @@ public class TelaModificar extends JFrame {
 		btnAlterarEndereco.setBounds(176, 216, 123, 23);
 		endPanel.add(btnAlterarEndereco);
 		
-		JButton btnDelEndereco = new JButton("");
+		RoundButton btnDelEndereco = new RoundButton("");
 		btnDelEndereco.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int idx = listaEndereco.getSelectedIndex();
@@ -634,7 +637,7 @@ public class TelaModificar extends JFrame {
 				}
 				TelaCadastro.updateList(listaContato, valuesCnt);
 		
-		JButton btnAlterar = new JButton("MODIFICAR");
+		RoundButton btnAlterar = new RoundButton("MODIFICAR");
 		btnAlterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: tela de cadastro > cadastrar");
@@ -735,7 +738,7 @@ public class TelaModificar extends JFrame {
 		fakeBG.setBounds(-477, -224, 1600, 861);
 		contentPane.add(fakeBG);
 		
-		JButton btnAlterarContato = new JButton("ALTERAR");
+		RoundButton btnAlterarContato = new RoundButton("ALTERAR");
 		btnAlterarContato.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -779,7 +782,7 @@ public class TelaModificar extends JFrame {
 		btnAlterarContato.setBounds(179, 171, 123, 23);
 		cntPanel.add(btnAlterarContato);
 		
-		JButton btnDelContato = new JButton("");
+		RoundButton btnDelContato = new RoundButton("");
 		btnDelContato.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int idx = listaContato.getSelectedIndex();

@@ -4,29 +4,31 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 import modelo.Usuario;
 
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Insets;
+import javax.swing.UIManager;
 
-import javax.swing.BorderFactory;
+import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.awt.event.ActionEvent;
+
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import java.awt.Toolkit;
 
 public class TelaInicialVND extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 
 	/**
@@ -49,12 +51,7 @@ public class TelaInicialVND extends JFrame {
 	 * Create the frame.
 	 */
 	public TelaInicialVND(Usuario usuarioLogado) {
-		setIconImage(Toolkit.getDefaultToolkit().getImage("./img/app_icon_small.png"));
-		Color clRed = new Color(226, 0, 54);
-		Color clBlue = new Color(113, 206, 236);
-		//Color clGreen = new Color(105, 122, 39);
-		Color clGreen = new Color(168, 198, 51);
-		
+		setIconImage(Toolkit.getDefaultToolkit().getImage("./img/app_icon_small.png"));		
 		
 		Font poppins, pop10 = null, pop12 = null;
 		
@@ -68,6 +65,8 @@ public class TelaInicialVND extends JFrame {
 		  e.printStackTrace();
 		}
 		
+		UIManager.put("Button.select", new Color(0, 0, 0));
+		
 		setResizable(false);
 		setTitle("Sistema de Vendas Ep\u00EDtome");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -80,12 +79,13 @@ public class TelaInicialVND extends JFrame {
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(22, 22, 22));
-		panel.setBounds(592, 388, 417, 124);
-		panelChisel(panel, new Color(255, 255, 255), 5);
+		panel.setBounds(592, 388, 471, 124);
+		panel.setBorder(new RoundBorder(Color.WHITE, 1, 10));
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JButton btnVenda = new JButton("VENDA");
+		RoundButton btnVenda = new RoundButton("VENDA");
+		btnVenda.setForeground(Color.WHITE);
 		btnVenda.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {				
 			TelaVenda telaVenda = new TelaVenda(usuarioLogado);
@@ -96,130 +96,103 @@ public class TelaInicialVND extends JFrame {
 		});
 		btnVenda.setOpaque(false);
 		btnVenda.setBackground(null);
-		buttonChisel(btnVenda, new Color(255, 255, 255), 5);
+		btnVenda.setBorder(new RoundBorder(Color.WHITE, 1, 10));
 		btnVenda.setFont(pop12);
-		btnVenda.setBounds(10, 53, 156, 34);
+		btnVenda.setBounds(10, 36, 205, 34);
 		panel.add(btnVenda);
 		
-		JButton btnRelatorio = new JButton("Estoque");
+		JButton btnRelatorio = new JButton("Relatório de Vendas");
+		btnRelatorio.setEnabled(false);
+		btnRelatorio.setHorizontalAlignment(SwingConstants.LEFT);
+		btnRelatorio.setIcon(new ImageIcon("./img/report.png"));
 		btnRelatorio.setFont(pop10);
 		btnRelatorio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				TelaEstoqueVND TE = new TelaEstoqueVND(usuarioLogado);
-				TE.setVisible(true);
+				System.out.println("debug: tela inicial adm > relatório de vendas");
+				TelaRelatorio telaRel = new TelaRelatorio(usuarioLogado);
+				telaRel.setVisible(true);
 				setVisible(false);
-				
-				
-				System.out.println("debug: tela inicial adm > relatï¿½rio de vendas");
 			}
 		});
 		btnRelatorio.setBackground(null);
-		btnRelatorio.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		btnRelatorio.setForeground(clBlue);
-		btnRelatorio.setBounds(176, 59, 231, 23);
+		btnRelatorio.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(), new RoundBorder(new Color(22,22,22), 2, 23)));
+		btnRelatorio.setForeground(Color.WHITE);
+		btnRelatorio.setBounds(253, 59, 175, 23);
 		btnRelatorio.setFocusPainted(false);
 		panel.add(btnRelatorio);
 		
 		JButton btnSair = new JButton("Sair");
+		btnSair.setHorizontalAlignment(SwingConstants.LEFT);
 		btnSair.setFont(pop10);
+		btnSair.setIcon(new ImageIcon("./img/logout.png"));
 		btnSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				TelaLogin TL = new TelaLogin();
-				TL.setVisible(true);
+				TelaLogin tl = new TelaLogin();
+				tl.setVisible(true);
 				setVisible(false);
-				System.out.println("debug: tela inicial adm > sair");
 			}
 		});
 		btnSair.setBackground(null);
-		btnSair.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		btnSair.setForeground(clGreen);
-		btnSair.setBounds(176, 82, 231, 23);
+		btnSair.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(), new RoundBorder(new Color(22,22,22), 2, 23)));
+		btnSair.setForeground(Color.WHITE);
+		btnSair.setBounds(253, 82, 175, 23);
 		btnSair.setFocusPainted(false);
 		panel.add(btnSair);
 		
-		JButton btnLogin = new JButton("Perfil");
-		btnLogin.setFont(pop10);
-		btnLogin.addActionListener(new ActionListener() {
+		JButton btnPerfil = new JButton("Perfil");
+		btnPerfil.setHorizontalAlignment(SwingConstants.LEFT);
+		btnPerfil.setFont(pop10);
+		btnPerfil.setIcon(new ImageIcon("./img/profile.png"));
+		btnPerfil.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: tela inicial adm > perfil");
-				TelaPerfilVND telaPerfil = new TelaPerfilVND(usuarioLogado);
+				TelaPerfilADM telaPerfil = new TelaPerfilADM(usuarioLogado);
 				telaPerfil.setVisible(true);
-				//setVisible(false);
 			}
 		});
-		btnLogin.setBackground(null);
-		btnLogin.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		btnLogin.setForeground(clRed);
-		btnLogin.setBounds(176, 36, 231, 23);
-		btnLogin.setFocusPainted(false);
-		panel.add(btnLogin);
+		btnPerfil.setBackground(null);
+		btnPerfil.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(), new RoundBorder(new Color(22,22,22), 2, 23)));
+		btnPerfil.setForeground(Color.WHITE);
+		btnPerfil.setBounds(253, 36, 175, 23);
+		btnPerfil.setFocusPainted(false);
+		panel.add(btnPerfil);
 		
 		JLabel lblVendedor = new JLabel("Vendedor");
 		lblVendedor.setHorizontalAlignment(SwingConstants.CENTER);
 		lblVendedor.setForeground(Color.WHITE);
 		lblVendedor.setFont(null);
-		lblVendedor.setBounds(10, 11, 156, 14);
+		lblVendedor.setBounds(10, 11, 205, 14);
 		lblVendedor.setFont(pop12);
 		panel.add(lblVendedor);
 		
 		JLabel lblNome = new JLabel(usuarioLogado.getNome_usuario());
 		lblNome.setText(usuarioLogado.getNome_usuario());
-		lblNome.setBounds(176, 11, 231, 14);
+		lblNome.setBounds(219, 11, 242, 14);
 		panel.add(lblNome);
 		lblNome.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNome.setForeground(new Color(255, 255, 255));
 		lblNome.setFont(pop12);
 		
+		RoundButton btnEstoque = new RoundButton("ESTOQUE");
+		btnEstoque.setForeground(Color.WHITE);
+		btnEstoque.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				TelaEstoqueVND tl = new TelaEstoqueVND(usuarioLogado);
+				tl.setVisible(true);
+				setVisible(false);
+			}
+		});
+		btnEstoque.setOpaque(false);
+		btnEstoque.setFont(pop12);
+		btnEstoque.setBorder(new RoundBorder(Color.WHITE, 1, 10));
+		btnEstoque.setBackground((Color) null);
+		btnEstoque.setBounds(10, 71, 205, 34);
+		panel.add(btnEstoque);
+		
 		JLabel fakeBG = new JLabel("");
 		fakeBG.setIcon(new ImageIcon("./img/bg.png"));
-		fakeBG.setBounds(0, 0, 1600, 861);
+		fakeBG.setBounds(27, 0, 1600, 861);
 		contentPane.add(fakeBG);
 		
 	}
-	
-	private static void buttonChisel(JButton button, Color color, int radius) {
-		
-        button.setFocusPainted(false);
-        button.setForeground(color);
-        RoundedBorder LineBorder = new RoundedBorder(color, radius);
-        Border emptyBorder = BorderFactory.createEmptyBorder(button.getBorder().getBorderInsets(button).top, button.getBorder().getBorderInsets(button).left, button.getBorder().getBorderInsets(button).bottom, button.getBorder().getBorderInsets(button).right);
-        button.setBorder(BorderFactory.createCompoundBorder(LineBorder, emptyBorder));
-	}
-	
-	private static void panelChisel(JPanel panel, Color color, int radius) {
-		
-        //panel.setFocusPainted(false);
-        panel.setForeground(color);
-        RoundedBorder LineBorder = new RoundedBorder(color, radius);
-        Border emptyBorder = BorderFactory.createEmptyBorder(417, 124, 417, 124);
-        panel.setBorder(BorderFactory.createCompoundBorder(LineBorder, emptyBorder));
-	}
-	
-	private static class RoundedBorder implements Border {
-
-        private int radius = 10;
-        private Color color;
-
-        private RoundedBorder(Color color, int radius) {
-            this.color = color;
-            this.radius = radius;
-        }
-
-        @Override
-        public Insets getBorderInsets(Component c) {
-            return new Insets(this.radius + 1, this.radius + 1, this.radius + 1, this.radius + 1);
-        }
-
-        @Override
-        public boolean isBorderOpaque() {
-            return true;
-        }
-
-        @Override
-        public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-            g.setColor(color);
-            g.drawRoundRect(x, y, width - 1, height - 1, radius, radius);
-        }
-    }
 }

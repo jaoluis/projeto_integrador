@@ -1,11 +1,8 @@
 package visao;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,16 +13,17 @@ import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.metal.MetalLookAndFeel;
@@ -38,8 +36,10 @@ import controle.ProdutoBD;
 import modelo.Fornecedor;
 import modelo.Produto;
 
-import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListCellRenderer;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 public class TelaCadastroProduto extends JFrame {
 
@@ -48,7 +48,7 @@ public class TelaCadastroProduto extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField txtNome;
+	private RoundField txtNome;
 	/**
 	 * Launch the application.
 	 */
@@ -101,7 +101,7 @@ public class TelaCadastroProduto extends JFrame {
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(22, 22, 22));
 		panel.setBounds(243, 48, 176, 466);
-		panelbuttonChisel(panel, Color.WHITE, 5);
+		panel.setBorder(new RoundBorder(Color.WHITE, 1, 10));
 		contentPane.add(panel);
 		panel.setLayout(null);
 
@@ -117,23 +117,44 @@ public class TelaCadastroProduto extends JFrame {
 		lblMaterial.setFont(pop10);
 		lblMaterial.setBounds(10, 216, 156, 14);
 		panel.add(lblMaterial);
+
+		JPanel matPanel = new JPanel();
+		matPanel.setBackground(new Color(22, 22, 22));
+		matPanel.setBorder(new RoundBorder(Color.WHITE, 1, 10));
+		matPanel.setBounds(10, 230, 156, 42);
+		panel.add(matPanel);
+		matPanel.setLayout(null);
 		
 		JComboBox<String> cmbMaterial = new JComboBox<String>();
+		cmbMaterial.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("test");
+				matPanel.setBackground(clGreen);
+			}
+		});
+		cmbMaterial.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				matPanel.setBackground(new Color(22,22,22));
+			}
+		});
+		cmbMaterial.setBounds(10, 11, 136, 22);
+		matPanel.add(cmbMaterial);
 		cmbMaterial.setModel(new DefaultComboBoxModel<String>(new String[] {"A\u00E7o", "Inox", "Madeira", "Misto", "Outro", "Pl\u00E1stico", "Porcelana", "Vidro"}));
 		cmbMaterial.setSelectedItem(null);
 		cmbMaterial.setForeground(Color.WHITE);
 		cmbMaterial.setFont(pop12);
 		cmbMaterial.setUI(new Combo());
+		cmbMaterial.setOpaque(false);
+		cmbMaterial.setBackground(new Color(22, 22, 22));
 		cmbMaterial.setBorder(BorderFactory.createEmptyBorder());
-		cmbMaterial.setBackground(new Color(45, 45, 45));
-		cmbMaterial.setBounds(10, 231, 156, 22);
-		panel.add(cmbMaterial);
-
-		JTextField txtDimensoes = new JTextField();
+		
+		
+		RoundField txtDimensoes = new RoundField();
 		txtDimensoes.setCaretColor(Color.WHITE);
 		txtDimensoes.setForeground(Color.WHITE);
 		txtDimensoes.setBackground(new Color(45, 45, 45));
-		txtDimensoes.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		txtDimensoes.setBorder(BorderFactory.createEmptyBorder());
 		txtDimensoes.setBounds(10, 275, 156, 20);
 		txtDimensoes.setFont(pop12);
 		panel.add(txtDimensoes);
@@ -145,11 +166,11 @@ public class TelaCadastroProduto extends JFrame {
 		lblPrecoCusto.setBounds(10, 126, 156, 14);
 		panel.add(lblPrecoCusto);
 
-		JTextField txtPrecoCusto = new JTextField();
+		RoundField txtPrecoCusto = new RoundField();
 		txtPrecoCusto.setCaretColor(Color.WHITE);
 		txtPrecoCusto.setForeground(Color.WHITE);
 		txtPrecoCusto.setBackground(new Color(45, 45, 45));
-		txtPrecoCusto.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		txtPrecoCusto.setBorder(BorderFactory.createEmptyBorder());
 		txtPrecoCusto.setBounds(10, 140, 156, 20);
 		txtPrecoCusto.setFont(pop12);
 		panel.add(txtPrecoCusto);
@@ -161,11 +182,11 @@ public class TelaCadastroProduto extends JFrame {
 		lblQuantidade.setBounds(10, 171, 156, 14);
 		panel.add(lblQuantidade);
 
-		JTextField txtQuantidade = new JTextField();
+		RoundField txtQuantidade = new RoundField();
 		txtQuantidade.setCaretColor(Color.WHITE);
 		txtQuantidade.setForeground(Color.WHITE);
 		txtQuantidade.setBackground(new Color(45, 45, 45));
-		txtQuantidade.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		txtQuantidade.setBorder(BorderFactory.createEmptyBorder());
 		txtQuantidade.setBounds(10, 185, 156, 20);
 		txtQuantidade.setFont(pop12);
 		panel.add(txtQuantidade);
@@ -177,11 +198,11 @@ public class TelaCadastroProduto extends JFrame {
 		lblNome.setBounds(10, 36, 156, 14);
 		panel.add(lblNome);
 
-		txtNome = new JTextField();
+		txtNome = new RoundField();
 		txtNome.setCaretColor(Color.WHITE);
 		txtNome.setForeground(Color.WHITE);
 		txtNome.setBackground(new Color(45, 45, 45));
-		txtNome.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		txtNome.setBorder(BorderFactory.createEmptyBorder());
 		txtNome.setBounds(10, 50, 156, 20);
 		txtNome.setFont(pop12);
 		panel.add(txtNome);
@@ -193,11 +214,11 @@ public class TelaCadastroProduto extends JFrame {
 		lblPrecoVenda.setBounds(10, 81, 156, 14);
 		panel.add(lblPrecoVenda);
 
-		JTextField txtPrecoVenda = new JTextField();
+		RoundField txtPrecoVenda = new RoundField();
 		txtPrecoVenda.setCaretColor(Color.WHITE);
 		txtPrecoVenda.setForeground(Color.WHITE);
 		txtPrecoVenda.setBackground(new Color(45, 45, 45));
-		txtPrecoVenda.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		txtPrecoVenda.setBorder(BorderFactory.createEmptyBorder());
 		txtPrecoVenda.setBounds(10, 95, 156, 20);
 		txtPrecoVenda.setFont(pop12);
 		panel.add(txtPrecoVenda);
@@ -238,7 +259,7 @@ public class TelaCadastroProduto extends JFrame {
 		cmbFornecedor.setUI(new Combo());
 		cmbFornecedor.setSelectedItem(null);
 		cmbFornecedor.setForeground(Color.WHITE);
-		cmbFornecedor.setBackground(new Color(45, 45, 45));
+		cmbFornecedor.setBackground(null);
 		cmbFornecedor.setBorder(BorderFactory.createEmptyBorder());
 		cmbFornecedor.setFont(pop12);
 		panel.add(cmbFornecedor);
@@ -338,7 +359,8 @@ public class TelaCadastroProduto extends JFrame {
 		});
 		btnContinuar.setOpaque(false);
 		btnContinuar.setBackground(null);
-		Chisel(btnContinuar, clGreen, 5);
+		btnContinuar.setForeground(clGreen);
+		btnContinuar.setBorder(new RoundBorder(clGreen, 1, 10));
 		btnContinuar.setFont(pop12);
 		btnContinuar.setBounds(10, 432, 156, 23);
 		panel.add(btnContinuar);
@@ -397,15 +419,6 @@ public class TelaCadastroProduto extends JFrame {
 		    return new ColorUIResource(45, 45, 45);
 		 }
 	}
-	
-	private static void panelbuttonChisel(JPanel panel, Color color, int radius) {
-		
-        //panel.setFocusPainted(false);
-        panel.setForeground(color);
-        RoundedBorder LineBorder = new RoundedBorder(color, radius);
-        Border emptyBorder = BorderFactory.createEmptyBorder(417, 124, 417, 124);
-        panel.setBorder(BorderFactory.createCompoundBorder(LineBorder, emptyBorder));
-	}
 
 	protected MaskFormatter def_mask(String envolucro, char substituto) {
 		MaskFormatter mask = null;
@@ -416,43 +429,5 @@ public class TelaCadastroProduto extends JFrame {
 			e.printStackTrace();
 		}
 		return mask;
-	}
-
-	private static void Chisel(JButton button, Color color, int radius) {
-
-		button.setFocusPainted(false);
-		button.setForeground(color);
-		RoundedBorder LineBorder = new RoundedBorder(color, radius);
-		Border emptyBorder = BorderFactory.createEmptyBorder(button.getBorder().getBorderInsets(button).top,
-				button.getBorder().getBorderInsets(button).left, button.getBorder().getBorderInsets(button).bottom,
-				button.getBorder().getBorderInsets(button).right);
-		button.setBorder(BorderFactory.createCompoundBorder(LineBorder, emptyBorder));
-	}
-
-	private static class RoundedBorder implements Border {
-
-		private int radius = 10;
-		private Color color;
-
-		private RoundedBorder(Color color, int radius) {
-			this.color = color;
-			this.radius = radius;
-		}
-
-		@Override
-		public Insets getBorderInsets(Component c) {
-			return new Insets(this.radius + 1, this.radius + 1, this.radius + 1, this.radius + 1);
-		}
-
-		@Override
-		public boolean isBorderOpaque() {
-			return true;
-		}
-
-		@Override
-		public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-			g.setColor(color);
-			g.drawRoundRect(x, y, width - 1, height - 1, radius, radius);
-		}
 	}
 }

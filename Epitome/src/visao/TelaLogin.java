@@ -1,27 +1,20 @@
 package visao;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import javax.swing.BorderFactory;
+
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
-
 import controle.UsuarioDAO;
 import modelo.Usuario;
 
@@ -32,8 +25,6 @@ public class TelaLogin extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField txtEmail;
-	private JPasswordField txtSenha;
 
 	/**
 	 * Launch the application.
@@ -69,7 +60,7 @@ public class TelaLogin extends JFrame {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+		
 		setResizable(false);
 		setTitle("Sistema de Vendas Ep\u00EDtome");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -83,12 +74,12 @@ public class TelaLogin extends JFrame {
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(22, 22, 22));
 		panel.setBounds(149, 111, 176, 190);
-		panelbuttonChisel(panel, new Color(255, 255, 255), 5);
+		panel.setBorder(new RoundBorder(Color.WHITE, 1, 10));
 		contentPane.add(panel);
 		panel.setLayout(null);
 
 		JLabel lblEstamosQuaseL = new JLabel("Estamos quase l\u00E1!");
-		lblEstamosQuaseL.setForeground(new Color(255, 255, 255));
+		lblEstamosQuaseL.setForeground(Color.WHITE);
 		lblEstamosQuaseL.setFont(pop12);
 		lblEstamosQuaseL.setHorizontalAlignment(SwingConstants.CENTER);
 		lblEstamosQuaseL.setBounds(10, 11, 156, 14);
@@ -99,22 +90,26 @@ public class TelaLogin extends JFrame {
 		lblEmail.setFont(pop10);
 		lblEmail.setBounds(10, 36, 156, 14);
 		panel.add(lblEmail);
-
-		txtEmail = new JTextField();
+		
+		
+		
+		RoundField txtEmail = new RoundField();
+		txtEmail.setSelectedTextColor(new Color(22, 22, 22));
+		txtEmail.setSelectionColor(clRed);
 		txtEmail.setCaretColor(Color.WHITE);
-		txtEmail.setForeground(new Color(255, 255, 255));
+		txtEmail.setForeground(Color.WHITE);
 		txtEmail.setBackground(new Color(45, 45, 45));
-		txtEmail.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtEmail.setFont(pop12);
 		txtEmail.setBounds(10, 50, 156, 20);
 		panel.add(txtEmail);
 		txtEmail.setColumns(10);
 
-		txtSenha = new JPasswordField();
+		RoundPasswordField txtSenha = new RoundPasswordField();
+		txtSenha.setSelectedTextColor(new Color(22, 22, 22));
+		txtSenha.setSelectionColor(clRed);
 		txtSenha.setCaretColor(Color.WHITE);
-		txtSenha.setForeground(new Color(255, 255, 255));
+		txtSenha.setForeground(Color.WHITE);
 		txtSenha.setBackground(new Color(45, 45, 45));
-		txtSenha.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtSenha.setBounds(10, 95, 156, 20);
 		txtSenha.setFont(pop12);
 		txtSenha.setEchoChar('\u2022');
@@ -131,7 +126,8 @@ public class TelaLogin extends JFrame {
 		txtEmail.setText("gustavo.s07@aluno.com");
 		txtSenha.setText("1234");
 		
-		JButton btnEntrar = new JButton("ENTRAR");
+		RoundButton btnEntrar = new RoundButton("ENTRAR");
+		btnEntrar.setForeground(clRed);
 		btnEntrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -157,6 +153,10 @@ public class TelaLogin extends JFrame {
 			dao = new UsuarioDAO();
 			Usuario usuarioLogado = dao.verificacao(usuario);
 			
+			if (usuarioLogado == null) {
+				return;
+			}
+			
 			if (usuarioLogado.getCargo().equals("administrador")) {
 				TelaInicialADM iniciologinADM = new TelaInicialADM(usuarioLogado);
 				iniciologinADM.setVisible(true);
@@ -167,19 +167,15 @@ public class TelaLogin extends JFrame {
 				setVisible(false);
 			}
 			else {
-				//TelaInicialVND iniciologinVND = new TelaInicialVND(usuarioLogado);
-				//iniciologinVND.setVisible(true);
-				//setVisible(false);
-				System.out.println("ta qui pariu");
-//				TelaInicialADM iniciologinADM = new TelaInicialADM(usuarioLogado);
-//				iniciologinADM.setVisible(true);
-//				setVisible(false);
+				JOptionPane.showMessageDialog(null, "Usu\u00E0rio desconhecido", "Erro", JOptionPane.ERROR_MESSAGE);
+				return;
 			}
 			}
 		});
+		btnEntrar.setPressedBackgroundColor(new Color(0,0,0));
 		btnEntrar.setOpaque(false);
 		btnEntrar.setBackground(null);
-		Chisel(btnEntrar, clRed, 5);
+		btnEntrar.setBorder(new RoundBorder(clRed, 1, 10));
 		btnEntrar.setFont(pop12);
 		btnEntrar.setBounds(10, 156, 156, 23);
 		panel.add(btnEntrar);
@@ -188,52 +184,5 @@ public class TelaLogin extends JFrame {
 		fakeBG.setIcon(new ImageIcon("./img/bg.png"));
 		fakeBG.setBounds(-495, -286, 1600, 861);
 		contentPane.add(fakeBG);
-	}
-
-	private static void panelbuttonChisel(JPanel panel, Color color, int radius) {
-		
-        //panel.setFocusPainted(false);
-        panel.setForeground(color);
-        RoundedBorder LineBorder = new RoundedBorder(color, radius);
-        Border emptyBorder = BorderFactory.createEmptyBorder(417, 124, 417, 124);
-        panel.setBorder(BorderFactory.createCompoundBorder(LineBorder, emptyBorder));
-	}
-
-	private static void Chisel(JButton button, Color color, int radius) {
-
-		button.setFocusPainted(false);
-		button.setForeground(color);
-		RoundedBorder LineBorder = new RoundedBorder(color, radius);
-		Border emptyBorder = BorderFactory.createEmptyBorder(button.getBorder().getBorderInsets(button).top,
-				button.getBorder().getBorderInsets(button).left, button.getBorder().getBorderInsets(button).bottom,
-				button.getBorder().getBorderInsets(button).right);
-		button.setBorder(BorderFactory.createCompoundBorder(LineBorder, emptyBorder));
-	}
-
-	private static class RoundedBorder implements Border {
-
-		private int radius = 10;
-		private Color color;
-
-		private RoundedBorder(Color color, int radius) {
-			this.color = color;
-			this.radius = radius;
-		}
-
-		@Override
-		public Insets getBorderInsets(Component c) {
-			return new Insets(this.radius + 1, this.radius + 1, this.radius + 1, this.radius + 1);
-		}
-
-		@Override
-		public boolean isBorderOpaque() {
-			return true;
-		}
-
-		@Override
-		public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-			g.setColor(color);
-			g.drawRoundRect(x, y, width - 1, height - 1, radius, radius);
-		}
 	}
 }

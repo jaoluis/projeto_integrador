@@ -97,7 +97,7 @@ public class UsuarioDAO {
 				
 				//Joption quando dá erro no logar
 				
-				JOptionPane.showMessageDialog(null, "Erro ao logar");
+				JOptionPane.showMessageDialog(null, "Credenciais incorretas", "Erro", JOptionPane.ERROR_MESSAGE);
 			} catch (SQLException e) {
 				System.out.println("Deu erro na verificação" + e);
 				e.printStackTrace();

@@ -28,6 +28,7 @@ public class Rolagem extends BasicScrollBarUI{
 		scrollPane.getVerticalScrollBar().setBackground(new Rolagem().getBg());
 		scrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(10, 0));
 		scrollPane.getVerticalScrollBar().setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 1));
+		
 		scrollPane.getVerticalScrollBar().setUI(new Rolagem());
 		
 		scrollPane.getHorizontalScrollBar().setBackground(new Rolagem().getBg());
