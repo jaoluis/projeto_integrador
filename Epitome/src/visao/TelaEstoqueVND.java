@@ -33,6 +33,10 @@ import modelo.Usuario;
 
 public class TelaEstoqueVND extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTable tblProdutos;
 	private ArrayList<Produto> produtos;
@@ -59,9 +63,7 @@ public class TelaEstoqueVND extends JFrame {
 	public TelaEstoqueVND(Usuario usuarioLogado) {
 		setIconImage(Toolkit.getDefaultToolkit().getImage("./img/app_icon_small.png"));
 		Color clRed = new Color(226, 0, 54);
-		Color clBlue = new Color(113, 206, 236);
 		Color clGreen = new Color(105, 122, 39);
-		Color clLight = new Color(197, 197, 197);
 
 		Font poppins, pop10 = null, pop12 = null, pop24 = null;
 
@@ -219,11 +221,11 @@ public class TelaEstoqueVND extends JFrame {
 				if(produto.getFornecedor()==0) {
 					model.addRow(new Object[] { produto.getIdProduto(), produto.getNomeProduto(),
 							produto.getPrecoVendaProduto(), produto.getQuantidadeEstoque(), produto.getMaterialProduto(),
-							produto.getDimencoesProduto(), "Sem fornecedor" });
+							produto.getDimensoesProduto(), "Sem fornecedor" });
 				}else {
 					model.addRow(new Object[] { produto.getIdProduto(), produto.getNomeProduto(),
 							produto.getPrecoVendaProduto(), produto.getQuantidadeEstoque(), produto.getMaterialProduto(),
-							produto.getDimencoesProduto(), produto.getFornecedor() });
+							produto.getDimensoesProduto(), produto.getFornecedor() });
 				}
 
 
@@ -261,10 +263,6 @@ public class TelaEstoqueVND extends JFrame {
 		Border emptyBorder = BorderFactory.createEmptyBorder();
 		scrollPane.setBorder(BorderFactory.createCompoundBorder(LineBorder, emptyBorder));
 
-	}
-
-	private static void buttonChisel(JButton button, Color color, int radius) {
-		RoundedBorder LineBorder = new RoundedBorder(color, radius);
 	}
 
 	private static void panelChisel(JPanel panel, Color color, int radius) {

@@ -648,26 +648,8 @@ public class TelaFornecedorModificar extends JFrame {
 		btnContinuar.setBackground(null);
 		Chisel(btnContinuar, clYellow, 5);
 		btnContinuar.setFont(pop12);
-		btnContinuar.setBounds(10, 432, 123, 23);
+		btnContinuar.setBounds(10, 432, 156, 23);
 		panel.add(btnContinuar);
-		
-		JButton btnDeletar = new JButton("");
-		btnDeletar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				FornecedorBD fornecedorBD = new FornecedorBD();
-				fornecedorBD.DeleteByID(id);
-				setVisible(false);
-			}
-		});
-		btnDeletar.setIcon(new ImageIcon("./img/delete.png"));
-		btnDeletar.setOpaque(false);
-		btnDeletar.setForeground(clRed);
-		btnDeletar.setFont(null);
-		btnDeletar.setFocusPainted(false);
-		btnDeletar.setBackground((Color) null);
-		Chisel(btnDeletar, clRed, 5);
-		btnDeletar.setBounds(143, 432, 23, 23);
-		panel.add(btnDeletar);
 		
 		
 	}

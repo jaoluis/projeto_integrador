@@ -485,7 +485,7 @@ public class TelaModificar extends JFrame {
 		btnAddContato.setBackground(null);
 		btnAddContato.setBorder(BorderFactory.createEmptyBorder());
 
-		JLabel lblAlterarConta = new JLabel("Alterar conta");
+		JLabel lblAlterarConta = new JLabel("Modificar conta");
 		lblAlterarConta.setForeground(Color.WHITE);
 		lblAlterarConta.setFont(pop12);
 		lblAlterarConta.setHorizontalAlignment(SwingConstants.CENTER);
@@ -634,7 +634,7 @@ public class TelaModificar extends JFrame {
 				}
 				TelaCadastro.updateList(listaContato, valuesCnt);
 		
-		JButton btnAlterar = new JButton("ALTERAR");
+		JButton btnAlterar = new JButton("MODIFICAR");
 		btnAlterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: tela de cadastro > cadastrar");
@@ -727,7 +727,7 @@ public class TelaModificar extends JFrame {
 		btnAlterar.setBackground(null);
 		Chisel(btnAlterar, clBlue, 5);
 		btnAlterar.setFont(pop12);
-		btnAlterar.setBounds(10, 400, 156, 23);
+		btnAlterar.setBounds(10, 432, 156, 23);
 		panel.add(btnAlterar);
 		
 		JLabel fakeBG = new JLabel("");

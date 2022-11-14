@@ -20,6 +20,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
@@ -29,6 +30,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 import javax.swing.plaf.metal.OceanTheme;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
 import controle.FornecedorBD;
@@ -54,7 +56,7 @@ public class TelaCadastroProduto extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TelaCadastroProduto frame = new TelaCadastroProduto();
+					TelaCadastroProduto frame = new TelaCadastroProduto(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -66,7 +68,7 @@ public class TelaCadastroProduto extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public TelaCadastroProduto() {
+	public TelaCadastroProduto(JTable tblEstoque) {
 		setIconImage(Toolkit.getDefaultToolkit()
 				.getImage("./img/app_icon_small.png"));
 		new Color(226, 0, 54);
@@ -320,7 +322,7 @@ public class TelaCadastroProduto extends JFrame {
 				produto.setNomeProduto(nome);
 				produto.setPrecoCustoProduto(precoCusto);
 				produto.setPrecoVendaProduto(precoVenda);
-				produto.setDimencoesProduto(dimensoes);
+				produto.setDimensoesProduto(dimensoes);
 				produto.setMaterialProduto(material);
 				produto.setQuantidadeEstoque(qtd);
 				produto.setFornecedor(f);
@@ -329,6 +331,7 @@ public class TelaCadastroProduto extends JFrame {
 
 				long id = produtoBD.insert(produto);
 				produtoBD.insert2(produto, id);
+				refresh(tblEstoque);
 				dispose();
 				
 			}
@@ -345,7 +348,50 @@ public class TelaCadastroProduto extends JFrame {
 		fakeBG.setBounds(-477, -224, 1600, 861);
 		contentPane.add(fakeBG);
 	}
+	
+	private void refresh(JTable tbl) {
+		int sel = tbl.getSelectedRow();
+		
+		DefaultTableModel model = new DefaultTableModel(null, new String[] { "ID", "NOME", "PRE\u00C7O", "MATERIAL", "DIMENS\u00D5ES", "FORNECEDOR", "QUANTIDADE"});
 
+		ProdutoBD produtoBD = new ProdutoBD();
+		FornecedorBD fbd = new FornecedorBD();
+		ArrayList<Produto> produtos = produtoBD.getListarProdutos();
+		
+		for (Produto produto : produtos) {
+				if(produto.getFornecedor()==0) {
+					model.addRow(new Object[] {
+							"# " + produto.getIdProduto(),
+							produto.getNomeProduto(),
+							"R$ " + String.format("%.02f", produto.getPrecoVendaProduto()).replace('.',','),
+							produto.getMaterialProduto(),
+							produto.getDimensoesProduto(),
+							"Sem fornecedor",
+							produto.getQuantidadeEstoque()});
+				}else {
+					model.addRow(new Object[] {
+							"# " + produto.getIdProduto(),
+							produto.getNomeProduto(),
+							"R$ " + String.format("%.02f", produto.getPrecoVendaProduto()).replace('.',','),
+							produto.getMaterialProduto(),
+							produto.getDimensoesProduto(),
+							fbd.getFornecedor(produto.getFornecedor()).getNome_fornecedor(),
+							produto.getQuantidadeEstoque()});
+				}
+		}
+		
+		tbl.setModel(model);
+		tbl.setRowSelectionInterval(sel, sel);
+		
+		tbl.getColumnModel().getColumn(0).setPreferredWidth(25);
+		tbl.getColumnModel().getColumn(1).setPreferredWidth(300);
+		tbl.getColumnModel().getColumn(2).setPreferredWidth(140);
+		tbl.getColumnModel().getColumn(3).setPreferredWidth(240);
+		tbl.getColumnModel().getColumn(4).setPreferredWidth(160);
+		tbl.getColumnModel().getColumn(5).setPreferredWidth(270);
+		tbl.getColumnModel().getColumn(6).setPreferredWidth(100);
+	}
+	
 	public class NewTheme extends OceanTheme{
 		 public  ColorUIResource getControlShadow(){
 		    return new ColorUIResource(45, 45, 45);

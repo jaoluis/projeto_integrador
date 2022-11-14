@@ -2,6 +2,7 @@ package visao;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -22,8 +23,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.border.MatteBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
@@ -31,6 +36,7 @@ import controle.FornecedorBD;
 import controle.ProdutoBD;
 import modelo.Produto;
 import modelo.Usuario;
+
 import javax.swing.ListSelectionModel;
 
 public class TelaEstoque extends JFrame {
@@ -40,7 +46,7 @@ public class TelaEstoque extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTable tblProdutos_1;
+	private JTable tblProdutos;
 	private ArrayList<Produto> produtos;
 
 	/**
@@ -52,6 +58,19 @@ public class TelaEstoque extends JFrame {
 				try {
 					TelaEstoque frame = new TelaEstoque(null);
 					frame.setVisible(true);
+					
+//					Component[] components = frame.getContentPane().getComponents();
+//					for (Component c : components) {
+//						if (c instanceof JScrollPane) {
+//							JViewport v = ((JScrollPane) c).getViewport();
+//							JTable table = (JTable) v.getView();
+//							JTableHeader theader = table.getTableHeader();
+//							theader.setBackground(Color.YELLOW);
+//							table.setTableHeader(theader);
+//							UIManager.put("TableHeader.background", new javax.swing.plaf.ColorUIResource(new Color(22,22,22)));
+//						}
+//					}
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -59,8 +78,10 @@ public class TelaEstoque extends JFrame {
 		});
 	}
 
+
 	/**
 	 * Create the frame.
+	 * @return 
 	 */
 	public TelaEstoque(Usuario usuarioLogado) {
 		setIconImage(Toolkit.getDefaultToolkit().getImage("./img/app_icon_small.png"));
@@ -69,6 +90,9 @@ public class TelaEstoque extends JFrame {
 		Color clGreen = new Color(168, 198, 51);
 		Font poppins, pop10 = null, pop12 = null, pop24 = null;
 
+		UIManager.put("TableHeader.cellBorder", BorderFactory.createCompoundBorder(new LineBorder(new Color(22,22,22), 2), new MatteBorder(0, 0, 1, 0, clGreen)));
+		UIManager.put("TableHeader.background", new javax.swing.plaf.ColorUIResource(new Color(22,22,22)));
+		
 		try {
 
 			poppins = Font.createFont(Font.TRUETYPE_FONT, new File("./font/Poppins-SemiBold.ttf"));
@@ -93,7 +117,7 @@ public class TelaEstoque extends JFrame {
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(22, 22, 22));
 		panel.setBounds(1322, 11, 252, 124);
-		panelChisel(panel, new Color(255, 255, 255), 5);
+		panelChisel(panel, Color.WHITE, 5);
 		contentPane.add(panel);
 		panel.setLayout(null);
 
@@ -146,7 +170,7 @@ public class TelaEstoque extends JFrame {
 		lblNome.setBounds(10, 11, 232, 14);
 		panel.add(lblNome);
 		lblNome.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNome.setForeground(new Color(255, 255, 255));
+		lblNome.setForeground(Color.WHITE);
 		lblNome.setFont(pop12);
 
 		JButton btnReturn = new JButton("");
@@ -164,8 +188,59 @@ public class TelaEstoque extends JFrame {
 		btnReturn.setBackground(null);
 		btnReturn.setBounds(23, 42, 27, 45);
 		contentPane.add(btnReturn);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(47, 162, 1480, 602);
+		scrollPane.setFont(pop12);
+		scrollPane.setForeground(new Color(22, 22, 22));
+		scrollPane.setBackground(new Color(22, 22, 22));
+		scrollPane.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		scrollPane.getViewport().setOpaque(false);
+		scrollChisel(scrollPane, Color.WHITE, 5);
+		Rolagem.defRolagem(scrollPane);
+		contentPane.add(scrollPane);
 
+		DefaultTableModel model = new DefaultTableModel(null, new String[] { "ID", "NOME", "PRE\u00C7O", "MATERIAL", "DIMENS\u00D5ES", "FORNECEDOR", "QUANTIDADE"});
+		
+		tblProdutos = new JTable(model) {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			public boolean isCellEditable(int row, int column) {                
+                return false;               
+			}
+		};
+		tblProdutos.setFocusable(false);
+		tblProdutos.setSelectionBackground(clGreen);
+		tblProdutos.setSelectionForeground(new Color(22, 22, 22));
+		tblProdutos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		tblProdutos.setShowHorizontalLines(false);
+		tblProdutos.setShowVerticalLines(false);
+		tblProdutos.setShowGrid(false);
+		tblProdutos.setIntercellSpacing(new Dimension(0, 0));
+
+		JTableHeader Theader = tblProdutos.getTableHeader();
+
+		Theader.setFont(pop12);
+		Theader.setForeground(clGreen);
+		Theader.setBackground(new Color(22, 22, 22));
+		Theader.setReorderingAllowed(false);
+		Theader.setResizingAllowed(false);
+		Theader.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		
+		tblProdutos.setFont(pop12);
+		tblProdutos.setForeground(Color.WHITE);
+		tblProdutos.setBackground(new Color(22, 22, 22));
+		tblProdutos.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		
+		refresh(tblProdutos);
+		
+		scrollPane.setViewportView(tblProdutos);
+		
 		JButton btnSearch = new JButton("");
+		btnSearch.setFocusPainted(false);
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: pesquisar");
@@ -182,17 +257,9 @@ public class TelaEstoque extends JFrame {
 		btnEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: editar produto (tela de cadastro de produto)");
+				produtos = new ProdutoBD().getListarProdutos();
 
-				int linha = tblProdutos_1.getSelectedRow();
-				int idProduto = (int) tblProdutos_1.getValueAt(linha, 0);
-
-				Produto produtoAEditar = null;
-				for (Produto produto : produtos) {
-					if (idProduto == produto.getIdProduto()) {
-						produtoAEditar = produto;
-					}
-				}
-				TelaModificarProduto tmp = new TelaModificarProduto(produtoAEditar);
+				TelaModificarProduto tmp = new TelaModificarProduto(tblProdutos, produtos.get(tblProdutos.getSelectedRow()));
 				tmp.setVisible(true);
 
 			}
@@ -207,7 +274,7 @@ public class TelaEstoque extends JFrame {
 		JButton btnAdd = new JButton("");
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				TelaCadastroProduto tcp = new TelaCadastroProduto();
+				TelaCadastroProduto tcp = new TelaCadastroProduto(tblProdutos);
 				tcp.setVisible(true);
 			}
 		});
@@ -226,91 +293,28 @@ public class TelaEstoque extends JFrame {
 		contentPane.add(lblEstoque);
 
 		JTextField txtSearch = new JTextField();
-		txtSearch.setForeground(new Color(255, 255, 255));
+		txtSearch.setForeground(Color.WHITE);
 		txtSearch.setBackground(new Color(22, 22, 22));
 		txtSearch.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtSearch.setBounds(80, 126, 431, 25);
 		txtSearch.setFont(pop12);
-		fieldChisel(txtSearch, new Color(255, 255, 255), 5);
+		fieldChisel(txtSearch, Color.WHITE, 5);
 		contentPane.add(txtSearch);
 		txtSearch.setColumns(10);
 		
-		JButton btnAtualizar = new JButton("");
-		btnAtualizar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				TelaEstoque tE = new TelaEstoque(usuarioLogado);
-				tE.setVisible(true);
-				setVisible(false);
-			}
-		});
-		btnAtualizar.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		btnAtualizar.setIcon(new ImageIcon("./img/refresh.png"));
-		btnAtualizar.setOpaque(false);
-		btnAtualizar.setForeground(Color.WHITE);
-		btnAtualizar.setBackground(null);
-		btnAtualizar.setBounds(139, 775, 36, 36);
-		contentPane.add(btnAtualizar);
-		
-
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(47, 162, 1480, 602);
-		scrollPane.setFont(pop12);
-		scrollPane.setForeground(new Color(22, 22, 22));
-		scrollPane.setBackground(new Color(22, 22, 22));
-		scrollPane.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		scrollChisel(scrollPane, new Color(255, 255, 255), 5);
-		Rolagem.defRolagem(scrollPane);
-		contentPane.add(scrollPane);
-
-		DefaultTableModel model = new DefaultTableModel(null, new String[] { "ID", "NOME", "PRE\u00C7O", "QUANTIDADE", "MATERIAL", "DIMENS\u00D5ES", "FORNECEDOR" });
-
-		ProdutoBD produtoBD = new ProdutoBD();
-		FornecedorBD fbd = new FornecedorBD();
-		produtos = produtoBD.getListarProdutos();
-		
-		for (Produto produto : produtos) {
-				if(produto.getFornecedor()==0) {
-					model.addRow(new Object[] { produto.getIdProduto(), produto.getNomeProduto(),
-							produto.getPrecoVendaProduto(), produto.getQuantidadeEstoque(), produto.getMaterialProduto(),
-							produto.getDimencoesProduto(), "Sem fornecedor" });
-				}else {
-					model.addRow(new Object[] { produto.getIdProduto(), produto.getNomeProduto(),
-							produto.getPrecoVendaProduto(), produto.getQuantidadeEstoque(), produto.getMaterialProduto(),
-							produto.getDimencoesProduto(), fbd.getFornecedor(produto.getFornecedor()).getNome_fornecedor() });
-				}
-
-
-		}
-
-		tblProdutos_1 = new JTable() {
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
-			public boolean isCellEditable(int row, int column) {                
-                return false;               
-			}
-		};
-		tblProdutos_1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		tblProdutos_1.setDragEnabled(true);
-		tblProdutos_1.setShowHorizontalLines(false);
-		tblProdutos_1.setShowVerticalLines(false);
-		tblProdutos_1.setShowGrid(false);
-		tblProdutos_1.setModel(model);
-
-		JTableHeader Theader = tblProdutos_1.getTableHeader();
-
-		Theader.setFont(pop12);
-		Theader.setForeground(new Color(255, 255, 255));
-		Theader.setBackground(new Color(22, 22, 22));
-		Theader.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-
-		tblProdutos_1.setFont(pop12);
-		tblProdutos_1.setForeground(new Color(255, 255, 255));
-		tblProdutos_1.setBackground(new Color(22, 22, 22));
-		tblProdutos_1.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		scrollPane.setViewportView(tblProdutos_1);
+//		JButton btnAtualizar = new JButton("");
+//		btnAtualizar.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				refresh(tblProdutos);
+//			}
+//		});
+//		btnAtualizar.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+//		btnAtualizar.setIcon(new ImageIcon("./img/refresh.png"));
+//		btnAtualizar.setOpaque(false);
+//		btnAtualizar.setForeground(Color.WHITE);
+//		btnAtualizar.setBackground(null);
+//		btnAtualizar.setBounds(139, 775, 36, 36);
+//		contentPane.add(btnAtualizar);
 
 		JLabel fakeBG = new JLabel("");
 		fakeBG.setIcon(new ImageIcon("./img/bg.png"));
@@ -318,7 +322,52 @@ public class TelaEstoque extends JFrame {
 		contentPane.add(fakeBG);
 
 	}
+	
+	private void refresh(JTable tbl) {
+		int sel = tbl.getSelectedRow();
+		
+		DefaultTableModel model = new DefaultTableModel(null, new String[] { "ID", "NOME", "PRE\u00C7O", "MATERIAL", "DIMENS\u00D5ES", "FORNECEDOR", "QUANTIDADE"});
 
+		ProdutoBD produtoBD = new ProdutoBD();
+		FornecedorBD fbd = new FornecedorBD();
+		produtos = produtoBD.getListarProdutos();
+		
+		for (Produto produto : produtos) {
+				if(produto.getFornecedor()==0) {
+					model.addRow(new Object[] {
+							"# " + produto.getIdProduto(),
+							produto.getNomeProduto(),
+							"R$ " + String.format("%.02f", produto.getPrecoVendaProduto()).replace('.',','),
+							produto.getMaterialProduto(),
+							produto.getDimensoesProduto(),
+							"Sem fornecedor",
+							produto.getQuantidadeEstoque()});
+				}else {
+					model.addRow(new Object[] {
+							"# " + produto.getIdProduto(),
+							produto.getNomeProduto(),
+							"R$ " + String.format("%.02f", produto.getPrecoVendaProduto()).replace('.',','),
+							produto.getMaterialProduto(),
+							produto.getDimensoesProduto(),
+							fbd.getFornecedor(produto.getFornecedor()).getNome_fornecedor(),
+							produto.getQuantidadeEstoque()});
+				}
+		}
+		
+		tbl.setModel(model);
+		if (sel != -1) {
+			tbl.setRowSelectionInterval(sel, sel);
+		}
+		
+		tbl.getColumnModel().getColumn(0).setPreferredWidth(25);
+		tbl.getColumnModel().getColumn(1).setPreferredWidth(300);
+		tbl.getColumnModel().getColumn(2).setPreferredWidth(140);
+		tbl.getColumnModel().getColumn(3).setPreferredWidth(240);
+		tbl.getColumnModel().getColumn(4).setPreferredWidth(160);
+		tbl.getColumnModel().getColumn(5).setPreferredWidth(270);
+		tbl.getColumnModel().getColumn(6).setPreferredWidth(100);
+	}
+	
 	private void scrollChisel(JScrollPane scrollPane, Color color, int i) {
 		scrollPane.setForeground(color);
 		RoundedBorder LineBorder = new RoundedBorder(color, i);
@@ -346,7 +395,25 @@ public class TelaEstoque extends JFrame {
 				field.getBorder().getBorderInsets(field).right);
 		field.setBorder(BorderFactory.createCompoundBorder(LineBorder, emptyBorder));
 	}
-
+	
+	class ColumnColorRenderer extends DefaultTableCellRenderer {
+		   /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		Color backgroundColor, foregroundColor;
+		public ColumnColorRenderer(Color backgroundColor, Color foregroundColor) {
+			super();
+			this.backgroundColor = backgroundColor;
+			this.foregroundColor = foregroundColor;
+		}
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+			Component cell = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+			cell.setBackground(backgroundColor);
+			return cell;
+		}
+	}
+	
 	private static class RoundedBorder implements Border {
 
 		private int radius = 10;

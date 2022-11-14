@@ -34,6 +34,10 @@ import modelo.Usuario;
 
 public class TelaListarUsuarios extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
 	private ArrayList<String> valuesUsuario = new ArrayList<String>();
@@ -178,9 +182,6 @@ public class TelaListarUsuarios extends JFrame {
 		JButton btnRefresh = new JButton("");
 		btnRefresh.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (listaUsuario.getSelectedIndex() == -1) {
-					return;
-				}
 					
 				usuarios = (ArrayList<Usuario>) new UsuarioDAO().getListarUsuarios();
 				valuesUsuario.clear();
@@ -235,21 +236,6 @@ public class TelaListarUsuarios extends JFrame {
 		}
 		return mask;
 	}
-	private static void Chisel(JButton button, Color color, int radius) {
-
-		button.setFocusPainted(false);
-		button.setForeground(color);
-		RoundedBorder LineBorder = new RoundedBorder(color, radius);
-		Border emptyBorder = BorderFactory.createEmptyBorder(button.getBorder().getBorderInsets(button).top,
-				button.getBorder().getBorderInsets(button).left, button.getBorder().getBorderInsets(button).bottom,
-				button.getBorder().getBorderInsets(button).right);
-		button.setBorder(BorderFactory.createCompoundBorder(LineBorder, emptyBorder));
-	}
-
-
-
-
-
 	private static class RoundedBorder implements Border {
 
 		private int radius = 10;

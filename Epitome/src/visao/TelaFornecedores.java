@@ -13,7 +13,6 @@ import javax.swing.JList;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Insets;
-import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.AbstractListModel;
 import javax.swing.BorderFactory;
@@ -27,7 +26,6 @@ import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import java.awt.Toolkit;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import controle.FornecedorBD;
 import modelo.Fornecedor;
 
@@ -188,9 +186,6 @@ public class TelaFornecedores extends JFrame {
 		JButton btnRefresh = new JButton("");
 		btnRefresh.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (listaFornecedor.getSelectedIndex() == -1) {
-					return;
-				}
 					
 				fornecedores = (ArrayList<Fornecedor>) new FornecedorBD().getListarFornecedores();
 				valuesFornecedor.clear();

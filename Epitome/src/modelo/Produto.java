@@ -61,11 +61,11 @@ public class Produto {
 		public void setQuantidadeEstoque(int quantidadeEstoque) {
 			this.quantidadeEstoque = quantidadeEstoque;
 		}
-		public String getDimencoesProduto() {
+		public String getDimensoesProduto() {
 			return dimensoesProduto;
 		}
-		public void setDimencoesProduto(String dimencoesProduto) {
-			this.dimensoesProduto = dimencoesProduto;
+		public void setDimensoesProduto(String dimensoesProduto) {
+			this.dimensoesProduto = dimensoesProduto;
 		}
 		public float getPrecoCustoProduto() {
 			return precoCustoProduto;

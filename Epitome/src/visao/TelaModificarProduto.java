@@ -14,7 +14,6 @@ import java.text.ParseException;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -23,10 +22,12 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
 import controle.FornecedorBD;
@@ -36,9 +37,12 @@ import modelo.Produto;
 
 public class TelaModificarProduto extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField txtNome;
-	private final ButtonGroup cargoGroup = new ButtonGroup();
 	private static Produto produtoAEditar;
 
 	/**
@@ -48,7 +52,7 @@ public class TelaModificarProduto extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TelaModificarProduto frame = new TelaModificarProduto(produtoAEditar);
+					TelaModificarProduto frame = new TelaModificarProduto(null, produtoAEditar);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -60,12 +64,10 @@ public class TelaModificarProduto extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public TelaModificarProduto(Produto produtoAEditar) {
+	public TelaModificarProduto(JTable tblEstoque, Produto produtoAEditar) {
 		setIconImage(Toolkit.getDefaultToolkit()
 				.getImage("./img/app_icon_small.png"));
 		Color clRed = new Color(226, 0, 54);
-		Color clBlue = new Color(113, 206, 236);
-		//Color clGreen = new Color(105, 122, 39);
 		Color clGreen = new Color(168, 198, 51);
 
 		Font poppins, pop10 = null, pop12 = null;
@@ -104,11 +106,11 @@ public class TelaModificarProduto extends JFrame {
 		lblEstamosQuaseL.setBounds(10, 11, 156, 14);
 		panel.add(lblEstamosQuaseL);
 
-		JLabel lblCPF = new JLabel("MATERIAL");
-		lblCPF.setForeground(new Color(197, 197, 197));
-		lblCPF.setFont(pop10);
-		lblCPF.setBounds(10, 216, 156, 14);
-		panel.add(lblCPF);
+		JLabel lblMaterial = new JLabel("MATERIAL");
+		lblMaterial.setForeground(new Color(197, 197, 197));
+		lblMaterial.setFont(pop10);
+		lblMaterial.setBounds(10, 216, 156, 14);
+		panel.add(lblMaterial);
 		
 		String[] materiais = new String[] {"A\u00E7o", "Inox", "Madeira", "Misto", "Outro", "Pl\u00E1stico", "Porcelana", "Vidro"};
 		
@@ -146,15 +148,15 @@ public class TelaModificarProduto extends JFrame {
 		txtDimensoes.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtDimensoes.setBounds(10, 275, 156, 20);
 		txtDimensoes.setFont(pop12);
-		txtDimensoes.setText(produtoAEditar.getDimencoesProduto());
+		txtDimensoes.setText(produtoAEditar.getDimensoesProduto());
 		panel.add(txtDimensoes);
 		txtDimensoes.setColumns(10);
 
-		JLabel lblUsername = new JLabel("PRE\u00C7O DE CUSTO");
-		lblUsername.setForeground(new Color(197, 197, 197));
-		lblUsername.setFont(pop10);
-		lblUsername.setBounds(10, 126, 156, 14);
-		panel.add(lblUsername);
+		JLabel lblPrecoCusto = new JLabel("PRE\u00C7O DE CUSTO");
+		lblPrecoCusto.setForeground(new Color(197, 197, 197));
+		lblPrecoCusto.setFont(pop10);
+		lblPrecoCusto.setBounds(10, 126, 156, 14);
+		panel.add(lblPrecoCusto);
 
 		JTextField txtPrecoCusto = new JTextField();
 		txtPrecoCusto.setCaretColor(Color.WHITE);
@@ -167,11 +169,11 @@ public class TelaModificarProduto extends JFrame {
 		panel.add(txtPrecoCusto);
 		txtPrecoCusto.setColumns(10);
 
-		JLabel lblNome = new JLabel("QUANTIDADE");
-		lblNome.setForeground(new Color(197, 197, 197));
-		lblNome.setFont(pop10);
-		lblNome.setBounds(10, 171, 156, 14);
-		panel.add(lblNome);
+		JLabel lblQuantidade = new JLabel("QUANTIDADE");
+		lblQuantidade.setForeground(new Color(197, 197, 197));
+		lblQuantidade.setFont(pop10);
+		lblQuantidade.setBounds(10, 171, 156, 14);
+		panel.add(lblQuantidade);
 
 		JTextField txtQuantidade = new JTextField();
 		txtQuantidade.setCaretColor(Color.WHITE);
@@ -184,11 +186,11 @@ public class TelaModificarProduto extends JFrame {
 		panel.add(txtQuantidade);
 		txtQuantidade.setColumns(10);
 
-		JLabel lblEmail = new JLabel("NOME");
-		lblEmail.setForeground(new Color(197, 197, 197));
-		lblEmail.setFont(pop10);
-		lblEmail.setBounds(10, 36, 156, 14);
-		panel.add(lblEmail);
+		JLabel lblNome = new JLabel("NOME");
+		lblNome.setForeground(new Color(197, 197, 197));
+		lblNome.setFont(pop10);
+		lblNome.setBounds(10, 36, 156, 14);
+		panel.add(lblNome);
 
 		txtNome = new JTextField();
 		txtNome.setCaretColor(Color.WHITE);
@@ -201,11 +203,11 @@ public class TelaModificarProduto extends JFrame {
 		panel.add(txtNome);
 		txtNome.setColumns(10);
 
-		JLabel lblSenha = new JLabel("PRE\u00C7O DE VENDA");
-		lblSenha.setForeground(new Color(197, 197, 197));
-		lblSenha.setFont(pop10);
-		lblSenha.setBounds(10, 81, 156, 14);
-		panel.add(lblSenha);
+		JLabel lblPrecoVenda = new JLabel("PRE\u00C7O DE VENDA");
+		lblPrecoVenda.setForeground(new Color(197, 197, 197));
+		lblPrecoVenda.setFont(pop10);
+		lblPrecoVenda.setBounds(10, 81, 156, 14);
+		panel.add(lblPrecoVenda);
 
 		JTextField txtPrecoVenda = new JTextField();
 		txtPrecoVenda.setCaretColor(Color.WHITE);
@@ -218,11 +220,11 @@ public class TelaModificarProduto extends JFrame {
 		
 		panel.add(txtPrecoVenda);
 
-		JLabel lblDataDeNascimento = new JLabel("DIMENS\u00D5ES");
-		lblDataDeNascimento.setForeground(new Color(197, 197, 197));
-		lblDataDeNascimento.setFont(pop10);
-		lblDataDeNascimento.setBounds(10, 261, 156, 14);
-		panel.add(lblDataDeNascimento);
+		JLabel lblDimensoes = new JLabel("DIMENS\u00D5ES");
+		lblDimensoes.setForeground(new Color(197, 197, 197));
+		lblDimensoes.setFont(pop10);
+		lblDimensoes.setBounds(10, 261, 156, 14);
+		panel.add(lblDimensoes);
 
 		JLabel lblFornecedor = new JLabel("FORNECEDOR");
 		lblFornecedor.setForeground(new Color(197, 197, 197));
@@ -294,15 +296,10 @@ public class TelaModificarProduto extends JFrame {
 				String material = (String) cmbMaterial.getSelectedItem();
 				String dimensoes = txtDimensoes.getText();
 				
-//				String fornecedor = txtFornecedor.getText();
-//				int idFornecedor = 0;
-//				if (fornecedor.isBlank()==false) {
-//					idFornecedor = Integer.parseInt(fornecedor);
-//				}
-				FornecedorBD fornedorBD = new FornecedorBD();
+				new FornecedorBD();
 				
 				if(FornecedorBD.VRFornR(f)==false && f !=0) {
-					JOptionPane.showMessageDialog(null, "Favor inserir um Fornecedor Existente.", "Erro", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Favor inserir um Fornecedor existente.", "Erro", JOptionPane.ERROR_MESSAGE);
 					System.out.println("Fornecedor não existe");
 					return;
 				}
@@ -312,7 +309,7 @@ public class TelaModificarProduto extends JFrame {
 					produto.setNomeProduto(nome);
 					produto.setPrecoCustoProduto(precoCusto);
 					produto.setPrecoVendaProduto(precoVenda);
-					produto.setDimencoesProduto(dimensoes);
+					produto.setDimensoesProduto(dimensoes);
 					produto.setMaterialProduto(material);
 					produto.setQuantidadeEstoque(qtd);
 					produto.setFornecedor(f);
@@ -322,6 +319,7 @@ public class TelaModificarProduto extends JFrame {
 				ProdutoBD produtoBD = new ProdutoBD();
 				produtoBD.update(produto);
 				System.out.println("update realizado");
+				refresh(tblEstoque);
 				dispose();
 				
 			}
@@ -357,7 +355,50 @@ public class TelaModificarProduto extends JFrame {
 		fakeBG.setBounds(-477, -224, 1600, 861);
 		contentPane.add(fakeBG);
 	}
+	
+	private void refresh(JTable tbl) {
+		int sel = tbl.getSelectedRow();
+		
+		DefaultTableModel model = new DefaultTableModel(null, new String[] { "ID", "NOME", "PRE\u00C7O", "MATERIAL", "DIMENS\u00D5ES", "FORNECEDOR", "QUANTIDADE"});
 
+		ProdutoBD produtoBD = new ProdutoBD();
+		FornecedorBD fbd = new FornecedorBD();
+		ArrayList<Produto> produtos = produtoBD.getListarProdutos();
+		
+		for (Produto produto : produtos) {
+				if(produto.getFornecedor()==0) {
+					model.addRow(new Object[] {
+							"# " + produto.getIdProduto(),
+							produto.getNomeProduto(),
+							"R$ " + String.format("%.02f", produto.getPrecoVendaProduto()).replace('.',','),
+							produto.getMaterialProduto(),
+							produto.getDimensoesProduto(),
+							"Sem fornecedor",
+							produto.getQuantidadeEstoque()});
+				}else {
+					model.addRow(new Object[] {
+							"# " + produto.getIdProduto(),
+							produto.getNomeProduto(),
+							"R$ " + String.format("%.02f", produto.getPrecoVendaProduto()).replace('.',','),
+							produto.getMaterialProduto(),
+							produto.getDimensoesProduto(),
+							fbd.getFornecedor(produto.getFornecedor()).getNome_fornecedor(),
+							produto.getQuantidadeEstoque()});
+				}
+		}
+		
+		tbl.setModel(model);
+		tbl.setRowSelectionInterval(sel, sel);
+		
+		tbl.getColumnModel().getColumn(0).setPreferredWidth(25);
+		tbl.getColumnModel().getColumn(1).setPreferredWidth(300);
+		tbl.getColumnModel().getColumn(2).setPreferredWidth(140);
+		tbl.getColumnModel().getColumn(3).setPreferredWidth(240);
+		tbl.getColumnModel().getColumn(4).setPreferredWidth(160);
+		tbl.getColumnModel().getColumn(5).setPreferredWidth(270);
+		tbl.getColumnModel().getColumn(6).setPreferredWidth(100);
+	}
+	
 	private static void panelbuttonChisel(JPanel panel, Color color, int radius) {
 		
         //panel.setFocusPainted(false);
@@ -382,11 +423,7 @@ public class TelaModificarProduto extends JFrame {
 
 		button.setFocusPainted(false);
 		button.setForeground(color);
-		RoundedBorder LineBorder = new RoundedBorder(color, radius);
-		Border emptyBorder = BorderFactory.createEmptyBorder(button.getBorder().getBorderInsets(button).top,
-				button.getBorder().getBorderInsets(button).left, button.getBorder().getBorderInsets(button).bottom,
-				button.getBorder().getBorderInsets(button).right);
-		button.setBorder(BorderFactory.createCompoundBorder(LineBorder, emptyBorder));
+		button.setBorder(BorderFactory.createCompoundBorder(new RoundedBorder(color, radius), BorderFactory.createEmptyBorder()));
 	}
 
 	private static class RoundedBorder implements Border {
