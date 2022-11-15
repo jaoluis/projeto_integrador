@@ -95,7 +95,7 @@ public class TelaPerfilVND extends JFrame {
 		
 		setResizable(false);
 		setTitle("Perfil - " + usuarioLogado.getNome_usuario());
-		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 832, 249);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(45, 45, 45));

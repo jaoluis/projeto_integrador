@@ -12,12 +12,9 @@ import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
@@ -37,7 +34,6 @@ import modelo.Fornecedor;
 import modelo.Produto;
 
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListCellRenderer;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
@@ -73,9 +69,12 @@ public class TelaCadastroProduto extends JFrame {
 				.getImage("./img/app_icon_small.png"));
 		new Color(226, 0, 54);
 		new Color(113, 206, 236);
-		//Color clGreen = new Color(105, 122, 39);
-		Color clGreen = new Color(168, 198, 51);
 
+		Color clGreen = new Color(168, 198, 51);
+		Color clDark = new Color(22, 22, 22);
+		Color clLight = new Color(45, 45, 45);
+		Color clLighter = new Color(197, 197, 197);
+		
 		Font poppins, pop10 = null, pop12 = null;
 
 		try {
@@ -90,16 +89,16 @@ public class TelaCadastroProduto extends JFrame {
 
 		setResizable(false);
 		setTitle("Sistema de Vendas Ep\u00EDtome");
-		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 703, 564);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(45, 45, 45));
+		contentPane.setBackground(clLight);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
 		JPanel panel = new JPanel();
-		panel.setBackground(new Color(22, 22, 22));
+		panel.setBackground(clDark);
 		panel.setBounds(243, 48, 176, 466);
 		panel.setBorder(new RoundBorder(Color.WHITE, 1, 10));
 		contentPane.add(panel);
@@ -113,47 +112,62 @@ public class TelaCadastroProduto extends JFrame {
 		panel.add(lblEstamosQuaseL);
 
 		JLabel lblMaterial = new JLabel("MATERIAL");
-		lblMaterial.setForeground(new Color(197, 197, 197));
+		lblMaterial.setForeground(clLighter);
 		lblMaterial.setFont(pop10);
 		lblMaterial.setBounds(10, 216, 156, 14);
 		panel.add(lblMaterial);
 
+		RoundBorder lightBorder = new RoundBorder(clLight, 1, 10);
+		RoundBorder greenBorder = new RoundBorder(clGreen, 1, 10);
+		
 		JPanel matPanel = new JPanel();
-		matPanel.setBackground(new Color(22, 22, 22));
-		matPanel.setBorder(new RoundBorder(Color.WHITE, 1, 10));
-		matPanel.setBounds(10, 230, 156, 42);
+		matPanel.setBackground(clLight);
+		matPanel.setBorder(lightBorder);
+		matPanel.setBounds(10, 230, 156, 22);
 		panel.add(matPanel);
 		matPanel.setLayout(null);
 		
 		JComboBox<String> cmbMaterial = new JComboBox<String>();
+		cmbMaterial.setBounds(3, 2, 149, 18);
+		matPanel.add(cmbMaterial);
 		cmbMaterial.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("test");
-				matPanel.setBackground(clGreen);
+				if (cmbMaterial.getSelectedItem() != null) {
+					matPanel.setBackground(clGreen);
+					matPanel.setBorder(greenBorder);
+				}
 			}
 		});
 		cmbMaterial.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusLost(FocusEvent e) {
-				matPanel.setBackground(new Color(22,22,22));
+				matPanel.setBackground(clLight);
+				matPanel.setBorder(lightBorder);
 			}
 		});
-		cmbMaterial.setBounds(10, 11, 136, 22);
-		matPanel.add(cmbMaterial);
-		cmbMaterial.setModel(new DefaultComboBoxModel<String>(new String[] {"A\u00E7o", "Inox", "Madeira", "Misto", "Outro", "Pl\u00E1stico", "Porcelana", "Vidro"}));
+		cmbMaterial.setModel(new DefaultComboBoxModel<String>(new String[] {
+				"A\u00E7o",
+				"Inox",
+				"Madeira",
+				"Misto", 
+				"Outro",
+				"Pl\u00E1stico",
+				"Porcelana",
+				"Vidro"}));
 		cmbMaterial.setSelectedItem(null);
 		cmbMaterial.setForeground(Color.WHITE);
 		cmbMaterial.setFont(pop12);
 		cmbMaterial.setUI(new Combo());
 		cmbMaterial.setOpaque(false);
-		cmbMaterial.setBackground(new Color(22, 22, 22));
+		cmbMaterial.setBackground(clLight);
 		cmbMaterial.setBorder(BorderFactory.createEmptyBorder());
-		
 		
 		RoundField txtDimensoes = new RoundField();
 		txtDimensoes.setCaretColor(Color.WHITE);
 		txtDimensoes.setForeground(Color.WHITE);
-		txtDimensoes.setBackground(new Color(45, 45, 45));
+		txtDimensoes.setBackground(clLight);
+		txtDimensoes.setSelectedTextColor(clDark);
+		txtDimensoes.setSelectionColor(clGreen);
 		txtDimensoes.setBorder(BorderFactory.createEmptyBorder());
 		txtDimensoes.setBounds(10, 275, 156, 20);
 		txtDimensoes.setFont(pop12);
@@ -161,7 +175,7 @@ public class TelaCadastroProduto extends JFrame {
 		txtDimensoes.setColumns(10);
 
 		JLabel lblPrecoCusto = new JLabel("PRE\u00C7O DE CUSTO");
-		lblPrecoCusto.setForeground(new Color(197, 197, 197));
+		lblPrecoCusto.setForeground(clLighter);
 		lblPrecoCusto.setFont(pop10);
 		lblPrecoCusto.setBounds(10, 126, 156, 14);
 		panel.add(lblPrecoCusto);
@@ -169,7 +183,9 @@ public class TelaCadastroProduto extends JFrame {
 		RoundField txtPrecoCusto = new RoundField();
 		txtPrecoCusto.setCaretColor(Color.WHITE);
 		txtPrecoCusto.setForeground(Color.WHITE);
-		txtPrecoCusto.setBackground(new Color(45, 45, 45));
+		txtPrecoCusto.setBackground(clLight);
+		txtPrecoCusto.setSelectedTextColor(clDark);
+		txtPrecoCusto.setSelectionColor(clGreen);
 		txtPrecoCusto.setBorder(BorderFactory.createEmptyBorder());
 		txtPrecoCusto.setBounds(10, 140, 156, 20);
 		txtPrecoCusto.setFont(pop12);
@@ -177,7 +193,7 @@ public class TelaCadastroProduto extends JFrame {
 		txtPrecoCusto.setColumns(10);
 
 		JLabel lblQuantidade = new JLabel("QUANTIDADE");
-		lblQuantidade.setForeground(new Color(197, 197, 197));
+		lblQuantidade.setForeground(clLighter);
 		lblQuantidade.setFont(pop10);
 		lblQuantidade.setBounds(10, 171, 156, 14);
 		panel.add(lblQuantidade);
@@ -185,7 +201,9 @@ public class TelaCadastroProduto extends JFrame {
 		RoundField txtQuantidade = new RoundField();
 		txtQuantidade.setCaretColor(Color.WHITE);
 		txtQuantidade.setForeground(Color.WHITE);
-		txtQuantidade.setBackground(new Color(45, 45, 45));
+		txtQuantidade.setBackground(clLight);
+		txtQuantidade.setSelectedTextColor(clDark);
+		txtQuantidade.setSelectionColor(clGreen);
 		txtQuantidade.setBorder(BorderFactory.createEmptyBorder());
 		txtQuantidade.setBounds(10, 185, 156, 20);
 		txtQuantidade.setFont(pop12);
@@ -193,7 +211,7 @@ public class TelaCadastroProduto extends JFrame {
 		txtQuantidade.setColumns(10);
 
 		JLabel lblNome = new JLabel("NOME");
-		lblNome.setForeground(new Color(197, 197, 197));
+		lblNome.setForeground(clLighter);
 		lblNome.setFont(pop10);
 		lblNome.setBounds(10, 36, 156, 14);
 		panel.add(lblNome);
@@ -201,7 +219,9 @@ public class TelaCadastroProduto extends JFrame {
 		txtNome = new RoundField();
 		txtNome.setCaretColor(Color.WHITE);
 		txtNome.setForeground(Color.WHITE);
-		txtNome.setBackground(new Color(45, 45, 45));
+		txtNome.setBackground(clLight);
+		txtNome.setSelectedTextColor(clDark);
+		txtNome.setSelectionColor(clGreen);
 		txtNome.setBorder(BorderFactory.createEmptyBorder());
 		txtNome.setBounds(10, 50, 156, 20);
 		txtNome.setFont(pop12);
@@ -209,7 +229,7 @@ public class TelaCadastroProduto extends JFrame {
 		txtNome.setColumns(10);
 
 		JLabel lblPrecoVenda = new JLabel("PRE\u00C7O DE VENDA");
-		lblPrecoVenda.setForeground(new Color(197, 197, 197));
+		lblPrecoVenda.setForeground(clLighter);
 		lblPrecoVenda.setFont(pop10);
 		lblPrecoVenda.setBounds(10, 81, 156, 14);
 		panel.add(lblPrecoVenda);
@@ -217,20 +237,22 @@ public class TelaCadastroProduto extends JFrame {
 		RoundField txtPrecoVenda = new RoundField();
 		txtPrecoVenda.setCaretColor(Color.WHITE);
 		txtPrecoVenda.setForeground(Color.WHITE);
-		txtPrecoVenda.setBackground(new Color(45, 45, 45));
+		txtPrecoVenda.setBackground(clLight);
+		txtPrecoVenda.setSelectedTextColor(clDark);
+		txtPrecoVenda.setSelectionColor(clGreen);
 		txtPrecoVenda.setBorder(BorderFactory.createEmptyBorder());
 		txtPrecoVenda.setBounds(10, 95, 156, 20);
 		txtPrecoVenda.setFont(pop12);
 		panel.add(txtPrecoVenda);
 
 		JLabel lblDimensoes = new JLabel("DIMENS\u00D5ES");
-		lblDimensoes.setForeground(new Color(197, 197, 197));
+		lblDimensoes.setForeground(clLighter);
 		lblDimensoes.setFont(pop10);
 		lblDimensoes.setBounds(10, 261, 156, 14);
 		panel.add(lblDimensoes);
 
 		JLabel lblFornecedor = new JLabel("FORNECEDOR");
-		lblFornecedor.setForeground(new Color(197, 197, 197));
+		lblFornecedor.setForeground(clLighter);
 		lblFornecedor.setBounds(10, 306, 118, 14);
 		lblFornecedor.setFont(pop10);
 		panel.add(lblFornecedor);
@@ -253,18 +275,45 @@ public class TelaCadastroProduto extends JFrame {
 			model.addElement(f.getNome_fornecedor());
 		}
 		
+		JPanel forPanel = new JPanel();
+		forPanel.setBackground(clLight);
+		forPanel.setBorder(lightBorder);
+		forPanel.setBounds(10, 321, 156, 22);
+		panel.add(forPanel);
+		forPanel.setLayout(null);
 		
 		JComboBox<String> cmbFornecedor = new JComboBox<String>(model);
-		cmbFornecedor.setBounds(10, 321, 156, 22);
-		cmbFornecedor.setUI(new Combo());
+		cmbFornecedor.setBounds(3, 2, 149, 18);
+		
+		Combo cmbUI = new Combo();
+		cmbUI.setColor(clGreen);
+		
+		cmbFornecedor.setUI(cmbUI);
+		
+		cmbFornecedor.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (cmbFornecedor.getSelectedItem() != null) {
+					forPanel.setBackground(clGreen);
+					forPanel.setBorder(greenBorder);
+				}
+			}
+		});
+		cmbFornecedor.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				forPanel.setBackground(clLight);
+				forPanel.setBorder(lightBorder);
+			}
+		});
+		
 		cmbFornecedor.setSelectedItem(null);
 		cmbFornecedor.setForeground(Color.WHITE);
 		cmbFornecedor.setBackground(null);
 		cmbFornecedor.setBorder(BorderFactory.createEmptyBorder());
 		cmbFornecedor.setFont(pop12);
-		panel.add(cmbFornecedor);
+		forPanel.add(cmbFornecedor);
 		
-		JButton btnContinuar = new JButton("CADASTRAR");
+		RoundButton btnContinuar = new RoundButton("CADASTRAR");
 		btnContinuar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: tela de cadastro de produto > cadastrar produto");
@@ -273,14 +322,13 @@ public class TelaCadastroProduto extends JFrame {
 				int f = 0;
 				try {
 					f = fornecedores.get(cmbFornecedor.getSelectedIndex()).getId_fornecedor();
-				} catch (NumberFormatException x) {
-					JOptionPane.showMessageDialog(null, "Fornecedor inválido", "Erro", JOptionPane.ERROR_MESSAGE);
-					System.out.println("fornecedor vazio");
+				} catch (NumberFormatException | IndexOutOfBoundsException x) {
+					JOptionPane.showMessageDialog(null, "Fornecedor inv\u00E1lido", "Erro", JOptionPane.ERROR_MESSAGE);
+					System.out.println("fornecedor vazio " + x);
 					return;
 				}
-				
 				if (nome.isBlank()) {
-					JOptionPane.showMessageDialog(null, "Nome inválido", "Erro", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Nome inv\u00E1lido", "Erro", JOptionPane.ERROR_MESSAGE);
 					System.out.println("Nome vazio");
 					return;
 				}
@@ -290,7 +338,7 @@ public class TelaCadastroProduto extends JFrame {
 					precoVenda = Float.parseFloat(txtPrecoVenda.getText());
 					precoCusto = Float.parseFloat(txtPrecoCusto.getText());
 				} catch (NumberFormatException x) {
-					JOptionPane.showMessageDialog(null, "Preço(s) inválido(s).", "Erro", JOptionPane.ERROR_MESSAGE, null);
+					JOptionPane.showMessageDialog(null, "Pre\u00E7o(s) inv\u00E1lido(s).", "Erro", JOptionPane.ERROR_MESSAGE, null);
 					return;
 				}
 				
@@ -357,6 +405,7 @@ public class TelaCadastroProduto extends JFrame {
 				
 			}
 		});
+		btnContinuar.setFocusPainted(false);
 		btnContinuar.setOpaque(false);
 		btnContinuar.setBackground(null);
 		btnContinuar.setForeground(clGreen);

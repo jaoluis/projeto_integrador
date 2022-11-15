@@ -1,35 +1,28 @@
 package visao;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.io.File;
-import java.text.ParseException;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.text.MaskFormatter;
-
 import controle.FornecedorBD;
 import controle.ProdutoBD;
 import modelo.Fornecedor;
@@ -42,7 +35,7 @@ public class TelaModificarProduto extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField txtNome;
+	private RoundField txtNome;
 	private static Produto produtoAEditar;
 
 	/**
@@ -69,6 +62,9 @@ public class TelaModificarProduto extends JFrame {
 				.getImage("./img/app_icon_small.png"));
 		Color clRed = new Color(226, 0, 54);
 		Color clGreen = new Color(168, 198, 51);
+		Color clDark = new Color(22, 22, 22);
+		Color clLight = new Color(45, 45, 45);
+		Color clLighter = new Color(197, 197, 197);
 
 		Font poppins, pop10 = null, pop12 = null;
 
@@ -84,38 +80,87 @@ public class TelaModificarProduto extends JFrame {
 
 		setResizable(false);
 		setTitle("Sistema de Vendas Ep\u00EDtome");
-		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 703, 564);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(45, 45, 45));
+		contentPane.setBackground(clLight);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
 		JPanel panel = new JPanel();
-		panel.setBackground(new Color(22, 22, 22));
+		panel.setBackground(clDark);
 		panel.setBounds(243, 48, 176, 466);
-		panelbuttonChisel(panel, new Color(255, 255, 255), 5);
+		panel.setBorder(new RoundBorder());
 		contentPane.add(panel);
 		panel.setLayout(null);
 
 		JLabel lblEstamosQuaseL = new JLabel("Alterar produto");
-		lblEstamosQuaseL.setForeground(new Color(255, 255, 255));
+		lblEstamosQuaseL.setForeground(Color.WHITE);
 		lblEstamosQuaseL.setFont(pop12);
 		lblEstamosQuaseL.setHorizontalAlignment(SwingConstants.CENTER);
 		lblEstamosQuaseL.setBounds(10, 11, 156, 14);
 		panel.add(lblEstamosQuaseL);
 
 		JLabel lblMaterial = new JLabel("MATERIAL");
-		lblMaterial.setForeground(new Color(197, 197, 197));
+		lblMaterial.setForeground(clLighter);
 		lblMaterial.setFont(pop10);
 		lblMaterial.setBounds(10, 216, 156, 14);
 		panel.add(lblMaterial);
 		
-		String[] materiais = new String[] {"A\u00E7o", "Inox", "Madeira", "Misto", "Outro", "Pl\u00E1stico", "Porcelana", "Vidro"};
+		String[] materiais = new String[] {
+				"A\u00E7o",
+				"Inox",
+				"Madeira",
+				"Misto", 
+				"Outro",
+				"Pl\u00E1stico",
+				"Porcelana",
+				"Vidro"};
+		
+		RoundBorder lightBorder = new RoundBorder(clLight, 1, 10);
+		RoundBorder greenBorder = new RoundBorder(clGreen, 1, 10);
+		
+		
+		JPanel matPanel = new JPanel();
+		matPanel.setBackground(clLight);
+		matPanel.setBorder(lightBorder);
+		matPanel.setBounds(10, 230, 156, 22);
+		panel.add(matPanel);
+		matPanel.setLayout(null);
 		
 		JComboBox<String> cmbMaterial = new JComboBox<String>();
+		cmbMaterial.setBounds(3, 2, 149, 18);
+		matPanel.add(cmbMaterial);
+		cmbMaterial.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (cmbMaterial.getSelectedItem() != null) {
+					matPanel.setBackground(clGreen);
+					matPanel.setBorder(greenBorder);
+					
+					cmbMaterial.setBackground(clGreen);
+					cmbMaterial.setForeground(clDark);
+				}
+			}
+		});
+		cmbMaterial.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				matPanel.setBackground(clLight);
+				matPanel.setBorder(lightBorder);
+				
+				cmbMaterial.setBackground(clLight);
+				cmbMaterial.setForeground(Color.WHITE);
+			}
+		});
 		cmbMaterial.setModel(new DefaultComboBoxModel<String>(materiais));
+		cmbMaterial.setSelectedItem(null);
+		cmbMaterial.setForeground(Color.WHITE);
+		cmbMaterial.setFont(pop12);
+		cmbMaterial.setUI(new Combo());
+		cmbMaterial.setOpaque(false);
+		cmbMaterial.setBackground(clLight);
+		cmbMaterial.setBorder(BorderFactory.createEmptyBorder());
 		
 		int selm = 0;
 		boolean search = true;
@@ -133,18 +178,13 @@ public class TelaModificarProduto extends JFrame {
 		} catch (IllegalArgumentException e) {
 			cmbMaterial.setSelectedItem(null);
 		}
-		cmbMaterial.setForeground(Color.WHITE);
-		cmbMaterial.setFont(pop12);
-		cmbMaterial.setUI(new Combo());
-		cmbMaterial.setBorder(BorderFactory.createEmptyBorder());
-		cmbMaterial.setBackground(new Color(45, 45, 45));
-		cmbMaterial.setBounds(10, 231, 156, 22);
-		panel.add(cmbMaterial);
 
-		JTextField txtDimensoes = new JTextField();
+		RoundField txtDimensoes = new RoundField();
 		txtDimensoes.setCaretColor(Color.WHITE);
-		txtDimensoes.setForeground(new Color(255, 255, 255));
-		txtDimensoes.setBackground(new Color(45, 45, 45));
+		txtDimensoes.setForeground(Color.WHITE);
+		txtDimensoes.setSelectedTextColor(clDark);
+		txtDimensoes.setSelectionColor(clGreen);
+		txtDimensoes.setBackground(clLight);
 		txtDimensoes.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtDimensoes.setBounds(10, 275, 156, 20);
 		txtDimensoes.setFont(pop12);
@@ -153,15 +193,17 @@ public class TelaModificarProduto extends JFrame {
 		txtDimensoes.setColumns(10);
 
 		JLabel lblPrecoCusto = new JLabel("PRE\u00C7O DE CUSTO");
-		lblPrecoCusto.setForeground(new Color(197, 197, 197));
+		lblPrecoCusto.setForeground(clLighter);
 		lblPrecoCusto.setFont(pop10);
 		lblPrecoCusto.setBounds(10, 126, 156, 14);
 		panel.add(lblPrecoCusto);
 
-		JTextField txtPrecoCusto = new JTextField();
+		RoundField txtPrecoCusto = new RoundField();
 		txtPrecoCusto.setCaretColor(Color.WHITE);
-		txtPrecoCusto.setForeground(new Color(255, 255, 255));
-		txtPrecoCusto.setBackground(new Color(45, 45, 45));
+		txtPrecoCusto.setForeground(Color.WHITE);
+		txtPrecoCusto.setSelectedTextColor(clDark);
+		txtPrecoCusto.setSelectionColor(clGreen);
+		txtPrecoCusto.setBackground(clLight);
 		txtPrecoCusto.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtPrecoCusto.setBounds(10, 140, 156, 20);
 		txtPrecoCusto.setFont(pop12);
@@ -170,15 +212,17 @@ public class TelaModificarProduto extends JFrame {
 		txtPrecoCusto.setColumns(10);
 
 		JLabel lblQuantidade = new JLabel("QUANTIDADE");
-		lblQuantidade.setForeground(new Color(197, 197, 197));
+		lblQuantidade.setForeground(clLighter);
 		lblQuantidade.setFont(pop10);
 		lblQuantidade.setBounds(10, 171, 156, 14);
 		panel.add(lblQuantidade);
 
-		JTextField txtQuantidade = new JTextField();
+		RoundField txtQuantidade = new RoundField();
 		txtQuantidade.setCaretColor(Color.WHITE);
-		txtQuantidade.setForeground(new Color(255, 255, 255));
-		txtQuantidade.setBackground(new Color(45, 45, 45));
+		txtQuantidade.setForeground(Color.WHITE);
+		txtQuantidade.setSelectedTextColor(clDark);
+		txtQuantidade.setSelectionColor(clGreen);
+		txtQuantidade.setBackground(clLight);
 		txtQuantidade.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtQuantidade.setBounds(10, 185, 156, 20);
 		txtQuantidade.setFont(pop12);
@@ -187,15 +231,17 @@ public class TelaModificarProduto extends JFrame {
 		txtQuantidade.setColumns(10);
 
 		JLabel lblNome = new JLabel("NOME");
-		lblNome.setForeground(new Color(197, 197, 197));
+		lblNome.setForeground(clLighter);
 		lblNome.setFont(pop10);
 		lblNome.setBounds(10, 36, 156, 14);
 		panel.add(lblNome);
 
-		txtNome = new JTextField();
+		txtNome = new RoundField();
 		txtNome.setCaretColor(Color.WHITE);
-		txtNome.setForeground(new Color(255, 255, 255));
-		txtNome.setBackground(new Color(45, 45, 45));
+		txtNome.setForeground(Color.WHITE);
+		txtNome.setSelectedTextColor(clDark);
+		txtNome.setSelectionColor(clGreen);
+		txtNome.setBackground(clLight);
 		txtNome.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtNome.setBounds(10, 50, 156, 20);
 		txtNome.setFont(pop12);
@@ -204,15 +250,17 @@ public class TelaModificarProduto extends JFrame {
 		txtNome.setColumns(10);
 
 		JLabel lblPrecoVenda = new JLabel("PRE\u00C7O DE VENDA");
-		lblPrecoVenda.setForeground(new Color(197, 197, 197));
+		lblPrecoVenda.setForeground(clLighter);
 		lblPrecoVenda.setFont(pop10);
 		lblPrecoVenda.setBounds(10, 81, 156, 14);
 		panel.add(lblPrecoVenda);
 
-		JTextField txtPrecoVenda = new JTextField();
+		RoundField txtPrecoVenda = new RoundField();
 		txtPrecoVenda.setCaretColor(Color.WHITE);
-		txtPrecoVenda.setForeground(new Color(255, 255, 255));
-		txtPrecoVenda.setBackground(new Color(45, 45, 45));
+		txtPrecoVenda.setForeground(Color.WHITE);
+		txtPrecoVenda.setSelectedTextColor(clDark);
+		txtPrecoVenda.setSelectionColor(clGreen);
+		txtPrecoVenda.setBackground(clLight);
 		txtPrecoVenda.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtPrecoVenda.setBounds(10, 95, 156, 20);
 		txtPrecoVenda.setText(String.valueOf(produtoAEditar.getPrecoVendaProduto()));
@@ -221,20 +269,66 @@ public class TelaModificarProduto extends JFrame {
 		panel.add(txtPrecoVenda);
 
 		JLabel lblDimensoes = new JLabel("DIMENS\u00D5ES");
-		lblDimensoes.setForeground(new Color(197, 197, 197));
+		lblDimensoes.setForeground(clLighter);
 		lblDimensoes.setFont(pop10);
 		lblDimensoes.setBounds(10, 261, 156, 14);
 		panel.add(lblDimensoes);
 
 		JLabel lblFornecedor = new JLabel("FORNECEDOR");
-		lblFornecedor.setForeground(new Color(197, 197, 197));
+		lblFornecedor.setForeground(clLighter);
 		lblFornecedor.setBounds(10, 306, 122, 14);
 		lblFornecedor.setFont(pop10);
 		panel.add(lblFornecedor);
 		
 		ArrayList<Fornecedor> fornecedores = (ArrayList<Fornecedor>) new FornecedorBD().getListarFornecedores();		
 		DefaultComboBoxModel<String> model = new DefaultComboBoxModel<String>(new String[] {});
+		for (Fornecedor f: fornecedores) {
+			model.addElement(f.getNome_fornecedor());
+		}
 		
+		JPanel forPanel = new JPanel();
+		forPanel.setBackground(clLight);
+		forPanel.setBorder(lightBorder);
+		forPanel.setBounds(10, 321, 156, 22);
+		panel.add(forPanel);
+		forPanel.setLayout(null);
+		
+		JComboBox<String> cmbFornecedor = new JComboBox<String>(model);
+		cmbFornecedor.setBounds(3, 2, 149, 18);
+		
+		Combo cmbUI = new Combo();
+		cmbUI.setColor(clGreen);
+		
+		cmbFornecedor.setUI(cmbUI);
+		
+		cmbFornecedor.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (cmbFornecedor.getSelectedItem() != null) {
+					forPanel.setBackground(clGreen);
+					forPanel.setBorder(greenBorder);
+					
+					cmbFornecedor.setBackground(clGreen);
+					cmbFornecedor.setForeground(clDark);
+				}
+			}
+		});
+		cmbFornecedor.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				forPanel.setBackground(clLight);
+				forPanel.setBorder(lightBorder);
+				
+				cmbFornecedor.setBackground(clLight);
+				cmbFornecedor.setForeground(Color.WHITE);
+			}
+		});
+		
+		cmbFornecedor.setSelectedItem(null);
+		cmbFornecedor.setForeground(Color.WHITE);
+		cmbFornecedor.setBackground(null);
+		cmbFornecedor.setBorder(BorderFactory.createEmptyBorder());
+		cmbFornecedor.setFont(pop12);
+		forPanel.add(cmbFornecedor);
 		int sel = 0;
 		search = true;
 		int f_id = produtoAEditar.getFornecedor();
@@ -249,21 +343,13 @@ public class TelaModificarProduto extends JFrame {
 			}
 		}
 		
-		JComboBox<String> cmbFornecedor = new JComboBox<String>(model);
 		try {
 			cmbFornecedor.setSelectedIndex(sel);
 		} catch (IllegalArgumentException e) {
 			cmbFornecedor.setSelectedItem(null);
 		}
-		cmbFornecedor.setBounds(10, 321, 156, 22);
-		cmbFornecedor.setUI(new Combo());
-		cmbFornecedor.setForeground(Color.WHITE);
-		cmbFornecedor.setBackground(new Color(45, 45, 45));
-		cmbFornecedor.setBorder(BorderFactory.createEmptyBorder());
-		cmbFornecedor.setFont(pop12);
-		panel.add(cmbFornecedor);
 
-		JButton btnContinuar = new JButton("ALTERAR");
+		RoundButton btnContinuar = new RoundButton("ALTERAR");
 		btnContinuar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: tela de alteração de produto > alterar produto");
@@ -324,19 +410,21 @@ public class TelaModificarProduto extends JFrame {
 				
 			}
 		});
+		btnContinuar.setForeground(clGreen);
 		btnContinuar.setOpaque(false);
 		btnContinuar.setBackground(null);
-		Chisel(btnContinuar, clGreen, 5);
+		btnContinuar.setBorder(new RoundBorder(clGreen));
 		btnContinuar.setFont(pop12);
 		btnContinuar.setBounds(10, 432, 123, 23);
 		panel.add(btnContinuar);
 		
 		
-		JButton btnDeletar = new JButton("");
+		RoundButton btnDeletar = new RoundButton("");
 		btnDeletar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ProdutoBD produtoBD = new ProdutoBD();
 				produtoBD.DeleteByID(produtoAEditar.getIdProduto());
+				refresh(tblEstoque);
 				dispose();
 			}
 		});
@@ -346,8 +434,8 @@ public class TelaModificarProduto extends JFrame {
 		btnDeletar.setFont(null);
 		btnDeletar.setFocusPainted(false);
 		btnDeletar.setBackground((Color) null);
-		Chisel(btnDeletar, clRed, 5);
-		btnDeletar.setBounds(143, 432, 23, 23);
+		btnDeletar.setBorder(new RoundBorder(clRed, 1, 24));
+		btnDeletar.setBounds(142, 431, 24, 24);
 		panel.add(btnDeletar);
 		
 		JLabel fakeBG = new JLabel("");
@@ -388,7 +476,9 @@ public class TelaModificarProduto extends JFrame {
 		}
 		
 		tbl.setModel(model);
-		tbl.setRowSelectionInterval(sel, sel);
+		if (sel != -1) {
+			tbl.setRowSelectionInterval(sel, sel);
+		}
 		
 		tbl.getColumnModel().getColumn(0).setPreferredWidth(25);
 		tbl.getColumnModel().getColumn(1).setPreferredWidth(300);
@@ -398,59 +488,4 @@ public class TelaModificarProduto extends JFrame {
 		tbl.getColumnModel().getColumn(5).setPreferredWidth(270);
 		tbl.getColumnModel().getColumn(6).setPreferredWidth(100);
 	}
-	
-	private static void panelbuttonChisel(JPanel panel, Color color, int radius) {
-		
-        //panel.setFocusPainted(false);
-        panel.setForeground(color);
-        RoundedBorder LineBorder = new RoundedBorder(color, radius);
-        Border emptyBorder = BorderFactory.createEmptyBorder(417, 124, 417, 124);
-        panel.setBorder(BorderFactory.createCompoundBorder(LineBorder, emptyBorder));
-	}
-
-	protected MaskFormatter def_mask(String envolucro, char substituto) {
-		MaskFormatter mask = null;
-		try {
-			mask = new MaskFormatter(envolucro);
-			mask.setPlaceholderCharacter(substituto);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		return mask;
-	}
-
-	private static void Chisel(JButton button, Color color, int radius) {
-
-		button.setFocusPainted(false);
-		button.setForeground(color);
-		button.setBorder(BorderFactory.createCompoundBorder(new RoundedBorder(color, radius), BorderFactory.createEmptyBorder()));
-	}
-
-	private static class RoundedBorder implements Border {
-
-		private int radius = 10;
-		private Color color;
-
-		private RoundedBorder(Color color, int radius) {
-			this.color = color;
-			this.radius = radius;
-		}
-
-		@Override
-		public Insets getBorderInsets(Component c) {
-			return new Insets(this.radius + 1, this.radius + 1, this.radius + 1, this.radius + 1);
-		}
-
-		@Override
-		public boolean isBorderOpaque() {
-			return true;
-		}
-
-		@Override
-		public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-			g.setColor(color);
-			g.drawRoundRect(x, y, width - 1, height - 1, radius, radius);
-		}
-	}
-
 }

@@ -18,9 +18,13 @@ public class RoundBorder extends AbstractBorder {
 	    private int strokePad;
 	    private boolean left = true;
 	    RenderingHints hints;
-
+	    
+	    RoundBorder() {
+	    	this(Color.WHITE, 1, 10);
+	    }
+	    
 	    RoundBorder(Color color) {
-	        this(color, 4, 8);
+	        this(color, 1, 10);
 	    }
 
 	    RoundBorder(Color color, int thickness, int radii) {

@@ -51,7 +51,7 @@ public class TelaCadastroFornecedor extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TelaCadastroFornecedor frame = new TelaCadastroFornecedor();
+					TelaCadastroFornecedor frame = new TelaCadastroFornecedor(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -63,11 +63,14 @@ public class TelaCadastroFornecedor extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public TelaCadastroFornecedor() {
+	public TelaCadastroFornecedor(JList<String> lista) {
 		setIconImage(Toolkit.getDefaultToolkit()
 				.getImage("./img/app_icon_small.png"));
 		Color clRed = new Color(226, 0, 54);
 		Color clYellow = new Color(239, 161, 35);
+		Color clDark = new Color(22, 22, 22);
+		Color clLight = new Color(45, 45, 45);
+		Color clLighter = new Color(197, 197, 197);
 		
 		Font poppins, pop10 = null, pop12 = null;
 
@@ -84,33 +87,33 @@ public class TelaCadastroFornecedor extends JFrame {
 		UIManager.put("Button.select", Color.WHITE);
 		
 		setResizable(false);
-		setTitle("Sistema de Vendas Ep\u00EDtome");
+		setTitle("Criar Fornecedor");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 703, 564);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(45, 45, 45));
+		contentPane.setBackground(clLight);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
 		JPanel panel = new JPanel();
-		panel.setBackground(new Color(22, 22, 22));
+		panel.setBackground(clDark);
 		panel.setBounds(140, 34, 176, 466);
-		panel.setBorder(new RoundBorder(Color.WHITE, 1, 10));
+		panel.setBorder(new RoundBorder());
 		contentPane.add(panel);
 		panel.setLayout(null);
 
 		JPanel endPanel = new JPanel();
-		endPanel.setBackground(new Color(22, 22, 22));
+		endPanel.setBackground(clDark);
 		endPanel.setBounds(340, 34, 176, 250);
-		endPanel.setBorder(new RoundBorder(Color.WHITE, 1, 10));
+		endPanel.setBorder(new RoundBorder());
 		contentPane.add(endPanel);
 		endPanel.setLayout(null);
 		
 		JPanel cntPanel = new JPanel();
-		cntPanel.setBackground(new Color(22, 22, 22));
+		cntPanel.setBackground(clDark);
 		cntPanel.setBounds(340, 295, 176, 205);
-		cntPanel.setBorder(new RoundBorder(Color.WHITE, 1, 10));
+		cntPanel.setBorder(new RoundBorder());
 		contentPane.add(cntPanel);
 		cntPanel.setLayout(null);
 		
@@ -122,7 +125,7 @@ public class TelaCadastroFornecedor extends JFrame {
 		panel.add(lblCriar);
 
 		JLabel lblNome = new JLabel("NOME");
-		lblNome.setForeground(new Color(197, 197, 197));
+		lblNome.setForeground(clLighter);
 		lblNome.setFont(pop10);
 		lblNome.setBounds(10, 36, 156, 14);
 		panel.add(lblNome);
@@ -130,9 +133,9 @@ public class TelaCadastroFornecedor extends JFrame {
 		txtNome = new RoundField();
 		txtNome.setCaretColor(Color.WHITE);
 		txtNome.setForeground(Color.WHITE);
-		txtNome.setSelectedTextColor(new Color(22, 22, 22));
+		txtNome.setSelectedTextColor(clDark);
 		txtNome.setSelectionColor(clYellow);
-		txtNome.setBackground(new Color(45, 45, 45));
+		txtNome.setBackground(clLight);
 		txtNome.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtNome.setBounds(10, 50, 156, 20);
 		txtNome.setFont(pop12);
@@ -140,7 +143,7 @@ public class TelaCadastroFornecedor extends JFrame {
 		txtNome.setColumns(10);
 
 		JLabel lblCNPJ = new JLabel("CNPJ");
-		lblCNPJ.setForeground(new Color(197, 197, 197));
+		lblCNPJ.setForeground(clLighter);
 		lblCNPJ.setFont(pop10);
 		lblCNPJ.setBounds(10, 81, 156, 14);
 		panel.add(lblCNPJ);
@@ -148,9 +151,9 @@ public class TelaCadastroFornecedor extends JFrame {
 		RoundFormattedField txtCNPJ = new RoundFormattedField(def_mask("##.###.###/####-##", '\u2022'));
 		txtCNPJ.setCaretColor(Color.WHITE);
 		txtCNPJ.setForeground(Color.WHITE);
-		txtCNPJ.setSelectedTextColor(new Color(22, 22, 22));
+		txtCNPJ.setSelectedTextColor(clDark);
 		txtCNPJ.setSelectionColor(clYellow);
-		txtCNPJ.setBackground(new Color(45, 45, 45));
+		txtCNPJ.setBackground(clLight);
 		txtCNPJ.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtCNPJ.setBounds(10, 95, 156, 20);
 		txtCNPJ.setFont(pop12);
@@ -159,7 +162,7 @@ public class TelaCadastroFornecedor extends JFrame {
 		
 		
 		JLabel lblEndereco = new JLabel("ENDERE\u00C7O(S)");
-		lblEndereco.setForeground(new Color(197, 197, 197));
+		lblEndereco.setForeground(clLighter);
 		lblEndereco.setFont(null);
 		lblEndereco.setFont(pop10);
 		lblEndereco.setBounds(10, 124, 130, 14);
@@ -170,13 +173,13 @@ public class TelaCadastroFornecedor extends JFrame {
 		JScrollPane endScrollPane = new JScrollPane();
 		endScrollPane.setBounds(10, 141, 156, 113);
 		Rolagem.defRolagem(endScrollPane);
-		endScrollPane.setBorder(new RoundBorder(Color.WHITE, 1, 10));
+		endScrollPane.setBorder(new RoundBorder());
 		endScrollPane.setBackground(null);
 		endScrollPane.setForeground(null);
 		
 		
 		JLabel lblContato = new JLabel("CONTATO(S)");
-		lblContato.setForeground(new Color(197, 197, 197));
+		lblContato.setForeground(clLighter);
 		lblContato.setFont(null);
 		lblContato.setFont(pop10);
 		lblContato.setBounds(10, 261, 130, 14);
@@ -185,7 +188,7 @@ public class TelaCadastroFornecedor extends JFrame {
 		JScrollPane cntScrollPane = new JScrollPane();
 		cntScrollPane.setBounds(10, 279, 156, 113);
 		Rolagem.defRolagem(cntScrollPane);
-		cntScrollPane.setBorder(new RoundBorder(Color.WHITE, 1, 10));
+		cntScrollPane.setBorder(new RoundBorder());
 		cntScrollPane.setBackground(null);
 		cntScrollPane.setForeground(null);
 		
@@ -202,7 +205,7 @@ public class TelaCadastroFornecedor extends JFrame {
 		endPanel.add(lblDetEndereco);
 		
 		JLabel lblCidade = new JLabel("CIDADE");
-		lblCidade.setForeground(new Color(197, 197, 197));
+		lblCidade.setForeground(clLighter);
 		lblCidade.setFont(pop10);
 		lblCidade.setBounds(10, 36, 156, 14);
 		endPanel.add(lblCidade);
@@ -210,10 +213,10 @@ public class TelaCadastroFornecedor extends JFrame {
 		RoundField txtCidade = new RoundField();
 		txtCidade.setCaretColor(Color.WHITE);
 		txtCidade.setForeground(Color.WHITE);
-		txtCidade.setSelectedTextColor(new Color(22, 22, 22));
+		txtCidade.setSelectedTextColor(clDark);
 		txtCidade.setSelectionColor(clYellow);
 		txtCidade.setEnabled(false);
-		txtCidade.setBackground(new Color(45, 45, 45));
+		txtCidade.setBackground(clLight);
 		txtCidade.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtCidade.setBounds(10, 50, 156, 20);
 		txtCidade.setFont(pop12);
@@ -221,7 +224,7 @@ public class TelaCadastroFornecedor extends JFrame {
 		txtCidade.setColumns(10);
 
 		JLabel lblBairro = new JLabel("BAIRRO");
-		lblBairro.setForeground(new Color(197, 197, 197));
+		lblBairro.setForeground(clLighter);
 		lblBairro.setFont(pop10);
 		lblBairro.setBounds(10, 81, 156, 14);
 		endPanel.add(lblBairro);
@@ -229,17 +232,17 @@ public class TelaCadastroFornecedor extends JFrame {
 		RoundField txtBairro = new RoundField();
 		txtBairro.setCaretColor(Color.WHITE);
 		txtBairro.setForeground(Color.WHITE);
-		txtBairro.setSelectedTextColor(new Color(22, 22, 22));
+		txtBairro.setSelectedTextColor(clDark);
 		txtBairro.setSelectionColor(clYellow);
 		txtBairro.setEnabled(false);
-		txtBairro.setBackground(new Color(45, 45, 45));
+		txtBairro.setBackground(clLight);
 		txtBairro.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtBairro.setBounds(10, 95, 156, 20);
 		txtBairro.setFont(pop12);
 		endPanel.add(txtBairro);
 		
 		JLabel lblRua = new JLabel("RUA");
-		lblRua.setForeground(new Color(197, 197, 197));
+		lblRua.setForeground(clLighter);
 		lblRua.setFont(pop10);
 		lblRua.setBounds(10, 126, 156, 14);
 		endPanel.add(lblRua);
@@ -247,10 +250,10 @@ public class TelaCadastroFornecedor extends JFrame {
 		RoundField txtRua = new RoundField();
 		txtRua.setCaretColor(Color.WHITE);
 		txtRua.setForeground(Color.WHITE);
-		txtRua.setSelectedTextColor(new Color(22, 22, 22));
+		txtRua.setSelectedTextColor(clDark);
 		txtRua.setSelectionColor(clYellow);
 		txtRua.setEnabled(false);
-		txtRua.setBackground(new Color(45, 45, 45));
+		txtRua.setBackground(clLight);
 		txtRua.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtRua.setBounds(10, 140, 156, 20);
 		txtRua.setFont(pop12);
@@ -258,7 +261,7 @@ public class TelaCadastroFornecedor extends JFrame {
 		txtRua.setColumns(10);
 
 		JLabel lblNumero = new JLabel("N\u00DAMERO");
-		lblNumero.setForeground(new Color(197, 197, 197));
+		lblNumero.setForeground(clLighter);
 		lblNumero.setFont(pop10);
 		lblNumero.setBounds(10, 171, 156, 14);
 		endPanel.add(lblNumero);
@@ -266,10 +269,10 @@ public class TelaCadastroFornecedor extends JFrame {
 		RoundField txtNumero = new RoundField();
 		txtNumero.setCaretColor(Color.WHITE);
 		txtNumero.setForeground(Color.WHITE);
-		txtNumero.setSelectedTextColor(new Color(22, 22, 22));
+		txtNumero.setSelectedTextColor(clDark);
 		txtNumero.setSelectionColor(clYellow);
 		txtNumero.setEnabled(false);
-		txtNumero.setBackground(new Color(45, 45, 45));
+		txtNumero.setBackground(clLight);
 		txtNumero.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtNumero.setBounds(10, 185, 156, 20);
 		txtNumero.setFont(pop12);
@@ -293,7 +296,7 @@ public class TelaCadastroFornecedor extends JFrame {
 		});
 		listaEndereco.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		listaEndereco.setSelectionBackground(clYellow);
-		listaEndereco.setSelectionForeground(new Color(22,22,22));
+		listaEndereco.setSelectionForeground(clDark);
 		listaEndereco.setModel(new AbstractListModel<String>() {
 
 			private static final long serialVersionUID = 1L;
@@ -304,8 +307,8 @@ public class TelaCadastroFornecedor extends JFrame {
 				return new String[] {}[index];
 			}
 		});
-		listaEndereco.setBackground(new Color(22, 22, 22));
-		listaEndereco.setForeground(new Color(197, 197, 197));
+		listaEndereco.setBackground(clDark);
+		listaEndereco.setForeground(clLighter);
 		listaEndereco.setFont(pop10);
 		listaEndereco.setBounds(0, 50, 156, 113);
 		endScrollPane.setViewportView(listaEndereco);
@@ -328,7 +331,7 @@ public class TelaCadastroFornecedor extends JFrame {
 		});
 		btnAddEndereco.setFocusPainted(false);
 		btnAddEndereco.setBackground(null);
-		btnAddEndereco.setBorder(new RoundBorder(new Color(22, 22, 22), 1, 22));
+		btnAddEndereco.setBorder(new RoundBorder(clDark, 1, 22));
 		btnAddEndereco.setBounds(135, 129, 22, 22);
 		panel.add(btnAddEndereco);
 		
@@ -342,7 +345,7 @@ public class TelaCadastroFornecedor extends JFrame {
 		cntPanel.add(lblDetContato);
 		
 		JLabel lblEmail = new JLabel("E-MAIL");
-		lblEmail.setForeground(new Color(197, 197, 197));
+		lblEmail.setForeground(clLighter);
 		lblEmail.setFont(pop10);
 		lblEmail.setBounds(10, 36, 156, 14);
 		cntPanel.add(lblEmail);
@@ -350,10 +353,10 @@ public class TelaCadastroFornecedor extends JFrame {
 		RoundField txtEmail = new RoundField();
 		txtEmail.setCaretColor(Color.WHITE);
 		txtEmail.setForeground(Color.WHITE);
-		txtEmail.setSelectedTextColor(new Color(22, 22, 22));
+		txtEmail.setSelectedTextColor(clDark);
 		txtEmail.setSelectionColor(clYellow);
 		txtEmail.setEnabled(false);
-		txtEmail.setBackground(new Color(45, 45, 45));
+		txtEmail.setBackground(clLight);
 		txtEmail.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtEmail.setBounds(10, 50, 156, 20);
 		txtEmail.setFont(pop12);
@@ -361,7 +364,7 @@ public class TelaCadastroFornecedor extends JFrame {
 		txtEmail.setColumns(10);
 
 		JLabel lblTelefone = new JLabel("TELEFONE");
-		lblTelefone.setForeground(new Color(197, 197, 197));
+		lblTelefone.setForeground(clLighter);
 		lblTelefone.setFont(pop10);
 		lblTelefone.setBounds(10, 81, 156, 14);
 		cntPanel.add(lblTelefone);
@@ -369,10 +372,10 @@ public class TelaCadastroFornecedor extends JFrame {
 		RoundField txtTelefone = new RoundField();
 		txtTelefone.setCaretColor(Color.WHITE);
 		txtTelefone.setForeground(Color.WHITE);
-		txtTelefone.setSelectedTextColor(new Color(22, 22, 22));
+		txtTelefone.setSelectedTextColor(clDark);
 		txtTelefone.setSelectionColor(clYellow);
 		txtTelefone.setEnabled(false);
-		txtTelefone.setBackground(new Color(45, 45, 45));
+		txtTelefone.setBackground(clLight);
 		txtTelefone.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtTelefone.setBounds(10, 95, 156, 20);
 		txtTelefone.setFont(pop12);
@@ -393,7 +396,7 @@ public class TelaCadastroFornecedor extends JFrame {
 		});
 		listaContato.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		listaContato.setSelectionBackground(clYellow);
-		listaContato.setSelectionForeground(new Color(22,22,22));
+		listaContato.setSelectionForeground(clDark);
 		listaContato.setModel(new AbstractListModel<String>() {
 
 			private static final long serialVersionUID = 1L;
@@ -404,8 +407,8 @@ public class TelaCadastroFornecedor extends JFrame {
 				return new String[] {}[index];
 			}
 		});
-		listaContato.setBackground(new Color(22, 22, 22));
-		listaContato.setForeground(new Color(197, 197, 197));
+		listaContato.setBackground(clDark);
+		listaContato.setForeground(clLighter);
 		listaContato.setFont(pop10);
 		listaContato.setBounds(0, 50, 156, 113);	
 		cntScrollPane.setViewportView(listaContato);
@@ -426,13 +429,13 @@ public class TelaCadastroFornecedor extends JFrame {
 		});
 		btnAddContato.setFocusPainted(false);
 		btnAddContato.setBackground(null);
-		btnAddContato.setBorder(new RoundBorder(new Color(22, 22, 22), 1, 22));
+		btnAddContato.setBorder(new RoundBorder(clDark, 1, 22));
 		btnAddContato.setBounds(135, 267, 22, 22);
 		panel.add(btnAddContato);
 		
 		panel.add(cntScrollPane);
 		
-		JButton btnAlterarContato = new JButton("ALTERAR");
+		RoundButton btnAlterarContato = new RoundButton("ALTERAR");
 		btnAlterarContato.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -462,15 +465,15 @@ public class TelaCadastroFornecedor extends JFrame {
 			}
 		});
 		btnAlterarContato.setOpaque(false);
-		btnAlterarContato.setForeground(new Color(239, 161, 35));
+		btnAlterarContato.setForeground(clYellow);
 		btnAlterarContato.setFont(pop12);
-		btnAlterarContato.setBorder(new RoundBorder(clYellow, 1, 10));
+		btnAlterarContato.setBorder(new RoundBorder(clYellow));
 		btnAlterarContato.setFocusPainted(false);
 		btnAlterarContato.setBackground((Color) null);
 		btnAlterarContato.setBounds(10, 171, 123, 23);
 		cntPanel.add(btnAlterarContato);
 		
-		JButton btnDelContato = new JButton("");
+		RoundButton btnDelContato = new RoundButton("");
 		btnDelContato.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int idx = listaContato.getSelectedIndex();
@@ -494,7 +497,7 @@ public class TelaCadastroFornecedor extends JFrame {
 		btnDelContato.setBounds(143, 171, 24, 24);
 		cntPanel.add(btnDelContato);
 		
-		JButton btnAlterarEndereco= new JButton("ALTERAR");
+		RoundButton btnAlterarEndereco= new RoundButton("ALTERAR");
 		btnAlterarEndereco.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -552,15 +555,15 @@ public class TelaCadastroFornecedor extends JFrame {
 			}
 		});
 		btnAlterarEndereco.setOpaque(false);
-		btnAlterarEndereco.setForeground(new Color(239, 161, 35));
+		btnAlterarEndereco.setForeground(clYellow);
 		btnAlterarEndereco.setFont(pop12);
-		btnAlterarEndereco.setBorder(new RoundBorder(clYellow, 1, 10));
+		btnAlterarEndereco.setBorder(new RoundBorder(clYellow));
 		btnAlterarEndereco.setFocusPainted(false);
 		btnAlterarEndereco.setBackground((Color) null);
 		btnAlterarEndereco.setBounds(10, 216, 123, 23);
 		endPanel.add(btnAlterarEndereco);
 		
-		JButton btnDelEndereco = new JButton("");
+		RoundButton btnDelEndereco = new RoundButton("");
 		btnDelEndereco.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int idx = listaEndereco.getSelectedIndex();
@@ -585,7 +588,7 @@ public class TelaCadastroFornecedor extends JFrame {
 		endPanel.add(btnDelEndereco);
 		
 		
-		JButton btnContinuar = new JButton("CADASTRAR");
+		RoundButton btnContinuar = new RoundButton("CADASTRAR");
 		btnContinuar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: tela de cadastro de fornecedor > cadastrar fornecedor");
@@ -630,6 +633,8 @@ public class TelaCadastroFornecedor extends JFrame {
 				System.out.println("Email Invalido ou CNPJ");
 				return;
 			}
+			TelaFornecedores.refresh(lista);
+			
 			dispose();
 			
 			}
@@ -637,7 +642,7 @@ public class TelaCadastroFornecedor extends JFrame {
 		btnContinuar.setOpaque(false);
 		btnContinuar.setBackground(null);
 		btnContinuar.setForeground(clYellow);
-		btnContinuar.setBorder(new RoundBorder(clYellow, 1, 10));
+		btnContinuar.setBorder(new RoundBorder(clYellow));
 		btnContinuar.setFont(pop12);
 		btnContinuar.setBounds(10, 432, 156, 23);
 		panel.add(btnContinuar);

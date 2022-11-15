@@ -49,6 +49,10 @@ public class TelaLogin extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit()
 				.getImage("./img/app_icon_small.png"));
 		Color clRed = new Color(226, 0, 54);
+		Color clDark = new Color(22, 22, 22);
+		Color clLight = new Color(45, 45, 45);
+		Color clLighter = new Color(197, 197, 197);
+		
 		Font poppins, pop10 = null, pop12 = null;
 
 		try {
@@ -66,13 +70,13 @@ public class TelaLogin extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 515, 460);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(45, 45, 45));
+		contentPane.setBackground(clLight);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
 		JPanel panel = new JPanel();
-		panel.setBackground(new Color(22, 22, 22));
+		panel.setBackground(clDark);
 		panel.setBounds(149, 111, 176, 190);
 		panel.setBorder(new RoundBorder(Color.WHITE, 1, 10));
 		contentPane.add(panel);
@@ -86,7 +90,7 @@ public class TelaLogin extends JFrame {
 		panel.add(lblEstamosQuaseL);
 
 		JLabel lblEmail = new JLabel("E-MAIL");
-		lblEmail.setForeground(new Color(197, 197, 197));
+		lblEmail.setForeground(clLighter);
 		lblEmail.setFont(pop10);
 		lblEmail.setBounds(10, 36, 156, 14);
 		panel.add(lblEmail);
@@ -94,29 +98,29 @@ public class TelaLogin extends JFrame {
 		
 		
 		RoundField txtEmail = new RoundField();
-		txtEmail.setSelectedTextColor(new Color(22, 22, 22));
+		txtEmail.setSelectedTextColor(clDark);
 		txtEmail.setSelectionColor(clRed);
 		txtEmail.setCaretColor(Color.WHITE);
 		txtEmail.setForeground(Color.WHITE);
-		txtEmail.setBackground(new Color(45, 45, 45));
+		txtEmail.setBackground(clLight);
 		txtEmail.setFont(pop12);
 		txtEmail.setBounds(10, 50, 156, 20);
 		panel.add(txtEmail);
 		txtEmail.setColumns(10);
 
 		RoundPasswordField txtSenha = new RoundPasswordField();
-		txtSenha.setSelectedTextColor(new Color(22, 22, 22));
+		txtSenha.setSelectedTextColor(clDark);
 		txtSenha.setSelectionColor(clRed);
 		txtSenha.setCaretColor(Color.WHITE);
 		txtSenha.setForeground(Color.WHITE);
-		txtSenha.setBackground(new Color(45, 45, 45));
+		txtSenha.setBackground(clLight);
 		txtSenha.setBounds(10, 95, 156, 20);
 		txtSenha.setFont(pop12);
 		txtSenha.setEchoChar('\u2022');
 		panel.add(txtSenha);
 
 		JLabel lblSenha = new JLabel("SENHA");
-		lblSenha.setForeground(new Color(197, 197, 197));
+		lblSenha.setForeground(clLighter);
 		lblSenha.setFont(pop10);
 		lblSenha.setBounds(10, 81, 156, 14);
 		panel.add(lblSenha);
@@ -172,7 +176,7 @@ public class TelaLogin extends JFrame {
 			}
 			}
 		});
-		btnEntrar.setPressedBackgroundColor(new Color(0,0,0));
+		btnEntrar.setPressedBackgroundColor(Color.BLACK);
 		btnEntrar.setOpaque(false);
 		btnEntrar.setBackground(null);
 		btnEntrar.setBorder(new RoundBorder(clRed, 1, 10));

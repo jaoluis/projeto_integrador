@@ -146,7 +146,7 @@ public class TelaInicialVND extends JFrame {
 		btnPerfil.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: tela inicial adm > perfil");
-				TelaPerfilADM telaPerfil = new TelaPerfilADM(usuarioLogado);
+				TelaPerfilVND telaPerfil = new TelaPerfilVND(usuarioLogado);
 				telaPerfil.setVisible(true);
 			}
 		});

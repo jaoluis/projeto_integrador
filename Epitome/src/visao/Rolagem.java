@@ -27,13 +27,13 @@ public class Rolagem extends BasicScrollBarUI{
 	public static void defRolagem(JScrollPane scrollPane) {
 		scrollPane.getVerticalScrollBar().setBackground(new Rolagem().getBg());
 		scrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(10, 0));
-		scrollPane.getVerticalScrollBar().setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 1));
+		scrollPane.getVerticalScrollBar().setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 1));
 		
 		scrollPane.getVerticalScrollBar().setUI(new Rolagem());
 		
 		scrollPane.getHorizontalScrollBar().setBackground(new Rolagem().getBg());
 		scrollPane.getHorizontalScrollBar().setPreferredSize(new Dimension(0, 10));
-		scrollPane.getHorizontalScrollBar().setBorder(BorderFactory.createEmptyBorder(2, 2, 1, 2));
+		scrollPane.getHorizontalScrollBar().setBorder(BorderFactory.createEmptyBorder(2, 0, 1, 0));
 		scrollPane.getHorizontalScrollBar().setUI(new Rolagem());
 	}
 

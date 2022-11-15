@@ -1,20 +1,15 @@
 package visao;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.text.ParseException;
 import java.util.ArrayList;
 
 import javax.swing.AbstractListModel;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -23,12 +18,9 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.text.MaskFormatter;
-
 import controle.UsuarioDAO;
 import modelo.Usuario;
 
@@ -61,6 +53,9 @@ public class TelaListarUsuarios extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit()
 				.getImage("./img/app_icon_small.png"));
 		Color clYellow = new Color(239, 161, 35);
+		Color clDark = new Color(22, 22, 22);
+		Color clLight = new Color(45, 45, 45);
+		Color clLighter = new Color(197, 197, 197);
 
 		Font poppins, pop12 = null, pop10 = null;
 
@@ -76,23 +71,23 @@ public class TelaListarUsuarios extends JFrame {
 		}
 		setResizable(false);
 		setTitle("Usu\u00E1rios");
-		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 359, 564);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(45, 45, 45));
+		contentPane.setBackground(clLight);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
 		JPanel panel = new JPanel();
-		panel.setBackground(new Color(22, 22, 22));
+		panel.setBackground(clDark);
 		panel.setBounds(50, 11, 242, 488);
 		contentPane.add(panel);
-		panelChisel(panel, Color.WHITE, 5);
+		panel.setBorder(new RoundBorder());
 		panel.setLayout(null);
 		
 		JLabel lblUsuarios = new JLabel("USU\u00C1RIOS");
-		lblUsuarios.setForeground(new Color(197, 197, 197));
+		lblUsuarios.setForeground(clLighter);
 		lblUsuarios.setFont(null);
 		lblUsuarios.setFont(pop10);
 		lblUsuarios.setBounds(10, 15, 130, 14);
@@ -101,7 +96,7 @@ public class TelaListarUsuarios extends JFrame {
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 32, 174, 445);
 		Rolagem.defRolagem(scrollPane);
-		scrollChisel(scrollPane, Color.WHITE, 5);
+		scrollPane.setBorder(new RoundBorder());
 		scrollPane.setBackground(null);
 		scrollPane.setForeground(null);
 		panel.add(scrollPane);
@@ -109,6 +104,7 @@ public class TelaListarUsuarios extends JFrame {
 		usuarios = (ArrayList<Usuario>) new UsuarioDAO().getListarUsuarios();
 		
 		JList<String> listaUsuario = new JList<String>();
+		listaUsuario.setFocusable(false);
 		listaUsuario.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
 				
@@ -119,7 +115,7 @@ public class TelaListarUsuarios extends JFrame {
 		});
 		listaUsuario.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		listaUsuario.setSelectionBackground(clYellow);
-		listaUsuario.setSelectionForeground(new Color(22,22,22));
+		listaUsuario.setSelectionForeground(clDark);
 		listaUsuario.setModel(new AbstractListModel<String>() {
 
 			private static final long serialVersionUID = 1L;
@@ -130,7 +126,7 @@ public class TelaListarUsuarios extends JFrame {
 				return new String[] {}[index];
 			}
 		});
-		listaUsuario.setBackground(new Color(22, 22, 22));
+		listaUsuario.setBackground(clDark);
 		listaUsuario.setForeground(Color.WHITE);
 		listaUsuario.setFont(pop12);
 		listaUsuario.setBounds(0, 50, 156, 113);
@@ -152,12 +148,12 @@ public class TelaListarUsuarios extends JFrame {
 		btnCadastrar.setIcon(new ImageIcon("./img/add.png"));
 		btnCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				TelaCadastro telaCadastro = new TelaCadastro();
+				TelaCadastro telaCadastro = new TelaCadastro(listaUsuario);
 				telaCadastro.setVisible(true);
 			}
 		});
 
-		btnCadastrar.setBorder(BorderFactory.createEmptyBorder());
+		btnCadastrar.setBorder(new RoundBorder(clDark, 1, 36));
 		btnCadastrar.setForeground(Color.WHITE);
 		
 		JButton btnDetalhar = new JButton("");
@@ -171,37 +167,17 @@ public class TelaListarUsuarios extends JFrame {
 				if (listaUsuario.getSelectedIndex() == -1) {
 					return;
 				}
-				Usuario u = usuarios.get(listaUsuario.getSelectedIndex());
-				TelaPerfilADM tl = new TelaPerfilADM(u);
-				tl.setVisible(true);
-			}
-		});
-		btnDetalhar.setForeground(Color.WHITE);
-		btnDetalhar.setBorder(BorderFactory.createEmptyBorder());
-		
-		JButton btnRefresh = new JButton("");
-		btnRefresh.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-					
+				
 				usuarios = (ArrayList<Usuario>) new UsuarioDAO().getListarUsuarios();
 				valuesUsuario.clear();
 				
-				int t = 0;
-				for (Usuario u: usuarios) {
-					valuesUsuario.add("");
-					valuesUsuario.set(t, u.getNome_usuario());
-					t++;
-				}
-				TelaCadastro.updateList(listaUsuario, valuesUsuario);
+				Usuario u = usuarios.get(listaUsuario.getSelectedIndex());
+				TelaPerfilADM tl = new TelaPerfilADM(u, listaUsuario);
+				tl.setVisible(true);
 			}
 		});
-		btnRefresh.setForeground(Color.WHITE);
-		btnRefresh.setIcon(new ImageIcon("./img/refresh.png"));
-		btnRefresh.setFocusPainted(false);
-		btnRefresh.setBorder(BorderFactory.createEmptyBorder());
-		btnRefresh.setBackground((Color) null);
-		btnRefresh.setBounds(194, 126, 36, 36);
-		panel.add(btnRefresh);
+		btnDetalhar.setBorder(new RoundBorder(clDark, 1, 36));
+		btnDetalhar.setForeground(Color.WHITE);
 		
 		JLabel fakeBG = new JLabel("");
 		fakeBG.setIcon(new ImageIcon("./img/bg.png"));
@@ -209,57 +185,17 @@ public class TelaListarUsuarios extends JFrame {
 		contentPane.add(fakeBG);
 		
 		}
-
-	private void scrollChisel(JScrollPane scrollPane, Color color, int i) {
-		scrollPane.setForeground(color);
-        RoundedBorder LineBorder = new RoundedBorder(color, i);
-        Border emptyBorder = BorderFactory.createEmptyBorder();
-        scrollPane.setBorder(BorderFactory.createCompoundBorder(LineBorder, emptyBorder));
-	}
-
-	private static void panelChisel(JPanel panel, Color color, int radius) {
+	
+	static public void refresh(JList<String> list) {
+		ArrayList<Usuario> n_usuarios = (ArrayList<Usuario>) new UsuarioDAO().getListarUsuarios();
+		ArrayList<String> n_valuesUsuario = new ArrayList<String>();
 		
-        //panel.setFocusPainted(false);
-        panel.setForeground(color);
-        RoundedBorder LineBorder = new RoundedBorder(color, radius);
-        Border emptyBorder = BorderFactory.createEmptyBorder(417, 124, 417, 124);
-        panel.setBorder(BorderFactory.createCompoundBorder(LineBorder, emptyBorder));
-	}
-
-	protected MaskFormatter def_mask(String envolucro, char substituto) {
-		MaskFormatter mask = null;
-		try {
-			mask = new MaskFormatter(envolucro);
-			mask.setPlaceholderCharacter(substituto);
-		} catch (ParseException e) {
-			e.printStackTrace();
+		int t = 0;
+		for (Usuario u: n_usuarios) {
+			n_valuesUsuario.add("");
+			n_valuesUsuario.set(t, u.getNome_usuario());
+			t++;
 		}
-		return mask;
-	}
-	private static class RoundedBorder implements Border {
-
-		private int radius = 10;
-		private Color color;
-
-		private RoundedBorder(Color color, int radius) {
-			this.color = color;
-			this.radius = radius;
-		}
-
-		@Override
-		public Insets getBorderInsets(Component c) {
-			return new Insets(this.radius + 1, this.radius + 1, this.radius + 1, this.radius + 1);
-		}
-
-		@Override
-		public boolean isBorderOpaque() {
-			return true;
-		}
-
-		@Override
-		public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-			g.setColor(color);
-			g.drawRoundRect(x, y, width - 1, height - 1, radius, radius);
-		}
+		TelaCadastro.updateList(list, n_valuesUsuario);
 	}
 }

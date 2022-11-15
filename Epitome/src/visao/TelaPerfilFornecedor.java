@@ -6,11 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-
 import controle.FornecedorBD;
 import controle.UsuarioDAO;
 import modelo.Contato;
@@ -20,15 +16,12 @@ import modelo.Fornecedor;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.SwingConstants;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Insets;
+import javax.swing.UIManager;
 
+import java.awt.Font;
 import javax.swing.AbstractListModel;
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
@@ -52,7 +45,7 @@ public class TelaPerfilFornecedor extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TelaPerfilFornecedor frame = new TelaPerfilFornecedor(null);
+					TelaPerfilFornecedor frame = new TelaPerfilFornecedor(null, null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -67,7 +60,7 @@ public class TelaPerfilFornecedor extends JFrame {
 	 */
 	UsuarioDAO usuarioDao = new UsuarioDAO();
 	
-	public TelaPerfilFornecedor(Fornecedor fornecedor) {
+	public TelaPerfilFornecedor(Fornecedor fornecedor, JList<String> lista) {
 		setIconImage(Toolkit.getDefaultToolkit().getImage("./img/app_icon_small.png"));
 		Color clRed = new Color(226, 0, 54);
 		Color clBlue = new Color(113, 206, 236);
@@ -84,10 +77,12 @@ public class TelaPerfilFornecedor extends JFrame {
 		} catch (Exception e) {
 		  e.printStackTrace();
 		}
+
+		UIManager.put("Button.select", Color.BLACK);
 		
 		setResizable(false);
 		setTitle("Perfil - " + fornecedor.getNome_fornecedor());
-		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 708, 249);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(45, 45, 45));
@@ -98,11 +93,12 @@ public class TelaPerfilFornecedor extends JFrame {
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(22, 22, 22));
 		panel.setBounds(29, 28, 629, 143);
-		panelbuttonChisel(panel, Color.WHITE, 5);
+		panel.setBorder(new RoundBorder());
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
 		JButton btnDelete = new JButton("");
+		btnDelete.setFocusPainted(false);
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -114,16 +110,17 @@ public class TelaPerfilFornecedor extends JFrame {
 		btnDelete.setIcon(new ImageIcon("./img/delete.png"));
 		btnDelete.setOpaque(false);
 		btnDelete.setBackground(null);
-		Chisel(btnDelete, clRed, 5);
+		btnDelete.setBorder(new RoundBorder(clRed, 1, 24));
 		btnDelete.setFont(pop12);
 		btnDelete.setForeground(clRed);
-		btnDelete.setBounds(10, 109, 23, 23);
+		btnDelete.setBounds(10, 109, 24, 24);
 		panel.add(btnDelete);
 		
 		JButton btnModificar = new JButton("");
+		btnModificar.setFocusPainted(false);
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				TelaFornecedorModificar telaFornecedorModificar = new TelaFornecedorModificar(fornecedor.getId_fornecedor());
+				TelaFornecedorModificar telaFornecedorModificar = new TelaFornecedorModificar(fornecedor.getId_fornecedor(), lista);
 				telaFornecedorModificar.setVisible(true);
 				setVisible(false);
 				System.out.println("debug: tela Perfil > tela de Modificar");
@@ -133,10 +130,10 @@ public class TelaPerfilFornecedor extends JFrame {
 		btnModificar.setIcon(new ImageIcon("./img/mini edit.png"));
 		btnModificar.setOpaque(false);
 		btnModificar.setBackground(null);
-		Chisel(btnModificar, clBlue, 5);
+		btnModificar.setBorder(new RoundBorder(clBlue, 1, 24));
 		btnModificar.setFont(pop12);
 		btnModificar.setForeground(clBlue);
-		btnModificar.setBounds(43, 109, 23, 23);
+		btnModificar.setBounds(44, 109, 24, 24);
 		panel.add(btnModificar);
 		
 		JLabel lblCargo = new JLabel("fornecedor #" + fornecedor.getId_fornecedor());
@@ -158,14 +155,14 @@ public class TelaPerfilFornecedor extends JFrame {
 		lblCPF.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblCPF.setForeground(new Color(197, 197, 197));
 		lblCPF.setFont(pop12);
-		lblCPF.setBounds(10, 84, 56, 14);
+		lblCPF.setBounds(10, 61, 56, 14);
 		panel.add(lblCPF);
 		
 		JLabel lblCPFInfo = new JLabel(fornecedor.getCnpj_fornecedor());
 		lblCPFInfo.setHorizontalAlignment(SwingConstants.LEFT);
 		lblCPFInfo.setForeground(Color.WHITE);
 		lblCPFInfo.setFont(pop12);
-		lblCPFInfo.setBounds(76, 84, 150, 14);
+		lblCPFInfo.setBounds(76, 61, 156, 14);
 		panel.add(lblCPFInfo);
         
 		JLabel lblEndereco = new JLabel("ENDERE\u00C7O(S)");
@@ -178,12 +175,13 @@ public class TelaPerfilFornecedor extends JFrame {
         JScrollPane endScrollPane = new JScrollPane();
 		endScrollPane.setBounds(242, 29, 181, 103);
 		Rolagem.defRolagem(endScrollPane);
-		scrollChisel(endScrollPane, Color.WHITE, 5);
+		endScrollPane.setBorder(new RoundBorder());
 		endScrollPane.setBackground(null);
 		endScrollPane.setForeground(null);
 		panel.add(endScrollPane);
 		
 		JList<String> listaEndereco = new JList<String>();
+		listaEndereco.setFocusable(false);
 		listaEndereco.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		listaEndereco.setSelectionBackground(clYellow);
 		listaEndereco.setSelectionForeground(new Color(22,22,22));
@@ -212,13 +210,14 @@ public class TelaPerfilFornecedor extends JFrame {
 		JScrollPane cntScrollPane = new JScrollPane();
 		cntScrollPane.setForeground(Color.WHITE);
 		Rolagem.defRolagem(cntScrollPane);
-		scrollChisel(cntScrollPane, Color.WHITE, 5);
+		cntScrollPane.setBorder(new RoundBorder());
 		cntScrollPane.setBackground((Color) null);
 		cntScrollPane.setForeground(null);
 		cntScrollPane.setBounds(433, 29, 181, 103);
 		panel.add(cntScrollPane);
 		
 		JList<String> listaContato = new JList<String>();
+		listaContato.setFocusable(false);
 		listaContato.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		listaContato.setSelectionBackground(clYellow);
 		listaContato.setSelectionForeground(new Color(22,22,22));
@@ -261,64 +260,4 @@ public class TelaPerfilFornecedor extends JFrame {
 		fakeBG.setBounds(-495, -286, 1600, 861);
 		contentPane.add(fakeBG);
 	}
-	
-
-
-
-	private void scrollChisel(JScrollPane scrollPane, Color color, int i) {
-		scrollPane.setForeground(color);
-        RoundedBorder LineBorder = new RoundedBorder(color, i);
-        Border emptyBorder = BorderFactory.createEmptyBorder();
-        scrollPane.setBorder(BorderFactory.createCompoundBorder(LineBorder, emptyBorder));
-		
-	}
-
-
-
-
-
-private void Chisel(JButton button, Color color, int radius) {
-	button.setFocusPainted(false);
-	button.setForeground(color);
-	RoundedBorder LineBorder = new RoundedBorder(color, radius);
-	Border emptyBorder = BorderFactory.createEmptyBorder();
-	button.setBorder(BorderFactory.createCompoundBorder(LineBorder, emptyBorder));
-		
-	}
-
-private static void panelbuttonChisel(JPanel panel, Color color, int radius) {
-		
-        //panel.setFocusPainted(false);
-        panel.setForeground(color);
-        RoundedBorder LineBorder = new RoundedBorder(color, radius);
-        Border emptyBorder = BorderFactory.createEmptyBorder(417, 124, 417, 124);
-        panel.setBorder(BorderFactory.createCompoundBorder(LineBorder, emptyBorder));
-	}
-
-	private static class RoundedBorder implements Border {
-
-        private int radius = 10;
-        private Color color;
-
-        private RoundedBorder(Color color, int radius) {
-            this.color = color;
-            this.radius = radius;
-        }
-
-        @Override
-        public Insets getBorderInsets(Component c) {
-            return new Insets(this.radius + 1, this.radius + 1, this.radius + 1, this.radius + 1);
-        }
-
-        @Override
-        public boolean isBorderOpaque() {
-            return true;
-        }
-
-        @Override
-        public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-            g.setColor(color);
-            g.drawRoundRect(x, y, width - 1, height - 1, radius, radius);
-        }
-    }
 }

@@ -1,12 +1,9 @@
 package visao;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,19 +18,18 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
 import controle.FornecedorBD;
 import controle.ProdutoBD;
+import controle.UsuarioDAO;
+import modelo.Fornecedor;
 import modelo.Produto;
 import modelo.Usuario;
 
@@ -56,20 +52,8 @@ public class TelaEstoque extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TelaEstoque frame = new TelaEstoque(null);
+					TelaEstoque frame = new TelaEstoque(UsuarioDAO.getUsuario(3));
 					frame.setVisible(true);
-					
-//					Component[] components = frame.getContentPane().getComponents();
-//					for (Component c : components) {
-//						if (c instanceof JScrollPane) {
-//							JViewport v = ((JScrollPane) c).getViewport();
-//							JTable table = (JTable) v.getView();
-//							JTableHeader theader = table.getTableHeader();
-//							theader.setBackground(Color.YELLOW);
-//							table.setTableHeader(theader);
-//							UIManager.put("TableHeader.background", new javax.swing.plaf.ColorUIResource(new Color(22,22,22)));
-//						}
-//					}
 					
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -85,13 +69,15 @@ public class TelaEstoque extends JFrame {
 	 */
 	public TelaEstoque(Usuario usuarioLogado) {
 		setIconImage(Toolkit.getDefaultToolkit().getImage("./img/app_icon_small.png"));
-		Color clRed = new Color(226, 0, 54);
-		Color clBlue = new Color(113, 206, 236);
 		Color clGreen = new Color(168, 198, 51);
+		Color clDark = new Color(22, 22, 22);
+		Color clLight = new Color(45, 45, 45);
+		
 		Font poppins, pop10 = null, pop12 = null, pop24 = null;
 
-		UIManager.put("TableHeader.cellBorder", BorderFactory.createCompoundBorder(new LineBorder(new Color(22,22,22), 2), new MatteBorder(0, 0, 1, 0, clGreen)));
-		UIManager.put("TableHeader.background", new javax.swing.plaf.ColorUIResource(new Color(22,22,22)));
+		UIManager.put("TableHeader.cellBorder", BorderFactory.createCompoundBorder(new LineBorder(clDark, 2), new MatteBorder(0, 0, 1, 0, clGreen)));
+		UIManager.put("TableHeader.background", clDark);
+		UIManager.put("Button.select", Color.BLACK);
 		
 		try {
 
@@ -109,61 +95,72 @@ public class TelaEstoque extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(160, 90, 1600, 900);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(45, 45, 45));
+		contentPane.setBackground(clLight);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
 		JPanel panel = new JPanel();
-		panel.setBackground(new Color(22, 22, 22));
+		panel.setBackground(clDark);
 		panel.setBounds(1322, 11, 252, 124);
-		panelChisel(panel, Color.WHITE, 5);
+		panel.setBorder(new RoundBorder(Color.WHITE, 1, 10));
 		contentPane.add(panel);
 		panel.setLayout(null);
 
-		JButton btnRelatorio = new JButton("Relat\u00F3rio de Vendas");
+		JButton btnRelatorio = new JButton("Relatório de Vendas");
+		btnRelatorio.setHorizontalAlignment(SwingConstants.LEFT);
+		btnRelatorio.setIcon(new ImageIcon("./img/report.png"));
 		btnRelatorio.setFont(pop10);
 		btnRelatorio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug: tela de estoque > relatÃ³rio de vendas");
+				System.out.println("debug: tela inicial adm > relatório de vendas");
+				TelaRelatorio telaRel = new TelaRelatorio(usuarioLogado);
+				telaRel.setVisible(true);
+				setVisible(false);
 			}
 		});
 		btnRelatorio.setBackground(null);
-		btnRelatorio.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		btnRelatorio.setForeground(clBlue);
-		btnRelatorio.setBounds(10, 59, 232, 23);
+		btnRelatorio.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(), new RoundBorder(clDark, 2, 23)));
+		btnRelatorio.setForeground(Color.WHITE);
+		btnRelatorio.setBounds(39, 59, 175, 23);
 		btnRelatorio.setFocusPainted(false);
 		panel.add(btnRelatorio);
-
+		
 		JButton btnSair = new JButton("Sair");
+		btnSair.setHorizontalAlignment(SwingConstants.LEFT);
 		btnSair.setFont(pop10);
+		btnSair.setIcon(new ImageIcon("./img/logout.png"));
 		btnSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug: tela de estoque > sair");
+				TelaLogin tl = new TelaLogin();
+				tl.setVisible(true);
+				setVisible(false);
 			}
 		});
 		btnSair.setBackground(null);
-		btnSair.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		btnSair.setForeground(clGreen);
-		btnSair.setBounds(10, 82, 232, 23);
+		btnSair.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(), new RoundBorder(clDark, 2, 23)));
+		btnSair.setForeground(Color.WHITE);
+		btnSair.setBounds(39, 82, 175, 23);
 		btnSair.setFocusPainted(false);
 		panel.add(btnSair);
-
-		JButton btnLogin = new JButton("Perfil");
-		btnLogin.setFont(pop10);
-		btnLogin.addActionListener(new ActionListener() {
+		
+		JButton btnPerfil = new JButton("Perfil");
+		btnPerfil.setHorizontalAlignment(SwingConstants.LEFT);
+		btnPerfil.setFont(pop10);
+		btnPerfil.setIcon(new ImageIcon("./img/profile.png"));
+		btnPerfil.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug: tela de estoque > perfil");
-				TelaPerfilADM telaPerfil = new TelaPerfilADM(usuarioLogado);
+				System.out.println("debug: tela inicial adm > perfil");
+				TelaPerfilADM telaPerfil = new TelaPerfilADM(usuarioLogado, null);
 				telaPerfil.setVisible(true);
 			}
 		});
-		btnLogin.setBackground(null);
-		btnLogin.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		btnLogin.setForeground(clRed);
-		btnLogin.setBounds(10, 36, 232, 23);
-		btnLogin.setFocusPainted(false);
-		panel.add(btnLogin);
+		btnPerfil.setBackground(null);
+		btnPerfil.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(), new RoundBorder(clDark, 2, 23)));
+		btnPerfil.setForeground(Color.WHITE);
+		btnPerfil.setBounds(39, 36, 175, 23);
+		btnPerfil.setFocusPainted(false);
+		panel.add(btnPerfil);
 
 		JLabel lblNome = new JLabel(usuarioLogado.getNome_usuario());
 		// lblNome.setText(nome do usuario)
@@ -186,17 +183,19 @@ public class TelaEstoque extends JFrame {
 		btnReturn.setIcon(new ImageIcon("./img/return.png"));
 		btnReturn.setForeground(null);
 		btnReturn.setBackground(null);
-		btnReturn.setBounds(23, 42, 27, 45);
+		btnReturn.setBorder(new RoundBorder(clLight, 1, 27));
+		btnReturn.setFocusPainted(false);
+		btnReturn.setBounds(23, 51, 27, 27);
 		contentPane.add(btnReturn);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(47, 162, 1480, 602);
 		scrollPane.setFont(pop12);
-		scrollPane.setForeground(new Color(22, 22, 22));
-		scrollPane.setBackground(new Color(22, 22, 22));
+		scrollPane.setForeground(clDark);
+		scrollPane.setBackground(clDark);
 		scrollPane.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		scrollPane.getViewport().setOpaque(false);
-		scrollChisel(scrollPane, Color.WHITE, 5);
+		scrollPane.setBorder(new RoundBorder(Color.WHITE, 1, 10));
 		Rolagem.defRolagem(scrollPane);
 		contentPane.add(scrollPane);
 
@@ -214,7 +213,7 @@ public class TelaEstoque extends JFrame {
 		};
 		tblProdutos.setFocusable(false);
 		tblProdutos.setSelectionBackground(clGreen);
-		tblProdutos.setSelectionForeground(new Color(22, 22, 22));
+		tblProdutos.setSelectionForeground(clDark);
 		tblProdutos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tblProdutos.setShowHorizontalLines(false);
 		tblProdutos.setShowVerticalLines(false);
@@ -225,14 +224,14 @@ public class TelaEstoque extends JFrame {
 
 		Theader.setFont(pop12);
 		Theader.setForeground(clGreen);
-		Theader.setBackground(new Color(22, 22, 22));
+		Theader.setBackground(clDark);
 		Theader.setReorderingAllowed(false);
 		Theader.setResizingAllowed(false);
 		Theader.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		
 		tblProdutos.setFont(pop12);
 		tblProdutos.setForeground(Color.WHITE);
-		tblProdutos.setBackground(new Color(22, 22, 22));
+		tblProdutos.setBackground(clDark);
 		tblProdutos.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		
 		refresh(tblProdutos);
@@ -250,24 +249,30 @@ public class TelaEstoque extends JFrame {
 		btnSearch.setIcon(new ImageIcon("./img/search.png"));
 		btnSearch.setForeground(null);
 		btnSearch.setBackground(null);
-		btnSearch.setBounds(47, 126, 25, 25);
+		btnSearch.setBorder(new RoundBorder(clLight, 1, 25));
+		btnSearch.setBounds(46, 125, 27, 27);
 		contentPane.add(btnSearch);
 
 		JButton btnEdit = new JButton("");
 		btnEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: editar produto (tela de cadastro de produto)");
+				if (tblProdutos.getSelectedRow() == -1) {
+					return;
+				}
+				
 				produtos = new ProdutoBD().getListarProdutos();
-
+				
 				TelaModificarProduto tmp = new TelaModificarProduto(tblProdutos, produtos.get(tblProdutos.getSelectedRow()));
 				tmp.setVisible(true);
 
 			}
 		});
-		btnEdit.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		btnEdit.setFocusPainted(false);
+		btnEdit.setBorder(new RoundBorder(clLight, 1, 36));
 		btnEdit.setIcon(new ImageIcon("./img/edit.png"));
-		btnEdit.setForeground(null);
 		btnEdit.setBackground(null);
+		btnEdit.setOpaque(false);
 		btnEdit.setBounds(93, 775, 36, 36);
 		contentPane.add(btnEdit);
 
@@ -278,10 +283,11 @@ public class TelaEstoque extends JFrame {
 				tcp.setVisible(true);
 			}
 		});
-		btnAdd.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		btnAdd.setFocusPainted(false);
+		btnAdd.setBorder(new RoundBorder(clLight, 1, 36));
 		btnAdd.setIcon(new ImageIcon("./img/add.png"));
-		btnAdd.setForeground(null);
 		btnAdd.setBackground(null);
+		btnAdd.setOpaque(false);
 		btnAdd.setBounds(47, 775, 36, 36);
 		contentPane.add(btnAdd);
 
@@ -292,13 +298,16 @@ public class TelaEstoque extends JFrame {
 		lblEstoque.setBounds(60, 42, 252, 45);
 		contentPane.add(lblEstoque);
 
-		JTextField txtSearch = new JTextField();
+		RoundField txtSearch = new RoundField(Color.WHITE, 20);
+		txtSearch.setHorizontalAlignment(SwingConstants.CENTER);
+		txtSearch.setCaretColor(Color.WHITE);
 		txtSearch.setForeground(Color.WHITE);
-		txtSearch.setBackground(new Color(22, 22, 22));
-		txtSearch.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		txtSearch.setBounds(80, 126, 431, 25);
+		txtSearch.setSelectedTextColor(clDark);
+		txtSearch.setSelectionColor(clGreen);
+		txtSearch.setBackground(clDark);
+		txtSearch.setBorder(BorderFactory.createEmptyBorder());
+		txtSearch.setBounds(82, 128, 359, 20);
 		txtSearch.setFont(pop12);
-		fieldChisel(txtSearch, Color.WHITE, 5);
 		contentPane.add(txtSearch);
 		txtSearch.setColumns(10);
 		
@@ -328,30 +337,25 @@ public class TelaEstoque extends JFrame {
 		
 		DefaultTableModel model = new DefaultTableModel(null, new String[] { "ID", "NOME", "PRE\u00C7O", "MATERIAL", "DIMENS\u00D5ES", "FORNECEDOR", "QUANTIDADE"});
 
-		ProdutoBD produtoBD = new ProdutoBD();
-		FornecedorBD fbd = new FornecedorBD();
-		produtos = produtoBD.getListarProdutos();
+		produtos = new ProdutoBD().getListarProdutos();
+		ArrayList<Fornecedor> fornecedores = (ArrayList<Fornecedor>) new FornecedorBD().getListarFornecedores();
 		
 		for (Produto produto : produtos) {
-				if(produto.getFornecedor()==0) {
+					String fNome = "Sem fornecedor";
+					for (Fornecedor f: fornecedores) {
+						if (f.getId_fornecedor() == produto.getFornecedor()) {
+							fNome = f.getNome_fornecedor();
+						}
+					}
 					model.addRow(new Object[] {
 							"# " + produto.getIdProduto(),
 							produto.getNomeProduto(),
 							"R$ " + String.format("%.02f", produto.getPrecoVendaProduto()).replace('.',','),
 							produto.getMaterialProduto(),
 							produto.getDimensoesProduto(),
-							"Sem fornecedor",
+							fNome,
 							produto.getQuantidadeEstoque()});
-				}else {
-					model.addRow(new Object[] {
-							"# " + produto.getIdProduto(),
-							produto.getNomeProduto(),
-							"R$ " + String.format("%.02f", produto.getPrecoVendaProduto()).replace('.',','),
-							produto.getMaterialProduto(),
-							produto.getDimensoesProduto(),
-							fbd.getFornecedor(produto.getFornecedor()).getNome_fornecedor(),
-							produto.getQuantidadeEstoque()});
-				}
+				
 		}
 		
 		tbl.setModel(model);
@@ -366,78 +370,5 @@ public class TelaEstoque extends JFrame {
 		tbl.getColumnModel().getColumn(4).setPreferredWidth(160);
 		tbl.getColumnModel().getColumn(5).setPreferredWidth(270);
 		tbl.getColumnModel().getColumn(6).setPreferredWidth(100);
-	}
-	
-	private void scrollChisel(JScrollPane scrollPane, Color color, int i) {
-		scrollPane.setForeground(color);
-		RoundedBorder LineBorder = new RoundedBorder(color, i);
-		Border emptyBorder = BorderFactory.createEmptyBorder();
-		scrollPane.setBorder(BorderFactory.createCompoundBorder(LineBorder, emptyBorder));
-
-	}
-
-	private static void panelChisel(JPanel panel, Color color, int radius) {
-
-		// panel.setFocusPainted(false);
-		panel.setForeground(color);
-		RoundedBorder LineBorder = new RoundedBorder(color, radius);
-		Border emptyBorder = BorderFactory.createEmptyBorder();
-		panel.setBorder(BorderFactory.createCompoundBorder(LineBorder, emptyBorder));
-	}
-
-	private static void fieldChisel(JTextField field, Color color, int radius) {
-
-		// panel.setFocusPainted(false);
-		field.setForeground(color);
-		RoundedBorder LineBorder = new RoundedBorder(color, radius);
-		Border emptyBorder = BorderFactory.createEmptyBorder(field.getBorder().getBorderInsets(field).top,
-				field.getBorder().getBorderInsets(field).left, field.getBorder().getBorderInsets(field).bottom,
-				field.getBorder().getBorderInsets(field).right);
-		field.setBorder(BorderFactory.createCompoundBorder(LineBorder, emptyBorder));
-	}
-	
-	class ColumnColorRenderer extends DefaultTableCellRenderer {
-		   /**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-		Color backgroundColor, foregroundColor;
-		public ColumnColorRenderer(Color backgroundColor, Color foregroundColor) {
-			super();
-			this.backgroundColor = backgroundColor;
-			this.foregroundColor = foregroundColor;
-		}
-		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-			Component cell = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-			cell.setBackground(backgroundColor);
-			return cell;
-		}
-	}
-	
-	private static class RoundedBorder implements Border {
-
-		private int radius = 10;
-		private Color color;
-
-		private RoundedBorder(Color color, int radius) {
-			this.color = color;
-			this.radius = radius;
-		}
-
-		@Override
-		public Insets getBorderInsets(Component c) {
-			return new Insets(this.radius + 1, this.radius + 1, this.radius + 1, this.radius + 1);
-		}
-
-		@Override
-		public boolean isBorderOpaque() {
-			return true;
-		}
-
-		@Override
-		public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-			g.setColor(color);
-			g.drawRoundRect(x, y, width - 1, height - 1, radius, radius);
-		}
 	}
 }

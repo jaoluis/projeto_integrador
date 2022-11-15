@@ -47,6 +47,7 @@ public class Combo extends BasicComboBoxUI{
         };
         bcp.setBorder(BorderFactory.createEmptyBorder());
         bcp.setBorder(new LineBorder(Color.WHITE));
+        
         return bcp;
     }
     

@@ -1,10 +1,34 @@
 package visao;
 
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.io.File;
+import java.sql.Date;
+import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
@@ -12,31 +36,6 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.SwingConstants;
-import javax.swing.UIManager;
-
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Insets;
-
-import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.event.ActionListener;
-import java.io.File;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.awt.event.ActionEvent;
-import javax.swing.ImageIcon;
-import java.awt.Toolkit;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
@@ -47,12 +46,6 @@ import modelo.Produto;
 import modelo.Usuario;
 import modelo.Venda;
 
-import javax.swing.JRadioButton;
-import javax.swing.ButtonGroup;
-import javax.swing.DefaultComboBoxModel;
-
-import javax.swing.JComboBox;
-
 public class TelaVenda extends JFrame {
 
 	/**
@@ -62,7 +55,7 @@ public class TelaVenda extends JFrame {
 	
 	private JPanel contentPane;
 	private JTable tblProdutos;
-	private JTextField txtCodigo;
+	private RoundField txtCodigo;
 	private ArrayList<Produto> all_produtos = new ProdutoBD().getListarProdutos();
 	private ArrayList<Produto> produtos = new ArrayList<Produto>();
 	float precoT = 0;
@@ -96,9 +89,9 @@ public class TelaVenda extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage("./img/app_icon_small.png"));
 		Color clRed = new Color(226, 0, 54);
 		Color clBlue = new Color(113, 206, 236);
-		Color clGreen = new Color(168, 198, 51);
 		Color clYellow = new Color(239, 161, 35);
-		
+		Color clDark = new Color(22, 22, 22);
+		Color clLight = new Color(45, 45, 45);
 		
 		Font poppins, pop10 = null, pop12 = null, pop16 = null, pop24 = null;
 		
@@ -114,70 +107,90 @@ public class TelaVenda extends JFrame {
 		  e.printStackTrace();
 		}
 		
-		UIManager.put("TableHeader.cellBorder", BorderFactory.createCompoundBorder(new LineBorder(new Color(22,22,22), 2), new MatteBorder(0, 0, 1, 0, clGreen)));
-		UIManager.put("TableHeader.background", new javax.swing.plaf.ColorUIResource(new Color(22,22,22)));
+		UIManager.put("TableHeader.cellBorder", BorderFactory.createCompoundBorder(new LineBorder(clDark, 2), new MatteBorder(0, 0, 1, 0, clBlue)));
+		UIManager.put("TableHeader.background", clDark);
+		UIManager.put("Button.select", Color.BLACK);
 		
 		setResizable(false);
 		setTitle("Sistema de Vendas Ep\u00EDtome");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(160, 90, 1600, 900);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(45, 45, 45));
+		contentPane.setBackground(clLight);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBackground(new Color(22, 22, 22));
+		panel.setBackground(clDark);
 		panel.setBounds(1322, 11, 252, 124);
-		panelChisel(panel, Color.WHITE, 5);
+		panel.setBorder(new RoundBorder());
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JButton btnRelatorio = new JButton("Relat\u00F3rio de Vendas");
+		JButton btnRelatorio = new JButton("RelatÛrio de Vendas");
+		btnRelatorio.setHorizontalAlignment(SwingConstants.LEFT);
+		btnRelatorio.setIcon(new ImageIcon("./img/report.png"));
 		btnRelatorio.setFont(pop10);
 		btnRelatorio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug: tela de estoque > relat\u00F3rio de vendas");
+				System.out.println("debug: tela inicial adm > relatÛrio de vendas");
 				TelaRelatorio telaRel = new TelaRelatorio(usuarioLogado);
 				telaRel.setVisible(true);
 				setVisible(false);
 			}
 		});
 		btnRelatorio.setBackground(null);
-		btnRelatorio.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		btnRelatorio.setForeground(clBlue);
-		btnRelatorio.setBounds(10, 59, 232, 23);
+		btnRelatorio.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(), new RoundBorder(clDark, 2, 23)));
+		btnRelatorio.setForeground(Color.WHITE);
+		btnRelatorio.setBounds(39, 59, 175, 23);
 		btnRelatorio.setFocusPainted(false);
 		panel.add(btnRelatorio);
 		
+		if (usuarioLogado.getCargo().equals("vendedor")) {
+			btnRelatorio.setEnabled(false);
+		}
+		
 		JButton btnSair = new JButton("Sair");
+		btnSair.setHorizontalAlignment(SwingConstants.LEFT);
 		btnSair.setFont(pop10);
+		btnSair.setIcon(new ImageIcon("./img/logout.png"));
 		btnSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug: tela de estoque > sair");
+				TelaLogin tl = new TelaLogin();
+				tl.setVisible(true);
+				setVisible(false);
 			}
 		});
 		btnSair.setBackground(null);
-		btnSair.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		btnSair.setForeground(clGreen);
-		btnSair.setBounds(10, 82, 232, 23);
+		btnSair.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(), new RoundBorder(clDark, 2, 23)));
+		btnSair.setForeground(Color.WHITE);
+		btnSair.setBounds(39, 82, 175, 23);
 		btnSair.setFocusPainted(false);
 		panel.add(btnSair);
 		
 		JButton btnPerfil = new JButton("Perfil");
+		btnPerfil.setHorizontalAlignment(SwingConstants.LEFT);
 		btnPerfil.setFont(pop10);
+		btnPerfil.setIcon(new ImageIcon("./img/profile.png"));
 		btnPerfil.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug: tela de estoque > perfil");
-				TelaPerfilVND telaPerfil = new TelaPerfilVND(usuarioLogado);
-				telaPerfil.setVisible(true);
+				System.out.println("debug: tela inicial adm > perfil");
+				
+				if (usuarioLogado.getCargo().equals("administador")) {
+					TelaPerfilADM telaPerfil = new TelaPerfilADM(usuarioLogado, null);
+					telaPerfil.setVisible(true);
+				} else {
+					TelaPerfilVND telaPerfil = new TelaPerfilVND(usuarioLogado);
+					telaPerfil.setVisible(true);
+				}
+				
 			}
 		});
 		btnPerfil.setBackground(null);
-		btnPerfil.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		btnPerfil.setForeground(clRed);
-		btnPerfil.setBounds(10, 36, 232, 23);
+		btnPerfil.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(), new RoundBorder(clDark, 2, 23)));
+		btnPerfil.setForeground(Color.WHITE);
+		btnPerfil.setBounds(39, 36, 175, 23);
 		btnPerfil.setFocusPainted(false);
 		panel.add(btnPerfil);
 		
@@ -204,32 +217,28 @@ public class TelaVenda extends JFrame {
 				setVisible(false);
 			}
 		});
-		
-		JLabel lblEmail = new JLabel("Codigo");
-		lblEmail.setForeground(new Color(197, 197, 197));
-		lblEmail.setFont(pop10);
-		lblEmail.setBounds(10, 36, 156, 14);
-		panel.add(lblEmail);
-		
 		btnReturn.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		btnReturn.setIcon(new ImageIcon("./img/return.png"));
 		btnReturn.setForeground(null);
 		btnReturn.setBackground(null);
-		btnReturn.setBounds(23, 42, 27, 45);
+		btnReturn.setBorder(new RoundBorder(clLight, 1, 27));
+		btnReturn.setFocusPainted(false);
+		btnReturn.setBounds(23, 51, 27, 27);
 		contentPane.add(btnReturn);
 	
 		JButton btnSearch = new JButton("");
+		btnSearch.setFocusPainted(false);
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: pesquisar");
 			}
 		});
-		
 		btnSearch.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		btnSearch.setIcon(new ImageIcon("./img/search.png"));
 		btnSearch.setForeground(null);
 		btnSearch.setBackground(null);
-		btnSearch.setBounds(47, 126, 25, 25);
+		btnSearch.setBorder(new RoundBorder(clLight, 1, 25));
+		btnSearch.setBounds(46, 125, 27, 27);
 		contentPane.add(btnSearch);
 		
 		JLabel lblVenda = new JLabel("Venda");
@@ -239,14 +248,16 @@ public class TelaVenda extends JFrame {
 		lblVenda.setBounds(60, 42, 252, 45);
 		contentPane.add(lblVenda);
 		
-		JTextField txtSearch = new JTextField();
+		RoundField txtSearch = new RoundField(Color.WHITE, 20);
+		txtSearch.setHorizontalAlignment(SwingConstants.CENTER);
 		txtSearch.setCaretColor(Color.WHITE);
 		txtSearch.setForeground(Color.WHITE);
-		txtSearch.setBackground(new Color(22, 22, 22));
-		txtSearch.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		txtSearch.setBounds(80, 126, 431, 25);
+		txtSearch.setSelectedTextColor(clDark);
+		txtSearch.setSelectionColor(clBlue);
+		txtSearch.setBackground(clDark);
+		txtSearch.setBorder(BorderFactory.createEmptyBorder());
+		txtSearch.setBounds(82, 128, 359, 20);
 		txtSearch.setFont(pop12);
-		fieldChisel(txtSearch, Color.WHITE, 5);
 		contentPane.add(txtSearch);
 		txtSearch.setColumns(10);
 		
@@ -255,16 +266,16 @@ public class TelaVenda extends JFrame {
 		scrollPane.setBounds(47, 162, 715, 502);
 		scrollPane.setFont(pop12);
 		scrollPane.setForeground(Color.WHITE);
-		scrollPane.setBackground(new Color(22, 22, 22));
+		scrollPane.setBackground(clDark);
 		scrollPane.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		scrollChisel(scrollPane, Color.WHITE, 5);
+		scrollPane.setBorder(new RoundBorder());
 		Rolagem.defRolagem(scrollPane);
 		contentPane.add(scrollPane);		
 		
 		JPanel dtlProduto = new JPanel();
 		dtlProduto.setBounds(772, 162, 545, 114);
-		dtlProduto.setBackground(new Color(22, 22, 22));
-		panelChisel(dtlProduto, Color.WHITE, 5);
+		dtlProduto.setBackground(clDark);
+		dtlProduto.setBorder(new RoundBorder());
 		contentPane.add(dtlProduto);
 		dtlProduto.setLayout(null);
 		
@@ -345,8 +356,8 @@ public class TelaVenda extends JFrame {
 		JTableHeader Theader = tblProdutos.getTableHeader();
 		
 		tblProdutos.setFocusable(false);
-		tblProdutos.setSelectionBackground(clGreen);
-		tblProdutos.setSelectionForeground(new Color(22, 22, 22));
+		tblProdutos.setSelectionBackground(clBlue);
+		tblProdutos.setSelectionForeground(clDark);
 		tblProdutos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tblProdutos.setShowHorizontalLines(false);
 		tblProdutos.setShowVerticalLines(false);
@@ -358,24 +369,22 @@ public class TelaVenda extends JFrame {
 		tblProdutos.getColumnModel().getColumn(2).setPreferredWidth(50);
 		
 		Theader.setFont(pop12);
-		Theader.setForeground(clGreen);
-		Theader.setBackground(new Color(22, 22, 22));
+		Theader.setForeground(clBlue);
+		Theader.setBackground(clDark);
 		Theader.setReorderingAllowed(false);
 		Theader.setResizingAllowed(false);
-		Theader.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		
-		
+		Theader.setBorder(BorderFactory.createEmptyBorder());
 		
 		tblProdutos.setFont(pop12);
 		tblProdutos.setForeground(Color.WHITE);
-		tblProdutos.setBackground(new Color(22, 22, 22));
-		tblProdutos.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		tblProdutos.setBackground(clDark);
+		tblProdutos.setBorder(BorderFactory.createEmptyBorder());
 		scrollPane.setViewportView(tblProdutos);
 		
 		JPanel pagamentoPanel = new JPanel();
 		pagamentoPanel.setLayout(null);
-		pagamentoPanel.setBackground(new Color(22, 22, 22));
-		panelChisel(pagamentoPanel, Color.WHITE, 5);
+		pagamentoPanel.setBackground(clDark);
+		pagamentoPanel.setBorder(new RoundBorder());
 		pagamentoPanel.setBounds(772, 287, 545, 114);
 		contentPane.add(pagamentoPanel);
 		
@@ -386,7 +395,7 @@ public class TelaVenda extends JFrame {
 		lblNomeProduto_1.setBounds(10, 11, 161, 14);
 		pagamentoPanel.add(lblNomeProduto_1);
 		
-		JLabel lblPagTotal = new JLabel("R$0,00");
+		JLabel lblPagTotal = new JLabel("R$ 0,00");
 		lblPagTotal.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPagTotal.setForeground(Color.WHITE);
 		lblPagTotal.setFont(pop12);
@@ -404,10 +413,10 @@ public class TelaVenda extends JFrame {
 		lblTotal.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblTotal.setForeground(Color.WHITE);
 		lblTotal.setFont(pop16);
-		lblTotal.setBounds(1065, 449, 252, 14);
+		lblTotal.setBounds(1161, 449, 156, 14);
 		contentPane.add(lblTotal);
 		
-		JLabel lblTroco = new JLabel("Troco:  R$"+troco);
+		JLabel lblTroco = new JLabel("Troco:  R$ 0,00");
 		lblTroco.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTroco.setForeground(Color.WHITE);
 		lblTroco.setFont(pop10);
@@ -451,41 +460,59 @@ public class TelaVenda extends JFrame {
 						
 						
 						//seta o total ali embaixo
-						lblTotal.setText(String.valueOf("Total: "+precoT));
+						lblTotal.setText(String.valueOf("TOTAL: R$ " + String.format("%.02f",precoT).replace('.', ',')));
 						
 						//seta o troco ali no pagamento 
-						lblPagTotal.setText(String.valueOf("Total: "+ precoT));
+						lblPagTotal.setText(String.valueOf("R$ " + String.format("%.02f",precoT).replace('.', ',')));
 						
 						return;
 					}
 				}
 			}
 		});
+		btnRemover.setFocusPainted(false);
 		btnRemover.setIcon(new ImageIcon("./img/delete.png"));
-		btnRemover.setBounds(512, 82, 23, 23);
+		btnRemover.setBounds(511, 81, 24, 24);
 		dtlProduto.add(btnRemover);
 		btnRemover.setOpaque(false);
 		btnRemover.setBackground(null);
 		btnRemover.setFont(pop12);
-		buttonChisel(btnRemover, clRed, 5);
+		btnRemover.setBorder(new RoundBorder(clRed, 1, 24));
 		dtlProduto.add(btnRemover);
 		
-		JTextField txtPagamentoValor = new JTextField();
+		RoundField txtPagamentoValor = new RoundField();
+		txtPagamentoValor.setEnabled(false);
 		txtPagamentoValor.setCaretColor(Color.WHITE);
-//		txtPagamentoValor.addPropertyChangeListener(new PropertyChangeListener() {
-//			public void propertyChange(PropertyChangeEvent evt) {
-//				try {
-//					System.out.println(txtPagamentoValor.getText());
-//					troco = Float.parseFloat(txtPagamentoValor.getText()) - precoT;
-//					lblTroco.setText("Troco:  R$" + troco);
-//				} catch (Exception x) {
-//					troco = 0.0f;
-//					lblTroco.setText("Troco:  R$" + troco);
-//				}
-//			}
-//		});
+		txtPagamentoValor.getDocument().addDocumentListener(new DocumentListener() {
+			public void changedUpdate(DocumentEvent e) {
+				warn();
+			}
+			public void removeUpdate(DocumentEvent e) {
+				warn();
+			}
+			public void insertUpdate(DocumentEvent e) {
+				warn();
+			}
+
+			public void warn() {
+				try {
+					troco = Float.parseFloat(txtPagamentoValor.getText()) - precoT;
+					if (troco > 0) {
+						lblTroco.setText("Troco:  R$ " + String.format("%.02f",troco).replace('.', ','));
+					} else {
+						troco = 0.0f;
+						lblTroco.setText("Troco:  R$ " + String.format("%.02f",troco).replace('.', ','));
+					}
+				} catch (Exception x) {
+					troco = 0.0f;
+					lblTroco.setText("Troco:  R$ " + String.format("%.02f",troco).replace('.', ','));
+				}
+			}
+		});
 		txtPagamentoValor.setForeground(Color.WHITE);
-		txtPagamentoValor.setBackground(new Color(45, 45, 45));
+		txtPagamentoValor.setBackground(clLight);
+		txtPagamentoValor.setSelectedTextColor(clDark);
+		txtPagamentoValor.setSelectionColor(clBlue);
 		txtPagamentoValor.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtPagamentoValor.setBounds(274, 37, 107, 20);
 		txtPagamentoValor.setFont(pop12);
@@ -493,6 +520,11 @@ public class TelaVenda extends JFrame {
 		txtPagamentoValor.setColumns(10);
 		
 		JRadioButton rdDinheiro = new JRadioButton("DINHEIRO");
+		rdDinheiro.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				txtPagamentoValor.setEnabled(true);
+			}
+		});
 		pagGroup.add(rdDinheiro);
 		rdDinheiro.setFocusPainted(false);
 		rdDinheiro.setForeground(Color.WHITE);
@@ -504,6 +536,13 @@ public class TelaVenda extends JFrame {
 		pagamentoPanel.add(rdDinheiro);
 		
 		JRadioButton rdCartao = new JRadioButton("CART\u00C3O");
+		rdCartao.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				txtPagamentoValor.setText("");
+				txtPagamentoValor.setEnabled(false);
+				lblTroco.setText("R$ 0,00");
+			}
+		});
 		pagGroup.add(rdCartao);
 		rdCartao.setFocusPainted(false);
 		rdCartao.setForeground(Color.WHITE);
@@ -514,7 +553,7 @@ public class TelaVenda extends JFrame {
 		rdCartao.setBounds(20, 58, 109, 23);
 		pagamentoPanel.add(rdCartao);
 		
-		JButton btNEncerrar = new JButton("ENCERRAR");
+		RoundButton btNEncerrar = new RoundButton("ENCERRAR");
 		btNEncerrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: encerrar compra");
@@ -552,10 +591,11 @@ public class TelaVenda extends JFrame {
 			}
 
 		});
+		btNEncerrar.setForeground(clYellow);
 		btNEncerrar.setOpaque(false);
 		btNEncerrar.setFont(pop12);
 		btNEncerrar.setBackground((Color) null);
-		buttonChisel(btNEncerrar, clYellow, 5);
+		btNEncerrar.setBorder(new RoundBorder(clYellow));
 		btNEncerrar.setBounds(379, 80, 156, 23);
 		pagamentoPanel.add(btNEncerrar);
 		
@@ -564,9 +604,9 @@ public class TelaVenda extends JFrame {
 		QuantVND.add(vendaInicial);
 		
 		JPanel prodPanel = new JPanel();
-		prodPanel.setBackground(new Color(22, 22, 22));
+		prodPanel.setBackground(clDark);
 		prodPanel.setBounds(772, 412, 379, 51);
-		panelChisel(prodPanel, Color.WHITE, 5);
+		prodPanel.setBorder(new RoundBorder());
 		contentPane.add(prodPanel);
 		prodPanel.setLayout(null);
 		
@@ -601,10 +641,10 @@ public class TelaVenda extends JFrame {
 						
 						
 						//seta o total ali embaixo
-						lblTotal.setText(String.valueOf("Total: "+precoT));
+						lblTotal.setText(String.valueOf("TOTAL: R$ " + String.format("%.02f",precoT).replace('.', ',')));
 						
 						//seta o troco ali no pagamento 
-						lblPagTotal.setText(String.valueOf("Total: "+ precoT));
+						lblPagTotal.setText(String.valueOf("R$ " + String.format("%.02f",precoT).replace('.', ',')));
 						
 						//set a quantidade do estoque do produto selecionado no painel
 						lblQuantidade.setText("ESTOQUE: "+produto.getQuantidadeEstoque());
@@ -613,7 +653,7 @@ public class TelaVenda extends JFrame {
 						lblDimensoes.setText("DIMENS\u00D5ES: "+produto.getDimensoesProduto());
 						
 						//set o id no painel
-						lblID.setText("#"+produto.getIdProduto());
+						lblID.setText("# "+produto.getIdProduto());
 						
 						//set o pre√ßo no painel
 						lblPreco.setText("R$ " + String.format("%.02f", produto.getPrecoVendaProduto()).replace('.',','));
@@ -622,6 +662,8 @@ public class TelaVenda extends JFrame {
 						lblMaterial.setText("MATERIAL: "+produto.getMaterialProduto());
 						
 						lblNomeProduto.setText(produto.getNomeProduto());
+						
+						tblProdutos.setRowSelectionInterval(tblProdutos.getModel().getRowCount()-1, tblProdutos.getModel().getRowCount()-1);
 						
 						ArrayList<ProdVNDQuant> tempQuantVND = QuantVND;
 						
@@ -642,7 +684,8 @@ public class TelaVenda extends JFrame {
 				}
 			}
 		});
-		btnAdd.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		btnAdd.setFocusPainted(false);
+		btnAdd.setBorder(new RoundBorder(clDark, 1, 36));
 		btnAdd.setIcon(new ImageIcon("./img/add.png"));
 		btnAdd.setForeground(null);
 		btnAdd.setBackground(null);
@@ -661,6 +704,16 @@ public class TelaVenda extends JFrame {
 			model.addElement(p.getNomeProduto());
 		}
 		
+		RoundBorder lightBorder = new RoundBorder(clLight, 1, 10);
+		RoundBorder blueBorder = new RoundBorder(clBlue, 1, 10);
+		
+		JPanel codPanel = new JPanel();
+		codPanel.setBackground(clLight);
+		codPanel.setBorder(lightBorder);
+		codPanel.setBounds(145, 21, 224, 20);;
+		prodPanel.add(codPanel);
+		codPanel.setLayout(null);
+		
 		JComboBox<String> cmbProduto = new JComboBox<String>();
 		cmbProduto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -669,18 +722,38 @@ public class TelaVenda extends JFrame {
 				} catch (IndexOutOfBoundsException x) {
 					return;
 				}
+				
+				if (cmbProduto.getSelectedItem() != null) {
+					codPanel.setBackground(clBlue);
+					codPanel.setBorder(blueBorder);
+					
+					cmbProduto.setBackground(clBlue);
+					cmbProduto.setForeground(clDark);
+				}
 			}
 		});
-		cmbProduto.setBackground(new Color(45, 45, 45));
+		cmbProduto.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				codPanel.setBackground(clLight);
+				codPanel.setBorder(lightBorder);
+				
+				cmbProduto.setBackground(clLight);
+				cmbProduto.setForeground(Color.WHITE);
+			}
+		});
+		cmbProduto.setBackground(clLight);
 		cmbProduto.setForeground(Color.WHITE);
-		cmbProduto.setBounds(145, 21, 224, 20);
+		cmbProduto.setBounds(3, 1, 218, 18);
 		cmbProduto.setModel(model);
 		cmbProduto.setSelectedItem(null);
 		cmbProduto.setFont(pop12);
-		cmbProduto.setUI(new Combo());
-		prodPanel.add(cmbProduto);
+		Combo cmbui = new Combo();
+		cmbui.setColor(clBlue);
+		cmbProduto.setUI(cmbui);
+		codPanel.add(cmbProduto);
 		
-		txtCodigo = new JTextField();
+		txtCodigo = new RoundField();
 		txtCodigo.getDocument().addDocumentListener(new DocumentListener() {
 			  public void changedUpdate(DocumentEvent e) {
 				    warn();
@@ -706,12 +779,11 @@ public class TelaVenda extends JFrame {
 					  }
 				  }
 		});
-		txtCodigo.setSelectionColor(clGreen);
-		txtCodigo.setSelectedTextColor(new Color(22, 22, 22));
+		txtCodigo.setSelectionColor(clBlue);
+		txtCodigo.setSelectedTextColor(clDark);
 		txtCodigo.setCaretColor(Color.WHITE);
 		txtCodigo.setForeground(Color.WHITE);
-		txtCodigo.setBackground(new Color(45, 45, 45));
-		txtCodigo.setBorder(BorderFactory.createEmptyBorder());
+		txtCodigo.setBackground(clLight);
 		txtCodigo.setFont(pop12);
 		txtCodigo.setBounds(55, 21, 80, 20);
 		prodPanel.add(txtCodigo);
@@ -724,74 +796,10 @@ public class TelaVenda extends JFrame {
 		prodPanel.add(lblProduto);
 		
 		JLabel fakeBG = new JLabel("");
-		fakeBG.setForeground(new Color(0, 0, 0));
+		fakeBG.setForeground(Color.BLACK);
 		fakeBG.setIcon(new ImageIcon("./img/bg.png"));
 		fakeBG.setBounds(0, 0, 1600, 861);
 		contentPane.add(fakeBG);		
 	}
-
-	private void scrollChisel(JScrollPane scrollPane, Color color, int i) {
-		scrollPane.setForeground(color);
-        RoundedBorder LineBorder = new RoundedBorder(color, i);
-        Border emptyBorder = BorderFactory.createEmptyBorder();
-        scrollPane.setBorder(BorderFactory.createCompoundBorder(LineBorder, emptyBorder));
-		
-	}
-
-	private static void buttonChisel(JButton button, Color color, int radius) {       
-        button.setFocusPainted(false);
-		button.setForeground(color);
-		RoundedBorder LineBorder = new RoundedBorder(color, radius);
-		Border emptyBorder = BorderFactory.createEmptyBorder();
-		button.setBorder(BorderFactory.createCompoundBorder(LineBorder, emptyBorder));
-	}
-	
-	private static void panelChisel(JPanel panel, Color color, int radius) {
-		
-        //panel.setFocusPainted(false);
-        panel.setForeground(color);
-        RoundedBorder LineBorder = new RoundedBorder(color, radius);
-        Border emptyBorder = BorderFactory.createEmptyBorder();
-        panel.setBorder(BorderFactory.createCompoundBorder(LineBorder, emptyBorder));
-	}
-	
-	private static void fieldChisel(JTextField field, Color color, int radius) {
-		
-        //panel.setFocusPainted(false);
-        field.setForeground(color);
-        RoundedBorder LineBorder = new RoundedBorder(color, radius);
-        Border emptyBorder = BorderFactory.createEmptyBorder(field.getBorder().getBorderInsets(field).top,
-				field.getBorder().getBorderInsets(field).left,
-				field.getBorder().getBorderInsets(field).bottom,
-				field.getBorder().getBorderInsets(field).right);
-        field.setBorder(BorderFactory.createCompoundBorder(LineBorder, emptyBorder));
-	}
-	
-	private static class RoundedBorder implements Border {
-
-        private int radius = 10;
-        private Color color;
-
-        private RoundedBorder(Color color, int radius) {
-            this.color = color;
-            this.radius = radius;
-        }
-
-        @Override
-        public Insets getBorderInsets(Component c) {
-            return new Insets(this.radius + 1, this.radius + 1, this.radius + 1, this.radius + 1);
-        }
-
-        @Override
-        public boolean isBorderOpaque() {
-            return true;
-        }
-
-        @Override
-        public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-            g.setColor(color);
-            g.drawRoundRect(x, y, width - 1, height - 1, radius, radius);
-        }
-    }
 }
 

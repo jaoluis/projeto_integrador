@@ -195,10 +195,10 @@ public class ProdutoBD {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rset = null;
+		
 		try {
 			conn = Conexao.getConnection();
 			ps = (PreparedStatement) conn.prepareStatement(sql1);
-			
 			rset = ps.executeQuery();
 			
 			while (rset.next()) {
