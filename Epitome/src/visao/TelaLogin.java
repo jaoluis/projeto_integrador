@@ -11,10 +11,10 @@ import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+
 import controle.UsuarioDAO;
 import modelo.Usuario;
 
@@ -171,7 +171,7 @@ public class TelaLogin extends JFrame {
 				setVisible(false);
 			}
 			else {
-				JOptionPane.showMessageDialog(null, "Usu\u00E0rio desconhecido", "Erro", JOptionPane.ERROR_MESSAGE);
+				new Dialog("Erro", "Usu\u00E1rio desconhecido", "warning").setVisible(true);
 				return;
 			}
 			}

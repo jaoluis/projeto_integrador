@@ -118,6 +118,7 @@ public class TelaPerfilADM extends JFrame {
 				}
 				
 				dispose();
+				new Dialog("Usu\u00E1rio", "Usu\u00E1rio removido.", "info").setVisible(true);
 			}
 		});
 		btnDelete.setOpaque(false);

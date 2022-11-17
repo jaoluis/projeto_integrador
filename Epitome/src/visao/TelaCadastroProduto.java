@@ -15,7 +15,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
@@ -323,12 +322,12 @@ public class TelaCadastroProduto extends JFrame {
 				try {
 					f = fornecedores.get(cmbFornecedor.getSelectedIndex()).getId_fornecedor();
 				} catch (NumberFormatException | IndexOutOfBoundsException x) {
-					JOptionPane.showMessageDialog(null, "Fornecedor inv\u00E1lido", "Erro", JOptionPane.ERROR_MESSAGE);
+					new Dialog("Erro", "Fornecedor inv\u00E1lido", "warning").setVisible(true);
 					System.out.println("fornecedor vazio " + x);
 					return;
 				}
 				if (nome.isBlank()) {
-					JOptionPane.showMessageDialog(null, "Nome inv\u00E1lido", "Erro", JOptionPane.ERROR_MESSAGE);
+					new Dialog("Erro", "Nome inv\u00E1lido", "warning").setVisible(true);
 					System.out.println("Nome vazio");
 					return;
 				}
@@ -338,7 +337,7 @@ public class TelaCadastroProduto extends JFrame {
 					precoVenda = Float.parseFloat(txtPrecoVenda.getText());
 					precoCusto = Float.parseFloat(txtPrecoCusto.getText());
 				} catch (NumberFormatException x) {
-					JOptionPane.showMessageDialog(null, "Pre\u00E7o(s) inv\u00E1lido(s).", "Erro", JOptionPane.ERROR_MESSAGE, null);
+					new Dialog("Erro", "Pre\u00E7o(s) inv\u00E1lido(s).", "warning").setVisible(true);
 					return;
 				}
 				
@@ -347,26 +346,26 @@ public class TelaCadastroProduto extends JFrame {
 				try {
 					qtd = Integer.parseInt(txtQuantidade.getText());
 				} catch (NumberFormatException x) {
-					JOptionPane.showMessageDialog(null, "Quantidade em Estoque definida como 0.", "Aviso", JOptionPane.WARNING_MESSAGE);
+					new Dialog("Erro", "Quantidade em Estoque definida como 0.", "info").setVisible(true);
 					System.out.println("qtd 0");
 					return;
 				}
 				if (qtd == 0) {
-					JOptionPane.showMessageDialog(null, "Quantidade em Estoque definida como 0.", "Aviso", JOptionPane.WARNING_MESSAGE);
+					new Dialog("Erro", "Quantidade em Estoque definida como 0.", "info").setVisible(true);
 					System.out.println("qtd 0");
 					return;
 				}
 				
 				String material = (String) cmbMaterial.getSelectedItem();
 				if (material.isBlank()) {
-					JOptionPane.showMessageDialog(null, "Favor inserir um material.", "Erro", JOptionPane.ERROR_MESSAGE);
+					new Dialog("Erro", "Favor inserir um material.", "warning").setVisible(true);
 					System.out.println("material vazio");
 					return;
 				}
 				
 				String dimensoes = txtDimensoes.getText();
 				if (dimensoes.isBlank()) {
-					JOptionPane.showMessageDialog(null, "Favor inserir dimensões.", "Erro", JOptionPane.ERROR_MESSAGE);
+					new Dialog("Erro", "Favor inserir dimensões.", "warning").setVisible(true);
 					System.out.println("dimensões vazias");
 					return;
 				}
@@ -379,7 +378,7 @@ public class TelaCadastroProduto extends JFrame {
 				new FornecedorBD();
 				
 				if(FornecedorBD.VRFornR(f)==false && f !=0) {
-					JOptionPane.showMessageDialog(null, "Favor inserir um Fornecedor Existende.", "Erro", JOptionPane.ERROR_MESSAGE);
+					new Dialog("Erro", "Favor inserir um Fornecedor Existende.", "warning").setVisible(true);
 					System.out.println("Fornecedor não existe");
 					return;
 				}
@@ -402,7 +401,7 @@ public class TelaCadastroProduto extends JFrame {
 				produtoBD.insert2(produto, id);
 				refresh(tblEstoque);
 				dispose();
-				
+				new Dialog("Cadastro", "Cadastro realizado.", "info").setVisible(true);
 			}
 		});
 		btnContinuar.setFocusPainted(false);

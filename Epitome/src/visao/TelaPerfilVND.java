@@ -6,7 +6,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 import controle.UsuarioDAO;
@@ -18,14 +17,8 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.SwingConstants;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Insets;
-
 import javax.swing.AbstractListModel;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import java.awt.Color;
-import java.awt.Component;
 import java.io.File;
 import java.sql.Date;
 import java.text.DateFormat;
@@ -34,10 +27,12 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class TelaPerfilVND extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int id;
 	private JPanel contentPane;
 
@@ -77,8 +72,8 @@ public class TelaPerfilVND extends JFrame {
 	
 	public TelaPerfilVND(Usuario usuarioLogado) {
 		setIconImage(Toolkit.getDefaultToolkit().getImage("./img/app_icon_small.png"));
-		Color clRed = new Color(226, 0, 54);
-		Color clBlue = new Color(113, 206, 236);
+		new Color(226, 0, 54);
+		new Color(113, 206, 236);
 		Color clYellow = new Color(239, 161, 35);
 		
 		Font poppins, pop12 = null, pop10 = null;
@@ -106,7 +101,7 @@ public class TelaPerfilVND extends JFrame {
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(22, 22, 22));
 		panel.setBounds(29, 28, 760, 143);
-		panelbuttonChisel(panel, new Color(255, 255, 255), 5);
+		panel.setBorder(new RoundBorder());
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
@@ -179,7 +174,7 @@ public class TelaPerfilVND extends JFrame {
         JScrollPane endScrollPane = new JScrollPane();
 		endScrollPane.setBounds(377, 29, 181, 103);
 		Rolagem.defRolagem(endScrollPane);
-		scrollChisel(endScrollPane, Color.WHITE, 5);
+		endScrollPane.setBorder(new RoundBorder());
 		endScrollPane.setBackground(null);
 		endScrollPane.setForeground(null);
 		panel.add(endScrollPane);
@@ -213,7 +208,7 @@ public class TelaPerfilVND extends JFrame {
 		JScrollPane cntScrollPane = new JScrollPane();
 		cntScrollPane.setForeground(Color.WHITE);
 		Rolagem.defRolagem(cntScrollPane);
-		scrollChisel(cntScrollPane, Color.WHITE, 5);
+		cntScrollPane.setBorder(new RoundBorder());
 		cntScrollPane.setBackground((Color) null);
 		cntScrollPane.setForeground(null);
 		cntScrollPane.setBounds(568, 29, 181, 103);
@@ -262,56 +257,4 @@ public class TelaPerfilVND extends JFrame {
 		fakeBG.setBounds(-495, -286, 1600, 861);
 		contentPane.add(fakeBG);
 	}
-	
-
-
-
-private void scrollChisel(JScrollPane scrollPane, Color color, int i) {
-	scrollPane.setForeground(color);
-    RoundedBorder LineBorder = new RoundedBorder(color, i);
-    Border emptyBorder = BorderFactory.createEmptyBorder();
-    scrollPane.setBorder(BorderFactory.createCompoundBorder(LineBorder, emptyBorder));
-	}
-
-private void Chisel(JButton btnDelete, Color color, int i) {
-		// TODO Auto-generated method stub
-		
-	}
-
-private static void panelbuttonChisel(JPanel panel, Color color, int radius) {
-		
-        //panel.setFocusPainted(false);
-        panel.setForeground(color);
-        RoundedBorder LineBorder = new RoundedBorder(color, radius);
-        Border emptyBorder = BorderFactory.createEmptyBorder(417, 124, 417, 124);
-        panel.setBorder(BorderFactory.createCompoundBorder(LineBorder, emptyBorder));
-	}
-
-	private static class RoundedBorder implements Border {
-
-        private int radius = 10;
-        private Color color;
-
-        private RoundedBorder(Color color, int radius) {
-            this.color = color;
-            this.radius = radius;
-        }
-
-        @Override
-        public Insets getBorderInsets(Component c) {
-            return new Insets(this.radius + 1, this.radius + 1, this.radius + 1, this.radius + 1);
-        }
-
-        @Override
-        public boolean isBorderOpaque() {
-            return true;
-        }
-
-        @Override
-        public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-            g.setColor(color);
-            g.drawRoundRect(x, y, width - 1, height - 1, radius, radius);
-        }
-    }
-	
 }

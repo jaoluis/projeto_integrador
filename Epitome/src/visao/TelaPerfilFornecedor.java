@@ -104,7 +104,8 @@ public class TelaPerfilFornecedor extends JFrame {
 				
 				System.out.println("debug: tela Perfil > Deletar Usuari");
 				new FornecedorBD().DeleteByID(fornecedor.getId_fornecedor());
-				setVisible(false);
+				dispose();
+				new Dialog("Fornecedor", "Fornecedor removido.", "info").setVisible(true);
 			}
 		});
 		btnDelete.setIcon(new ImageIcon("./img/delete.png"));

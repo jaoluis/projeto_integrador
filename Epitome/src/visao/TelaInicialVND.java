@@ -101,14 +101,14 @@ public class TelaInicialVND extends JFrame {
 		btnVenda.setBounds(10, 36, 205, 34);
 		panel.add(btnVenda);
 		
-		JButton btnRelatorio = new JButton("Relatório de Vendas");
+		JButton btnRelatorio = new JButton("Relat\u00F3rio de Vendas");
 		btnRelatorio.setEnabled(false);
 		btnRelatorio.setHorizontalAlignment(SwingConstants.LEFT);
 		btnRelatorio.setIcon(new ImageIcon("./img/report.png"));
 		btnRelatorio.setFont(pop10);
 		btnRelatorio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug: tela inicial adm > relatório de vendas");
+				System.out.println("debug: tela inicial adm > relatï¿½rio de vendas");
 				TelaRelatorio telaRel = new TelaRelatorio(usuarioLogado);
 				telaRel.setVisible(true);
 				setVisible(false);

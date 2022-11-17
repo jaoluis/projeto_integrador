@@ -17,7 +17,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
@@ -363,11 +362,11 @@ public class TelaModificarProduto extends JFrame {
 					try {
 						f = fornecedores.get(cmbFornecedor.getSelectedIndex()).getId_fornecedor();
 					} catch (IndexOutOfBoundsException x) {
-						JOptionPane.showMessageDialog(null, "Fornecedor inv\u00E1lido", "Erro", JOptionPane.ERROR_MESSAGE);
+						new Dialog("Erro", "Fornecedor inv\u00E1lido", "warning").setVisible(true);
 						return;
 					}
 				} catch (NumberFormatException x) {
-					JOptionPane.showMessageDialog(null, "Fornecedor inv\u00E1lido", "Erro", JOptionPane.ERROR_MESSAGE);
+					new Dialog("Erro", "Fornecedor inv\u00E1lido", "warning").setVisible(true);
 					System.out.println("fornecedor vazio");
 					return;
 				}
@@ -376,7 +375,7 @@ public class TelaModificarProduto extends JFrame {
 					precoVenda = Float.parseFloat(txtPrecoVenda.getText());
 					precoCusto = Float.parseFloat(txtPrecoCusto.getText());
 				} catch (NumberFormatException x) {
-					JOptionPane.showMessageDialog(null, "Preço(s) inv\u00E1lido(s)", "Erro", JOptionPane.ERROR_MESSAGE, null);
+					new Dialog("Erro", "Preço(s) inv\u00E1lido(s)", "warning").setVisible(true);
 				}
 				int qtd = Integer.parseInt(txtQuantidade.getText());
 				String material = (String) cmbMaterial.getSelectedItem();
@@ -385,7 +384,7 @@ public class TelaModificarProduto extends JFrame {
 				new FornecedorBD();
 				
 				if(FornecedorBD.VRFornR(f)==false && f !=0) {
-					JOptionPane.showMessageDialog(null, "Favor inserir um Fornecedor existente.", "Erro", JOptionPane.ERROR_MESSAGE);
+					new Dialog("Erro", "Favor inserir um Fornecedor existente.", "warning").setVisible(true);
 					System.out.println("Fornecedor não existe");
 					return;
 				}
@@ -407,6 +406,7 @@ public class TelaModificarProduto extends JFrame {
 				System.out.println("update realizado");
 				refresh(tblEstoque);
 				dispose();
+				new Dialog("Produto", "Produto atualizado.", "info").setVisible(true);
 				
 			}
 		});
@@ -426,6 +426,7 @@ public class TelaModificarProduto extends JFrame {
 				produtoBD.DeleteByID(produtoAEditar.getIdProduto());
 				refresh(tblEstoque);
 				dispose();
+				new Dialog("Produto", "Produto removido.", "info").setVisible(true);
 			}
 		});
 		btnDeletar.setIcon(new ImageIcon("./img/delete.png"));

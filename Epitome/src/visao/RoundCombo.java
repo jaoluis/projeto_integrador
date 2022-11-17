@@ -20,7 +20,7 @@ public class RoundCombo extends JComboBox<String> {
         setOpaque(false); // As suggested by @AVD in comment.
     }
     
-    public RoundCombo(DefaultComboBoxModel model) {
+    public RoundCombo(DefaultComboBoxModel<String> model) {
     	super(model);
         setOpaque(false); // As suggested by @AVD in comment.
     }

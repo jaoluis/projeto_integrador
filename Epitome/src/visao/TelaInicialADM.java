@@ -156,7 +156,7 @@ public class TelaInicialADM extends JFrame {
 		btnListarUsuario.setBounds(10, 106, 205, 34);
 		panel.add(btnListarUsuario);
 		
-		JButton btnRelatorio = new JButton("Relatório de Vendas");
+		JButton btnRelatorio = new JButton("Relat\u00F3rio de Vendas");
 		btnRelatorio.setHorizontalAlignment(SwingConstants.LEFT);
 		btnRelatorio.setIcon(new ImageIcon("./img/report.png"));
 		btnRelatorio.setFont(pop10);
@@ -214,7 +214,6 @@ public class TelaInicialADM extends JFrame {
 		JLabel lblAdministrador = new JLabel("Administrador");
 		lblAdministrador.setHorizontalAlignment(SwingConstants.CENTER);
 		lblAdministrador.setForeground(Color.WHITE);
-		lblAdministrador.setFont(null);
 		lblAdministrador.setBounds(10, 11, 205, 14);
 		lblAdministrador.setFont(pop12);
 		panel.add(lblAdministrador);
@@ -228,7 +227,7 @@ public class TelaInicialADM extends JFrame {
 		
 		JLabel fakeBG = new JLabel("");
 		fakeBG.setIcon(new ImageIcon("./img/bg.png"));
-		fakeBG.setBounds(27, 0, 1600, 861);
+		fakeBG.setBounds(0, 0, 1600, 861);
 		contentPane.add(fakeBG);
 		
 	}

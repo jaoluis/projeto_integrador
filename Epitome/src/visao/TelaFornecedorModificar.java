@@ -13,7 +13,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
@@ -437,14 +436,14 @@ public class TelaFornecedorModificar extends JFrame {
 				
 				String email = txtEmail.getText();
 				if (email.isBlank()) {
-					JOptionPane.showMessageDialog(null, "Favor inserir um email", "Erro", JOptionPane.ERROR_MESSAGE);
+					new Dialog("Erro","Favor inserir um email", "warning").setVisible(true);
 					System.out.println("email Vazio");
 					return;
 				}
 				
 				String telefone = txtTelefone.getText();
 				if (telefone.isBlank()) {
-					JOptionPane.showMessageDialog(null, "Favor inserir um telefone.", "Erro", JOptionPane.ERROR_MESSAGE);
+					new Dialog("Erro","Favor inserir um telefone.", "warning").setVisible(true);
 					System.out.println("telefone vazio");
 					return;
 				}
@@ -499,21 +498,21 @@ public class TelaFornecedorModificar extends JFrame {
 				
 				String cidade = txtCidade.getText();
 				if (cidade.isBlank()) {
-					JOptionPane.showMessageDialog(null, "Favor inserir uma cidade", "Erro", JOptionPane.ERROR_MESSAGE);
+					new Dialog("Erro","Favor inserir uma cidade", "warning").setVisible(true);
 					System.out.println("cidade Vazio");
 					return;
 				}
 				
 				String rua = txtRua.getText();
 				if (rua.isBlank()) {
-					JOptionPane.showMessageDialog(null, "Favor inserir uma rua.", "Erro", JOptionPane.ERROR_MESSAGE);
+					new Dialog("Erro","Favor inserir uma rua.", "warning").setVisible(true);
 					System.out.println("rua vazio");
 					return;
 				}
 				
 				String bairro = txtBairro.getText();
 				if (bairro.isBlank()) {
-					JOptionPane.showMessageDialog(null, "Favor inserir um bairro.", "Erro", JOptionPane.ERROR_MESSAGE);
+					new Dialog("Erro","Favor inserir um bairro.", "warning").setVisible(true);
 					System.out.println("bairro vazio");
 					return;
 				}
@@ -523,14 +522,14 @@ public class TelaFornecedorModificar extends JFrame {
 				try {
 					numero1 = Integer.parseInt(txtNumero.getText());
 				} catch (NumberFormatException x) {
-					JOptionPane.showMessageDialog(null, "Digite apenas n�meros.", "Aviso", JOptionPane.WARNING_MESSAGE);
+					new Dialog("Erro","Digite apenas n\u00FAmeros.", "warning").setVisible(true);
 					System.out.println("Não converteu para inteiro");
 					return;
 				}
 				
 
 				if (numero.isBlank()) {
-					JOptionPane.showMessageDialog(null, "Favor inserir um n�mero.", "Erro", JOptionPane.ERROR_MESSAGE);
+					new Dialog("Erro","Favor inserir um n\u00FAmero.", "warning").setVisible(true);
 					System.out.println("numero vazio");
 					return;
 				}
@@ -613,7 +612,7 @@ public class TelaFornecedorModificar extends JFrame {
 			
 			String nome = txtNome.getText();
 			if (nome.isBlank()) {
-				JOptionPane.showMessageDialog(null, "Favor inserir um Nome.", "Erro", JOptionPane.ERROR_MESSAGE);
+				new Dialog("Erro","Favor inserir um Nome.", "warning").setVisible(true);
 				System.out.println("nome vazio");
 				return;
 			}
@@ -621,7 +620,7 @@ public class TelaFornecedorModificar extends JFrame {
 			
 			
 			if (txtCNPJ.getText().isBlank()) {
-				JOptionPane.showMessageDialog(null, "Favor inserir um CNPJ", "Erro", JOptionPane.ERROR_MESSAGE);
+				new Dialog("Erro","Favor inserir um CNPJ", "warning").setVisible(true);
 				System.out.println("cnpj Vazio");
 				return;
 			}
@@ -649,13 +648,16 @@ public class TelaFornecedorModificar extends JFrame {
 			fornecedorBD.update1(fornecedor, enderecoF);
 
 			}else {
-				JOptionPane.showMessageDialog(null, "CNPJ ou E-mail inválido", "Erro", JOptionPane.ERROR_MESSAGE);
+				new Dialog("Erro","CNPJ ou E-mail inválido", "warning").setVisible(true);
 				System.out.println("Email Invalido ou CNPJ");
 				return;
 			}
-			
-			TelaFornecedores.refresh(lista);
+			if (lista != null) {
+				TelaFornecedores.refresh(lista);
+			}
 			dispose();
+			
+			new Dialog("Fornecedor", "Fornecedor atualizado.", "info").setVisible(true);
 			
 			}
 		});

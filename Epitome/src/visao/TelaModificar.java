@@ -21,7 +21,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -282,28 +281,28 @@ public class TelaModificar extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				if (listaEndereco.getSelectedIndex() == -1) {
-					JOptionPane.showMessageDialog(null, "Favor inserir um endereço", "Erro", JOptionPane.ERROR_MESSAGE);
+					new Dialog("Erro", "Favor inserir um endereço", "warning").setVisible(true);
 					System.out.println("sem enderecos");	
 					return;
 				}
 				
 				String cidade = txtCidade.getText();
 				if (cidade.isBlank()) {
-					JOptionPane.showMessageDialog(null, "Favor inserir uma cidade", "Erro", JOptionPane.ERROR_MESSAGE);
+					new Dialog("Erro", "Favor inserir uma cidade", "warning").setVisible(true);
 					System.out.println("cidade Vazio");
 					return;
 				}
 				
 				String rua = txtRua.getText();
 				if (rua.isBlank()) {
-					JOptionPane.showMessageDialog(null, "Favor inserir uma Rua.", "Erro", JOptionPane.ERROR_MESSAGE);
+					new Dialog("Erro", "Favor inserir uma Rua.", "warning").setVisible(true);
 					System.out.println("rua vazio");
 					return;
 				}
 				
 				String bairro = txtBairro.getText();
 				if (bairro.isBlank()) {
-					JOptionPane.showMessageDialog(null, "Favor inserir um bairro.", "Erro", JOptionPane.ERROR_MESSAGE);
+					new Dialog("Erro", "Favor inserir um bairro.", "warning").setVisible(true);
 					System.out.println("bairro vazio");
 					return;
 				}
@@ -313,14 +312,14 @@ public class TelaModificar extends JFrame {
 				try {
 					numero1 = Integer.parseInt(txtNumero.getText());
 				} catch (NumberFormatException x) {
-					JOptionPane.showMessageDialog(null, "Digite apenas números.", "Aviso", JOptionPane.WARNING_MESSAGE);
+					new Dialog("Erro", "Digite apenas n\u00FAmeros.", "warning").setVisible(true);
 					System.out.println("Não converteu para inteiro");
 					return;
 				}
 				
 
 				if (numero.isBlank()) {
-					JOptionPane.showMessageDialog(null, "Favor inserir um número.", "Erro", JOptionPane.ERROR_MESSAGE);
+					new Dialog("Erro", "Favor inserir um n\u00FAmero.", "warning").setVisible(true);
 					System.out.println("numero vazio");
 					return;
 				}
@@ -667,28 +666,28 @@ public class TelaModificar extends JFrame {
 				System.out.println("debug: tela de cadastro > cadastrar");
 				String email = txtEmail.getText();
 				if (email.isBlank()) {
-					JOptionPane.showMessageDialog(null, "E-mail invÃ¡lido", "Erro", JOptionPane.ERROR_MESSAGE);
+					new Dialog("Erro", "E-mail invÃ¡lido", "warning").setVisible(true);
 					System.out.println("E-mail vazio");
 					return;
 				}
 				
 				String senha = String.valueOf(txtSenha.getPassword());
 				if (senha.isBlank()) {
-					JOptionPane.showMessageDialog(null, "Favor inserir uma senha", "Erro", JOptionPane.ERROR_MESSAGE);
+					new Dialog("Erro", "Favor inserir uma senha", "warning").setVisible(true);
 					System.out.println("Senha vazia");
 					return;
 				}
 				
 //				String nomeUsuario = txtUsername.getText();
 //				if (nomeUsuario.isBlank()) {
-//					JOptionPane.showMessageDialog(null, "Favor inserir um nome de usuÃ¡rio", "Erro", JOptionPane.ERROR_MESSAGE);
+//					new Dialog("Erro", "Favor inserir um nome de usuÃ¡rio", "warning").setVisible(true);
 //					System.out.println("username vazio");
 //					return;
 //				}
 				
 				String nome = txtNome.getText();
 				if (nome.isBlank()) {
-					JOptionPane.showMessageDialog(null, "Favor inserir um nome", "Erro", JOptionPane.ERROR_MESSAGE);
+					new Dialog("Erro", "Favor inserir um nome", "warning").setVisible(true);
 					System.out.println("nome vazio");
 					return;
 				}
@@ -696,7 +695,7 @@ public class TelaModificar extends JFrame {
 				String cpf = txtCPF.getText();
 				for (char c: cpf.toCharArray()) {
 					if (c != '0' && c != '1' && c != '2' && c != '3' && c != '4' && c != '5' && c != '6' && c != '7' && c != '8' && c != '9' && c != '.' && c != '-') {
-						JOptionPane.showMessageDialog(null, "CPF invÃ¡lido", "Erro", JOptionPane.ERROR_MESSAGE);
+						new Dialog("Erro", "CPF invÃ¡lido", "warning").setVisible(true);
 						System.out.println("CPF invÃ¡lido: " + cpf);
 						return;
 					}
@@ -710,7 +709,7 @@ public class TelaModificar extends JFrame {
 				}catch (Exception erroConversaoStringData) {
 					//Joption quando dÃ¡ erro na data
 					
-					JOptionPane.showMessageDialog(null, "Data invÃ¡lida", "Erro", JOptionPane.ERROR_MESSAGE);
+					new Dialog("Erro", "Data invÃ¡lida", "warning").setVisible(true);
 					System.out.println("Deu erro na hora de converter para Data" + erroConversaoStringData);
 					return;
 				}
@@ -724,7 +723,7 @@ public class TelaModificar extends JFrame {
 				}
 				
 				if (cargo == null) {
-					JOptionPane.showMessageDialog(null, "Favor selecionar cargo", "Erro", JOptionPane.ERROR_MESSAGE);
+					new Dialog("Erro", "Favor selecionar cargo", "warning").setVisible(true);
 					System.out.println("cargo vazio");
 					return;
 				}
@@ -744,10 +743,13 @@ public class TelaModificar extends JFrame {
 				dao.update(usuario, contatoC);
 				dao.updateEnderecoUsuario(usuario, enderecoF);
 				
-				TelaListarUsuarios.refresh(lista);
+				if (lista != null) {
+					TelaListarUsuarios.refresh(lista);
+				}
 				
 				dispose();
-
+				new Dialog("Usu\u00E1rio", "Usu\u00E1rio atualizado.", "info").setVisible(true);
+				
 				// tratamento de exceÃ§Ãµes: campos vazios e formatos errados
 				// funcao cadastro (email, senha, nomeUsuario, nome, cpf, data, cargo);
 			}
@@ -770,21 +772,21 @@ public class TelaModificar extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				if (listaContato.getSelectedIndex() == -1) {
-					JOptionPane.showMessageDialog(null, "Favor inserir um contato", "Erro", JOptionPane.ERROR_MESSAGE);
+					new Dialog("Erro", "Favor inserir um contato", "warning").setVisible(true);
 					System.out.println("sem contatos");	
 					return;
 				}
 				
 				String email = txtEmailCnt.getText();
 				if (email.isBlank()) {
-					JOptionPane.showMessageDialog(null, "Favor inserir um email", "Erro", JOptionPane.ERROR_MESSAGE);
+					new Dialog("Erro", "Favor inserir um email", "warning").setVisible(true);
 					System.out.println("email Vazio");
 					return;
 				}
 				
 				String telefone = txtTelefone.getText();
 				if (telefone.isBlank()) {
-					JOptionPane.showMessageDialog(null, "Favor inserir um telefone.", "Erro", JOptionPane.ERROR_MESSAGE);
+					new Dialog("Erro", "Favor inserir um telefone.", "warning").setVisible(true);
 					System.out.println("telefone vazio");
 					return;
 				}

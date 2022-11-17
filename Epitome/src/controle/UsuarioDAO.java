@@ -20,6 +20,7 @@ import javax.swing.JOptionPane;
 import modelo.Contato;
 import modelo.Usuario;
 import modelo.Endereco;
+import visao.Dialog;
 import visao.TelaInicialADM;
 import visao.TelaInicialVND;
 import visao.TelaListarUsuarios;
@@ -97,7 +98,7 @@ public class UsuarioDAO {
 				
 				//Joption quando dá erro no logar
 				
-				JOptionPane.showMessageDialog(null, "Credenciais incorretas", "Erro", JOptionPane.ERROR_MESSAGE);
+				new Dialog("Erro", "Usu\u00E1rio desconhecido", "warning").setVisible(true);
 			} catch (SQLException e) {
 				System.out.println("Deu erro na verificação" + e);
 				e.printStackTrace();
