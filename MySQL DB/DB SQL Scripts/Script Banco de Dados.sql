@@ -78,7 +78,7 @@ DROP TABLE IF EXISTS `fornecedor_contato`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `fornecedor_contato` (
-  `id_fornecedor_contato` int NOT NULL,
+  `id_fornecedor_contato` int NOT NULL auto_increment,
   `email` varchar(75) DEFAULT NULL,
   `telefone` varchar(15) DEFAULT NULL,
   `fk_id_fornecedor` int NOT NULL,
@@ -106,7 +106,7 @@ DROP TABLE IF EXISTS `fornecedor_endereco`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `fornecedor_endereco` (
-  `id_fornecedor_endereco` int NOT NULL,
+  `id_fornecedor_endereco` int NOT NULL auto_increment,
   `cidade` varchar(50) DEFAULT NULL,
   `bairro` varchar(50) DEFAULT NULL,
   `rua` varchar(70) DEFAULT NULL,
