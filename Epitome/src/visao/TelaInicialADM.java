@@ -38,6 +38,9 @@ public class TelaInicialADM extends JFrame {
 			public void run() {
 				try {
 					TelaInicialADM frame = new TelaInicialADM(null);
+					frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+					frame.setUndecorated(true);
+					// frame.setLocationRelativeTo(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -51,22 +54,21 @@ public class TelaInicialADM extends JFrame {
 	 */
 	public TelaInicialADM(Usuario usuarioLogado) {
 		setIconImage(Toolkit.getDefaultToolkit().getImage("./img/app_icon_small.png"));
-		
-		
+
 		Font poppins, pop10 = null, pop12 = null;
-		
+
 		try {
-			  
-		    poppins = Font.createFont(Font.TRUETYPE_FONT, new File("./font/Poppins-SemiBold.ttf"));
-		    pop10 = poppins.deriveFont(Font.TRUETYPE_FONT, 10);
+
+			poppins = Font.createFont(Font.TRUETYPE_FONT, new File("./font/Poppins-SemiBold.ttf"));
+			pop10 = poppins.deriveFont(Font.TRUETYPE_FONT, 10);
 			pop12 = poppins.deriveFont(Font.TRUETYPE_FONT, 12);
-		  
+
 		} catch (Exception e) {
-		  e.printStackTrace();
+			e.printStackTrace();
 		}
-		
+
 		UIManager.put("Button.select", new Color(0, 0, 0));
-		
+
 		setResizable(false);
 		setTitle("Sistema de Vendas Ep\u00EDtome");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -76,7 +78,7 @@ public class TelaInicialADM extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(22, 22, 22));
 		panel.setBounds(592, 388, 471, 191);
@@ -84,7 +86,7 @@ public class TelaInicialADM extends JFrame {
 		panel.setBorder(new RoundBorder(Color.WHITE, 1, 10));
 		contentPane.add(panel);
 		panel.setLayout(null);
-		
+
 		RoundButton btnVenda = new RoundButton("VENDA");
 		btnVenda.setForeground(Color.WHITE);
 		btnVenda.addActionListener(new ActionListener() {
@@ -102,7 +104,7 @@ public class TelaInicialADM extends JFrame {
 		btnVenda.setFont(pop12);
 		btnVenda.setBounds(10, 36, 205, 34);
 		panel.add(btnVenda);
-		
+
 		RoundButton btnListarFornecedor = new RoundButton("FORNECEDORES");
 		btnListarFornecedor.setForeground(Color.WHITE);
 		btnListarFornecedor.addActionListener(new ActionListener() {
@@ -119,7 +121,7 @@ public class TelaInicialADM extends JFrame {
 		btnListarFornecedor.setFont(pop12);
 		btnListarFornecedor.setBounds(10, 141, 205, 34);
 		panel.add(btnListarFornecedor);
-		
+
 		RoundButton btnEstoque = new RoundButton("ESTOQUE");
 		btnEstoque.setForeground(Color.WHITE);
 		btnEstoque.addActionListener(new ActionListener() {
@@ -137,7 +139,7 @@ public class TelaInicialADM extends JFrame {
 		btnEstoque.setFont(pop12);
 		btnEstoque.setBounds(10, 71, 205, 34);
 		panel.add(btnEstoque);
-		
+
 		RoundButton btnListarUsuario = new RoundButton("USUÁRIOS");
 		btnListarUsuario.setForeground(Color.WHITE);
 		btnListarUsuario.addActionListener(new ActionListener() {
@@ -145,7 +147,7 @@ public class TelaInicialADM extends JFrame {
 				System.out.println("debug: tela Listar usuarios > tela de Listar Usuarios");
 				TelaListarUsuarios telaListarUsuarios = new TelaListarUsuarios();
 				telaListarUsuarios.setVisible(true);
-				//setVisible(false);
+				// setVisible(false);
 			}
 		});
 		btnListarUsuario.setOpaque(false);
@@ -169,12 +171,13 @@ public class TelaInicialADM extends JFrame {
 			}
 		});
 		btnRelatorio.setBackground(null);
-		btnRelatorio.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(), new RoundBorder(new Color(22,22,22), 2, 23)));
+		btnRelatorio.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(),
+				new RoundBorder(new Color(22, 22, 22), 2, 23)));
 		btnRelatorio.setForeground(Color.WHITE);
 		btnRelatorio.setBounds(253, 59, 175, 23);
 		btnRelatorio.setFocusPainted(false);
 		panel.add(btnRelatorio);
-		
+
 		JButton btnSair = new JButton("Sair");
 		btnSair.setHorizontalAlignment(SwingConstants.LEFT);
 		btnSair.setFont(pop10);
@@ -187,12 +190,13 @@ public class TelaInicialADM extends JFrame {
 			}
 		});
 		btnSair.setBackground(null);
-		btnSair.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(), new RoundBorder(new Color(22,22,22), 2, 23)));
+		btnSair.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(),
+				new RoundBorder(new Color(22, 22, 22), 2, 23)));
 		btnSair.setForeground(Color.WHITE);
 		btnSair.setBounds(253, 82, 175, 23);
 		btnSair.setFocusPainted(false);
 		panel.add(btnSair);
-		
+
 		JButton btnPerfil = new JButton("Perfil");
 		btnPerfil.setHorizontalAlignment(SwingConstants.LEFT);
 		btnPerfil.setFont(pop10);
@@ -205,30 +209,34 @@ public class TelaInicialADM extends JFrame {
 			}
 		});
 		btnPerfil.setBackground(null);
-		btnPerfil.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(), new RoundBorder(new Color(22,22,22), 2, 23)));
+		btnPerfil.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(),
+				new RoundBorder(new Color(22, 22, 22), 2, 23)));
 		btnPerfil.setForeground(Color.WHITE);
 		btnPerfil.setBounds(253, 36, 175, 23);
 		btnPerfil.setFocusPainted(false);
 		panel.add(btnPerfil);
-		
+
 		JLabel lblAdministrador = new JLabel("Administrador");
 		lblAdministrador.setHorizontalAlignment(SwingConstants.CENTER);
 		lblAdministrador.setForeground(Color.WHITE);
 		lblAdministrador.setBounds(10, 11, 205, 14);
 		lblAdministrador.setFont(pop12);
 		panel.add(lblAdministrador);
-		
+
 		JLabel lblNome = new JLabel(usuarioLogado.getNome_usuario());
 		lblNome.setBounds(219, 11, 242, 14);
 		panel.add(lblNome);
 		lblNome.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNome.setForeground(new Color(255, 255, 255));
 		lblNome.setFont(pop12);
-		
+
 		JLabel fakeBG = new JLabel("");
 		fakeBG.setIcon(new ImageIcon("./img/bg.png"));
 		fakeBG.setBounds(0, 0, 1600, 861);
 		contentPane.add(fakeBG);
-		
+
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
+		setUndecorated(true);
+
 	}
 }

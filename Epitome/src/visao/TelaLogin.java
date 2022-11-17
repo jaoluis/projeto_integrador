@@ -1,6 +1,7 @@
 package visao;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Toolkit;
@@ -33,7 +34,10 @@ public class TelaLogin extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+
 					TelaLogin frame = new TelaLogin();
+					frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+					frame.setLocationRelativeTo(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -46,13 +50,12 @@ public class TelaLogin extends JFrame {
 	 * Create the frame.
 	 */
 	public TelaLogin() {
-		setIconImage(Toolkit.getDefaultToolkit()
-				.getImage("./img/app_icon_small.png"));
+		setIconImage(Toolkit.getDefaultToolkit().getImage("./img/app_icon_small.png"));
 		Color clRed = new Color(226, 0, 54);
 		Color clDark = new Color(22, 22, 22);
 		Color clLight = new Color(45, 45, 45);
 		Color clLighter = new Color(197, 197, 197);
-		
+
 		Font poppins, pop10 = null, pop12 = null;
 
 		try {
@@ -64,10 +67,12 @@ public class TelaLogin extends JFrame {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		setResizable(false);
 		setTitle("Sistema de Vendas Ep\u00EDtome");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLocationRelativeTo(null);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+//		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 515, 460);
 		contentPane = new JPanel();
 		contentPane.setBackground(clLight);
@@ -94,9 +99,7 @@ public class TelaLogin extends JFrame {
 		lblEmail.setFont(pop10);
 		lblEmail.setBounds(10, 36, 156, 14);
 		panel.add(lblEmail);
-		
-		
-		
+
 		RoundField txtEmail = new RoundField();
 		txtEmail.setSelectedTextColor(clDark);
 		txtEmail.setSelectionColor(clRed);
@@ -125,11 +128,10 @@ public class TelaLogin extends JFrame {
 		lblSenha.setBounds(10, 81, 156, 14);
 		panel.add(lblSenha);
 
-		
-		//remover, para testes
+		// remover, para testes
 		txtEmail.setText("gustavo.s07@aluno.com");
 		txtSenha.setText("1234");
-		
+
 		RoundButton btnEntrar = new RoundButton("ENTRAR");
 		btnEntrar.setForeground(clRed);
 		btnEntrar.addActionListener(new ActionListener() {
@@ -137,28 +139,42 @@ public class TelaLogin extends JFrame {
 
 				String email = txtEmail.getText();
 				char[] senha = txtSenha.getPassword();
-	 
-	        // create object of StringBuilder class
-	        StringBuilder sb = new StringBuilder();
-	 
-	        // Appends characters one by one
-	        for (Character ch : senha) {
-	            sb.append(ch);
-	        }
-	 
-	        // convert in string
-	        String senhaP = sb.toString();
-	 
-	        Usuario usuario = new Usuario();
-			usuario.setEmail(email);
-			usuario.setSenha_usuario(senhaP);
-			
-			UsuarioDAO dao;
-			dao = new UsuarioDAO();
-			Usuario usuarioLogado = dao.verificacao(usuario);
-			
-			if (usuarioLogado == null) {
-				return;
+
+				// create object of StringBuilder class
+				StringBuilder sb = new StringBuilder();
+
+				// Appends characters one by one
+				for (Character ch : senha) {
+					sb.append(ch);
+				}
+
+				// convert in string
+				String senhaP = sb.toString();
+
+				Usuario usuario = new Usuario();
+				usuario.setEmail(email);
+				usuario.setSenha_usuario(senhaP);
+
+				UsuarioDAO dao;
+				dao = new UsuarioDAO();
+				Usuario usuarioLogado = dao.verificacao(usuario);
+
+				if (usuarioLogado == null) {
+					return;
+				}
+
+				if (usuarioLogado.getCargo().equals("administrador")) {
+					TelaInicialADM iniciologinADM = new TelaInicialADM(usuarioLogado);
+					iniciologinADM.setVisible(true);
+					setVisible(false);
+				} else if (usuarioLogado.getCargo().equals("vendedor")) {
+					TelaInicialVND iniciologinVND = new TelaInicialVND(usuarioLogado);
+					iniciologinVND.setVisible(true);
+					setVisible(false);
+				} else {
+					new Dialog("Erro","Usu\u00E0rio desconhecido", "warning").setVisible(true);
+					return;
+				
 			}
 			
 			if (usuarioLogado.getCargo().equals("administrador")) {
@@ -174,7 +190,7 @@ public class TelaLogin extends JFrame {
 				new Dialog("Erro", "Usu\u00E1rio desconhecido", "warning").setVisible(true);
 				return;
 			}
-			}
+		}
 		});
 		btnEntrar.setPressedBackgroundColor(Color.BLACK);
 		btnEntrar.setOpaque(false);
@@ -183,7 +199,7 @@ public class TelaLogin extends JFrame {
 		btnEntrar.setFont(pop12);
 		btnEntrar.setBounds(10, 156, 156, 23);
 		panel.add(btnEntrar);
-		
+
 		JLabel fakeBG = new JLabel("");
 		fakeBG.setIcon(new ImageIcon("./img/bg.png"));
 		fakeBG.setBounds(-495, -286, 1600, 861);
