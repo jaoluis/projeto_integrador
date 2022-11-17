@@ -664,7 +664,7 @@ public class TelaCadastroFornecedor extends JFrame {
 		btnContinuar.setBounds(10, 432, 156, 23);
 		panel.add(btnContinuar);
 		
-		
+		setLocationRelativeTo(null);
 	}
 	
 	protected MaskFormatter def_mask(String envolucro, char substituto) {

@@ -443,6 +443,8 @@ public class TelaModificarProduto extends JFrame {
 		fakeBG.setIcon(new ImageIcon("./img/bg.png"));
 		fakeBG.setBounds(-477, -224, 1600, 861);
 		contentPane.add(fakeBG);
+		
+		setLocationRelativeTo(null);
 	}
 	
 	private void refresh(JTable tbl) {

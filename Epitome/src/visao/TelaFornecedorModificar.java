@@ -669,6 +669,6 @@ public class TelaFornecedorModificar extends JFrame {
 		btnContinuar.setBounds(10, 432, 156, 23);
 		panel.add(btnContinuar);
 		
-		
+		setLocationRelativeTo(null);
 	}
 }

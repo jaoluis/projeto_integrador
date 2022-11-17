@@ -834,5 +834,7 @@ public class TelaModificar extends JFrame {
 		btnDelContato.setBorder(new RoundBorder(clRed, 1, 24));
 		btnDelContato.setBounds(311, 170, 24, 24);
 		cntPanel.add(btnDelContato);
+		
+		setLocationRelativeTo(null);
 	}
 }

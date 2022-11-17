@@ -184,6 +184,8 @@ public class TelaListarUsuarios extends JFrame {
 		fakeBG.setBounds(-281, -138, 968, 663);
 		contentPane.add(fakeBG);
 		
+		
+		setLocationRelativeTo(null);
 		}
 	
 	static public void refresh(JList<String> list) {

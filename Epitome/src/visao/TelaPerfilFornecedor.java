@@ -260,5 +260,7 @@ public class TelaPerfilFornecedor extends JFrame {
 		fakeBG.setIcon(new ImageIcon("./img/bg.png"));
 		fakeBG.setBounds(-495, -286, 1600, 861);
 		contentPane.add(fakeBG);
+		
+		setLocationRelativeTo(null);
 	}
 }

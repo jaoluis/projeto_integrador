@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import controle.UsuarioDAO;
 import modelo.Usuario;
 
 import javax.swing.JLabel;
@@ -16,11 +17,14 @@ import java.awt.Font;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import java.awt.Toolkit;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class TelaInicialADM extends JFrame {
 
@@ -37,10 +41,7 @@ public class TelaInicialADM extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TelaInicialADM frame = new TelaInicialADM(null);
-					frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-					frame.setUndecorated(true);
-					// frame.setLocationRelativeTo(null);
+					TelaInicialADM frame = new TelaInicialADM(UsuarioDAO.getUsuario(3));
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -53,8 +54,26 @@ public class TelaInicialADM extends JFrame {
 	 * Create the frame.
 	 */
 	public TelaInicialADM(Usuario usuarioLogado) {
+		addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent evt) {
+				if(evt.getKeyCode() == KeyEvent.VK_ESCAPE)
+				{
+				   dispose();
+				}
+			}
+		});
 		setIconImage(Toolkit.getDefaultToolkit().getImage("./img/app_icon_small.png"));
 
+
+//		addKeyListener(new java.awt.event.KeyAdapter() {
+//            public void keyPressed(java.awt.event.KeyEvent evt) {
+//               if (evt.getKeyCode() == KeyEvent.VK_ENTER){
+//                setVisible(false);
+//               }
+//            }
+//        });
+//		
 		Font poppins, pop10 = null, pop12 = null;
 
 		try {
@@ -72,7 +91,7 @@ public class TelaInicialADM extends JFrame {
 		setResizable(false);
 		setTitle("Sistema de Vendas Ep\u00EDtome");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(160, 90, 1600, 900);
+		setBounds(160, 90, 1920, 1080);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(45, 45, 45));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -92,9 +111,9 @@ public class TelaInicialADM extends JFrame {
 		btnVenda.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: tela inicial adm > tela de venda");
-				TelaVenda telaVenda = new TelaVenda(usuarioLogado);
-				telaVenda.setVisible(true);
-				setVisible(false);
+				new TelaVenda(usuarioLogado);
+				dispose();
+//				telaVenda.setVisible(true);
 			}
 		});
 		btnVenda.setOpaque(false);
@@ -127,9 +146,9 @@ public class TelaInicialADM extends JFrame {
 		btnEstoque.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: tela inicial adm > tela de estoque");
-				TelaEstoque telaEstoque = new TelaEstoque(usuarioLogado);
-				telaEstoque.setVisible(true);
-				setVisible(false);
+				dispose();
+				new TelaEstoque(usuarioLogado);
+//				telaEstoque.setVisible(true);
 			}
 		});
 		btnEstoque.setOpaque(false);
@@ -165,9 +184,10 @@ public class TelaInicialADM extends JFrame {
 		btnRelatorio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: tela inicial adm > relatório de vendas");
-				TelaRelatorio telaRel = new TelaRelatorio(usuarioLogado);
-				telaRel.setVisible(true);
-				setVisible(false);
+				dispose();
+				new TelaRelatorio(usuarioLogado);
+//				telaRel.setVisible(true);
+				
 			}
 		});
 		btnRelatorio.setBackground(null);
@@ -186,7 +206,7 @@ public class TelaInicialADM extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				TelaLogin tl = new TelaLogin();
 				tl.setVisible(true);
-				setVisible(false);
+				dispose();
 			}
 		});
 		btnSair.setBackground(null);
@@ -230,10 +250,32 @@ public class TelaInicialADM extends JFrame {
 		lblNome.setForeground(new Color(255, 255, 255));
 		lblNome.setFont(pop12);
 
+		JButton btnMinimize = new JButton("");
+		btnMinimize.setFocusPainted(false);
+		btnMinimize.setBorder(new RoundBorder(new Color(45, 45, 45), 1, 18));
+		btnMinimize.setForeground(Color.WHITE);
+		btnMinimize.setFont(pop12);
+		btnMinimize.setIcon(new ImageIcon("./img/minimize.png"));
+		btnMinimize.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("minimizar");
+				setState(JFrame.ICONIFIED);
+//				dispose();
+			}
+		});
+		btnMinimize.setBackground(null);
+		btnMinimize.setBounds(1576, 4, 20, 20);
+		contentPane.add(btnMinimize);
+
 		JLabel fakeBG = new JLabel("");
+		fakeBG.setHorizontalTextPosition(SwingConstants.CENTER);
+		fakeBG.setHorizontalAlignment(SwingConstants.CENTER);
 		fakeBG.setIcon(new ImageIcon("./img/bg.png"));
-		fakeBG.setBounds(0, 0, 1600, 861);
+		fakeBG.setBounds(0, 0, 1920, 1057);
 		contentPane.add(fakeBG);
+		
 
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setUndecorated(true);

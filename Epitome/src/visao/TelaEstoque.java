@@ -311,24 +311,33 @@ public class TelaEstoque extends JFrame {
 		contentPane.add(txtSearch);
 		txtSearch.setColumns(10);
 		
-//		JButton btnAtualizar = new JButton("");
-//		btnAtualizar.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				refresh(tblProdutos);
-//			}
-//		});
-//		btnAtualizar.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-//		btnAtualizar.setIcon(new ImageIcon("./img/refresh.png"));
-//		btnAtualizar.setOpaque(false);
-//		btnAtualizar.setForeground(Color.WHITE);
-//		btnAtualizar.setBackground(null);
-//		btnAtualizar.setBounds(139, 775, 36, 36);
-//		contentPane.add(btnAtualizar);
+		JButton btnMinimize = new JButton("");
+		btnMinimize.setFocusPainted(false);
+		btnMinimize.setBorder(new RoundBorder(new Color(45, 45, 45), 1, 18));
+		btnMinimize.setForeground(Color.WHITE);
+		btnMinimize.setFont(pop12);
+		btnMinimize.setIcon(new ImageIcon("./img/minimize.png"));
+		btnMinimize.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("minimizar");
+				setState(JFrame.ICONIFIED);
+//				dispose();
+			}
+		});
+		btnMinimize.setBackground(null);
+		btnMinimize.setBounds(1576, 4, 20, 20);
+		contentPane.add(btnMinimize);
 
 		JLabel fakeBG = new JLabel("");
 		fakeBG.setIcon(new ImageIcon("./img/bg.png"));
-		fakeBG.setBounds(0, 0, 1600, 861);
+		fakeBG.setBounds(0, 0, 1920, 1057);
 		contentPane.add(fakeBG);
+		
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
+		setUndecorated(true);
+		setVisible(true);
 
 	}
 	

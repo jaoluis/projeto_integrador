@@ -1,7 +1,6 @@
 package visao;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Toolkit;
@@ -71,8 +70,8 @@ public class TelaLogin extends JFrame {
 		setResizable(false);
 		setTitle("Sistema de Vendas Ep\u00EDtome");
 		setLocationRelativeTo(null);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-//		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 515, 460);
 		contentPane = new JPanel();
 		contentPane.setBackground(clLight);
@@ -178,13 +177,11 @@ public class TelaLogin extends JFrame {
 			}
 			
 			if (usuarioLogado.getCargo().equals("administrador")) {
-				TelaInicialADM iniciologinADM = new TelaInicialADM(usuarioLogado);
-				iniciologinADM.setVisible(true);
-				setVisible(false);
+				new TelaInicialADM(usuarioLogado);
+				dispose();
 			}else if(usuarioLogado.getCargo().equals("vendedor")){
-				TelaInicialVND iniciologinVND = new TelaInicialVND(usuarioLogado);
-				iniciologinVND.setVisible(true);
-				setVisible(false);
+				new TelaInicialVND(usuarioLogado);
+				dispose();
 			}
 			else {
 				new Dialog("Erro", "Usu\u00E1rio desconhecido", "warning").setVisible(true);
@@ -204,5 +201,7 @@ public class TelaLogin extends JFrame {
 		fakeBG.setIcon(new ImageIcon("./img/bg.png"));
 		fakeBG.setBounds(-495, -286, 1600, 861);
 		contentPane.add(fakeBG);
+		
+		setLocationRelativeTo(null);
 	}
 }

@@ -795,11 +795,34 @@ public class TelaVenda extends JFrame {
 		lblProduto.setBounds(145, 7, 80, 14);
 		prodPanel.add(lblProduto);
 		
+		JButton btnMinimize = new JButton("");
+		btnMinimize.setFocusPainted(false);
+		btnMinimize.setBorder(new RoundBorder(new Color(45, 45, 45), 1, 18));
+		btnMinimize.setForeground(Color.WHITE);
+		btnMinimize.setFont(pop12);
+		btnMinimize.setIcon(new ImageIcon("./img/minimize.png"));
+		btnMinimize.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("minimizar");
+				setState(JFrame.ICONIFIED);
+//				dispose();
+			}
+		});
+		btnMinimize.setBackground(null);
+		btnMinimize.setBounds(1576, 4, 20, 20);
+		contentPane.add(btnMinimize);
+		
 		JLabel fakeBG = new JLabel("");
 		fakeBG.setForeground(Color.BLACK);
 		fakeBG.setIcon(new ImageIcon("./img/bg.png"));
-		fakeBG.setBounds(0, 0, 1600, 861);
+		fakeBG.setBounds(0, 0, 1920, 1057);
 		contentPane.add(fakeBG);		
+		
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
+		setUndecorated(true);
+		setVisible(true);
 	}
 }
 

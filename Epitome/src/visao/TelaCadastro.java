@@ -820,6 +820,8 @@ public class TelaCadastro extends JFrame {
 		btnDelContato.setBorder(new RoundBorder(clRed, 1, 23));
 		btnDelContato.setBounds(312, 171, 23, 23);
 		cntPanel.add(btnDelContato);
+		
+		setLocationRelativeTo(null);
 	}
 
 	public static void updateList(JList<String> lista, ArrayList<String> values) {

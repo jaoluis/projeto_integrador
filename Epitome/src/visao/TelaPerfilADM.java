@@ -20,7 +20,6 @@ import javax.swing.ListSelectionModel;
 import javax.swing.AbstractListModel;
 import javax.swing.JButton;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.sql.Date;
@@ -310,7 +309,9 @@ public class TelaPerfilADM extends JFrame {
 		fakeBG.setBounds(-495, -286, 1600, 861);
 		contentPane.add(fakeBG);
 		
-		setExtendedState(JFrame.MAXIMIZED_BOTH);
-		setUndecorated(true);
+		setLocationRelativeTo(null);
+		
+//		setExtendedState(JFrame.MAXIMIZED_BOTH);
+//		setUndecorated(true);
 	}
 }
