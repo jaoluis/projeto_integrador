@@ -15,6 +15,8 @@ import javax.swing.UIManager;
 import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.awt.event.ActionEvent;
@@ -67,10 +69,14 @@ public class TelaInicialVND extends JFrame {
 		
 		UIManager.put("Button.select", new Color(0, 0, 0));
 		
+		Dimension r = Toolkit.getDefaultToolkit().getScreenSize();
+		int h = (int) r.getHeight();
+		int w = (int) r.getWidth();
+		
 		setResizable(false);
 		setTitle("Sistema de Vendas Ep\u00EDtome");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(160, 90, 1600, 900);
+		setBounds(0, 0, w, h);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(45, 45, 45));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -79,7 +85,7 @@ public class TelaInicialVND extends JFrame {
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(22, 22, 22));
-		panel.setBounds(592, 388, 471, 124);
+		panel.setBounds(w/2-235, h/2-95, 471, 191);
 		panel.setBorder(new RoundBorder(Color.WHITE, 1, 10));
 		contentPane.add(panel);
 		panel.setLayout(null);
@@ -205,12 +211,15 @@ public class TelaInicialVND extends JFrame {
 			}
 		});
 		btnMinimize.setBackground(null);
-		btnMinimize.setBounds(1576, 4, 20, 20);
+		btnMinimize.setBounds(w-24, 4, 20, 20);
 		contentPane.add(btnMinimize);
 		
 		JLabel fakeBG = new JLabel("");
+		fakeBG.setAlignmentX(Component.CENTER_ALIGNMENT);
+		fakeBG.setHorizontalTextPosition(SwingConstants.CENTER);
+		fakeBG.setHorizontalAlignment(SwingConstants.CENTER);
 		fakeBG.setIcon(new ImageIcon("./img/bg.png"));
-		fakeBG.setBounds(27, 0, 1920, 1057);
+		fakeBG.setBounds(getBounds());
 		contentPane.add(fakeBG);
 		
 		setExtendedState(JFrame.MAXIMIZED_BOTH);

@@ -1,6 +1,7 @@
 package visao;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -90,19 +91,31 @@ public class TelaEstoque extends JFrame {
 			e.printStackTrace();
 		}
 
+		Dimension r = Toolkit.getDefaultToolkit().getScreenSize();
+		int h = (int) r.getHeight();
+		int w = (int) r.getWidth();
+		
 		setResizable(false);
 		setTitle("Sistema de Vendas Ep\u00EDtome");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(160, 90, 1600, 900);
+		setBounds(0, 0, w, h);
 		contentPane = new JPanel();
 		contentPane.setBackground(clLight);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-
+		
+		JPanel main = new JPanel();
+		main.setBackground(null);
+		main.setOpaque(false);
+		main.setBounds(w/2-740, h/2-343, 1480, 686);
+		main.setBorder(BorderFactory.createEmptyBorder());
+		contentPane.add(main);
+		main.setLayout(null);
+		
 		JPanel panel = new JPanel();
 		panel.setBackground(clDark);
-		panel.setBounds(1322, 11, 252, 124);
+		panel.setBounds(w-278, 11, 252, 124);
 		panel.setBorder(new RoundBorder(Color.WHITE, 1, 10));
 		contentPane.add(panel);
 		panel.setLayout(null);
@@ -189,7 +202,7 @@ public class TelaEstoque extends JFrame {
 		contentPane.add(btnReturn);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(47, 162, 1480, 602);
+		scrollPane.setBounds(0, 37, 1480, 602);
 		scrollPane.setFont(pop12);
 		scrollPane.setForeground(clDark);
 		scrollPane.setBackground(clDark);
@@ -197,7 +210,7 @@ public class TelaEstoque extends JFrame {
 		scrollPane.getViewport().setOpaque(false);
 		scrollPane.setBorder(new RoundBorder(Color.WHITE, 1, 10));
 		Rolagem.defRolagem(scrollPane);
-		contentPane.add(scrollPane);
+		main.add(scrollPane);
 
 		DefaultTableModel model = new DefaultTableModel(null, new String[] { "ID", "NOME", "PRE\u00C7O", "MATERIAL", "DIMENS\u00D5ES", "FORNECEDOR", "QUANTIDADE"});
 		
@@ -250,8 +263,8 @@ public class TelaEstoque extends JFrame {
 		btnSearch.setForeground(null);
 		btnSearch.setBackground(null);
 		btnSearch.setBorder(new RoundBorder(clLight, 1, 25));
-		btnSearch.setBounds(46, 125, 27, 27);
-		contentPane.add(btnSearch);
+		btnSearch.setBounds(0, 0, 27, 27);
+		main.add(btnSearch);
 
 		JButton btnEdit = new JButton("");
 		btnEdit.addActionListener(new ActionListener() {
@@ -273,8 +286,8 @@ public class TelaEstoque extends JFrame {
 		btnEdit.setIcon(new ImageIcon("./img/edit.png"));
 		btnEdit.setBackground(null);
 		btnEdit.setOpaque(false);
-		btnEdit.setBounds(93, 775, 36, 36);
-		contentPane.add(btnEdit);
+		btnEdit.setBounds(46, 650, 36, 36);
+		main.add(btnEdit);
 
 		JButton btnAdd = new JButton("");
 		btnAdd.addActionListener(new ActionListener() {
@@ -288,8 +301,8 @@ public class TelaEstoque extends JFrame {
 		btnAdd.setIcon(new ImageIcon("./img/add.png"));
 		btnAdd.setBackground(null);
 		btnAdd.setOpaque(false);
-		btnAdd.setBounds(47, 775, 36, 36);
-		contentPane.add(btnAdd);
+		btnAdd.setBounds(0, 650, 36, 36);
+		main.add(btnAdd);
 
 		JLabel lblEstoque = new JLabel("Estoque");
 		lblEstoque.setHorizontalAlignment(SwingConstants.LEFT);
@@ -306,9 +319,9 @@ public class TelaEstoque extends JFrame {
 		txtSearch.setSelectionColor(clGreen);
 		txtSearch.setBackground(clDark);
 		txtSearch.setBorder(BorderFactory.createEmptyBorder());
-		txtSearch.setBounds(82, 128, 359, 20);
+		txtSearch.setBounds(35, 3, 359, 20);
 		txtSearch.setFont(pop12);
-		contentPane.add(txtSearch);
+		main.add(txtSearch);
 		txtSearch.setColumns(10);
 		
 		JButton btnMinimize = new JButton("");
@@ -327,12 +340,15 @@ public class TelaEstoque extends JFrame {
 			}
 		});
 		btnMinimize.setBackground(null);
-		btnMinimize.setBounds(1576, 4, 20, 20);
+		btnMinimize.setBounds(w-24, 4, 20, 20);
 		contentPane.add(btnMinimize);
 
 		JLabel fakeBG = new JLabel("");
+		fakeBG.setAlignmentX(Component.CENTER_ALIGNMENT);
+		fakeBG.setHorizontalTextPosition(SwingConstants.CENTER);
+		fakeBG.setHorizontalAlignment(SwingConstants.CENTER);
 		fakeBG.setIcon(new ImageIcon("./img/bg.png"));
-		fakeBG.setBounds(0, 0, 1920, 1057);
+		fakeBG.setBounds(getBounds());
 		contentPane.add(fakeBG);
 		
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -369,7 +385,11 @@ public class TelaEstoque extends JFrame {
 		
 		tbl.setModel(model);
 		if (sel != -1) {
-			tbl.setRowSelectionInterval(sel, sel);
+			try {
+				tbl.setRowSelectionInterval(sel, sel);
+			} catch (IllegalArgumentException x) {
+				tbl.setRowSelectionInterval(tbl.getModel().getRowCount()-1, tbl.getModel().getRowCount()-1);
+			}
 		}
 		
 		tbl.getColumnModel().getColumn(0).setPreferredWidth(25);

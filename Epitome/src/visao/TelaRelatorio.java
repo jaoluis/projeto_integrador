@@ -14,6 +14,7 @@ import javax.swing.UIManager;
 import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -84,20 +85,32 @@ public class TelaRelatorio extends JFrame {
 		UIManager.put("TableHeader.background", clDark);
 		UIManager.put("Button.select", Color.BLACK);
 
+		Dimension r = Toolkit.getDefaultToolkit().getScreenSize();
+		int h = (int) r.getHeight();
+		int w = (int) r.getWidth();
+		
 		setResizable(false);
 		setTitle("Sistema de Vendas Ep\u00EDtome");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(160, 90, 1600, 900);
+		setBounds(0, 0, w, h);
 		contentPane = new JPanel();
 		contentPane.setBackground(clLight);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
+		JPanel main = new JPanel();
+		main.setBackground(null);
+		main.setOpaque(false);
+		main.setBounds(w/2-740, h/2-343, 1480, 686);
+		main.setBorder(BorderFactory.createEmptyBorder());
+		contentPane.add(main);
+		main.setLayout(null);
+		
 		JPanel panel = new JPanel();
 		panel.setBackground(clDark);
-		panel.setBounds(1322, 11, 252, 124);
-		panel.setBorder(new RoundBorder());
+		panel.setBounds(w-278, 11, 252, 124);
+		panel.setBorder(new RoundBorder(Color.WHITE, 1, 10));
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
@@ -204,13 +217,13 @@ public class TelaRelatorio extends JFrame {
 		btnSearch.setForeground(null);
 		btnSearch.setBackground(null);
 		btnSearch.setBorder(new RoundBorder(clLight, 1, 25));
-		btnSearch.setBounds(321, 125, 27, 27);
-		contentPane.add(btnSearch);
+		btnSearch.setBounds(274, 0, 27, 27);
+		main.add(btnSearch);
 
-		JButton btnEdit = new JButton("");
-		btnEdit.addActionListener(new ActionListener() {
+		JButton btnDelete = new JButton("");
+		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug: editar produto (tela de cadastro de produto)");
+				System.out.println("debug: deletar relatorio");
 
 				int linha = tblProdutos.getSelectedRow();
 				int idProduto = (int) tblProdutos.getValueAt(linha, 0);
@@ -223,12 +236,12 @@ public class TelaRelatorio extends JFrame {
 				}
 			}
 		});
-		btnEdit.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		btnEdit.setIcon(new ImageIcon("./img/delete.png"));
-		btnEdit.setForeground(null);
-		btnEdit.setBackground(null);
-		btnEdit.setBounds(93, 775, 36, 36);
-		contentPane.add(btnEdit);
+		btnDelete.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		btnDelete.setIcon(new ImageIcon("./img/delete.png"));
+		btnDelete.setForeground(null);
+		btnDelete.setBackground(null);
+		btnDelete.setBounds(46, 650, 36, 36);
+		main.add(btnDelete);
 
 		JButton btnAdd = new JButton("");
 		btnAdd.addActionListener(new ActionListener() {
@@ -242,53 +255,55 @@ public class TelaRelatorio extends JFrame {
 		btnAdd.setIcon(new ImageIcon("./img/add.png"));
 		btnAdd.setForeground(null);
 		btnAdd.setBackground(null);
-		btnAdd.setBounds(47, 775, 36, 36);
-		contentPane.add(btnAdd);
+		btnAdd.setBounds(0, 650, 36, 36);
+		main.add(btnAdd);
 
 		RoundFormattedField txtAte = new RoundFormattedField(TelaCadastro.def_mask("##/##/####", '\u2022'), Color.WHITE,
 				20);
 		txtAte.setHorizontalAlignment(SwingConstants.CENTER);
 		txtAte.setForeground(Color.WHITE);
+		txtAte.setCaretColor(Color.WHITE);
 		txtAte.setBackground(clDark);
 		txtAte.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		txtAte.setBounds(221, 128, 90, 20);
+		txtAte.setBounds(174, 3, 90, 20);
 		txtAte.setFont(pop12);
-		contentPane.add(txtAte);
+		main.add(txtAte);
 		txtAte.setColumns(10);
 
 		JLabel lblAte = new JLabel("AT\u00C9:");
 		lblAte.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblAte.setForeground(Color.WHITE);
 		lblAte.setFont(pop12);
-		lblAte.setBounds(184, 126, 27, 25);
-		contentPane.add(lblAte);
+		lblAte.setBounds(137, 1, 27, 25);
+		main.add(lblAte);
 
 		RoundFormattedField txtDe = new RoundFormattedField(TelaCadastro.def_mask("##/##/####", '\u2022'), Color.WHITE,
 				20);
 		txtDe.setHorizontalAlignment(SwingConstants.CENTER);
 		txtDe.setForeground(Color.WHITE);
+		txtDe.setCaretColor(Color.WHITE);
 		txtDe.setBackground(clDark);
-		txtDe.setBounds(84, 128, 90, 20);
+		txtDe.setBounds(37, 3, 90, 20);
 		txtDe.setFont(pop12);
-		contentPane.add(txtDe);
+		main.add(txtDe);
 		txtDe.setColumns(10);
 
 		JLabel lblDe = new JLabel("DE:");
 		lblDe.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblDe.setForeground(Color.WHITE);
 		lblDe.setFont(pop12);
-		lblDe.setBounds(47, 126, 27, 25);
-		contentPane.add(lblDe);
+		lblDe.setBounds(0, 1, 27, 25);
+		main.add(lblDe);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(47, 162, 1480, 602);
+		scrollPane.setBounds(0, 37, 1480, 602);
 		scrollPane.setFont(pop12);
 		scrollPane.setForeground(Color.WHITE);
 		scrollPane.setBackground(clDark);
 		scrollPane.getViewport().setOpaque(false);
-		scrollPane.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		scrollPane.setBorder(BorderFactory.createEmptyBorder());
 		scrollPane.setBorder(new RoundBorder());
-		contentPane.add(scrollPane);
+		main.add(scrollPane);
 
 		tblProdutos = new JTable();
 		tblProdutos.setShowHorizontalLines(false);
@@ -353,12 +368,15 @@ public class TelaRelatorio extends JFrame {
 			}
 		});
 		btnMinimize.setBackground(null);
-		btnMinimize.setBounds(1576, 4, 20, 20);
+		btnMinimize.setBounds(w-24, 4, 20, 20);
 		contentPane.add(btnMinimize);
 		
 		JLabel fakeBG = new JLabel("");
+		fakeBG.setAlignmentX(Component.CENTER_ALIGNMENT);
+		fakeBG.setHorizontalTextPosition(SwingConstants.CENTER);
+		fakeBG.setHorizontalAlignment(SwingConstants.CENTER);
 		fakeBG.setIcon(new ImageIcon("./img/bg.png"));
-		fakeBG.setBounds(0, 0, 1920, 1057);
+		fakeBG.setBounds(getBounds());
 		contentPane.add(fakeBG);
 		
 		setExtendedState(JFrame.MAXIMIZED_BOTH);

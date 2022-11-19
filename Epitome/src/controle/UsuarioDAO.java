@@ -1,29 +1,22 @@
 package controle;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 import modelo.Contato;
 import modelo.Usuario;
 import modelo.Endereco;
 import visao.Dialog;
-import visao.TelaInicialADM;
-import visao.TelaInicialVND;
-import visao.TelaListarUsuarios;
 
 public class UsuarioDAO {
 
@@ -75,7 +68,6 @@ public class UsuarioDAO {
 
 				while (rs.next()) {
 					int id = rs.getInt("id_usuario");
-					String login = rs.getString("email_usuario");
 					String nome = rs.getString("nome_usuario");
 					String senha = rs.getString("senha_usuario");
 					String cargo = rs.getString("cargo_usuario");

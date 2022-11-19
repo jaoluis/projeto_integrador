@@ -480,7 +480,11 @@ public class TelaModificarProduto extends JFrame {
 		
 		tbl.setModel(model);
 		if (sel != -1) {
-			tbl.setRowSelectionInterval(sel, sel);
+			try {
+				tbl.setRowSelectionInterval(sel, sel);
+			} catch (IllegalArgumentException x) {
+				tbl.setRowSelectionInterval(tbl.getModel().getRowCount()-1, tbl.getModel().getRowCount()-1);
+			}
 		}
 		
 		tbl.getColumnModel().getColumn(0).setPreferredWidth(25);

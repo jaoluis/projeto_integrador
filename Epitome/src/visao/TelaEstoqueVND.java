@@ -1,6 +1,7 @@
 package visao;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -86,19 +87,31 @@ public class TelaEstoqueVND extends JFrame {
 		UIManager.put("TableHeader.background", clDark);
 		UIManager.put("Button.select", Color.BLACK);
 		
+		Dimension r = Toolkit.getDefaultToolkit().getScreenSize();
+		int h = (int) r.getHeight();
+		int w = (int) r.getWidth();
+		
 		setResizable(false);
 		setTitle("Sistema de Vendas Ep\u00EDtome");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(160, 90, 1600, 900);
+		setBounds(0, 0, w, h);
 		contentPane = new JPanel();
 		contentPane.setBackground(clLight);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-
+		
+		JPanel main = new JPanel();
+		main.setBackground(null);
+		main.setOpaque(false);
+		main.setBounds(w/2-740, h/2-343, 1480, 686);
+		main.setBorder(BorderFactory.createEmptyBorder());
+		contentPane.add(main);
+		main.setLayout(null);
+		
 		JPanel panel = new JPanel();
 		panel.setBackground(clDark);
-		panel.setBounds(1322, 11, 252, 124);
+		panel.setBounds(w-278, 11, 252, 124);
 		panel.setBorder(new RoundBorder());
 		contentPane.add(panel);
 		panel.setLayout(null);
@@ -198,8 +211,8 @@ public class TelaEstoqueVND extends JFrame {
 		btnSearch.setForeground(null);
 		btnSearch.setBackground(null);
 		btnSearch.setBorder(new RoundBorder(clLight, 1, 25));
-		btnSearch.setBounds(46, 125, 27, 27);
-		contentPane.add(btnSearch);
+		btnSearch.setBounds(0, 0, 27, 27);
+		main.add(btnSearch);
 
 		
 
@@ -218,14 +231,14 @@ public class TelaEstoqueVND extends JFrame {
 		txtSearch.setSelectionColor(clGreen);
 		txtSearch.setBackground(clDark);
 		txtSearch.setBorder(BorderFactory.createEmptyBorder());
-		txtSearch.setBounds(82, 128, 359, 20);
+		txtSearch.setBounds(35, 3, 359, 20);
 		txtSearch.setFont(pop12);
-		contentPane.add(txtSearch);
+		main.add(txtSearch);
 		txtSearch.setColumns(10);
 		
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(47, 162, 1480, 602);
+		scrollPane.setBounds(0, 37, 1480, 602);
 		scrollPane.setFont(pop12);
 		scrollPane.setForeground(clDark);
 		scrollPane.setBackground(clDark);
@@ -233,7 +246,7 @@ public class TelaEstoqueVND extends JFrame {
 		scrollPane.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		scrollPane.setBorder(new RoundBorder());
 		Rolagem.defRolagem(scrollPane);
-		contentPane.add(scrollPane);
+		main.add(scrollPane);
 
 		DefaultTableModel model = new DefaultTableModel(null, new String[] { "ID", "NOME", "PRE\u00C7O", "MATERIAL", "DIMENS\u00D5ES", "FORNECEDOR", "QUANTIDADE"});
 		
@@ -287,8 +300,8 @@ public class TelaEstoqueVND extends JFrame {
 		btnAtualizar.setForeground(Color.WHITE);
 		btnAtualizar.setBackground(null);
 		btnAtualizar.setBorder(new RoundBorder(clLight, 0, 36));
-		btnAtualizar.setBounds(45, 774, 38, 38);
-		contentPane.add(btnAtualizar);
+		btnAtualizar.setBounds(0, 648, 38, 38);
+		main.add(btnAtualizar);
 		
 		JButton btnMinimize = new JButton("");
 		btnMinimize.setFocusPainted(false);
@@ -306,12 +319,15 @@ public class TelaEstoqueVND extends JFrame {
 			}
 		});
 		btnMinimize.setBackground(null);
-		btnMinimize.setBounds(1576, 4, 20, 20);
+		btnMinimize.setBounds(w-24, 4, 20, 20);
 		contentPane.add(btnMinimize);
 		
 		JLabel fakeBG = new JLabel("");
+		fakeBG.setAlignmentX(Component.CENTER_ALIGNMENT);
+		fakeBG.setHorizontalTextPosition(SwingConstants.CENTER);
+		fakeBG.setHorizontalAlignment(SwingConstants.CENTER);
 		fakeBG.setIcon(new ImageIcon("./img/bg.png"));
-		fakeBG.setBounds(0, 0, 1920, 1057);
+		fakeBG.setBounds(getBounds());
 		contentPane.add(fakeBG);
 		
 		setExtendedState(JFrame.MAXIMIZED_BOTH);

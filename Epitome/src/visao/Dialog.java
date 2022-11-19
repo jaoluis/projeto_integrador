@@ -44,7 +44,7 @@ public class Dialog extends JFrame {
 	 * Create the frame.
 	 */
 	public Dialog(String title, String message, String icon) {
-		setIconImage(Toolkit.getDefaultToolkit().getImage("./img/"+icon+".png"));
+		setIconImage(Toolkit.getDefaultToolkit().getImage("./img/app_icon_small.png"));
 		setResizable(false);
 		setTitle(title);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

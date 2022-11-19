@@ -1,6 +1,7 @@
 package visao;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -111,19 +112,31 @@ public class TelaVenda extends JFrame {
 		UIManager.put("TableHeader.background", clDark);
 		UIManager.put("Button.select", Color.BLACK);
 		
+		Dimension r = Toolkit.getDefaultToolkit().getScreenSize();
+		int h = (int) r.getHeight();
+		int w = (int) r.getWidth();
+		
 		setResizable(false);
 		setTitle("Sistema de Vendas Ep\u00EDtome");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(160, 90, 1600, 900);
+		setBounds(0, 0, w, h);
 		contentPane = new JPanel();
 		contentPane.setBackground(clLight);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		JPanel main = new JPanel();
+		main.setBackground(null);
+		main.setOpaque(false);
+		main.setBounds(w/2-635, h/2-269, 1270, 539);
+		main.setBorder(BorderFactory.createEmptyBorder());
+		contentPane.add(main);
+		
+		main.setLayout(null);
 		JPanel panel = new JPanel();
 		panel.setBackground(clDark);
-		panel.setBounds(1322, 11, 252, 124);
+		panel.setBounds(w-278, 11, 252, 124);
 		panel.setBorder(new RoundBorder());
 		contentPane.add(panel);
 		panel.setLayout(null);
@@ -238,8 +251,8 @@ public class TelaVenda extends JFrame {
 		btnSearch.setForeground(null);
 		btnSearch.setBackground(null);
 		btnSearch.setBorder(new RoundBorder(clLight, 1, 25));
-		btnSearch.setBounds(46, 125, 27, 27);
-		contentPane.add(btnSearch);
+		btnSearch.setBounds(0, 0, 27, 27);
+		main.add(btnSearch);
 		
 		JLabel lblVenda = new JLabel("Venda");
 		lblVenda.setHorizontalAlignment(SwingConstants.LEFT);
@@ -256,27 +269,27 @@ public class TelaVenda extends JFrame {
 		txtSearch.setSelectionColor(clBlue);
 		txtSearch.setBackground(clDark);
 		txtSearch.setBorder(BorderFactory.createEmptyBorder());
-		txtSearch.setBounds(82, 128, 359, 20);
+		txtSearch.setBounds(35, 3, 359, 20);
 		txtSearch.setFont(pop12);
-		contentPane.add(txtSearch);
+		main.add(txtSearch);
 		txtSearch.setColumns(10);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.getViewport().setOpaque(false);
-		scrollPane.setBounds(47, 162, 715, 502);
+		scrollPane.setBounds(0, 37, 715, 502);
 		scrollPane.setFont(pop12);
 		scrollPane.setForeground(Color.WHITE);
 		scrollPane.setBackground(clDark);
 		scrollPane.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		scrollPane.setBorder(new RoundBorder());
 		Rolagem.defRolagem(scrollPane);
-		contentPane.add(scrollPane);		
+		main.add(scrollPane);		
 		
 		JPanel dtlProduto = new JPanel();
-		dtlProduto.setBounds(772, 162, 545, 114);
+		dtlProduto.setBounds(725, 37, 545, 114);
 		dtlProduto.setBackground(clDark);
 		dtlProduto.setBorder(new RoundBorder());
-		contentPane.add(dtlProduto);
+		main.add(dtlProduto);
 		dtlProduto.setLayout(null);
 		
 		// atualizar detalhes do produto quando for selecionado na tabela
@@ -385,8 +398,8 @@ public class TelaVenda extends JFrame {
 		pagamentoPanel.setLayout(null);
 		pagamentoPanel.setBackground(clDark);
 		pagamentoPanel.setBorder(new RoundBorder());
-		pagamentoPanel.setBounds(772, 287, 545, 114);
-		contentPane.add(pagamentoPanel);
+		pagamentoPanel.setBounds(725, 162, 545, 114);
+		main.add(pagamentoPanel);
 		
 		JLabel lblNomeProduto_1 = new JLabel("PAGAMENTO");
 		lblNomeProduto_1.setHorizontalAlignment(SwingConstants.CENTER);
@@ -413,8 +426,8 @@ public class TelaVenda extends JFrame {
 		lblTotal.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblTotal.setForeground(Color.WHITE);
 		lblTotal.setFont(pop16);
-		lblTotal.setBounds(1161, 449, 156, 14);
-		contentPane.add(lblTotal);
+		lblTotal.setBounds(1114, 324, 156, 14);
+		main.add(lblTotal);
 		
 		JLabel lblTroco = new JLabel("Troco:  R$ 0,00");
 		lblTroco.setHorizontalAlignment(SwingConstants.CENTER);
@@ -605,9 +618,9 @@ public class TelaVenda extends JFrame {
 		
 		JPanel prodPanel = new JPanel();
 		prodPanel.setBackground(clDark);
-		prodPanel.setBounds(772, 412, 379, 51);
+		prodPanel.setBounds(725, 287, 379, 51);
 		prodPanel.setBorder(new RoundBorder());
-		contentPane.add(prodPanel);
+		main.add(prodPanel);
 		prodPanel.setLayout(null);
 		
 		JButton btnAdd = new JButton("");
@@ -811,13 +824,15 @@ public class TelaVenda extends JFrame {
 			}
 		});
 		btnMinimize.setBackground(null);
-		btnMinimize.setBounds(1576, 4, 20, 20);
+		btnMinimize.setBounds(w-24, 4, 20, 20);
 		contentPane.add(btnMinimize);
 		
 		JLabel fakeBG = new JLabel("");
-		fakeBG.setForeground(Color.BLACK);
+		fakeBG.setAlignmentX(Component.CENTER_ALIGNMENT);
+		fakeBG.setHorizontalTextPosition(SwingConstants.CENTER);
+		fakeBG.setHorizontalAlignment(SwingConstants.CENTER);
 		fakeBG.setIcon(new ImageIcon("./img/bg.png"));
-		fakeBG.setBounds(0, 0, 1920, 1057);
+		fakeBG.setBounds(getBounds());
 		contentPane.add(fakeBG);		
 		
 		setExtendedState(JFrame.MAXIMIZED_BOTH);

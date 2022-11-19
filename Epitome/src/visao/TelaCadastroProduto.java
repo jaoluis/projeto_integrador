@@ -453,7 +453,9 @@ public class TelaCadastroProduto extends JFrame {
 		}
 		
 		tbl.setModel(model);
-		tbl.setRowSelectionInterval(sel, sel);
+		if (sel != -1) {
+			tbl.setRowSelectionInterval(sel, sel);
+		}
 		
 		tbl.getColumnModel().getColumn(0).setPreferredWidth(25);
 		tbl.getColumnModel().getColumn(1).setPreferredWidth(300);
