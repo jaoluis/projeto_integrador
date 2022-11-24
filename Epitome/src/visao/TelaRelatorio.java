@@ -23,6 +23,7 @@ import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -37,7 +38,12 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+
+import controle.FornecedorBD;
+import controle.ProdutoBD;
 import controle.VendaBD;
+import modelo.Fornecedor;
+import modelo.Produto;
 import modelo.Usuario;
 import modelo.Venda;
 
@@ -49,7 +55,11 @@ public class TelaRelatorio extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTable tblProdutos;
-	ArrayList<Venda> vendas = new ArrayList<Venda>();;
+	ArrayList<Venda> vendas = new ArrayList<Venda>();
+	private String de = null;
+	private String ate = null;
+	private LocalDate dataDe = null;	
+	private LocalDate dataAte = null;	
 
 	/**
 	 * Launch the application.
@@ -255,15 +265,26 @@ public class TelaRelatorio extends JFrame {
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: pesquisar");
-//				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-//				try {
-//					Date dataDe = new java.sql.Date(format.parse(txtDe.getText()).getTime());
-//				} catch (ParseException e1) {
-//					// TODO Auto-generated catch block
-//					e1.printStackTrace();
-//				}
-				VendaBD vendaBD = new VendaBD();
-				vendas = vendaBD.getPesquisarPeriodo("2021-01-01", "2022-01-01");
+				
+
+					de = txtDe.getText();
+					de = de.replaceAll("/","-");
+					ate = txtAte.getText();
+					ate = ate.replaceAll("/","-");	
+					DateTimeFormatter formatacao = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+	try {
+						dataDe = LocalDate.parse(txtDe.getText(), formatacao);
+					} catch (DateTimeException e2) {
+					}
+					
+					try {
+						dataAte = LocalDate.parse(txtAte.getText(), formatacao);
+					} catch (DateTimeException e2) {
+					}
+					System.out.println(dataDe);
+					System.out.println(dataAte);
+					refresh(tblProdutos);
 			}
 		});
 		btnSearch.setBorder(javax.swing.BorderFactory.createEmptyBorder());
@@ -288,6 +309,7 @@ public class TelaRelatorio extends JFrame {
 						vendaBD.DeleteByID(idProduto);
 					}
 				}
+				refresh(tblProdutos);
 			}
 		});
 		btnDelete.setBorder(javax.swing.BorderFactory.createEmptyBorder());
@@ -302,7 +324,7 @@ public class TelaRelatorio extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				TelaVenda tcp = new TelaVenda(usuarioLogado);
 				tcp.setVisible(true);
-				setVisible(false);
+				setVisible(false);;
 			}
 		});
 		btnAdd.setBorder(javax.swing.BorderFactory.createEmptyBorder());
@@ -330,22 +352,23 @@ public class TelaRelatorio extends JFrame {
 		tblProdutos.setShowGrid(false);
 
 		DefaultTableModel model = new DefaultTableModel(null,
-				new String[] { "ID", "PAGAMENTO", "TOTAL", "DATA", "QUANTIDADE" });
-		tblProdutos = new JTable(model);
-		tblProdutos.setModel(new DefaultTableModel(new Object[][] { { null, null, null, null, null }, },
-				new String[] { "ID", "PAGAMENTO", "TOTAL", "DATA", "QUANTIDADE" }));
+				new String[] { "ID", "PAGAMENTO", "TOTAL", "DATA", "QUANTIDADE", "LUCRO" });
+		/*tblProdutos = new JTable(model);
+		tblProdutos.setModel(new DefaultTableModel(new Object[][] { { null, null, null, null, null,null }, },
+				new String[] { "ID", "PAGAMENTO", "TOTAL", "DATA", "QUANTIDADE", "LUCRO"}));
 
 		VendaBD vendaBD = new VendaBD();
 
 		vendas = vendaBD.getListarVendas();
+		
 		for (Venda venda : vendas) {
 			model.addRow(
-					new Object[] { venda.getId(), venda.getPagamento(), venda.getTotal(), venda.getDataVenda(), "3" });
+					new Object[] { venda.getId(), venda.getPagamento(), venda.getTotal(), venda.getDataVenda(), venda.getQuantidade(), venda.getLucro()});*/
 
 //			System.out.println(venda.getId() + " " + venda.getPagamento() + " " + venda.getTotal() + " "
 //					+ venda.getDataVenda() + " " + "3");
 
-		}
+//		}
 		tblProdutos.setModel(model);
 		tblProdutos.setFocusable(false);
 		tblProdutos.setSelectionBackground(clGreen);
@@ -370,6 +393,8 @@ public class TelaRelatorio extends JFrame {
 		tblProdutos.setBackground(clDark);
 		tblProdutos.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		scrollPane.setViewportView(tblProdutos);
+		
+		refresh(tblProdutos);
 
 		JButton btnMinimize = new JButton("");
 		btnMinimize.setFocusPainted(false);
@@ -401,5 +426,39 @@ public class TelaRelatorio extends JFrame {
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setUndecorated(true);
 		setVisible(true);
+	}
+	
+	private void refresh(JTable tbl) {
+		int sel = tbl.getSelectedRow();
+		
+		DefaultTableModel model = new DefaultTableModel(null, new String[] { "ID", "PAGAMENTO", "TOTAL", "DATA", "QUANTIDADE", "LUCRO" });
+		
+		if(de == null && ate == null) {
+			vendas = new VendaBD().getListarVendas();
+		}else {
+			vendas = new VendaBD().getPesquisarVenda(dataDe,dataAte);
+		}
+		
+		for (Venda venda : vendas) {
+		model.addRow(
+				new Object[] { venda.getId(), venda.getPagamento(), venda.getTotal(), venda.getDataVenda(), venda.getQuantidade(), venda.getLucro()});
+				
+		}
+		
+		tbl.setModel(model);
+		if (sel != -1) {
+			try {
+				tbl.setRowSelectionInterval(sel, sel);
+			} catch (IllegalArgumentException x) {
+				tbl.setRowSelectionInterval(tbl.getModel().getRowCount()-1, tbl.getModel().getRowCount()-1);
+			}
+		}
+		
+		tbl.getColumnModel().getColumn(0).setPreferredWidth(25);
+		tbl.getColumnModel().getColumn(1).setPreferredWidth(300);
+		tbl.getColumnModel().getColumn(2).setPreferredWidth(140);
+		tbl.getColumnModel().getColumn(3).setPreferredWidth(240);
+		tbl.getColumnModel().getColumn(4).setPreferredWidth(160);
+		tbl.getColumnModel().getColumn(5).setPreferredWidth(270);
 	}
 }

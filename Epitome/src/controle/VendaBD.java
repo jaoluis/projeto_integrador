@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,7 +79,7 @@ private static Connection connection;
 	
 	public ArrayList<Venda> getListarVendas(){
 		
-		String sql = "SELECT * FROM venda";
+		String sql = "SELECT SUM(quantidade) as quantidade, id_venda, fk_id_usuario_venda, preco_total_venda,data_venda, lucro_venda, pagamento FROM produto_venda inner join venda on produto_venda.fk_id_venda  = venda.id_venda  group by fk_id_venda;";
 		
 		ArrayList<Venda> vendas = new ArrayList<Venda>();
 		Connection conn = null;
@@ -98,7 +99,9 @@ private static Connection connection;
 				venda.setTotal(rset.getFloat("preco_total_venda"));
 				venda.setPagamento(rset.getString("pagamento"));
 				venda.setDataVenda(rset.getDate("data_venda"));
-
+				venda.setLucro(rset.getFloat("preco_total_venda"));
+				venda.setQuantidade(rset.getInt("quantidade"));
+				
 				vendas.add(venda);
 				
 			}
@@ -127,6 +130,12 @@ private static Connection connection;
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		Date date = new Date(0);
 		return dateFormat.format(date);
+	}
+	
+	public String getDate(String a) {
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		Date date = new Date(0);
+		return dateFormat.format(a);
 	}
 	
 	public void DeleteByID(int id) {
@@ -166,52 +175,56 @@ private static Connection connection;
 			}
 	}
 
-public ArrayList<Venda> getPesquisarPeriodo(String inicio, String fim){
-		
-		String sql = "SELECT * FROM venda where data_venda BETWEEN ? AND ?";
-		
-		ArrayList<Venda> vendas = new ArrayList<Venda>();
-		Connection conn = null;
-		PreparedStatement ps = null;
-		ResultSet rset = null;
-		
-		try {
-			conn = Conexao.getConnection();
-			ps = (PreparedStatement) conn.prepareStatement(sql);
-			ps.setString(1,inicio);
-			ps.setString(2,fim);
-			rset = ps.executeQuery();
-			
-			while (rset.next()) {
-				Venda venda = new Venda();
-				venda.setId(rset.getInt("id_venda"));
-				venda.setFk(rset.getInt("fk_id_usuario_venda"));
-				venda.setTotal(rset.getFloat("preco_total_venda"));
-				venda.setPagamento(rset.getString("pagamento"));
-				venda.setDataVenda(rset.getDate("data_venda"));
 
-				vendas.add(venda);
-				
-			}
+public ArrayList<Venda> getPesquisarVenda(LocalDate dataDe, LocalDate dataAte){
+	
+	String sql = "SELECT SUM(quantidade) as quantidade, id_venda, fk_id_usuario_venda, preco_total_venda,data_venda, lucro_venda, pagamento FROM produto_venda inner join venda on produto_venda.fk_id_venda  = venda.id_venda \r\n"
+			+ " where data_venda BETWEEN ? AND ?  group by fk_id_venda;";
+	
+	ArrayList<Venda> vendas = new ArrayList<Venda>();
+	Connection conn = null;
+	PreparedStatement ps = null;
+	ResultSet rset = null;
+	
+	try {
+		conn = Conexao.getConnection();
+		ps = (PreparedStatement) conn.prepareStatement(sql);
+		ps.setDateD(1, dataDe);
+		ps.setString(2, dataAte);
+		rset = ps.executeQuery();
+		
+		while (rset.next()) {
+			Venda venda = new Venda();
+			venda.setId(rset.getInt("id_venda"));
+			venda.setFk(rset.getInt("fk_id_usuario_venda"));
+			venda.setTotal(rset.getFloat("preco_total_venda"));
+			venda.setPagamento(rset.getString("pagamento"));
+			venda.setDataVenda(rset.getDate("data_venda"));
+			venda.setLucro(rset.getFloat("preco_total_venda"));
+			venda.setQuantidade(rset.getInt("quantidade"));
 			
-		} catch (Exception e) {
-			System.out.println("Debug: Deu erro no listarUsuarios" + e);
-		}finally {
-			try {
-			if(rset!=null) {
-				Conexao.getClose();
-			}
-			if(ps!=null) {
-				Conexao.getClose();
-			}
-			if(conn!=null) {
-				Conexao.getClose();;
-			}
-			}catch (Exception e) {
-				e.printStackTrace();
-			}
+			vendas.add(venda);
+			
 		}
-		 return vendas;
+		
+	} catch (Exception e) {
+		System.out.println("Debug: Deu erro no pesquisaPeriodo" + e);
+	}finally {
+		try {
+		if(rset!=null) {
+			Conexao.getClose();
+		}
+		if(ps!=null) {
+			Conexao.getClose();
+		}
+		if(conn!=null) {
+			Conexao.getClose();;
+		}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
+	 return vendas;
+}
 
 }
