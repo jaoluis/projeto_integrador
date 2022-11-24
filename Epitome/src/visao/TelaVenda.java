@@ -61,6 +61,7 @@ public class TelaVenda extends JFrame {
 	private ArrayList<Produto> produtos = new ArrayList<Produto>();
 	float precoT = 0;
 	float troco = (float) 0.00;
+	float lucro;
 	private final ButtonGroup pagGroup = new ButtonGroup();
 	Venda venda = new Venda();
 	ArrayList<ProdVNDQuant> QuantVND = new ArrayList<ProdVNDQuant>();
@@ -449,9 +450,11 @@ public class TelaVenda extends JFrame {
 					int sel = tblProdutos.getSelectedRow();
 					if (p.getNomeProduto().equals(nm)) {
 						produtos.remove(p);
+						QuantVND.remove(sel+1);
 						DefaultTableModel model = (DefaultTableModel) tblProdutos.getModel();
 						
 						model.removeRow(sel);
+						System.out.println(sel);
 						if (sel !=-1 && model.getRowCount() > 0) {
 							try {
 								tblProdutos.setRowSelectionInterval(sel, sel);
@@ -589,6 +592,15 @@ public class TelaVenda extends JFrame {
 					System.out.println("debug: forma de pagamento não informada");
 				}
 				venda.setTotal(precoT);
+				
+				for (ProdVNDQuant a: QuantVND) {
+					if(a.getId()!=0) {
+						lucro = a.getQuant()*a.getLucro()+lucro;
+
+				}
+				}
+				
+				venda.setLucro(lucro);
 					
 
 				VendaBD vendaBD = new VendaBD();
@@ -596,11 +608,10 @@ public class TelaVenda extends JFrame {
 				
 				for (ProdVNDQuant a: QuantVND) {
 					if(a.getId()!=0) {
-						vendaBD.insert(a, id);
+						vendaBD.insertProdutoVenda(a, id);
 					}
 
 				}
-				vendaBD.insert(venda);
 			}
 
 		});
@@ -676,23 +687,33 @@ public class TelaVenda extends JFrame {
 						
 						lblNomeProduto.setText(produto.getNomeProduto());
 						
+						
+						
 						tblProdutos.setRowSelectionInterval(tblProdutos.getModel().getRowCount()-1, tblProdutos.getModel().getRowCount()-1);
-						
-						ArrayList<ProdVNDQuant> tempQuantVND = QuantVND;
-						
-						for (ProdVNDQuant vendaQ : tempQuantVND) {
-							if (produto.getIdProduto()==vendaQ.getId()) {
-								vendaQ.setQuant(vendaQ.getQuant()+1);
-								QuantVND.add(vendaQ);
-								System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-							}else {
+						int i= -1;
+						boolean d = false;
+						for (ProdVNDQuant b : QuantVND) {
+							i++;
+							if(produto.getIdProduto()==b.getId()) {
+								System.out.println(i);
+								int h = b.getQuant()+1;
+								QuantVND.get(i).setQuant(h);
+								
+								d=true;
+								
+								
+							}
+
+						}if(d==false) {
 								ProdVNDQuant vendaQ1 = new ProdVNDQuant();
 								vendaQ1.setId(produto.getIdProduto());
 								vendaQ1.setQuant(1);
+								System.out.println(produto.getPrecoVendaProduto());
+								float lucro = produto.getPrecoVendaProduto()-produto.getPrecoCustoProduto();
+								vendaQ1.setLucro(lucro);
 								QuantVND.add(vendaQ1);
-								}
-							System.out.println(vendaQ.getId());
 						}
+						
 					}
 				}
 			}

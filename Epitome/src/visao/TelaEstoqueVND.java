@@ -44,6 +44,7 @@ public class TelaEstoqueVND extends JFrame {
 	private JPanel contentPane;
 	private ArrayList<Produto> produtos;
 	private JTable tblProdutos;
+	private String pesquisar = null;
 
 	/**
 	 * Launch the application.
@@ -199,12 +200,28 @@ public class TelaEstoqueVND extends JFrame {
 		btnReturn.setBounds(23, 51, 27, 27);
 		contentPane.add(btnReturn);
 
+		RoundField txtSearch = new RoundField(Color.WHITE, 20);
+		txtSearch.setHorizontalAlignment(SwingConstants.CENTER);
+		txtSearch.setCaretColor(Color.WHITE);
+		txtSearch.setForeground(Color.WHITE);
+		txtSearch.setSelectedTextColor(clDark);
+		txtSearch.setSelectionColor(clGreen);
+		txtSearch.setBackground(clDark);
+		txtSearch.setBorder(BorderFactory.createEmptyBorder());
+		txtSearch.setBounds(35, 3, 359, 20);
+		txtSearch.setFont(pop12);
+		main.add(txtSearch);
+		txtSearch.setColumns(10);
+		
 		JButton btnSearch = new JButton("");
 		btnSearch.setFocusPainted(false);
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: pesquisar");
-			}
+				ProdutoBD produtobd = new ProdutoBD();
+				produtos = produtobd.getPesquisar(txtSearch.getText());
+				refresh(tblProdutos);
+				pesquisar = txtSearch.getText();			}
 		});
 		btnSearch.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		btnSearch.setIcon(new ImageIcon("./img/search.png"));
@@ -222,19 +239,6 @@ public class TelaEstoqueVND extends JFrame {
 		lblEstoque.setFont(pop24);
 		lblEstoque.setBounds(60, 42, 252, 45);
 		contentPane.add(lblEstoque);
-
-		RoundField txtSearch = new RoundField(Color.WHITE, 20);
-		txtSearch.setHorizontalAlignment(SwingConstants.CENTER);
-		txtSearch.setCaretColor(Color.WHITE);
-		txtSearch.setForeground(Color.WHITE);
-		txtSearch.setSelectedTextColor(clDark);
-		txtSearch.setSelectionColor(clGreen);
-		txtSearch.setBackground(clDark);
-		txtSearch.setBorder(BorderFactory.createEmptyBorder());
-		txtSearch.setBounds(35, 3, 359, 20);
-		txtSearch.setFont(pop12);
-		main.add(txtSearch);
-		txtSearch.setColumns(10);
 		
 
 		JScrollPane scrollPane = new JScrollPane();
@@ -341,8 +345,15 @@ public class TelaEstoqueVND extends JFrame {
 		
 		DefaultTableModel model = new DefaultTableModel(null, new String[] { "ID", "NOME", "PRE\u00C7O", "MATERIAL", "DIMENS\u00D5ES", "FORNECEDOR", "QUANTIDADE"});
 		
-		produtos = new ProdutoBD().getListarProdutos();
+		if(pesquisar == null) {
+			produtos = new ProdutoBD().getListarProdutos();
+		}else {
+		produtos = new ProdutoBD().getPesquisar(pesquisar);
+		}
+		
 		ArrayList<Fornecedor> fornecedores = (ArrayList<Fornecedor>) new FornecedorBD().getListarFornecedores();
+		
+		
 		
 		for (Produto produto : produtos) {
 					String fNome = "Sem fornecedor";

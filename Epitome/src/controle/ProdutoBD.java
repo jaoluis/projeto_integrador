@@ -236,7 +236,63 @@ public class ProdutoBD {
 		
 		
 		return produtos;
+
 	}
+	
+	public ArrayList<Produto> getPesquisar(String pesquisar){
+	     
+		String sql1 = "select * from produto inner join preco on produto.fk_id_historico_produto  = preco.fk_id_historico_produto_preco where nome_produto like ?";
+		
+		ArrayList<Produto> produtos = new ArrayList<Produto>();
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rset = null;
+		
+		try {
+			conn = Conexao.getConnection();
+			ps = (PreparedStatement) conn.prepareStatement(sql1);
+			ps.setString(1, '%' + pesquisar + '%');
+			rset = ps.executeQuery();
+			
+			while (rset.next()) {
+				Produto produto = new Produto();
+				produto.setIdProduto(rset.getInt("id_produto"));
+				produto.setNomeProduto(rset.getString("nome_produto"));
+				produto.setMaterialProduto(rset.getString("material_produto"));
+				produto.setQuantidadeEstoque(rset.getInt("estoque_produto"));
+				produto.setDimensoesProduto(rset.getString("dimensoes_produto"));
+				produto.setPrecoVendaProduto(rset.getFloat("preco_venda"));
+				produto.setPrecoCustoProduto(rset.getFloat("preco_custo"));
+				produto.setFornecedor(rset.getInt("fk_id_fornecedor_id"));
+				
+				produtos.add(produto);
+				
+			}
+			
+		} catch (Exception e) {
+			System.out.println("Debug: Deu erro no listarProdutos1" + e);
+		}finally {
+			try {
+			if(rset!=null) {
+				Conexao.getClose();
+			}
+			if(ps!=null) {
+				Conexao.getClose();
+			}
+			if(conn!=null) {
+				Conexao.getClose();;
+			}
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
+		return produtos;
+
+	}
+	
+	
 }
 		
 

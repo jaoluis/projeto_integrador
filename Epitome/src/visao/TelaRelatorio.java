@@ -18,6 +18,14 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 
@@ -204,12 +212,58 @@ public class TelaRelatorio extends JFrame {
 		lblEstoque.setFont(pop24);
 		lblEstoque.setBounds(60, 42, 252, 45);
 		contentPane.add(lblEstoque);
+		
+		RoundFormattedField txtAte = new RoundFormattedField(TelaCadastro.def_mask("##/##/####", '\u2022'), Color.WHITE,
+				20);
+		txtAte.setHorizontalAlignment(SwingConstants.CENTER);
+		txtAte.setForeground(Color.WHITE);
+		txtAte.setCaretColor(Color.WHITE);
+		txtAte.setBackground(clDark);
+		txtAte.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		txtAte.setBounds(174, 3, 90, 20);
+		txtAte.setFont(pop12);
+		main.add(txtAte);
+		txtAte.setColumns(10);
 
+		JLabel lblAte = new JLabel("AT\u00C9:");
+		lblAte.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblAte.setForeground(Color.WHITE);
+		lblAte.setFont(pop12);
+		lblAte.setBounds(137, 1, 27, 25);
+		main.add(lblAte);
+
+		RoundFormattedField txtDe = new RoundFormattedField(TelaCadastro.def_mask("##/##/####", '\u2022'), Color.WHITE,
+				20);
+		txtDe.setHorizontalAlignment(SwingConstants.CENTER);
+		txtDe.setForeground(Color.WHITE);
+		txtDe.setCaretColor(Color.WHITE);
+		txtDe.setBackground(clDark);
+		txtDe.setBounds(37, 3, 90, 20);
+		txtDe.setFont(pop12);
+		main.add(txtDe);
+		txtDe.setColumns(10);
+
+		JLabel lblDe = new JLabel("DE:");
+		lblDe.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblDe.setForeground(Color.WHITE);
+		lblDe.setFont(pop12);
+		lblDe.setBounds(0, 1, 27, 25);
+		main.add(lblDe);
+		
 		JButton btnSearch = new JButton("");
 		btnSearch.setFocusPainted(false);
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: pesquisar");
+//				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+//				try {
+//					Date dataDe = new java.sql.Date(format.parse(txtDe.getText()).getTime());
+//				} catch (ParseException e1) {
+//					// TODO Auto-generated catch block
+//					e1.printStackTrace();
+//				}
+				VendaBD vendaBD = new VendaBD();
+				vendas = vendaBD.getPesquisarPeriodo("2021-01-01", "2022-01-01");
 			}
 		});
 		btnSearch.setBorder(javax.swing.BorderFactory.createEmptyBorder());
@@ -258,42 +312,7 @@ public class TelaRelatorio extends JFrame {
 		btnAdd.setBounds(0, 650, 36, 36);
 		main.add(btnAdd);
 
-		RoundFormattedField txtAte = new RoundFormattedField(TelaCadastro.def_mask("##/##/####", '\u2022'), Color.WHITE,
-				20);
-		txtAte.setHorizontalAlignment(SwingConstants.CENTER);
-		txtAte.setForeground(Color.WHITE);
-		txtAte.setCaretColor(Color.WHITE);
-		txtAte.setBackground(clDark);
-		txtAte.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		txtAte.setBounds(174, 3, 90, 20);
-		txtAte.setFont(pop12);
-		main.add(txtAte);
-		txtAte.setColumns(10);
 
-		JLabel lblAte = new JLabel("AT\u00C9:");
-		lblAte.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblAte.setForeground(Color.WHITE);
-		lblAte.setFont(pop12);
-		lblAte.setBounds(137, 1, 27, 25);
-		main.add(lblAte);
-
-		RoundFormattedField txtDe = new RoundFormattedField(TelaCadastro.def_mask("##/##/####", '\u2022'), Color.WHITE,
-				20);
-		txtDe.setHorizontalAlignment(SwingConstants.CENTER);
-		txtDe.setForeground(Color.WHITE);
-		txtDe.setCaretColor(Color.WHITE);
-		txtDe.setBackground(clDark);
-		txtDe.setBounds(37, 3, 90, 20);
-		txtDe.setFont(pop12);
-		main.add(txtDe);
-		txtDe.setColumns(10);
-
-		JLabel lblDe = new JLabel("DE:");
-		lblDe.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblDe.setForeground(Color.WHITE);
-		lblDe.setFont(pop12);
-		lblDe.setBounds(0, 1, 27, 25);
-		main.add(lblDe);
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(0, 37, 1480, 602);

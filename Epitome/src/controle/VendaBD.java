@@ -26,12 +26,13 @@ private static Connection connection;
 		connection = Conexao.getConnection();
 		long id = 0;
 		try {
-			PreparedStatement ps = connection.prepareStatement("insert into venda (data_venda, preco_total_venda, pagamento, fk_id_usuario_venda)"
-				+ "values ( ? , ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+			PreparedStatement ps = connection.prepareStatement("insert into venda (data_venda, preco_total_venda, pagamento, fk_id_usuario_venda,lucro_venda)"
+				+ "values ( ? , ?, ?, ?,?)", Statement.RETURN_GENERATED_KEYS);
 				ps.setDate(1, venda.getDataVenda());
 				ps.setFloat(2, venda.getTotal());
 				ps.setString(3, venda.getPagamento());
 				ps.setFloat(4, venda.getFk());
+				ps.setFloat(5, venda.getLucro());
 				ps.execute();			
 				
 				ResultSet generatedKeys = ps.getGeneratedKeys();
@@ -50,14 +51,15 @@ private static Connection connection;
 		
 		}
 	
-	public boolean insert(ProdVNDQuant vendaQuant, long id) {
+	public boolean insertProdutoVenda(ProdVNDQuant vendaQuant, long id) {
 		connection = Conexao.getConnection();
 		try {
-			PreparedStatement ps = connection.prepareStatement("insert into produto_venda (quantidade,fk_id_produto,fk_id_venda)"
-				+ "values ( ? , ?,?)",Statement.RETURN_GENERATED_KEYS);
+			PreparedStatement ps = connection.prepareStatement("insert into produto_venda (quantidade,fk_id_produto,fk_id_venda,lucro_produto_venda)"
+				+ "values ( ? , ?,?,?)",Statement.RETURN_GENERATED_KEYS);
 				ps.setInt(1, vendaQuant.getQuant());
 				ps.setInt(2, vendaQuant.getId());
 				ps.setLong(3, id);
+				ps.setFloat(4, vendaQuant.getLucro());
 				ps.execute();
 			
 			Conexao.getClose();
@@ -164,5 +166,52 @@ private static Connection connection;
 			}
 	}
 
+public ArrayList<Venda> getPesquisarPeriodo(String inicio, String fim){
+		
+		String sql = "SELECT * FROM venda where data_venda BETWEEN ? AND ?";
+		
+		ArrayList<Venda> vendas = new ArrayList<Venda>();
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rset = null;
+		
+		try {
+			conn = Conexao.getConnection();
+			ps = (PreparedStatement) conn.prepareStatement(sql);
+			ps.setString(1,inicio);
+			ps.setString(2,fim);
+			rset = ps.executeQuery();
+			
+			while (rset.next()) {
+				Venda venda = new Venda();
+				venda.setId(rset.getInt("id_venda"));
+				venda.setFk(rset.getInt("fk_id_usuario_venda"));
+				venda.setTotal(rset.getFloat("preco_total_venda"));
+				venda.setPagamento(rset.getString("pagamento"));
+				venda.setDataVenda(rset.getDate("data_venda"));
+
+				vendas.add(venda);
+				
+			}
+			
+		} catch (Exception e) {
+			System.out.println("Debug: Deu erro no listarUsuarios" + e);
+		}finally {
+			try {
+			if(rset!=null) {
+				Conexao.getClose();
+			}
+			if(ps!=null) {
+				Conexao.getClose();
+			}
+			if(conn!=null) {
+				Conexao.getClose();;
+			}
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		 return vendas;
+	}
 
 }

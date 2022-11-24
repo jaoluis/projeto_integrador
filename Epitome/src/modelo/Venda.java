@@ -39,10 +39,17 @@ public class Venda {
 	public void setFk(int fk) {
 		this.fk = fk;
 	}
+		public float getLucro() {
+		return lucro;
+	}
+	public void setLucro(float lucro) {
+		this.lucro = lucro;
+	}
 		private int id;
 		private float total;
 		private String pagamento;
 		Date dataVenda;
 		int quantidade;
 		private int fk;
+		private float lucro;
 }

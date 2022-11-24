@@ -45,6 +45,7 @@ public class TelaEstoque extends JFrame {
 	private JPanel contentPane;
 	private JTable tblProdutos;
 	private ArrayList<Produto> produtos;
+	private String pesquisar = null;
 
 	/**
 	 * Launch the application.
@@ -251,12 +252,28 @@ public class TelaEstoque extends JFrame {
 		
 		scrollPane.setViewportView(tblProdutos);
 		
+		RoundField txtSearch = new RoundField(Color.WHITE, 20);
+		txtSearch.setHorizontalAlignment(SwingConstants.CENTER);
+		txtSearch.setCaretColor(Color.WHITE);
+		txtSearch.setForeground(Color.WHITE);
+		txtSearch.setSelectedTextColor(clDark);
+		txtSearch.setSelectionColor(clGreen);
+		txtSearch.setBackground(clDark);
+		txtSearch.setBorder(BorderFactory.createEmptyBorder());
+		txtSearch.setBounds(35, 3, 359, 20);
+		txtSearch.setFont(pop12);
+		main.add(txtSearch);
+		txtSearch.setColumns(10);
+		
 		JButton btnSearch = new JButton("");
 		btnSearch.setFocusPainted(false);
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("debug: pesquisar");
-			}
+				ProdutoBD produtobd = new ProdutoBD();
+				produtos = produtobd.getPesquisar(txtSearch.getText());
+				refresh(tblProdutos);
+				pesquisar = txtSearch.getText();			}
 		});
 		btnSearch.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		btnSearch.setIcon(new ImageIcon("./img/search.png"));
@@ -311,18 +328,7 @@ public class TelaEstoque extends JFrame {
 		lblEstoque.setBounds(60, 42, 252, 45);
 		contentPane.add(lblEstoque);
 
-		RoundField txtSearch = new RoundField(Color.WHITE, 20);
-		txtSearch.setHorizontalAlignment(SwingConstants.CENTER);
-		txtSearch.setCaretColor(Color.WHITE);
-		txtSearch.setForeground(Color.WHITE);
-		txtSearch.setSelectedTextColor(clDark);
-		txtSearch.setSelectionColor(clGreen);
-		txtSearch.setBackground(clDark);
-		txtSearch.setBorder(BorderFactory.createEmptyBorder());
-		txtSearch.setBounds(35, 3, 359, 20);
-		txtSearch.setFont(pop12);
-		main.add(txtSearch);
-		txtSearch.setColumns(10);
+
 		
 		JButton btnMinimize = new JButton("");
 		btnMinimize.setFocusPainted(false);
@@ -361,8 +367,12 @@ public class TelaEstoque extends JFrame {
 		int sel = tbl.getSelectedRow();
 		
 		DefaultTableModel model = new DefaultTableModel(null, new String[] { "ID", "NOME", "PRE\u00C7O", "MATERIAL", "DIMENS\u00D5ES", "FORNECEDOR", "QUANTIDADE"});
-
-		produtos = new ProdutoBD().getListarProdutos();
+		
+		if(pesquisar == null) {
+			produtos = new ProdutoBD().getListarProdutos();
+		}else {
+		produtos = new ProdutoBD().getPesquisar(pesquisar);
+		}
 		ArrayList<Fornecedor> fornecedores = (ArrayList<Fornecedor>) new FornecedorBD().getListarFornecedores();
 		
 		for (Produto produto : produtos) {
