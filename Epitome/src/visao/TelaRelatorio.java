@@ -271,19 +271,12 @@ public class TelaRelatorio extends JFrame {
 					de = de.replaceAll("/","-");
 					ate = txtAte.getText();
 					ate = ate.replaceAll("/","-");	
-					DateTimeFormatter formatacao = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
-	try {
-						dataDe = LocalDate.parse(txtDe.getText(), formatacao);
-					} catch (DateTimeException e2) {
-					}
-					
-					try {
-						dataAte = LocalDate.parse(txtAte.getText(), formatacao);
-					} catch (DateTimeException e2) {
-					}
-					System.out.println(dataDe);
-					System.out.println(dataAte);
+					char[] myChars = de.toCharArray();
+					char[] myCharsAte = ate.toCharArray();
+					de = myChars[6]+""+myChars[7]+""+myChars[8]+""+myChars[9]+""+myChars[5]+""+myChars[3]+""+myChars[4]+""+myChars[2]+""+myChars[0]+""+myChars[1];
+					ate = myCharsAte[6]+""+myCharsAte[7]+""+myCharsAte[8]+""+myCharsAte[9]+""+myCharsAte[5]+""+myCharsAte[3]+""+myCharsAte[4]+""+myCharsAte[2]+""+myCharsAte[0]+""+myCharsAte[1];
+					System.out.println(de);
+					System.out.println(ate);
 					refresh(tblProdutos);
 			}
 		});
@@ -310,6 +303,9 @@ public class TelaRelatorio extends JFrame {
 					}
 				}
 				refresh(tblProdutos);
+				
+				new Dialog("Delete Venda", "Venda deletada", "warning").setVisible(true);
+				System.out.println("Venda deletada");
 			}
 		});
 		btnDelete.setBorder(javax.swing.BorderFactory.createEmptyBorder());
@@ -433,10 +429,10 @@ public class TelaRelatorio extends JFrame {
 		
 		DefaultTableModel model = new DefaultTableModel(null, new String[] { "ID", "PAGAMENTO", "TOTAL", "DATA", "QUANTIDADE", "LUCRO" });
 		
-		if(de == null && ate == null) {
+		if(de == null || ate == null) {
 			vendas = new VendaBD().getListarVendas();
 		}else {
-			vendas = new VendaBD().getPesquisarVenda(dataDe,dataAte);
+			vendas = new VendaBD().getPesquisarVenda(de,ate);
 		}
 		
 		for (Venda venda : vendas) {

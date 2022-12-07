@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
 
 import modelo.Fornecedor;
 import modelo.ProdVNDQuant;
+import modelo.Produto;
 import modelo.Usuario;
 import modelo.Venda;
 
@@ -176,7 +177,7 @@ private static Connection connection;
 	}
 
 
-public ArrayList<Venda> getPesquisarVenda(LocalDate dataDe, LocalDate dataAte){
+public ArrayList<Venda> getPesquisarVenda(String dataDe, String dataAte){
 	
 	String sql = "SELECT SUM(quantidade) as quantidade, id_venda, fk_id_usuario_venda, preco_total_venda,data_venda, lucro_venda, pagamento FROM produto_venda inner join venda on produto_venda.fk_id_venda  = venda.id_venda \r\n"
 			+ " where data_venda BETWEEN ? AND ?  group by fk_id_venda;";
@@ -189,7 +190,7 @@ public ArrayList<Venda> getPesquisarVenda(LocalDate dataDe, LocalDate dataAte){
 	try {
 		conn = Conexao.getConnection();
 		ps = (PreparedStatement) conn.prepareStatement(sql);
-		ps.setDateD(1, dataDe);
+		ps.setString(1, dataDe);
 		ps.setString(2, dataAte);
 		rset = ps.executeQuery();
 		
@@ -225,6 +226,43 @@ public ArrayList<Venda> getPesquisarVenda(LocalDate dataDe, LocalDate dataAte){
 		}
 	}
 	 return vendas;
+}
+
+public void updateQuantidade (int estoque, int id) {
+		String sql  = "UPDATE historico_produto SET estoque_produto  = ? WHERE id_historico_produto = ?;";
+		String sql1 = "UPDATE produto SET estoque_produto  = ? WHERE fk_id_historico_produto = ?;";
+		Connection conn = null;
+		PreparedStatement ps = null;
+	
+	try {
+		conn = Conexao.getConnection();
+		ps = conn.prepareStatement(sql);
+		ps.setInt(1, estoque);
+		ps.setInt(2, id);
+		ps.execute();
+
+		ps = conn.prepareStatement(sql1);
+		ps.setInt(1, estoque);
+		ps.setInt(2, id);
+		ps.execute();
+		
+		System.out.println("Debug: quantidade do produto definida alterado");
+		Conexao.getClose();
+	} catch (Exception e) {
+		System.out.println("Debug: erro ao da update na hora de mudar o dado da quantidade, error: "+e);
+	}finally {
+		try {
+		if(ps!=null) {
+			Conexao.getClose();			
+			}
+		if (conn!=null) {
+			Conexao.getClose();
+		}
+		}catch (Exception e2) {
+			
+		}
+}
+
 }
 
 }

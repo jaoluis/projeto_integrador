@@ -10,6 +10,7 @@ public class Produto {
 		private float precoCustoProduto;
 		private float precoVendaProduto;
 		private int fornecedor;
+		private int quantVenda;
 		
 		public Produto() {
 			// TODO Auto-generated constructor stub
@@ -84,6 +85,12 @@ public class Produto {
 		}
 		public void setFornecedor(int fornecedor) {
 			this.fornecedor = fornecedor;
+		}
+		public int getQuantVenda() {
+			return quantVenda;
+		}
+		public void setQuantVenda(int quantVenda) {
+			this.quantVenda = quantVenda;
 		}
 
 		

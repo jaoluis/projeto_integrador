@@ -292,6 +292,45 @@ public class ProdutoBD {
 
 	}
 	
+	public int getPetPegarQuant(int id){
+	     
+		String sql1 = "select estoque_produto from produto inner join preco on produto.fk_id_historico_produto  = preco.fk_id_historico_produto_preco where id_produto = ?";
+		int quant = 0;
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rset = null;
+		
+		try {
+			conn = Conexao.getConnection();
+			ps = (PreparedStatement) conn.prepareStatement(sql1);
+			ps.setInt(1, id);
+			rset = ps.executeQuery();
+			rset.next();
+			quant = rset.getInt("estoque_produto");
+				
+			
+		} catch (Exception e) {
+			System.out.println("Debug: Deu erro no pegar quant" + e);
+		}finally {
+			try {
+			if(rset!=null) {
+				Conexao.getClose();
+			}
+			if(ps!=null) {
+				Conexao.getClose();
+			}
+			if(conn!=null) {
+				Conexao.getClose();;
+			}
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return quant;
+
+	}
+	
 	
 }
 		

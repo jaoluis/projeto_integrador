@@ -40,6 +40,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
+import controle.FornecedorBD;
 import controle.ProdutoBD;
 import controle.VendaBD;
 import modelo.ProdVNDQuant;
@@ -59,6 +60,7 @@ public class TelaVenda extends JFrame {
 	private RoundField txtCodigo;
 	private ArrayList<Produto> all_produtos = new ProdutoBD().getListarProdutos();
 	private ArrayList<Produto> produtos = new ArrayList<Produto>();
+	protected ProdutoBD produtoBDG = new ProdutoBD();
 	float precoT = 0;
 	float troco = (float) 0.00;
 	float lucro;
@@ -239,21 +241,6 @@ public class TelaVenda extends JFrame {
 		btnReturn.setFocusPainted(false);
 		btnReturn.setBounds(23, 51, 27, 27);
 		contentPane.add(btnReturn);
-	
-		JButton btnSearch = new JButton("");
-		btnSearch.setFocusPainted(false);
-		btnSearch.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("debug: pesquisar");
-			}
-		});
-		btnSearch.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		btnSearch.setIcon(new ImageIcon("./img/search.png"));
-		btnSearch.setForeground(null);
-		btnSearch.setBackground(null);
-		btnSearch.setBorder(new RoundBorder(clLight, 1, 25));
-		btnSearch.setBounds(0, 0, 27, 27);
-		main.add(btnSearch);
 		
 		JLabel lblVenda = new JLabel("Venda");
 		lblVenda.setHorizontalAlignment(SwingConstants.LEFT);
@@ -261,19 +248,6 @@ public class TelaVenda extends JFrame {
 		lblVenda.setFont(pop24);
 		lblVenda.setBounds(60, 42, 252, 45);
 		contentPane.add(lblVenda);
-		
-		RoundField txtSearch = new RoundField(Color.WHITE, 20);
-		txtSearch.setHorizontalAlignment(SwingConstants.CENTER);
-		txtSearch.setCaretColor(Color.WHITE);
-		txtSearch.setForeground(Color.WHITE);
-		txtSearch.setSelectedTextColor(clDark);
-		txtSearch.setSelectionColor(clBlue);
-		txtSearch.setBackground(clDark);
-		txtSearch.setBorder(BorderFactory.createEmptyBorder());
-		txtSearch.setBounds(35, 3, 359, 20);
-		txtSearch.setFont(pop12);
-		main.add(txtSearch);
-		txtSearch.setColumns(10);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.getViewport().setOpaque(false);
@@ -601,10 +575,15 @@ public class TelaVenda extends JFrame {
 				}
 				
 				venda.setLucro(lucro);
-					
+				if(produtos == null) {
 
 				VendaBD vendaBD = new VendaBD();
 				Long id = vendaBD.insert(venda);
+				
+				for (Produto b : produtos) {
+					b.setQuantidadeEstoque(b.getQuantidadeEstoque()-1);
+					vendaBD.updateQuantidade(b.getQuantidadeEstoque(), b.getIdProduto());
+				}
 				
 				for (ProdVNDQuant a: QuantVND) {
 					if(a.getId()!=0) {
@@ -612,7 +591,23 @@ public class TelaVenda extends JFrame {
 					}
 
 				}
+				
+				}
+				
+				if(usuarioLogado.getCargo().equalsIgnoreCase("administrador")) {
+				TelaInicialADM telaInicial = new TelaInicialADM(usuarioLogado);
+				telaInicial.setVisible(true);
+				setVisible(false);
+				}else {
+					TelaInicialVND telaInicial = new TelaInicialVND(usuarioLogado);
+					telaInicial.setVisible(true);
+					setVisible(false);
+				}
+				new Dialog("Venda", "Venda encerrada", "warning").setVisible(true);
+				System.out.println("Venda encerrada");
 			}
+			
+
 
 		});
 		btNEncerrar.setForeground(clYellow);
@@ -652,6 +647,9 @@ public class TelaVenda extends JFrame {
 					
 					//verifica se o id bateu com o produto da lista e seta os valores na tela e calcula tudo
 					if(produto.getIdProduto() == codigo) {
+						
+						if(produto.getQuantVenda() < produtoBDG.getPetPegarQuant(produto.getIdProduto())) {
+							produto.setQuantVenda(produto.getQuantVenda()+1);
 						produtos.add(produto);
 						DefaultTableModel model = (DefaultTableModel) tblProdutos.getModel();
 						model.addRow(new Object[] {
@@ -713,7 +711,9 @@ public class TelaVenda extends JFrame {
 								vendaQ1.setLucro(lucro);
 								QuantVND.add(vendaQ1);
 						}
-						
+						}else {
+							System.out.println("quantidade ultrapassou");
+						}
 					}
 				}
 			}
