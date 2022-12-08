@@ -19,6 +19,9 @@
 -- Table structure for table `controle_entrada`
 --
 
+Create database mydb;
+use mydb;
+
 DROP TABLE IF EXISTS `controle_entrada`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
