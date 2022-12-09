@@ -33,21 +33,7 @@ public class TelaListarUsuarios extends JFrame {
 	private JPanel contentPane;
 	private ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
 	private ArrayList<String> valuesUsuario = new ArrayList<String>();
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					TelaListarUsuarios frame = new TelaListarUsuarios();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+
 
 	public TelaListarUsuarios() {
 		setIconImage(Toolkit.getDefaultToolkit()

@@ -39,30 +39,6 @@ public class TelaPerfilADM extends JFrame {
 	private int id;
 	private JPanel contentPane;
 
-	/**
-	 * Launch the application.
-	 */
-
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					TelaPerfilADM frame = new TelaPerfilADM(null, null);
-					frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-					frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-					frame.setUndecorated(true);
-					// frame.setLocationRelativeTo(null);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
 	UsuarioDAO usuarioDao = new UsuarioDAO();
 
 	public TelaPerfilADM(Usuario usuarioLogado, JList<String> lista) {

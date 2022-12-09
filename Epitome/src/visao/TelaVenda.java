@@ -69,26 +69,6 @@ public class TelaVenda extends JFrame {
 	ArrayList<ProdVNDQuant> QuantVND = new ArrayList<ProdVNDQuant>();
 	ProdVNDQuant vendaInicial = new ProdVNDQuant();
 
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					TelaVenda frame = new TelaVenda(null);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
 	public TelaVenda(Usuario usuarioLogado) {
 		setIconImage(Toolkit.getDefaultToolkit().getImage("./img/app_icon_small.png"));
 		Color clRed = new Color(226, 0, 54);

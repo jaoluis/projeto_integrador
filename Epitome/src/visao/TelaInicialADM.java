@@ -35,25 +35,7 @@ public class TelaInicialADM extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					TelaInicialADM frame = new TelaInicialADM(UsuarioDAO.getUsuario(3));
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
-	/**
-	 * Create the frame.
-	 */
 	public TelaInicialADM(Usuario usuarioLogado) {
 		addKeyListener(new KeyAdapter() {
 			@Override

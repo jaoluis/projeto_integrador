@@ -36,28 +36,7 @@ public class TelaPerfilFornecedor extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 
-	/**
-	 * Launch the application.
-	 */
-	
-	
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					TelaPerfilFornecedor frame = new TelaPerfilFornecedor(null, null);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
-
-	/**
-	 * Create the frame.
-	 */
 	UsuarioDAO usuarioDao = new UsuarioDAO();
 	
 	public TelaPerfilFornecedor(Fornecedor fornecedor, JList<String> lista) {

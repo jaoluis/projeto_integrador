@@ -50,26 +50,6 @@ public class TelaModificar extends JFrame {
 	ArrayList<String> valuesEnd = new ArrayList<String>();
 	ArrayList<String> valuesCnt = new ArrayList<String>();
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					TelaModificar frame = new TelaModificar(null, -1, null);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 * @param id 
-	 */
 	public TelaModificar(Usuario usuarioLogado, int id, JList<String> lista) {
 		setIconImage(Toolkit.getDefaultToolkit()
 				.getImage("./img/app_icon_small.png"));

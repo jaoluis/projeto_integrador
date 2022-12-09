@@ -47,28 +47,6 @@ public class TelaEstoque extends JFrame {
 	private ArrayList<Produto> produtos;
 	private String pesquisar = null;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					TelaEstoque frame = new TelaEstoque(UsuarioDAO.getUsuario(3));
-					frame.setVisible(true);
-					
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-
-	/**
-	 * Create the frame.
-	 * @return 
-	 */
 	public TelaEstoque(Usuario usuarioLogado) {
 		setIconImage(Toolkit.getDefaultToolkit().getImage("./img/app_icon_small.png"));
 		Color clGreen = new Color(168, 198, 51);

@@ -61,25 +61,6 @@ public class TelaRelatorio extends JFrame {
 	private LocalDate dataDe = null;	
 	private LocalDate dataAte = null;	
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					TelaRelatorio frame = new TelaRelatorio(null);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
 	public TelaRelatorio(Usuario usuarioLogado) {
 		setIconImage(Toolkit.getDefaultToolkit().getImage("./img/app_icon_small.png"));
 		Color clDark = new Color(22, 22, 22);

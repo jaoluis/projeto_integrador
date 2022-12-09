@@ -44,25 +44,7 @@ public class TelaCadastroProduto extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private RoundField txtNome;
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					TelaCadastroProduto frame = new TelaCadastroProduto(null);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
-	/**
-	 * Create the frame.
-	 */
 	public TelaCadastroProduto(JTable tblEstoque) {
 		setIconImage(Toolkit.getDefaultToolkit()
 				.getImage("./img/app_icon_small.png"));

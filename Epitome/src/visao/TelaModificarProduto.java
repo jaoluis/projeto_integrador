@@ -37,25 +37,6 @@ public class TelaModificarProduto extends JFrame {
 	private RoundField txtNome;
 	private static Produto produtoAEditar;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					TelaModificarProduto frame = new TelaModificarProduto(null, produtoAEditar);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
 	public TelaModificarProduto(JTable tblEstoque, Produto produtoAEditar) {
 		setIconImage(Toolkit.getDefaultToolkit()
 				.getImage("./img/app_icon_small.png"));
